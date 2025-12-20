@@ -1,5 +1,5 @@
-import { ComponentExample } from "@/components/component-example";
+import { PaymentQRPage } from "@/components/payment-qr-page";
 
 export default function Page() {
-return <ComponentExample />;
+  return <PaymentQRPage />;
 }
