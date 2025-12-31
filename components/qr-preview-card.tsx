@@ -12,11 +12,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import type { PaymentData } from "@/lib/generate-qr-image";
 import { maskIban } from "@/lib/payment-history";
+import type { PaymentData } from "@/types/payment-data";
 
 type QRPreviewCardProps = {
-  qrDataUrl?: string;
   paymentData?: PaymentData;
   isLoading?: boolean;
 };
@@ -37,14 +36,14 @@ function PaymentDetails({ paymentData }: { paymentData?: PaymentData }) {
   );
 }
 
-export function QRPreviewCard({ qrDataUrl, paymentData }: QRPreviewCardProps) {
+export function QRPreviewCard({ paymentData }: QRPreviewCardProps) {
   const handleDownload = () => {
-    if (!qrDataUrl) {
+    if (!paymentData?.qrDataUrl) {
       return;
     }
 
     const link = document.createElement("a");
-    link.href = qrDataUrl;
+    link.href = paymentData.qrDataUrl;
     link.download = `qr-payment-${Date.now()}.png`;
     document.body.appendChild(link);
     link.click();
@@ -53,12 +52,12 @@ export function QRPreviewCard({ qrDataUrl, paymentData }: QRPreviewCardProps) {
   };
 
   const handleCopy = async () => {
-    if (!qrDataUrl) {
+    if (!paymentData?.qrDataUrl) {
       return;
     }
 
     try {
-      const response = await fetch(qrDataUrl);
+      const response = await fetch(paymentData.qrDataUrl);
       const blob = await response.blob();
       await navigator.clipboard.write([
         new ClipboardItem({ "image/png": blob }),
@@ -70,13 +69,13 @@ export function QRPreviewCard({ qrDataUrl, paymentData }: QRPreviewCardProps) {
   };
 
   const handleShare = async () => {
-    if (!(qrDataUrl && navigator.share)) {
+    if (!(paymentData?.qrDataUrl && navigator.share)) {
       handleCopy();
       return;
     }
 
     try {
-      const response = await fetch(qrDataUrl);
+      const response = await fetch(paymentData.qrDataUrl);
       const blob = await response.blob();
       const file = new File([blob], "qr-payment.png", { type: "image/png" });
       await navigator.share({
@@ -96,25 +95,26 @@ export function QRPreviewCard({ qrDataUrl, paymentData }: QRPreviewCardProps) {
       <CardHeader>
         <CardTitle>QR kód</CardTitle>
       </CardHeader>
-      <CardContent className="flex min-h-[256px] flex-col items-center justify-center gap-4">
-        {qrDataUrl ? (
-          <div className="flex flex-col items-center justify-center gap-4">
+      <CardContent className="flex h-full grow flex-col items-center justify-center">
+        {paymentData?.qrDataUrl ? (
+          <>
             <Image
               alt="QR payment code"
-              className="size-64 rounded-none border"
-              src={qrDataUrl}
-              width={256}
+              className="mb-4 size-64 rounded-none md:size-96"
+              height={384}
+              src={paymentData.qrDataUrl}
+              width={384}
             />
             <PaymentDetails paymentData={paymentData} />
-          </div>
+          </>
         ) : (
-          <p className="w-full text-center text-muted-foreground text-xs">
+          <p className="m-auto w-full text-center text-muted-foreground text-xs">
             Zadajte údaje a kliknite Vygenerovať
           </p>
         )}
       </CardContent>
-      {qrDataUrl ? (
-        <CardFooter className="gap-2">
+      {paymentData?.qrDataUrl ? (
+        <CardFooter className="mt-auto gap-2">
           <Button className="flex-1" onClick={handleDownload} variant="outline">
             <IconDownload />
             Stiahnuť

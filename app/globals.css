@@ -80,6 +80,10 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+
+  font-family:
+    ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono",
+    monospace;
 }
 
 .dark {
@@ -122,5 +126,59 @@
   }
   body {
     @apply bg-background text-foreground;
+    @apply font-mono;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  .dark body {
+    text-shadow: 0 0 1px oklch(0.985 0 0 / 50%);
+  }
+
+  /* Paper/terminal noise texture - SVG filter grain */
+  .bg-noise {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 128 128' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 128px 128px;
+  }
+
+  /* CRT scanlines - horizontal lines like old monitors */
+  .bg-scanlines {
+    background-image: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 1px,
+      oklch(0 0 0 / 4%) 1px,
+      oklch(0 0 0 / 4%) 2px
+    );
+    background-size: 100% 2px;
+  }
+
+  .dark .bg-scanlines {
+    background-image: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 1px,
+      oklch(1 0 0 / 2.5%) 1px,
+      oklch(1 0 0 / 2.5%) 2px
+    );
+  }
+
+  /* Subtle vignette for depth - CRT edge darkening */
+  .bg-vignette {
+    background: radial-gradient(
+      ellipse at center,
+      transparent 0%,
+      transparent 50%,
+      oklch(0 0 0 / 8%) 100%
+    );
+  }
+
+  .dark .bg-vignette {
+    background: radial-gradient(
+      ellipse at center,
+      transparent 0%,
+      transparent 35%,
+      oklch(0 0 0 / 30%) 100%
+    );
   }
 }

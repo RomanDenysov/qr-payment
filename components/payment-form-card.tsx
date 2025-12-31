@@ -1,7 +1,6 @@
 "use client";
 
 import { IconQrcode, IconTrash } from "@tabler/icons-react";
-import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import {
@@ -20,15 +19,11 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import type { PaymentData } from "@/lib/generate-qr-image";
-
-type PaymentFormCardProps = {
-  onSubmit: (data: PaymentData) => void;
-  onClear: () => void;
-  initialData?: Partial<PaymentData>;
-};
+import type { PaymentData } from "@/types/payment-data";
 
 const defaultValues: PaymentData = {
+  id: "",
+  createdAt: "",
   iban: "",
   amount: 0,
   variableSymbol: "",
@@ -40,33 +35,20 @@ const defaultValues: PaymentData = {
 
 export function PaymentFormCard({
   onSubmit,
-  onClear,
-  initialData,
-}: PaymentFormCardProps) {
+}: {
+  onSubmit: (data: PaymentData) => void;
+}) {
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
   } = useForm<PaymentData>({
-    defaultValues: initialData
-      ? { ...defaultValues, ...initialData }
-      : defaultValues,
+    defaultValues,
   });
-
-  useEffect(() => {
-    if (initialData) {
-      reset({ ...defaultValues, ...initialData });
-    }
-  }, [initialData, reset]);
-
-  const onFormSubmit = (data: PaymentData) => {
-    onSubmit(data);
-  };
 
   const handleClear = () => {
     reset(defaultValues);
-    onClear();
   };
 
   return (
@@ -74,8 +56,8 @@ export function PaymentFormCard({
       <CardHeader>
         <CardTitle>Platobné údaje</CardTitle>
       </CardHeader>
-      <form onSubmit={handleSubmit(onFormSubmit)}>
-        <CardContent>
+      <form className="flex h-full flex-col" onSubmit={handleSubmit(onSubmit)}>
+        <CardContent className="flex-1 grow">
           <FieldGroup>
             <Field>
               <FieldLabel htmlFor="iban">IBAN *</FieldLabel>
@@ -179,7 +161,7 @@ export function PaymentFormCard({
             </Field>
           </FieldGroup>
         </CardContent>
-        <CardFooter className="justify-end gap-2">
+        <CardFooter className="mt-auto shrink-0 justify-end gap-2">
           <Button onClick={handleClear} type="button" variant="outline">
             <IconTrash />
             Vymazať

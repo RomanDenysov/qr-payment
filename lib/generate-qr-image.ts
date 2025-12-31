@@ -1,16 +1,7 @@
 import { CurrencyCode, encode, PaymentOptions } from "bysquare";
 import { electronicFormatIBAN, isValidIBAN } from "ibantools";
 import QRCode from "qrcode";
-
-export type PaymentData = {
-  iban: string;
-  amount: number;
-  variableSymbol?: string;
-  specificSymbol?: string;
-  constantSymbol?: string;
-  recipientName?: string;
-  paymentNote?: string;
-};
+import type { PaymentData } from "@/types/payment-data";
 
 export class InvalidIBANError extends Error {
   constructor(iban: string) {

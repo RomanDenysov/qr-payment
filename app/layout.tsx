@@ -1,19 +1,10 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Noto_Sans } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
-
-const notoSans = Noto_Sans({ variable: "--font-sans" });
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import { Analytics } from "@vercel/analytics/next";
+import { Footer } from "@/components/footer";
+import { GridBackground } from "@/components/grid-background";
+import { Header } from "@/components/header";
 
 export const metadata: Metadata = {
   title: "QR Platby - Generátor QR kódov pre platby",
@@ -27,12 +18,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html className={notoSans.variable} lang="sk">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+    <html className="" lang="sk" suppressHydrationWarning>
+      <body className="container relative mx-auto flex min-h-screen max-w-5xl flex-col px-2 tracking-tight md:px-4">
+        <Header />
         {children}
+        <Footer />
+        <GridBackground />
         <Toaster />
+        <Analytics />
       </body>
     </html>
   );

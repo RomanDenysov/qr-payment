@@ -1,7 +1,7 @@
 "use client";
 
-import { IconTrash } from "@tabler/icons-react";
-import { useEffect, useState } from "react";
+import { IconHistory, IconTrash } from "@tabler/icons-react";
+import { useState } from "react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -14,12 +14,13 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Sheet,
   SheetContent,
   SheetHeader,
   SheetTitle,
+  SheetTrigger,
 } from "@/components/ui/sheet";
 import {
   Table,
@@ -29,76 +30,51 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import type { PaymentData } from "@/lib/generate-qr-image";
+import { maskIban } from "@/lib/payment-history";
+import { cn } from "@/lib/utils";
 import {
-  clearPaymentHistory,
-  deletePaymentFromHistory,
-  getPaymentHistory,
-  maskIban,
-  type PaymentHistoryEntry,
-} from "@/lib/payment-history";
+  usePaymentHistory,
+  usePaymentHistoryActions,
+} from "@/store/payment-history-store";
 
-type HistorySheetProps = {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-  onSelectPayment: (payment: PaymentData) => void;
-};
-
-export function HistorySheet({
-  open,
-  onOpenChange,
-  onSelectPayment,
-}: HistorySheetProps) {
-  const [history, setHistory] = useState<PaymentHistoryEntry[]>([]);
-
-  useEffect(() => {
-    if (open) {
-      setHistory(getPaymentHistory());
-    }
-  }, [open]);
-
-  const handleDelete = (id: string) => {
-    deletePaymentFromHistory(id);
-    setHistory(getPaymentHistory());
-  };
-
-  const handleClear = () => {
-    clearPaymentHistory();
-    setHistory([]);
-  };
-
-  const handleUse = (entry: PaymentHistoryEntry) => {
-    onSelectPayment(entry);
-    onOpenChange(false);
-  };
+export function HistorySheet() {
+  const [open, setOpen] = useState(false);
+  const history = usePaymentHistory();
+  const { clearPayments } = usePaymentHistoryActions();
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return new Intl.DateTimeFormat("sk-SK", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    }).format(date);
+      timeZone: "Europe/Bratislava",
+      dateStyle: "short",
+      timeStyle: "short",
+    })
+      .format(date)
+      .replace(/\.\s+/g, ".");
   };
 
   return (
-    <Sheet onOpenChange={onOpenChange} open={open}>
-      <SheetContent className="w-full sm:max-w-md" side="right">
+    <Sheet onOpenChange={setOpen} open={open}>
+      <SheetTrigger
+        className={cn(buttonVariants({ variant: "link", size: "sm" }))}
+      >
+        <IconHistory />
+        História
+      </SheetTrigger>
+      <SheetContent className="w-full data-[side=right]:w-full data-[side=right]:sm:max-w-lg">
         <SheetHeader>
-          <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
             <SheetTitle>História</SheetTitle>
             <Badge variant="secondary">{history.length}</Badge>
           </div>
         </SheetHeader>
 
-        <div className="mt-4 flex flex-col gap-4">
+        <div className="flex h-full flex-col items-center justify-center p-0.5">
           {history.length > 0 && (
             <AlertDialog>
               <AlertDialogTrigger
                 render={
-                  <Button size="sm" variant="destructive">
+                  <Button className="w-full" size="sm" variant="destructive">
                     <IconTrash />
                     Vymazať históriu
                   </Button>
@@ -114,7 +90,7 @@ export function HistorySheet({
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogCancel>Zrušiť</AlertDialogCancel>
-                  <AlertDialogAction onClick={handleClear}>
+                  <AlertDialogAction onClick={() => clearPayments()}>
                     Vymazať
                   </AlertDialogAction>
                 </AlertDialogFooter>
@@ -127,7 +103,7 @@ export function HistorySheet({
               Žiadna história
             </p>
           ) : (
-            <div className="overflow-auto">
+            <div className="w-full flex-1 overflow-auto">
               <Table>
                 <TableHeader>
                   <TableRow>
@@ -140,32 +116,17 @@ export function HistorySheet({
                 <TableBody>
                   {history.map((entry) => (
                     <TableRow key={entry.id}>
-                      <TableCell className="text-xs">
+                      <TableCell className="text-xs tracking-tighter">
                         {formatDate(entry.createdAt)}
                       </TableCell>
-                      <TableCell className="text-xs">
+                      <TableCell className="flex items-center gap-0.5 text-xs">
                         {maskIban(entry.iban)}
                       </TableCell>
                       <TableCell className="text-xs">
                         {entry.amount.toFixed(2)} EUR
                       </TableCell>
                       <TableCell className="text-right">
-                        <div className="flex justify-end gap-2">
-                          <Button
-                            onClick={() => handleUse(entry)}
-                            size="xs"
-                            variant="ghost"
-                          >
-                            Použiť
-                          </Button>
-                          <Button
-                            onClick={() => handleDelete(entry.id)}
-                            size="xs"
-                            variant="ghost"
-                          >
-                            <IconTrash />
-                          </Button>
-                        </div>
+                        <div className="flex justify-end gap-2" />
                       </TableCell>
                     </TableRow>
                   ))}
