@@ -30,17 +30,16 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { maskIban } from "@/lib/payment-history";
-import { cn } from "@/lib/utils";
+import { cn, maskIban } from "@/lib/utils";
 import {
+  usePaymentActions,
   usePaymentHistory,
-  usePaymentHistoryActions,
 } from "@/store/payment-history-store";
 
 export function HistorySheet() {
   const [open, setOpen] = useState(false);
   const history = usePaymentHistory();
-  const { clearPayments } = usePaymentHistoryActions();
+  const { clearHistory } = usePaymentActions();
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -90,7 +89,7 @@ export function HistorySheet() {
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogCancel>Zrušiť</AlertDialogCancel>
-                  <AlertDialogAction onClick={() => clearPayments()}>
+                  <AlertDialogAction onClick={() => clearHistory()}>
                     Vymazať
                   </AlertDialogAction>
                 </AlertDialogFooter>

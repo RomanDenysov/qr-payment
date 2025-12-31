@@ -12,7 +12,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { maskIban } from "@/lib/payment-history";
+import { maskIban } from "@/lib/utils";
 import type { PaymentData } from "@/types/payment-data";
 
 type QRPreviewCardProps = {

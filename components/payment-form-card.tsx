@@ -2,6 +2,7 @@
 
 import { IconQrcode, IconTrash } from "@tabler/icons-react";
 import { useForm } from "react-hook-form";
+import z from "zod";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -32,6 +33,15 @@ const defaultValues: PaymentData = {
   recipientName: "",
   paymentNote: "",
 };
+const _schema = z.object({
+  iban: z.string().min(1, "IBAN je povinný"),
+  amount: z.number().min(0.01, "Suma musí byť väčšia ako 0"),
+  variableSymbol: z.string().optional(),
+  specificSymbol: z.string().optional(),
+  constantSymbol: z.string().optional(),
+  recipientName: z.string().optional(),
+  paymentNote: z.string().optional(),
+});
 
 export function PaymentFormCard({
   onSubmit,

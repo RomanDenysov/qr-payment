@@ -7,28 +7,22 @@ import { PaymentFormCard } from "@/components/payment-form-card";
 import { QRPreviewCard } from "@/components/qr-preview-card";
 import { generatePaymentQR, InvalidIBANError } from "@/lib/generate-qr-image";
 import {
+  usePaymentActions,
   usePaymentHistory,
-  usePaymentHistoryActions,
 } from "@/store/payment-history-store";
 import type { PaymentData } from "@/types/payment-data";
-import { Grid } from "./views/grid";
 
 export function PaymentQRPage() {
   const [isPending, startTransition] = useTransition();
   const history = usePaymentHistory();
-  const { addPayment } = usePaymentHistoryActions();
+  const { setCurrent } = usePaymentActions();
 
   const handleGenerate = useCallback(
     (data: PaymentData) =>
       startTransition(async () => {
         try {
           const qrUrl = await generatePaymentQR(data);
-          addPayment({
-            ...data,
-            id: crypto.randomUUID(),
-            createdAt: new Date().toISOString(),
-            qrDataUrl: qrUrl,
-          });
+          setCurrent({ ...data, qrDataUrl: qrUrl });
           toast.success("QR kód vygenerovaný");
         } catch (error) {
           if (error instanceof InvalidIBANError) {
@@ -38,25 +32,15 @@ export function PaymentQRPage() {
           }
         }
       }),
-    [addPayment]
+    [setCurrent]
   );
 
   return (
-    <Grid>
-      {/* Main Content */}
-
+    <section className="grid gap-8 *:rounded-none sm:grid-cols-2" role="feed">
       <PaymentFormCard onSubmit={handleGenerate} />
       <QRPreviewCard isLoading={isPending} paymentData={history[0]} />
 
-      {/* Mobile Ad */}
-      <div className="block md:hidden">
-        <AdPlaceholder />
-      </div>
-
-      {/* Desktop Ad */}
-      <div className="hidden md:block">
-        <AdPlaceholder />
-      </div>
-    </Grid>
+      <AdPlaceholder className="col-span-full" />
+    </section>
   );
 }

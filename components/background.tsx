@@ -1,4 +1,4 @@
-export function GridBackground() {
+export function Background() {
   return (
     <>
       {/* Noise grain layer - paper/terminal texture */}

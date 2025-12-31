@@ -1,10 +1,11 @@
-import type { Metadata } from "next";
-import { Toaster } from "@/components/ui/sonner";
-import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
+import type { Metadata } from "next";
+import { Background } from "@/components/background";
 import { Footer } from "@/components/footer";
-import { GridBackground } from "@/components/grid-background";
 import { Header } from "@/components/header";
+import { Toaster } from "@/components/ui/sonner";
+
+import "./globals.css";
 
 export const metadata: Metadata = {
   title: "QR Platby - Generátor QR kódov pre platby",
@@ -23,7 +24,7 @@ export default function RootLayout({
         <Header />
         {children}
         <Footer />
-        <GridBackground />
+        <Background />
         <Toaster />
         <Analytics />
       </body>

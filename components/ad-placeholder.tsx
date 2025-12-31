@@ -1,7 +1,15 @@
-"use client";
+import { cn } from "@/lib/utils";
+import { Skeleton } from "./ui/skeleton";
 
-export function AdPlaceholder() {
+export function AdPlaceholder({ className }: { className?: string }) {
   return (
-    <div className="flex h-40 items-center justify-center border border-dashed bg-muted/30" />
+    <div
+      className={cn(
+        "flex h-40 items-center justify-center rounded-none bg-muted/30 ring-1 ring-dashed ring-foreground/10",
+        className
+      )}
+    >
+      <Skeleton className="size-full" />
+    </div>
   );
 }

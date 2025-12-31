@@ -3,42 +3,77 @@ import { persist } from "zustand/middleware";
 import type { PaymentData } from "@/types/payment-data";
 
 type PaymentHistoryState = {
-  payments: PaymentData[];
+  current: PaymentData | null;
+  history: PaymentData[];
 };
 
 type PaymentHistoryActions = {
-  addPayment: (paymentData: PaymentData) => void;
-  removePayment: (id: string) => void;
-  clearPayments: () => void;
+  setCurrent: (payment: PaymentData) => void;
+  saveToStorage: () => void;
+  loadFromStorage: (id: string) => void;
+  removeFromStorage: (id: string) => void;
+  clearHistory: () => void;
+  clearCurrent: () => void;
 };
+
+const STORAGE_KEY = "qrPayments.v1";
+const _MAX_HISTORY_SIZE = 50;
 
 type PaymentHistoryStore = PaymentHistoryState & {
   actions: PaymentHistoryActions;
 };
 
-const paymentHistoryStore = create<PaymentHistoryStore>()(
+const paymentStore = create<PaymentHistoryStore>()(
   persist(
-    (set) => ({
-      payments: [],
+    (set, get) => ({
+      current: null,
+      history: [],
       actions: {
-        addPayment: (paymentData: PaymentData) =>
-          set((state) => ({ payments: [...state.payments, paymentData] })),
-        removePayment: (id: string) =>
+        setCurrent: (payment: PaymentData) => {
+          set({ current: payment });
+
+          const { history } = get();
+          const exists = history.some((p) => p.id === payment.id);
+          if (!exists) {
+            set({ history: [payment, ...history].slice(0, _MAX_HISTORY_SIZE) });
+          }
+        },
+        saveToStorage: () => {
+          const { current, history } = get();
+          if (!current) {
+            return;
+          }
+          const exists = history.some((p) => p.id === current.id);
+          if (!exists) {
+            set({ history: [current, ...history].slice(0, _MAX_HISTORY_SIZE) });
+          }
+        },
+        loadFromStorage: (id) => {
+          const { history } = get();
+          const payment = history.find((p) => p.id === id);
+          if (payment) {
+            set({ current: payment });
+          }
+        },
+        removeFromStorage: (id) =>
           set((state) => ({
-            payments: state.payments.filter((payment) => payment.id !== id),
+            history: state.history.filter((p) => p.id !== id),
+            current: state.current?.id === id ? null : state.current,
           })),
-        clearPayments: () => set({ payments: [] }),
+        clearHistory: () => set({ history: [] }),
+        clearCurrent: () => set({ current: null }),
       },
     }),
     {
-      name: "payment-history",
-      partialize: (state) => ({ payments: state.payments }),
+      name: STORAGE_KEY,
+      partialize: (state) => ({
+        history: state.history,
+        current: state.current,
+      }),
     }
   )
 );
 
-export const usePaymentHistory = () =>
-  paymentHistoryStore((state) => state.payments);
-
-export const usePaymentHistoryActions = () =>
-  paymentHistoryStore((state) => state.actions);
+export const useCurrentPayment = () => paymentStore((state) => state.current);
+export const usePaymentHistory = () => paymentStore((state) => state.history);
+export const usePaymentActions = () => paymentStore((state) => state.actions);
