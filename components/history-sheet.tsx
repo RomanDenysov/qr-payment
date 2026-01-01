@@ -3,6 +3,10 @@
 import { IconHistory, IconTrash } from "@tabler/icons-react";
 import { useState } from "react";
 import {
+  usePaymentActions,
+  usePaymentHistory,
+} from "@/app/features/payment/store";
+import {
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
@@ -31,10 +35,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { cn, maskIban } from "@/lib/utils";
-import {
-  usePaymentActions,
-  usePaymentHistory,
-} from "@/store/payment-history-store";
 
 export function HistorySheet() {
   const [open, setOpen] = useState(false);

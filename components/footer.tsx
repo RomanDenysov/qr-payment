@@ -11,7 +11,7 @@ export function Footer() {
         <span>·</span>
         <a
           className="underline underline-offset-4 hover:text-foreground"
-          href="https://buymeacoffee.com"
+          href="https://buymeacoffee.com/romandenysov"
           rel="noopener noreferrer"
           target="_blank"
         >
@@ -20,7 +20,7 @@ export function Footer() {
         <span>·</span>
         <a
           className="underline underline-offset-4 hover:text-foreground"
-          href="https://github.com"
+          href="https://github.com/RomanDenysov"
           rel="noopener noreferrer"
           target="_blank"
         >

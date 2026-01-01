@@ -13,37 +13,31 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { maskIban } from "@/lib/utils";
-import type { PaymentData } from "@/types/payment-data";
+import type { PaymentRecord } from "../schema";
+import { useCurrentPayment } from "../store";
 
-type QRPreviewCardProps = {
-  paymentData?: PaymentData;
-  isLoading?: boolean;
-};
-
-function PaymentDetails({ paymentData }: { paymentData?: PaymentData }) {
-  if (!paymentData) {
-    return null;
-  }
-
+function PaymentDetails({ paymentDetails }: { paymentDetails: PaymentRecord }) {
   return (
     <div className="flex flex-wrap justify-center gap-2">
-      <Badge variant="secondary">{maskIban(paymentData.iban)}</Badge>
-      <Badge variant="secondary">{paymentData.amount.toFixed(2)} EUR</Badge>
-      <Badge variant="secondary">VS: {paymentData.variableSymbol}</Badge>
-      <Badge variant="secondary">SS: {paymentData.specificSymbol}</Badge>
-      <Badge variant="secondary">KS: {paymentData.constantSymbol}</Badge>
+      <Badge variant="secondary">{maskIban(paymentDetails.iban)}</Badge>
+      <Badge variant="secondary">{paymentDetails.amount.toFixed(2)} EUR</Badge>
+      <Badge variant="secondary">VS: {paymentDetails.variableSymbol}</Badge>
+      <Badge variant="secondary">SS: {paymentDetails.specificSymbol}</Badge>
+      <Badge variant="secondary">KS: {paymentDetails.constantSymbol}</Badge>
     </div>
   );
 }
 
-export function QRPreviewCard({ paymentData }: QRPreviewCardProps) {
+export function QRPreviewCard() {
+  const current = useCurrentPayment();
+
   const handleDownload = () => {
-    if (!paymentData?.qrDataUrl) {
+    if (!current?.qrDataUrl) {
       return;
     }
 
     const link = document.createElement("a");
-    link.href = paymentData.qrDataUrl;
+    link.href = current.qrDataUrl;
     link.download = `qr-payment-${Date.now()}.png`;
     document.body.appendChild(link);
     link.click();
@@ -52,12 +46,12 @@ export function QRPreviewCard({ paymentData }: QRPreviewCardProps) {
   };
 
   const handleCopy = async () => {
-    if (!paymentData?.qrDataUrl) {
+    if (!current?.qrDataUrl) {
       return;
     }
 
     try {
-      const response = await fetch(paymentData.qrDataUrl);
+      const response = await fetch(current.qrDataUrl);
       const blob = await response.blob();
       await navigator.clipboard.write([
         new ClipboardItem({ "image/png": blob }),
@@ -69,13 +63,13 @@ export function QRPreviewCard({ paymentData }: QRPreviewCardProps) {
   };
 
   const handleShare = async () => {
-    if (!(paymentData?.qrDataUrl && navigator.share)) {
+    if (!(current?.qrDataUrl && navigator.share)) {
       handleCopy();
       return;
     }
 
     try {
-      const response = await fetch(paymentData.qrDataUrl);
+      const response = await fetch(current.qrDataUrl);
       const blob = await response.blob();
       const file = new File([blob], "qr-payment.png", { type: "image/png" });
       await navigator.share({
@@ -96,16 +90,16 @@ export function QRPreviewCard({ paymentData }: QRPreviewCardProps) {
         <CardTitle>QR kód</CardTitle>
       </CardHeader>
       <CardContent className="flex h-full grow flex-col items-center justify-center">
-        {paymentData?.qrDataUrl ? (
+        {current?.qrDataUrl ? (
           <>
             <Image
               alt="QR payment code"
               className="mb-4 size-64 rounded-none md:size-96"
               height={384}
-              src={paymentData.qrDataUrl}
+              src={current.qrDataUrl}
               width={384}
             />
-            <PaymentDetails paymentData={paymentData} />
+            <PaymentDetails paymentDetails={current} />
           </>
         ) : (
           <p className="m-auto w-full text-center text-muted-foreground text-xs">
@@ -113,7 +107,7 @@ export function QRPreviewCard({ paymentData }: QRPreviewCardProps) {
           </p>
         )}
       </CardContent>
-      {paymentData?.qrDataUrl ? (
+      {current?.qrDataUrl ? (
         <CardFooter className="mt-auto gap-2">
           <Button className="flex-1" onClick={handleDownload} variant="outline">
             <IconDownload />

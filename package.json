@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@base-ui/react": "^1.0.0",
+    "@hookform/resolvers": "^5.2.2",
     "@tabler/icons-react": "^3.36.0",
     "@vercel/analytics": "^1.6.1",
     "bysquare": "^2.13.3",

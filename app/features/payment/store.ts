@@ -1,14 +1,14 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { PaymentData } from "@/types/payment-data";
+import type { PaymentRecord } from "./schema";
 
 type PaymentHistoryState = {
-  current: PaymentData | null;
-  history: PaymentData[];
+  current: PaymentRecord | null;
+  history: PaymentRecord[];
 };
 
 type PaymentHistoryActions = {
-  setCurrent: (payment: PaymentData) => void;
+  setCurrent: (payment: PaymentRecord) => void;
   saveToStorage: () => void;
   loadFromStorage: (id: string) => void;
   removeFromStorage: (id: string) => void;
@@ -17,7 +17,7 @@ type PaymentHistoryActions = {
 };
 
 const STORAGE_KEY = "qrPayments.v1";
-const _MAX_HISTORY_SIZE = 50;
+const MAX_HISTORY_SIZE = 50;
 
 type PaymentHistoryStore = PaymentHistoryState & {
   actions: PaymentHistoryActions;
@@ -29,13 +29,13 @@ const paymentStore = create<PaymentHistoryStore>()(
       current: null,
       history: [],
       actions: {
-        setCurrent: (payment: PaymentData) => {
+        setCurrent: (payment: PaymentRecord) => {
           set({ current: payment });
 
           const { history } = get();
           const exists = history.some((p) => p.id === payment.id);
           if (!exists) {
-            set({ history: [payment, ...history].slice(0, _MAX_HISTORY_SIZE) });
+            set({ history: [payment, ...history].slice(0, MAX_HISTORY_SIZE) });
           }
         },
         saveToStorage: () => {
@@ -45,7 +45,7 @@ const paymentStore = create<PaymentHistoryStore>()(
           }
           const exists = history.some((p) => p.id === current.id);
           if (!exists) {
-            set({ history: [current, ...history].slice(0, _MAX_HISTORY_SIZE) });
+            set({ history: [current, ...history].slice(0, MAX_HISTORY_SIZE) });
           }
         },
         loadFromStorage: (id) => {

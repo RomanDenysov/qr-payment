@@ -19,7 +19,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html className="" lang="sk" suppressHydrationWarning>
+    <html className="dark" lang="sk" suppressHydrationWarning>
       <body className="container relative mx-auto flex min-h-screen max-w-5xl flex-col px-2 tracking-tight md:px-4">
         <Header />
         {children}
