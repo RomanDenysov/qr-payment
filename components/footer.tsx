@@ -7,8 +7,10 @@ export function Footer() {
     <footer className="mt-auto pt-8">
       <Separator className="mb-3" />
       <div className="flex flex-wrap items-center justify-center gap-2 pb-4 text-muted-foreground text-xs">
-        <span>© 2025</span>
-        <span>·</span>
+        <span>&copy; 2025</span>
+        <span>•</span>
+        <p>Vyrobené s 🖤 na Slovensku</p>
+        <span>•</span>
         <a
           className="underline underline-offset-4 hover:text-foreground"
           href="https://buymeacoffee.com/romandenysov"
@@ -17,7 +19,7 @@ export function Footer() {
         >
           Buy me a coffee
         </a>
-        <span>·</span>
+        <span>•</span>
         <a
           className="underline underline-offset-4 hover:text-foreground"
           href="https://github.com/RomanDenysov"
