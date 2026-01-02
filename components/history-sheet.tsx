@@ -56,7 +56,7 @@ export function HistorySheet() {
   return (
     <Sheet onOpenChange={setOpen} open={open}>
       <SheetTrigger
-        className={cn(buttonVariants({ variant: "link", size: "sm" }))}
+        className={cn(buttonVariants({ variant: "ghost", size: "sm" }))}
       >
         <IconHistory />
         História

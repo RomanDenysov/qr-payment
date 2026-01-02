@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { AppLogo } from "./app-logo";
 import { HistorySheet } from "./history-sheet";
+import { ThemeToggle } from "./theme-toggle";
 
 export function Header() {
   return (
@@ -9,7 +10,10 @@ export function Header() {
         <Link className="transition-opacity hover:opacity-80" href="/">
           <AppLogo />
         </Link>
-        <HistorySheet />
+        <div className="flex items-center gap-1">
+          <HistorySheet />
+          <ThemeToggle />
+        </div>
       </div>
     </header>
   );
