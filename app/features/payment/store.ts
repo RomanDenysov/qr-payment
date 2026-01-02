@@ -1,3 +1,4 @@
+import { electronicFormatIBAN } from "ibantools";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { PaymentRecord } from "./schema";
@@ -23,6 +24,32 @@ type PaymentHistoryStore = PaymentHistoryState & {
   actions: PaymentHistoryActions;
 };
 
+/**
+ * Creates a fingerprint for deduplication based on payment-identifying fields.
+ * Two payments with same fingerprint are considered duplicates.
+ */
+function getPaymentFingerprint(payment: PaymentRecord): string {
+  const iban = electronicFormatIBAN(payment.iban) || payment.iban;
+  return [
+    iban,
+    payment.amount.toFixed(2),
+    payment.variableSymbol || "",
+    payment.specificSymbol || "",
+    payment.constantSymbol || "",
+  ].join("|");
+}
+
+/**
+ * Finds an existing payment in history by fingerprint (not by ID).
+ */
+function findDuplicatePayment(
+  history: PaymentRecord[],
+  payment: PaymentRecord
+): PaymentRecord | undefined {
+  const fingerprint = getPaymentFingerprint(payment);
+  return history.find((p) => getPaymentFingerprint(p) === fingerprint);
+}
+
 const paymentStore = create<PaymentHistoryStore>()(
   persist(
     (set, get) => ({
@@ -33,8 +60,28 @@ const paymentStore = create<PaymentHistoryStore>()(
           set({ current: payment });
 
           const { history } = get();
-          const exists = history.some((p) => p.id === payment.id);
-          if (!exists) {
+          const duplicate = findDuplicatePayment(history, payment);
+
+          if (duplicate) {
+            // Update existing entry: refresh timestamp, move to top
+            const updatedPayment = {
+              ...duplicate,
+              createdAt: payment.createdAt,
+              qrDataUrl: payment.qrDataUrl,
+              // Keep original ID for consistency
+            };
+            const filteredHistory = history.filter(
+              (p) => p.id !== duplicate.id
+            );
+            set({
+              history: [updatedPayment, ...filteredHistory].slice(
+                0,
+                MAX_HISTORY_SIZE
+              ),
+              current: updatedPayment,
+            });
+          } else {
+            // New unique payment
             set({ history: [payment, ...history].slice(0, MAX_HISTORY_SIZE) });
           }
         },
@@ -43,8 +90,8 @@ const paymentStore = create<PaymentHistoryStore>()(
           if (!current) {
             return;
           }
-          const exists = history.some((p) => p.id === current.id);
-          if (!exists) {
+          const duplicate = findDuplicatePayment(history, current);
+          if (!duplicate) {
             set({ history: [current, ...history].slice(0, MAX_HISTORY_SIZE) });
           }
         },

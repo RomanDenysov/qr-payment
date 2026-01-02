@@ -2,11 +2,7 @@
 
 import { Autocomplete } from "@base-ui/react/autocomplete";
 import { IconHistory } from "@tabler/icons-react";
-import {
-  electronicFormatIBAN,
-  friendlyFormatIBAN,
-  isValidIBAN,
-} from "ibantools";
+import { electronicFormatIBAN, friendlyFormatIBAN } from "ibantools";
 import { forwardRef, useMemo } from "react";
 import type { PaymentRecord } from "@/app/features/payment/schema";
 import { usePaymentHistory } from "@/app/features/payment/store";
@@ -29,7 +25,8 @@ type IBANAutocompleteProps = {
   id?: string;
   placeholder?: string;
   className?: string;
-  showValidation?: boolean;
+  /** Whether the field has an error (for styling) */
+  hasError?: boolean;
 };
 
 export const IBANAutocomplete = forwardRef<
@@ -44,7 +41,7 @@ export const IBANAutocomplete = forwardRef<
       id,
       placeholder = "SK89 7500 0000 0000 1234 5678",
       className,
-      showValidation = true,
+      hasError = false,
     },
     ref
   ) => {
@@ -71,13 +68,16 @@ export const IBANAutocomplete = forwardRef<
       }));
     }, [history]);
 
-    const electronic = electronicFormatIBAN(value) || "";
-    const isValid = electronic ? isValidIBAN(electronic) : false;
-    const hasValue = value.length > 0;
+    // Display friendly format with spaces (SK00 0000 0000 ...)
+    const displayValue = friendlyFormatIBAN(value) || value;
 
     const handleValueChange = (newValue: string) => {
       // Remove everything except letters and numbers, convert to uppercase
-      const cleaned = newValue.toUpperCase().replace(/[^A-Z0-9]/g, "");
+      // Max IBAN length is 34 characters (electronic format)
+      const cleaned = newValue
+        .toUpperCase()
+        .replace(/[^A-Z0-9]/g, "")
+        .slice(0, 34);
       onChange(cleaned);
     };
 
@@ -86,7 +86,7 @@ export const IBANAutocomplete = forwardRef<
       onSelectPayment?.(suggestion.payment);
     };
 
-    // Custom filter for IBAN
+    // Custom filter for IBAN (works with both formatted and unformatted input)
     const filterIban = (item: IBANSuggestion, query: string) => {
       const cleanQuery = query.toUpperCase().replace(/[^A-Z0-9]/g, "");
       return item.iban.includes(cleanQuery);
@@ -96,17 +96,15 @@ export const IBANAutocomplete = forwardRef<
       <Autocomplete.Root
         filter={filterIban}
         items={suggestions}
-        itemToStringValue={(item: IBANSuggestion) => item.iban}
+        itemToStringValue={(item: IBANSuggestion) => item.displayIban}
         onValueChange={handleValueChange}
-        value={value}
+        value={displayValue}
       >
         <Autocomplete.Input
+          aria-invalid={hasError}
           className={cn(
             inputVariants(),
-            showValidation &&
-              hasValue &&
-              !isValid &&
-              "border-destructive focus-visible:ring-destructive",
+            hasError && "border-destructive focus-visible:ring-destructive",
             className
           )}
           id={id}

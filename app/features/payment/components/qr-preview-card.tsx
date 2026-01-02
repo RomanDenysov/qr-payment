@@ -21,9 +21,15 @@ function PaymentDetails({ paymentDetails }: { paymentDetails: PaymentRecord }) {
     <div className="flex flex-wrap justify-center gap-2">
       <Badge variant="secondary">{maskIban(paymentDetails.iban)}</Badge>
       <Badge variant="secondary">{paymentDetails.amount.toFixed(2)} EUR</Badge>
-      <Badge variant="secondary">VS: {paymentDetails.variableSymbol}</Badge>
-      <Badge variant="secondary">SS: {paymentDetails.specificSymbol}</Badge>
-      <Badge variant="secondary">KS: {paymentDetails.constantSymbol}</Badge>
+      {paymentDetails.variableSymbol ? (
+        <Badge variant="secondary">VS: {paymentDetails.variableSymbol}</Badge>
+      ) : null}
+      {paymentDetails.specificSymbol ? (
+        <Badge variant="secondary">SS: {paymentDetails.specificSymbol}</Badge>
+      ) : null}
+      {paymentDetails.constantSymbol ? (
+        <Badge variant="secondary">KS: {paymentDetails.constantSymbol}</Badge>
+      ) : null}
     </div>
   );
 }

@@ -2,9 +2,25 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { IconLoader3, IconQrcode, IconTrash } from "@tabler/icons-react";
+import dynamic from "next/dynamic";
+import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { CurrencyInput } from "@/components/currency-input";
-import { IBANAutocomplete } from "@/components/iban-autocomplete";
+import { inputVariants } from "@/components/ui/input";
+import { Skeleton } from "@/components/ui/skeleton";
+
+// Dynamic import to prevent hydration mismatch from Base UI's auto-generated IDs
+const IBANAutocomplete = dynamic(
+  () =>
+    import("@/components/iban-autocomplete").then(
+      (mod) => mod.IBANAutocomplete
+    ),
+  {
+    ssr: false,
+    loading: () => <Skeleton className={inputVariants({ className: "h-9" })} />,
+  }
+);
+
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -27,6 +43,7 @@ import {
   type PaymentRecord,
   paymentFormSchema,
 } from "../schema";
+import { useCurrentPayment } from "../store";
 import { usePaymentGenerator } from "../use-payment-generator";
 
 const defaultValues: PaymentFormData = {
@@ -41,6 +58,7 @@ const defaultValues: PaymentFormData = {
 
 export function PaymentFormCard() {
   const { generate, isPending } = usePaymentGenerator();
+  const currentPayment = useCurrentPayment();
   const {
     register,
     handleSubmit,
@@ -51,7 +69,20 @@ export function PaymentFormCard() {
   } = useForm<PaymentFormData>({
     defaultValues,
     resolver: zodResolver(paymentFormSchema),
+    mode: "onBlur",
   });
+
+  useEffect(() => {
+    if (currentPayment) {
+      setValue("iban", currentPayment.iban);
+      setValue("amount", currentPayment.amount);
+      setValue("recipientName", currentPayment.recipientName || "");
+      setValue("variableSymbol", currentPayment.variableSymbol || "");
+      setValue("specificSymbol", currentPayment.specificSymbol || "");
+      setValue("constantSymbol", currentPayment.constantSymbol || "");
+      setValue("paymentNote", currentPayment.paymentNote || "");
+    }
+  }, [currentPayment, setValue]);
 
   const handleClear = () => {
     reset();
@@ -79,8 +110,9 @@ export function PaymentFormCard() {
                 <Controller
                   control={control}
                   name="iban"
-                  render={({ field }) => (
+                  render={({ field, fieldState }) => (
                     <IBANAutocomplete
+                      hasError={!!fieldState.error}
                       id="iban"
                       onChange={field.onChange}
                       onSelectPayment={handleSelectFromHistory}

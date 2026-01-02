@@ -1,6 +1,6 @@
 "use client";
 
-import { IconHistory, IconTrash } from "@tabler/icons-react";
+import { IconCheck, IconHistory, IconTrash, IconX } from "@tabler/icons-react";
 import { useState } from "react";
 import {
   usePaymentActions,
@@ -39,7 +39,8 @@ import { cn, maskIban } from "@/lib/utils";
 export function HistorySheet() {
   const [open, setOpen] = useState(false);
   const history = usePaymentHistory();
-  const { clearHistory } = usePaymentActions();
+  const { clearHistory, loadFromStorage, removeFromStorage } =
+    usePaymentActions();
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -106,26 +107,74 @@ export function HistorySheet() {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Dátum</TableHead>
-                    <TableHead>IBAN</TableHead>
-                    <TableHead>Suma</TableHead>
-                    <TableHead className="text-right">Akcie</TableHead>
+                    <TableHead className="align-middle">Dátum</TableHead>
+                    <TableHead className="align-middle">IBAN</TableHead>
+                    <TableHead className="align-middle">Suma</TableHead>
+                    <TableHead className="text-right align-middle">
+                      Akcie
+                    </TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {history.map((entry) => (
                     <TableRow key={entry.id}>
-                      <TableCell className="text-xs tracking-tighter">
+                      <TableCell className="align-middle text-xs tracking-tighter">
                         {formatDate(entry.createdAt)}
                       </TableCell>
-                      <TableCell className="flex items-center gap-0.5 text-xs">
+                      <TableCell className="align-middle text-xs">
                         {maskIban(entry.iban)}
                       </TableCell>
-                      <TableCell className="text-xs">
+                      <TableCell className="align-middle text-xs">
                         {entry.amount.toFixed(2)} EUR
                       </TableCell>
-                      <TableCell className="text-right">
-                        <div className="flex justify-end gap-2" />
+                      <TableCell className="text-right align-middle">
+                        <div className="flex justify-end gap-1">
+                          <Button
+                            className="size-7 p-0"
+                            onClick={() => {
+                              loadFromStorage(entry.id);
+                              setOpen(false);
+                            }}
+                            size="sm"
+                            title="Naplniť formulár"
+                            variant="ghost"
+                          >
+                            <IconCheck className="size-3" />
+                          </Button>
+                          <AlertDialog>
+                            <AlertDialogTrigger
+                              render={
+                                <Button
+                                  className="size-7 p-0"
+                                  size="sm"
+                                  title="Vymazať"
+                                  variant="ghost"
+                                >
+                                  <IconX className="size-3" />
+                                </Button>
+                              }
+                            />
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>
+                                  Vymazať záznam?
+                                </AlertDialogTitle>
+                                <AlertDialogDescription>
+                                  Táto akcia sa nedá vrátiť späť. Záznam bude
+                                  odstránený z histórie.
+                                </AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter>
+                                <AlertDialogCancel>Zrušiť</AlertDialogCancel>
+                                <AlertDialogAction
+                                  onClick={() => removeFromStorage(entry.id)}
+                                >
+                                  Vymazať
+                                </AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
+                        </div>
                       </TableCell>
                     </TableRow>
                   ))}
