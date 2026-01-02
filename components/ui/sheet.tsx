@@ -2,7 +2,7 @@
 
 import { Dialog as SheetPrimitive } from "@base-ui/react/dialog";
 import { IconX } from "@tabler/icons-react";
-import type * as React from "react";
+import type { ComponentProps } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -58,6 +58,7 @@ function SheetContent({
         {...props}
       >
         {children}
+        {/** biome-ignore lint/nursery/noLeakedRender: we need to render the children here */}
         {showCloseButton && (
           <SheetPrimitive.Close
             data-slot="sheet-close"
@@ -78,7 +79,7 @@ function SheetContent({
   );
 }
 
-function SheetHeader({ className, ...props }: React.ComponentProps<"div">) {
+function SheetHeader({ className, ...props }: ComponentProps<"div">) {
   return (
     <div
       className={cn("flex flex-col gap-0.5 p-4", className)}
@@ -88,7 +89,7 @@ function SheetHeader({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
-function SheetFooter({ className, ...props }: React.ComponentProps<"div">) {
+function SheetFooter({ className, ...props }: ComponentProps<"div">) {
   return (
     <div
       className={cn("mt-auto flex flex-col gap-2 p-4", className)}

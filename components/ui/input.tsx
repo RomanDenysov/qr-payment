@@ -1,6 +1,6 @@
 import { Input as InputPrimitive } from "@base-ui/react/input";
 import { cva, type VariantProps } from "class-variance-authority";
-import type * as React from "react";
+import type { ComponentProps } from "react";
 import { cn } from "@/lib/utils";
 
 export const inputVariants = cva(
@@ -17,8 +17,7 @@ export const inputVariants = cva(
   }
 );
 
-type InputProps = React.ComponentProps<"input"> &
-  VariantProps<typeof inputVariants>;
+type InputProps = ComponentProps<"input"> & VariantProps<typeof inputVariants>;
 
 function Input({ className, type, variant, ...props }: InputProps) {
   return (
