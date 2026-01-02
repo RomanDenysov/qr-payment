@@ -18,7 +18,7 @@ import { useCurrentPayment } from "../store";
 
 function PaymentDetails({ paymentDetails }: { paymentDetails: PaymentRecord }) {
   return (
-    <div className="flex flex-wrap justify-center gap-2">
+    <div className="flex flex-wrap justify-center gap-1">
       <Badge variant="secondary">{maskIban(paymentDetails.iban)}</Badge>
       <Badge variant="secondary">{paymentDetails.amount.toFixed(2)} EUR</Badge>
       {paymentDetails.variableSymbol ? (

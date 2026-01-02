@@ -104,6 +104,7 @@ export const IBANAutocomplete = forwardRef<
           aria-invalid={hasError}
           className={cn(
             inputVariants(),
+            "h-8!",
             hasError && "border-destructive focus-visible:ring-destructive",
             className
           )}
@@ -122,7 +123,7 @@ export const IBANAutocomplete = forwardRef<
                 "transition-[opacity,transform] duration-150"
               )}
             >
-              <Autocomplete.Empty className="px-3 py-2 text-center text-muted-foreground text-sm">
+              <Autocomplete.Empty className="h-8 px-3 py-2 text-center text-muted-foreground text-sm">
                 Žiadne výsledky z histórie
               </Autocomplete.Empty>
 

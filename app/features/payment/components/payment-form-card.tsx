@@ -106,22 +106,21 @@ export function PaymentFormCard() {
           <FieldGroup>
             <Field>
               <FieldLabel htmlFor="iban">IBAN *</FieldLabel>
-              <FieldContent>
-                <Controller
-                  control={control}
-                  name="iban"
-                  render={({ field, fieldState }) => (
-                    <IBANAutocomplete
-                      hasError={!!fieldState.error}
-                      id="iban"
-                      onChange={field.onChange}
-                      onSelectPayment={handleSelectFromHistory}
-                      value={field.value}
-                    />
-                  )}
-                />
-                <FieldError errors={errors.iban ? [errors.iban] : undefined} />
-              </FieldContent>
+
+              <Controller
+                control={control}
+                name="iban"
+                render={({ field, fieldState }) => (
+                  <IBANAutocomplete
+                    hasError={!!fieldState.error}
+                    id="iban"
+                    onChange={field.onChange}
+                    onSelectPayment={handleSelectFromHistory}
+                    value={field.value}
+                  />
+                )}
+              />
+              <FieldError errors={errors.iban ? [errors.iban] : undefined} />
             </Field>
 
             <Field>
