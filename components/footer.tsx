@@ -6,6 +6,10 @@ export function Footer() {
   return (
     <footer className="mt-auto pt-8">
       <Separator className="mb-3" />
+      <p className="mb-3 text-center text-muted-foreground text-xs">
+        Vaše údaje nepotrebujeme. Všetky sú uložené vo vašom prehliadači a
+        neopustia ho.
+      </p>
       <div className="flex flex-wrap items-center justify-center gap-2 pb-4 text-muted-foreground text-xs">
         <span>&copy; 2025</span>
         <span>•</span>
