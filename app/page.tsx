@@ -1,6 +1,6 @@
 import { AdPlaceholder } from "@/components/ad-placeholder";
-import { PaymentFormCard } from "./features/payment/components/payment-form-card";
-import { QRPreviewCard } from "./features/payment/components/qr-preview-card";
+import { PaymentFormCard } from "@/features/payment/components/payment-form-card";
+import { QRPreviewCard } from "@/features/payment/components/qr-preview-card";
 
 export default function Page() {
   return (

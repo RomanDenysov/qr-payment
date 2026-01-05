@@ -4,8 +4,8 @@ import { Autocomplete } from "@base-ui/react/autocomplete";
 import { IconHistory } from "@tabler/icons-react";
 import { electronicFormatIBAN, friendlyFormatIBAN } from "ibantools";
 import { forwardRef, useMemo } from "react";
-import type { PaymentRecord } from "@/app/features/payment/schema";
-import { usePaymentHistory } from "@/app/features/payment/store";
+import type { PaymentRecord } from "@/features/payment/schema";
+import { usePaymentHistory } from "@/features/payment/store";
 import { cn } from "@/lib/utils";
 import { inputVariants } from "./ui/input";
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { IconCopy, IconDownload, IconShare } from "@tabler/icons-react";
+import { track } from "@vercel/analytics";
 import Image from "next/image";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
@@ -48,6 +49,7 @@ export function QRPreviewCard() {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    track("qr_downloaded");
     toast.success("QR kód stiahnutý");
   };
 
@@ -62,6 +64,7 @@ export function QRPreviewCard() {
       await navigator.clipboard.write([
         new ClipboardItem({ "image/png": blob }),
       ]);
+      track("qr_copied");
       toast.success("QR kód skopírovaný");
     } catch {
       toast.error("Nepodarilo sa skopírovať QR kód");
@@ -82,6 +85,7 @@ export function QRPreviewCard() {
         files: [file],
         title: "QR platba",
       });
+      track("qr_shared");
       toast.success("QR kód zdieľaný");
     } catch (error) {
       if ((error as Error).name !== "AbortError") {
