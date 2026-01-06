@@ -81,6 +81,9 @@ export const metadata: Metadata = {
     },
   },
   alternates: { canonical: "https://qr-platby.com" },
+  verification: {
+    google: "fdbFmzG3Hzf6pZiMA9kWUnywwtYSaivcvhHEsDnA50E",
+  },
 };
 
 export default function RootLayout({
