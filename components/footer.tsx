@@ -26,7 +26,7 @@ export function Footer() {
         <span>•</span>
         <a
           className="underline underline-offset-4 hover:text-foreground"
-          href="https://github.com/RomanDenysov"
+          href="https://github.com/RomanDenysov/qr-payment"
           rel="noopener noreferrer"
           target="_blank"
         >
