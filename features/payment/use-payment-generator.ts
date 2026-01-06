@@ -1,4 +1,4 @@
-import { track } from "@vercel/analytics/server";
+import { track } from "@vercel/analytics";
 import { useCallback, useTransition } from "react";
 import { toast } from "sonner";
 import { generatePaymentQR, InvalidIBANError } from "./qr-generator";
@@ -23,7 +23,7 @@ export function usePaymentGenerator() {
           };
 
           setCurrent(record);
-          await track("qr_generated");
+          track("qr_generated");
           toast.success("QR kód vygenerovaný");
         } catch (error) {
           if (error instanceof InvalidIBANError) {

@@ -1,6 +1,7 @@
 "use client";
 
 import { IconCheck, IconHistory, IconTrash, IconX } from "@tabler/icons-react";
+import { track } from "@vercel/analytics";
 import { useState } from "react";
 import {
   AlertDialog,
@@ -130,6 +131,7 @@ export function HistorySheet() {
                             className="size-7 p-0"
                             onClick={() => {
                               loadFromStorage(entry.id);
+                              track("history_item_selected");
                               setOpen(false);
                             }}
                             size="sm"
