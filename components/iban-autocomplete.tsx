@@ -117,7 +117,7 @@ export const IBANAutocomplete = forwardRef<
           <Autocomplete.Positioner className="z-50" sideOffset={4}>
             <Autocomplete.Popup
               className={cn(
-                "max-h-[300px] min-w-(--anchor-width) overflow-auto rounded-md border bg-popover p-1 text-popover-foreground shadow-md",
+                "max-h-[300px] min-w-(--anchor-width) overflow-auto rounded-none border bg-popover p-1 text-popover-foreground shadow-md",
                 "data-ending-style:opacity-0 data-starting-style:opacity-0",
                 "data-ending-style:scale-95 data-starting-style:scale-95",
                 "transition-[opacity,transform] duration-150"
