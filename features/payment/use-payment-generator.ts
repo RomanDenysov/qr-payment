@@ -1,6 +1,7 @@
 import { track } from "@vercel/analytics";
 import { useCallback, useTransition } from "react";
 import { toast } from "sonner";
+import { useActivePreset } from "@/features/branding";
 import { generatePaymentQR, InvalidIBANError } from "./qr-generator";
 import type { PaymentFormData, PaymentRecord } from "./schema";
 import { usePaymentActions } from "./store";
@@ -8,12 +9,27 @@ import { usePaymentActions } from "./store";
 export function usePaymentGenerator() {
   const [isPending, startTransition] = useTransition();
   const { setCurrent } = usePaymentActions();
+  const activePreset = useActivePreset();
 
   const generate = useCallback(
     (formData: PaymentFormData) => {
       startTransition(async () => {
         try {
-          const qrDataUrl = await generatePaymentQR(formData);
+          const branding = activePreset
+            ? {
+                colors: activePreset.colors,
+                logo: activePreset.logo,
+                cornerStyle: activePreset.cornerStyle,
+                frame: activePreset.frame?.enabled
+                  ? {
+                      text: activePreset.frame.text,
+                      position: activePreset.frame.position,
+                    }
+                  : undefined,
+              }
+            : undefined;
+
+          const qrDataUrl = await generatePaymentQR(formData, branding);
 
           const record: PaymentRecord = {
             ...formData,
@@ -34,7 +50,7 @@ export function usePaymentGenerator() {
         }
       });
     },
-    [setCurrent]
+    [activePreset, setCurrent]
   );
 
   return { generate, isPending };
