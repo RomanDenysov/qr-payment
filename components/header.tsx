@@ -2,6 +2,7 @@ import Link from "next/link";
 import { AppLogo } from "./app-logo";
 import { HistorySheet } from "./history-sheet";
 import { ThemeToggle } from "./theme-toggle";
+import { BrandingSheet } from "@/features/branding";
 
 export function Header() {
   return (
@@ -11,6 +12,7 @@ export function Header() {
           <AppLogo />
         </Link>
         <div className="flex items-center gap-1">
+          <BrandingSheet />
           <HistorySheet />
           <ThemeToggle />
         </div>
