@@ -9,16 +9,16 @@ import { usePaymentHistory } from "@/features/payment/store";
 import { cn } from "@/lib/utils";
 import { inputVariants } from "./ui/input";
 
-type IBANSuggestion = {
+interface IBANSuggestion {
   id: string;
   iban: string;
   displayIban: string;
   recipientName?: string;
   amount: number;
   payment: PaymentRecord;
-};
+}
 
-type IBANAutocompleteProps = {
+interface IBANAutocompleteProps {
   value: string;
   onChange: (value: string) => void;
   onSelectPayment?: (payment: PaymentRecord) => void;
@@ -27,7 +27,7 @@ type IBANAutocompleteProps = {
   className?: string;
   /** Whether the field has an error (for styling) */
   hasError?: boolean;
-};
+}
 
 export const IBANAutocomplete = forwardRef<
   HTMLInputElement,

@@ -4,14 +4,14 @@ import { forwardRef, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 
-type CurrencyInputProps = {
+interface CurrencyInputProps {
   value: number;
   onChange: (value: number) => void;
   currency?: string;
   id?: string;
   placeholder?: string;
   className?: string;
-};
+}
 
 export const CurrencyInput = forwardRef<HTMLInputElement, CurrencyInputProps>(
   (

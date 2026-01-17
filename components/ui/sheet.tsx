@@ -58,7 +58,6 @@ function SheetContent({
         {...props}
       >
         {children}
-        {/** biome-ignore lint/nursery/noLeakedRender: we need to render the children here */}
         {showCloseButton && (
           <SheetPrimitive.Close
             data-slot="sheet-close"

@@ -3,19 +3,19 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { PaymentRecord } from "./schema";
 
-type PaymentHistoryState = {
+interface PaymentHistoryState {
   current: PaymentRecord | null;
   history: PaymentRecord[];
-};
+}
 
-type PaymentHistoryActions = {
+interface PaymentHistoryActions {
   setCurrent: (payment: PaymentRecord) => void;
   saveToStorage: () => void;
   loadFromStorage: (id: string) => void;
   removeFromStorage: (id: string) => void;
   clearHistory: () => void;
   clearCurrent: () => void;
-};
+}
 
 const STORAGE_KEY = "qrPayments.v1";
 const MAX_HISTORY_SIZE = 50;
