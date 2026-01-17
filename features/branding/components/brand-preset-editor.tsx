@@ -5,7 +5,7 @@ import { IconArrowLeft } from "@tabler/icons-react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { FieldGroup } from "@/components/ui/field";
+import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import type { BrandPreset, BrandPresetFormData } from "../schema";
 import { brandPresetFormSchema } from "../schema";
@@ -51,7 +51,10 @@ export function BrandPresetEditor({ preset, onClose }: BrandPresetEditorProps) {
 
   const colors = watch("colors");
   const frameText = watch("frame.text") ?? "";
-  const isContrastValid = hasValidContrast(colors.foreground, colors.background);
+  const isContrastValid = hasValidContrast(
+    colors.foreground,
+    colors.background
+  );
   const isFrameTextValid = frameText.length <= 40;
 
   const onSubmit = (data: BrandPresetFormData) => {
@@ -100,9 +103,13 @@ export function BrandPresetEditor({ preset, onClose }: BrandPresetEditorProps) {
         control={control}
         name="name"
         render={({ field }) => (
-          <FieldGroup error={errors.name?.message} label="Názov presetu">
+          <Field>
+            <FieldLabel>Názov presetu</FieldLabel>
             <Input {...field} placeholder="Môj biznis" />
-          </FieldGroup>
+            {errors.name?.message ? (
+              <FieldError>{errors.name.message}</FieldError>
+            ) : null}
+          </Field>
         )}
       />
 
@@ -159,7 +166,7 @@ export function BrandPresetEditor({ preset, onClose }: BrandPresetEditorProps) {
 
       <Button
         className="w-full"
-        disabled={!isContrastValid || !isFrameTextValid}
+        disabled={!(isContrastValid && isFrameTextValid)}
         type="submit"
       >
         {isEditing ? "Uložiť zmeny" : "Vytvoriť preset"}

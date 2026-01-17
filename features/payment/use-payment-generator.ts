@@ -1,7 +1,7 @@
 import { track } from "@vercel/analytics";
 import { useCallback, useTransition } from "react";
 import { toast } from "sonner";
-import { useActivePreset } from "@/features/branding";
+import { useActivePreset } from "@/features/branding/store";
 import { generatePaymentQR, InvalidIBANError } from "./qr-generator";
 import type { PaymentFormData, PaymentRecord } from "./schema";
 import { usePaymentActions } from "./store";

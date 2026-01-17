@@ -68,7 +68,9 @@ const brandingStore = create<BrandingStore>()(
         },
         getActivePreset: () => {
           const { presets, activePresetId } = get();
-          if (!activePresetId) return null;
+          if (!activePresetId) {
+            return null;
+          }
           return presets.find((p) => p.id === activePresetId) ?? null;
         },
       },
@@ -88,5 +90,4 @@ export const useActivePresetId = () =>
   brandingStore((state) => state.activePresetId);
 export const useActivePreset = () =>
   brandingStore((state) => state.actions.getActivePreset());
-export const useBrandingActions = () =>
-  brandingStore((state) => state.actions);
+export const useBrandingActions = () => brandingStore((state) => state.actions);

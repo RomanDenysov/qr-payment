@@ -1,8 +1,8 @@
 import Link from "next/link";
+import { BrandingSheet } from "@/features/branding/components/branding-sheet";
 import { AppLogo } from "./app-logo";
 import { HistorySheet } from "./history-sheet";
 import { ThemeToggle } from "./theme-toggle";
-import { BrandingSheet } from "@/features/branding";
 
 export function Header() {
   return (

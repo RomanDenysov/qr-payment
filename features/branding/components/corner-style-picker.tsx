@@ -25,6 +25,8 @@ function CornerPreview({ style }: { style: CornerStyle }) {
       return <div className={cn(base, "rounded-sm")} />;
     case "dots":
       return <div className={cn(base, "rounded-full")} />;
+    default:
+      return <div className={cn(base, "rounded-none")} />;
   }
 }
 

@@ -57,13 +57,15 @@ export function BrandPresetCard({
 
           <div className="min-w-0 flex-1">
             <div className="flex items-center gap-2">
-              <span className="truncate font-medium text-sm">{preset.name}</span>
-              {isActive && <IconCheck className="size-4 text-primary" />}
+              <span className="truncate font-medium text-sm">
+                {preset.name}
+              </span>
+              {isActive ? <IconCheck className="size-4 text-primary" /> : null}
             </div>
             <div className="flex flex-wrap gap-1 text-muted-foreground text-xs">
               <span>{preset.cornerStyle}</span>
-              {preset.logo && <span>• logo</span>}
-              {preset.frame?.enabled && <span>• rámček</span>}
+              {preset.logo ? <span>• logo</span> : null}
+              {preset.frame?.enabled ? <span>• rámček</span> : null}
             </div>
           </div>
         </button>
@@ -95,13 +97,15 @@ export function BrandPresetCard({
               <AlertDialogHeader>
                 <AlertDialogTitle>Vymazať preset?</AlertDialogTitle>
                 <AlertDialogDescription>
-                  Táto akcia sa nedá vrátiť späť. Preset &quot;{preset.name}&quot;
-                  bude odstránený.
+                  Táto akcia sa nedá vrátiť späť. Preset &quot;{preset.name}
+                  &quot; bude odstránený.
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel>Zrušiť</AlertDialogCancel>
-                <AlertDialogAction onClick={onDelete}>Vymazať</AlertDialogAction>
+                <AlertDialogAction onClick={onDelete}>
+                  Vymazať
+                </AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>

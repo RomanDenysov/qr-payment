@@ -5,6 +5,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { getContrastRatio, hasValidContrast } from "../utils";
 
+const HEX_COLOR_REGEX = /^#[0-9A-Fa-f]{0,6}$/;
+
 type ColorPickerProps = {
   label: string;
   value: string;
@@ -36,7 +38,7 @@ export function ColorPicker({
           maxLength={7}
           onChange={(e) => {
             const val = e.target.value;
-            if (/^#[0-9A-Fa-f]{0,6}$/.test(val)) {
+            if (HEX_COLOR_REGEX.test(val)) {
               onChange(val);
             }
           }}
