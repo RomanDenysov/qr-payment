@@ -1,3 +1,4 @@
+import { track } from "@vercel/analytics";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { BrandPreset, BrandPresetFormData } from "./schema";
@@ -39,6 +40,7 @@ const brandingStore = create<BrandingStore>()(
             createdAt: Date.now(),
           };
           set({ presets: [...presets, newPreset] });
+          track("preset_created");
           return true;
         },
         updatePreset: (id, updates) => {
@@ -59,6 +61,9 @@ const brandingStore = create<BrandingStore>()(
           const { presets } = get();
           if (id === null || presets.some((p) => p.id === id)) {
             set({ activePresetId: id });
+            if (id !== null) {
+              track("preset_applied");
+            }
           }
         },
         getActivePreset: () => {

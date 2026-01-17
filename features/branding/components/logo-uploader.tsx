@@ -1,6 +1,7 @@
 "use client";
 
 import { IconPhoto, IconTrash } from "@tabler/icons-react";
+import { track } from "@vercel/analytics";
 import { useRef } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -24,6 +25,7 @@ export function LogoUploader({ value, onChange }: LogoUploaderProps) {
 
     const result = await resizeImage(file);
     if (result.success) {
+      track("logo_uploaded");
       onChange({ data: result.data, size: 15 });
     } else {
       toast.error(result.error);
