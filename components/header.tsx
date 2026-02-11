@@ -1,7 +1,10 @@
+import { IconNotes } from "@tabler/icons-react";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 import { AppLogo } from "./app-logo";
 import { HistorySheet } from "./history-sheet";
 import { ThemeToggle } from "./theme-toggle";
+import { buttonVariants } from "./ui/button";
 
 export function Header() {
   return (
@@ -11,6 +14,13 @@ export function Header() {
           <AppLogo />
         </Link>
         <div className="flex items-center gap-1">
+          <Link
+            className={cn(buttonVariants({ variant: "ghost", size: "sm" }))}
+            href="/bulk"
+          >
+            <IconNotes />
+            Hromadné generovanie
+          </Link>
           <HistorySheet />
           <ThemeToggle />
         </div>
