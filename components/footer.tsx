@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
 
 export function Footer() {
@@ -14,6 +15,20 @@ export function Footer() {
         <span>&copy; 2025</span>
         <span>•</span>
         <p>Vyrobené s 🖤 na Slovensku</p>
+        <span>•</span>
+        <Link
+          className="underline underline-offset-4 hover:text-foreground"
+          href="/ochrana-udajov"
+        >
+          Ochrana údajov
+        </Link>
+        <span>•</span>
+        <Link
+          className="underline underline-offset-4 hover:text-foreground"
+          href="/podmienky"
+        >
+          Podmienky
+        </Link>
         <span>•</span>
         <a
           className="underline underline-offset-4 hover:text-foreground"

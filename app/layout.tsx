@@ -1,6 +1,7 @@
 import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
 import { Background } from "@/components/background";
+import { ConsentBannerLoader } from "@/components/consent-banner-loader";
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -108,6 +109,7 @@ export default function RootLayout({
           <Footer />
           <Background />
           <Toaster />
+          <ConsentBannerLoader />
           <Analytics />
         </ThemeProvider>
       </body>
