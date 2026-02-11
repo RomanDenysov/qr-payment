@@ -34,7 +34,7 @@ import {
 import { usePaymentActions, usePaymentHistory } from "@/features/payment/store";
 import { cn, maskIban } from "@/lib/utils";
 
-export function HistorySheet() {
+export function HistorySheet({ onOpen }: { onOpen?: () => void } = {}) {
   const [open, setOpen] = useState(false);
   const history = usePaymentHistory();
   const { clearHistory, loadFromStorage, removeFromStorage } =
@@ -52,7 +52,15 @@ export function HistorySheet() {
   };
 
   return (
-    <Sheet onOpenChange={setOpen} open={open}>
+    <Sheet
+      onOpenChange={(next) => {
+        setOpen(next);
+        if (next) {
+          onOpen?.();
+        }
+      }}
+      open={open}
+    >
       <SheetTrigger
         className={cn(buttonVariants({ variant: "ghost", size: "sm" }))}
       >
