@@ -5,7 +5,7 @@ export function JsonLd() {
     name: "QR Platby",
     url: "https://qr-platby.com",
     description:
-      "Bezplatný online generátor QR kódov v BySquare formáte pre platby na Slovensku. Vytvorte a upravte QR kód pre platbu bez registrácie — vlastné farby, logo a text. Funguje so všetkými slovenskými bankami.",
+      "Bezplatný online generátor QR kódov vo formátoch BySquare a EPC (SEPA) pre platby na Slovensku. Vytvorte a upravte QR kód pre platbu bez registrácie — vlastné farby, logo a text. Funguje so všetkými slovenskými bankami.",
     applicationCategory: "FinanceApplication",
     operatingSystem: "Any",
     browserRequirements: "Requires JavaScript",
@@ -16,8 +16,11 @@ export function JsonLd() {
     },
     featureList: [
       "Generovanie QR kódov vo formáte BySquare",
+      "Generovanie QR kódov vo formáte EPC (SEPA)",
+      "Hromadné generovanie QR kódov z CSV",
       "Úprava QR kódu — vlastné farby, logo a text",
       "Podpora všetkých slovenských bánk",
+      "Export do ZIP a PDF",
       "Lokálne uloženie histórie",
       "Bez registrácie",
     ],

@@ -1,12 +1,7 @@
 "use client";
 
-import {
-  IconDownload,
-  IconFileTypePdf,
-  IconFileZip,
-  IconTrash,
-} from "@tabler/icons-react";
-import { useCallback, useState } from "react";
+import { IconTrash } from "@tabler/icons-react";
+import { useCallback, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -16,73 +11,68 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { useBrandingConfig } from "@/features/branding/store";
-import type { PaymentFormat } from "@/features/payment/format";
 import { FORMAT_LABELS } from "@/features/payment/format";
-import type { GeneratedQR } from "../bulk-generator";
 import { generateBulkQR } from "../bulk-generator";
-import type { ParsedRow } from "../csv-parser";
-import { parseCsv } from "../csv-parser";
-import { exportPdf } from "../export-pdf";
-import { exportZip } from "../export-zip";
-import { CsvDropzone } from "./csv-dropzone";
+import {
+  useBulkActions,
+  useBulkDetectedFormat,
+  useBulkError,
+  useBulkGenerating,
+  useBulkProgress,
+  useBulkResults,
+  useBulkRows,
+} from "../store";
+import { BulkResultsSection } from "./bulk-results-section";
+import { BulkUploadSection } from "./bulk-upload-section";
 import { PreviewTable } from "./preview-table";
-import { downloadSampleCsv } from "./sample-csv";
 
 export function BulkPage() {
   const branding = useBrandingConfig();
+  const rows = useBulkRows();
+  const detectedFormat = useBulkDetectedFormat();
+  const generating = useBulkGenerating();
+  const progress = useBulkProgress();
+  const results = useBulkResults();
+  const error = useBulkError();
+  const {
+    setResults,
+    setError,
+    startGenerating,
+    updateProgress,
+    finishGenerating,
+    reset,
+  } = useBulkActions();
 
-  const [rows, setRows] = useState<ParsedRow[] | null>(null);
-  const [detectedFormat, setDetectedFormat] =
-    useState<PaymentFormat>("bysquare");
-  const [generating, setGenerating] = useState(false);
-  const [progress, setProgress] = useState({ current: 0, total: 0 });
-  const [results, setResults] = useState<GeneratedQR[] | null>(null);
-  const [error, setError] = useState<string | null>(null);
-
-  const validRows = rows?.filter((r) => r.valid) ?? [];
-
-  const handleFile = useCallback(async (file: File) => {
-    setError(null);
-    setResults(null);
-    try {
-      const parsed = await parseCsv(file);
-      setRows(parsed);
-      if (parsed.length > 0) {
-        setDetectedFormat(parsed[0].row.format);
-      }
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Chyba pri čítaní súboru");
-    }
-  }, []);
+  const validRows = useMemo(() => rows?.filter((r) => r.valid) ?? [], [rows]);
 
   const handleGenerate = useCallback(async () => {
     if (!validRows.length) {
       return;
     }
 
-    setGenerating(true);
-    setProgress({ current: 0, total: validRows.length });
+    startGenerating(validRows.length);
 
     try {
       const qrs = await generateBulkQR(
         validRows.map((r) => r.row),
         branding,
-        (p) => setProgress(p)
+        (p) => updateProgress(p.current)
       );
       setResults(qrs);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Chyba pri generovaní");
     } finally {
-      setGenerating(false);
+      finishGenerating();
     }
-  }, [validRows, branding]);
-
-  const handleReset = useCallback(() => {
-    setRows(null);
-    setResults(null);
-    setError(null);
-    setProgress({ current: 0, total: 0 });
-  }, []);
+  }, [
+    validRows,
+    branding,
+    startGenerating,
+    updateProgress,
+    setResults,
+    setError,
+    finishGenerating,
+  ]);
 
   const progressPercent =
     progress.total > 0
@@ -101,30 +91,7 @@ export function BulkPage() {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            {!rows && (
-              <>
-                <CsvDropzone onError={setError} onFile={handleFile} />
-                <div className="flex items-center gap-2 text-muted-foreground text-xs">
-                  <IconDownload className="size-3.5" />
-                  <span>Stiahnuť vzorový CSV:</span>
-                  <button
-                    className="underline underline-offset-2 hover:text-foreground"
-                    onClick={() => downloadSampleCsv("bysquare")}
-                    type="button"
-                  >
-                    PAY by square
-                  </button>
-                  <span>/</span>
-                  <button
-                    className="underline underline-offset-2 hover:text-foreground"
-                    onClick={() => downloadSampleCsv("epc")}
-                    type="button"
-                  >
-                    EPC QR
-                  </button>
-                </div>
-              </>
-            )}
+            {!rows && <BulkUploadSection />}
 
             {error && (
               <div className="border border-destructive/50 bg-destructive/10 p-3 text-destructive text-sm">
@@ -141,7 +108,7 @@ export function BulkPage() {
                       {FORMAT_LABELS[detectedFormat]}
                     </span>
                   </span>
-                  <Button onClick={handleReset} size="sm" variant="ghost">
+                  <Button onClick={reset} size="sm" variant="ghost">
                     <IconTrash className="size-3.5" />
                     Vymazať
                   </Button>
@@ -176,41 +143,7 @@ export function BulkPage() {
                   </Button>
                 )}
 
-                {results && (
-                  <div className="space-y-3">
-                    <p className="text-green-600 text-sm dark:text-green-400">
-                      Vygenerovaných {results.length} QR kódov
-                    </p>
-                    <div className="flex gap-2">
-                      <Button
-                        onClick={async () => {
-                          try {
-                            await exportZip(results);
-                          } catch {
-                            setError("Chyba pri exporte ZIP");
-                          }
-                        }}
-                        variant="outline"
-                      >
-                        <IconFileZip className="size-4" />
-                        Stiahnuť ZIP
-                      </Button>
-                      <Button
-                        onClick={() => {
-                          try {
-                            exportPdf(results);
-                          } catch {
-                            setError("Chyba pri exporte PDF");
-                          }
-                        }}
-                        variant="outline"
-                      >
-                        <IconFileTypePdf className="size-4" />
-                        Stiahnuť PDF
-                      </Button>
-                    </div>
-                  </div>
-                )}
+                <BulkResultsSection />
               </>
             )}
           </CardContent>
