@@ -29,8 +29,17 @@ type PaymentHistoryStore = PaymentHistoryState & {
  * Two payments with same fingerprint are considered duplicates.
  */
 function getPaymentFingerprint(payment: PaymentRecord): string {
+  const format = payment.format ?? "bysquare";
   const iban = electronicFormatIBAN(payment.iban) || payment.iban;
+
+  if (format === "epc") {
+    return ["epc", iban, payment.amount.toFixed(2), payment.bic || ""].join(
+      "|"
+    );
+  }
+
   return [
+    "bysquare",
     iban,
     payment.amount.toFixed(2),
     payment.variableSymbol || "",
@@ -82,7 +91,9 @@ const paymentStore = create<PaymentHistoryStore>()(
             });
           } else {
             // New unique payment
-            set({ history: [payment, ...history].slice(0, MAX_HISTORY_SIZE) });
+            set({
+              history: [payment, ...history].slice(0, MAX_HISTORY_SIZE),
+            });
           }
         },
         saveToStorage: () => {
@@ -92,7 +103,9 @@ const paymentStore = create<PaymentHistoryStore>()(
           }
           const duplicate = findDuplicatePayment(history, current);
           if (!duplicate) {
-            set({ history: [current, ...history].slice(0, MAX_HISTORY_SIZE) });
+            set({
+              history: [current, ...history].slice(0, MAX_HISTORY_SIZE),
+            });
           }
         },
         loadFromStorage: (id) => {

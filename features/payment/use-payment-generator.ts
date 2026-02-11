@@ -2,6 +2,7 @@ import { track } from "@vercel/analytics";
 import { useCallback, useTransition } from "react";
 import { toast } from "sonner";
 import { useBrandingConfig } from "../branding/store";
+import { EpcPayloadTooLargeError } from "./epc-encoder";
 import { generatePaymentQR, InvalidIBANError } from "./qr-generator";
 import type { PaymentFormData, PaymentRecord } from "./schema";
 import { usePaymentActions } from "./store";
@@ -25,10 +26,12 @@ export function usePaymentGenerator() {
           };
 
           setCurrent(record);
-          track("qr_generated");
+          track("qr_generated", { format: formData.format ?? "bysquare" });
           toast.success("QR kód vygenerovaný");
         } catch (error) {
           if (error instanceof InvalidIBANError) {
+            toast.error(error.message);
+          } else if (error instanceof EpcPayloadTooLargeError) {
             toast.error(error.message);
           } else {
             toast.error("Nepodarilo sa vygenerovať QR kód");

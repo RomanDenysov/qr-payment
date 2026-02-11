@@ -117,7 +117,14 @@ export function HistorySheet() {
                   {history.map((entry) => (
                     <TableRow key={entry.id}>
                       <TableCell className="align-middle text-xs tracking-tighter">
-                        {formatDate(entry.createdAt)}
+                        <div className="flex flex-col gap-0.5">
+                          {formatDate(entry.createdAt)}
+                          {(entry.format ?? "bysquare") === "epc" && (
+                            <Badge className="w-fit" variant="outline">
+                              EPC
+                            </Badge>
+                          )}
+                        </div>
                       </TableCell>
                       <TableCell className="align-middle text-xs">
                         {maskIban(entry.iban)}

@@ -1,6 +1,7 @@
 import { CurrencyCode, encode, PaymentOptions } from "bysquare";
 import { electronicFormatIBAN, isValidIBAN } from "ibantools";
 import QRCode from "qrcode";
+import { encodeEpcQr } from "./epc-encoder";
 import type { PaymentFormData } from "./schema";
 
 export class InvalidIBANError extends Error {
@@ -103,6 +104,42 @@ async function drawLogo(
   ctx.drawImage(img, x, y, logoSize, logoSize);
 }
 
+function buildQrPayload(
+  data: PaymentFormData,
+  cleanIban: string
+): { payload: string; errorCorrectionLevel: "H" | "M" } {
+  const format = data.format ?? "bysquare";
+
+  if (format === "epc") {
+    return {
+      payload: encodeEpcQr({
+        iban: cleanIban,
+        amount: data.amount,
+        beneficiaryName: data.recipientName ?? "",
+        bic: data.bic || undefined,
+        remittanceText: data.paymentNote || undefined,
+      }),
+      errorCorrectionLevel: "M",
+    };
+  }
+
+  const payment: Parameters<typeof encode>[0]["payments"][0] = {
+    type: PaymentOptions.PaymentOrder,
+    amount: data.amount,
+    currencyCode: CurrencyCode.EUR,
+    bankAccounts: [{ iban: cleanIban }],
+    ...(data.variableSymbol && { variableSymbol: data.variableSymbol }),
+    ...(data.specificSymbol && { specificSymbol: data.specificSymbol }),
+    ...(data.constantSymbol && { constantSymbol: data.constantSymbol }),
+    ...(data.paymentNote && { paymentNote: data.paymentNote }),
+  };
+
+  return {
+    payload: encode({ payments: [payment] }),
+    errorCorrectionLevel: "H",
+  };
+}
+
 export async function generatePaymentQR(
   data: PaymentFormData,
   branding?: QRBranding
@@ -116,22 +153,13 @@ export async function generatePaymentQR(
   const bgColor = branding?.bgColor ?? "#ffffff";
   const centerText = branding?.centerText ?? "Naskenujte\nbankovou\naplikáciou";
 
-  const payment: Parameters<typeof encode>[0]["payments"][0] = {
-    type: PaymentOptions.PaymentOrder,
-    amount: data.amount,
-    currencyCode: CurrencyCode.EUR,
-    bankAccounts: [{ iban: cleanIban }],
-    ...(data.variableSymbol && { variableSymbol: data.variableSymbol }),
-    ...(data.specificSymbol && { specificSymbol: data.specificSymbol }),
-    ...(data.constantSymbol && { constantSymbol: data.constantSymbol }),
-    ...(data.paymentNote && { paymentNote: data.paymentNote }),
-  };
+  const { payload, errorCorrectionLevel } = buildQrPayload(data, cleanIban);
 
   const canvas = document.createElement("canvas");
-  await QRCode.toCanvas(canvas, encode({ payments: [payment] }), {
+  await QRCode.toCanvas(canvas, payload, {
     width: QR_SIZE,
     margin: 2,
-    errorCorrectionLevel: "H",
+    errorCorrectionLevel,
     color: { dark: fgColor, light: bgColor },
   });
 

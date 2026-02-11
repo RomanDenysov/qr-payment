@@ -20,20 +20,39 @@ import { generatePaymentQR } from "../qr-generator";
 import type { PaymentRecord } from "../schema";
 import { useCurrentPayment, usePaymentActions } from "../store";
 
+function FormatBadges({ payment }: { payment: PaymentRecord }) {
+  const format = payment.format ?? "bysquare";
+
+  if (format === "epc") {
+    return payment.bic ? (
+      <Badge variant="secondary">BIC: {payment.bic}</Badge>
+    ) : null;
+  }
+
+  return (
+    <>
+      {payment.variableSymbol ? (
+        <Badge variant="secondary">VS: {payment.variableSymbol}</Badge>
+      ) : null}
+      {payment.specificSymbol ? (
+        <Badge variant="secondary">SS: {payment.specificSymbol}</Badge>
+      ) : null}
+      {payment.constantSymbol ? (
+        <Badge variant="secondary">KS: {payment.constantSymbol}</Badge>
+      ) : null}
+    </>
+  );
+}
+
 function PaymentDetails({ paymentDetails }: { paymentDetails: PaymentRecord }) {
+  const format = paymentDetails.format ?? "bysquare";
+
   return (
     <div className="flex flex-wrap justify-center gap-1">
+      {format === "epc" && <Badge variant="outline">EPC</Badge>}
       <Badge variant="secondary">{maskIban(paymentDetails.iban)}</Badge>
       <Badge variant="secondary">{paymentDetails.amount.toFixed(2)} EUR</Badge>
-      {paymentDetails.variableSymbol ? (
-        <Badge variant="secondary">VS: {paymentDetails.variableSymbol}</Badge>
-      ) : null}
-      {paymentDetails.specificSymbol ? (
-        <Badge variant="secondary">SS: {paymentDetails.specificSymbol}</Badge>
-      ) : null}
-      {paymentDetails.constantSymbol ? (
-        <Badge variant="secondary">KS: {paymentDetails.constantSymbol}</Badge>
-      ) : null}
+      <FormatBadges payment={paymentDetails} />
     </div>
   );
 }
@@ -97,7 +116,9 @@ export function QRPreviewCard() {
     try {
       const response = await fetch(current.qrDataUrl);
       const blob = await response.blob();
-      const file = new File([blob], "qr-payment.png", { type: "image/png" });
+      const file = new File([blob], "qr-payment.png", {
+        type: "image/png",
+      });
       await navigator.share({
         files: [file],
         title: "QR platba",
