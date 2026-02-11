@@ -10,14 +10,26 @@ export class InvalidIBANError extends Error {
   }
 }
 
+export interface QRBranding {
+  fgColor: string;
+  bgColor: string;
+  centerText: string;
+  logo: string | null;
+}
+
 const QR_SIZE = 400;
-const CENTER_TEXT = "Naskenujte\nbankovou\naplikáciou";
+const MAX_LOGO_RATIO = 0.15;
 const FONT_STACK =
   'ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace';
 
-/** Draws centered text overlay on QR code canvas */
-function drawCenterText(ctx: CanvasRenderingContext2D, size: number): void {
-  const lines = CENTER_TEXT.split("\n");
+function drawCenterText(
+  ctx: CanvasRenderingContext2D,
+  size: number,
+  bgColor: string,
+  fgColor: string,
+  text: string
+): void {
+  const lines = text.split("\n");
   const fontSize = Math.round(size * 0.038);
   const lineHeight = fontSize * 1.15;
   const padding = fontSize * 0.4;
@@ -36,8 +48,7 @@ function drawCenterText(ctx: CanvasRenderingContext2D, size: number): void {
   const centerX = size / 2;
   const centerY = size / 2;
 
-  // White background with rounded corners
-  ctx.fillStyle = "#ffffff";
+  ctx.fillStyle = bgColor;
   ctx.beginPath();
   ctx.roundRect(
     centerX - boxWidth / 2,
@@ -48,21 +59,62 @@ function drawCenterText(ctx: CanvasRenderingContext2D, size: number): void {
   );
   ctx.fill();
 
-  // Text lines
-  ctx.fillStyle = "#000000";
+  ctx.fillStyle = fgColor;
   const startY = centerY - (totalTextHeight - lineHeight) / 2;
-  lines.forEach((line, i) => {
+  for (const [i, line] of lines.entries()) {
     ctx.fillText(line, centerX, startY + i * lineHeight);
+  }
+}
+
+function loadImage(src: string): Promise<HTMLImageElement> {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => resolve(img);
+    img.onerror = () => reject(new Error("Failed to load logo"));
+    img.src = src;
   });
 }
 
+async function drawLogo(
+  ctx: CanvasRenderingContext2D,
+  size: number,
+  logoData: string,
+  bgColor: string
+): Promise<void> {
+  const maxArea = size * size * MAX_LOGO_RATIO;
+  const logoSize = Math.floor(Math.sqrt(maxArea));
+
+  const isSvg = logoData.startsWith("<");
+  const src = isSvg
+    ? `data:image/svg+xml;utf8,${encodeURIComponent(logoData)}`
+    : logoData;
+
+  const img = await loadImage(src);
+
+  const x = (size - logoSize) / 2;
+  const y = (size - logoSize) / 2;
+  const pad = 4;
+
+  ctx.fillStyle = bgColor;
+  ctx.beginPath();
+  ctx.roundRect(x - pad, y - pad, logoSize + pad * 2, logoSize + pad * 2, 6);
+  ctx.fill();
+
+  ctx.drawImage(img, x, y, logoSize, logoSize);
+}
+
 export async function generatePaymentQR(
-  data: PaymentFormData
+  data: PaymentFormData,
+  branding?: QRBranding
 ): Promise<string> {
   const cleanIban = electronicFormatIBAN(data.iban);
   if (!(cleanIban && isValidIBAN(cleanIban))) {
     throw new InvalidIBANError(data.iban);
   }
+
+  const fgColor = branding?.fgColor ?? "#000000";
+  const bgColor = branding?.bgColor ?? "#ffffff";
+  const centerText = branding?.centerText ?? "Naskenujte\nbankovou\naplikáciou";
 
   const payment: Parameters<typeof encode>[0]["payments"][0] = {
     type: PaymentOptions.PaymentOrder,
@@ -75,17 +127,21 @@ export async function generatePaymentQR(
     ...(data.paymentNote && { paymentNote: data.paymentNote }),
   };
 
-  // High error correction allows center overlay (~30% coverage)
   const canvas = document.createElement("canvas");
   await QRCode.toCanvas(canvas, encode({ payments: [payment] }), {
     width: QR_SIZE,
     margin: 2,
     errorCorrectionLevel: "H",
+    color: { dark: fgColor, light: bgColor },
   });
 
   const ctx = canvas.getContext("2d");
   if (ctx) {
-    drawCenterText(ctx, QR_SIZE);
+    if (branding?.logo) {
+      await drawLogo(ctx, QR_SIZE, branding.logo, bgColor);
+    } else {
+      drawCenterText(ctx, QR_SIZE, bgColor, fgColor, centerText);
+    }
   }
 
   return canvas.toDataURL("image/png");

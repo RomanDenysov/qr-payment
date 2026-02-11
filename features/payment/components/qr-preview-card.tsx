@@ -13,9 +13,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { BrandingDialog } from "@/features/branding/components/branding-dialog";
+import { useBrandingConfig } from "@/features/branding/store";
 import { maskIban } from "@/lib/utils";
+import { generatePaymentQR } from "../qr-generator";
 import type { PaymentRecord } from "../schema";
-import { useCurrentPayment } from "../store";
+import { useCurrentPayment, usePaymentActions } from "../store";
 
 function PaymentDetails({ paymentDetails }: { paymentDetails: PaymentRecord }) {
   return (
@@ -37,6 +40,20 @@ function PaymentDetails({ paymentDetails }: { paymentDetails: PaymentRecord }) {
 
 export function QRPreviewCard() {
   const current = useCurrentPayment();
+  const { setCurrent } = usePaymentActions();
+  const branding = useBrandingConfig();
+
+  const handleApplyBranding = async () => {
+    if (!current) {
+      return;
+    }
+    try {
+      const qrDataUrl = await generatePaymentQR(current, branding);
+      setCurrent({ ...current, qrDataUrl });
+    } catch {
+      toast.error("Nepodarilo sa pregenerovať QR kód");
+    }
+  };
 
   const handleDownload = () => {
     if (!current?.qrDataUrl) {
@@ -97,7 +114,12 @@ export function QRPreviewCard() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>QR kód</CardTitle>
+        <div className="flex items-center justify-between">
+          <CardTitle>QR kód</CardTitle>
+          {current?.qrDataUrl ? (
+            <BrandingDialog onApply={handleApplyBranding} />
+          ) : null}
+        </div>
       </CardHeader>
       <CardContent className="flex h-full grow flex-col items-center justify-center">
         {current?.qrDataUrl ? (

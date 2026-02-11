@@ -1,6 +1,7 @@
 import { track } from "@vercel/analytics";
 import { useCallback, useTransition } from "react";
 import { toast } from "sonner";
+import { useBrandingConfig } from "../branding/store";
 import { generatePaymentQR, InvalidIBANError } from "./qr-generator";
 import type { PaymentFormData, PaymentRecord } from "./schema";
 import { usePaymentActions } from "./store";
@@ -8,12 +9,13 @@ import { usePaymentActions } from "./store";
 export function usePaymentGenerator() {
   const [isPending, startTransition] = useTransition();
   const { setCurrent } = usePaymentActions();
+  const branding = useBrandingConfig();
 
   const generate = useCallback(
     (formData: PaymentFormData) => {
       startTransition(async () => {
         try {
-          const qrDataUrl = await generatePaymentQR(formData);
+          const qrDataUrl = await generatePaymentQR(formData, branding);
 
           const record: PaymentRecord = {
             ...formData,
@@ -34,7 +36,7 @@ export function usePaymentGenerator() {
         }
       });
     },
-    [setCurrent]
+    [setCurrent, branding]
   );
 
   return { generate, isPending };

@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     template: "%s | QR Platby",
   },
   description:
-    "Bezplatný online generátor QR kódov v BySquare formáte pre Slovensko. Vytvorte QR kód pre platbu bez registrácie. Funguje so všetkými slovenskými bankami.",
+    "Bezplatný online generátor QR kódov v BySquare formáte pre Slovensko. Vytvorte a upravte QR kód pre platbu bez registrácie — vlastné farby, logo a text. Funguje so všetkými slovenskými bankami.",
   keywords: [
     "QR kód",
     "platba",
@@ -25,6 +25,8 @@ export const metadata: Metadata = {
     "Slovensko",
     "generátor",
     "banka",
+    "úprava QR kódu",
+    "vlastné logo",
     "Tatra banka",
     "VÚB",
     "SLSP",
@@ -44,7 +46,7 @@ export const metadata: Metadata = {
     siteName: "QR Platby",
     title: "QR Platby - Generátor QR kódov pre platby",
     description:
-      "Bezplatný online generátor QR kódov v BySquare formáte. Vytvorte QR kód pre platbu bez registrácie. Funguje so všetkými slovenskými bankami.",
+      "Bezplatný online generátor QR kódov v BySquare formáte. Vytvorte a upravte QR kód pre platbu — vlastné farby, logo a text. Funguje so všetkými slovenskými bankami.",
     images: [
       {
         url: "/og-qr-payments.png",
