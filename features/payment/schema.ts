@@ -1,7 +1,7 @@
 import { electronicFormatIBAN, isValidIBAN } from "ibantools";
 import z from "zod";
 
-const BIC_RE = /^[A-Z0-9]{8}([A-Z0-9]{3})?$/i;
+const BIC_RE = /^[A-Z]{4}[A-Z]{2}[A-Z0-9]{2}([A-Z0-9]{3})?$/i;
 
 export const paymentFormSchema = z
   .object({

@@ -31,18 +31,18 @@ export function encodeEpcQr(input: EpcInput): string {
     : "";
 
   const lines = [
-    "BCD", // Service Tag
-    "002", // Version
-    "1", // Character set (UTF-8)
-    "SCT", // Identification
-    input.bic ?? "", // BIC (optional)
-    name, // Beneficiary name
-    iban, // IBAN
-    amount, // Amount
-    "", // Purpose (unused)
-    remittance, // Remittance (unstructured)
-    "", // Originator info (unused)
-    "", // Information (unused)
+    "BCD", // 1. Service Tag
+    "002", // 2. Version
+    "1", // 3. Character set (UTF-8)
+    "SCT", // 4. Identification
+    input.bic ?? "", // 5. BIC (optional)
+    name, // 6. Beneficiary name
+    iban, // 7. IBAN
+    amount, // 8. Amount
+    "", // 9. Purpose code (unused)
+    "", // 10. Structured reference (unused)
+    remittance, // 11. Remittance text (unstructured)
+    "", // 12. Beneficiary to originator info (unused)
   ];
 
   const payload = lines.join("\n");
