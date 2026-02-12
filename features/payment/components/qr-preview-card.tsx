@@ -68,7 +68,9 @@ export function QRPreviewCard() {
     }
     try {
       const qrDataUrl = await generatePaymentQR(current, branding);
+
       setCurrent({ ...current, qrDataUrl });
+      track("qr_branding_applied");
     } catch {
       toast.error("Nepodarilo sa pregenerovať QR kód");
     }

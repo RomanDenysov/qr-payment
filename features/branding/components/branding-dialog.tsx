@@ -6,6 +6,7 @@ import {
   IconPalette,
   IconRefresh,
 } from "@tabler/icons-react";
+import { track } from "@vercel/analytics";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -23,7 +24,7 @@ function DialogOverlay({ className, ...props }: Dialog.Backdrop.Props) {
     <Dialog.Backdrop
       className={cn(
         "data-closed:fade-out-0 data-open:fade-in-0 fixed inset-0 isolate z-50 bg-black/10 duration-100 data-closed:animate-out data-open:animate-in supports-backdrop-filter:backdrop-blur-xs",
-        className
+        className,
       )}
       data-slot="dialog-overlay"
       {...props}
@@ -38,7 +39,7 @@ function DialogContent({ className, ...props }: Dialog.Popup.Props) {
       <Dialog.Popup
         className={cn(
           "data-closed:fade-out-0 data-open:fade-in-0 data-closed:zoom-out-95 data-open:zoom-in-95 fixed top-1/2 left-1/2 z-50 grid w-full max-w-md -translate-x-1/2 -translate-y-1/2 gap-4 rounded-none bg-background p-4 outline-none ring-1 ring-foreground/10 duration-100 data-closed:animate-out data-open:animate-in",
-          className
+          className,
         )}
         data-slot="dialog-content"
         {...props}
@@ -54,10 +55,6 @@ interface BrandingDialogProps {
 export function BrandingDialog({ onApply }: BrandingDialogProps) {
   const config = useBrandingConfig();
   const actions = useBrandingActions();
-
-  const handleDone = () => {
-    onApply();
-  };
 
   return (
     <Dialog.Root>
@@ -94,7 +91,10 @@ export function BrandingDialog({ onApply }: BrandingDialogProps) {
           />
           <div className="flex flex-col gap-1.5">
             <LogoUploader
-              onChange={(logo) => actions.update({ logo })}
+              onChange={(logo) => {
+                actions.update({ logo });
+                track("logo_uploaded");
+              }}
               value={config.logo}
             />
             <p className="text-muted-foreground text-xs">
@@ -104,7 +104,10 @@ export function BrandingDialog({ onApply }: BrandingDialogProps) {
           <div className="flex gap-2 pt-2">
             <Button
               className="flex-1"
-              onClick={() => actions.reset()}
+              onClick={() => {
+                actions.reset();
+                track("branding_reset");
+              }}
               size="sm"
               type="button"
               variant="outline"
@@ -114,7 +117,7 @@ export function BrandingDialog({ onApply }: BrandingDialogProps) {
             </Button>
             <Dialog.Close
               className="flex-1"
-              onClick={handleDone}
+              onClick={onApply}
               render={<Button size="sm" type="button" />}
             >
               Hotovo
