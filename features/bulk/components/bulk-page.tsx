@@ -2,6 +2,7 @@
 
 import { IconTrash } from "@tabler/icons-react";
 import { track } from "@vercel/analytics";
+import { useTranslations } from "next-intl";
 import { useCallback, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -35,6 +36,7 @@ export function BulkPage() {
   const progress = useBulkProgress();
   const results = useBulkResults();
   const error = useBulkError();
+  const t = useTranslations("Bulk");
   const {
     setResults,
     setError,
@@ -62,7 +64,7 @@ export function BulkPage() {
       setResults(qrs);
       track("bulk_qr_generated", { count: qrs.length, format: detectedFormat });
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Chyba pri generovaní");
+      setError(err instanceof Error ? err.message : "Chyba pri generovani");
     } finally {
       finishGenerating();
     }
@@ -83,15 +85,12 @@ export function BulkPage() {
       : 0;
 
   return (
-    <main className="flex-1 pt-5 sm:pt-8 md:pt-16">
+    <div className="flex-1 pt-5 sm:pt-8 md:pt-16">
       <div className="mx-auto max-w-2xl space-y-6">
         <Card>
           <CardHeader>
-            <CardTitle>Hromadné generovanie QR kódov</CardTitle>
-            <CardDescription>
-              Nahrajte CSV súbor s platobnými údajmi a vygenerujte QR kódy
-              naraz.
-            </CardDescription>
+            <CardTitle>{t("title")}</CardTitle>
+            <CardDescription>{t("description")}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             {!rows && <BulkUploadSection />}
@@ -106,14 +105,14 @@ export function BulkPage() {
               <>
                 <div className="flex items-center justify-between">
                   <span className="text-muted-foreground text-xs">
-                    Formát:{" "}
+                    {t("format")}{" "}
                     <span className="font-medium text-foreground">
                       {FORMAT_LABELS[detectedFormat]}
                     </span>
                   </span>
                   <Button onClick={reset} size="sm" variant="ghost">
                     <IconTrash className="size-3.5" />
-                    Vymazať
+                    {t("clear")}
                   </Button>
                 </div>
 
@@ -122,7 +121,7 @@ export function BulkPage() {
                 {generating && (
                   <div className="space-y-1.5">
                     <div className="flex items-center justify-between text-muted-foreground text-xs">
-                      <span>Generujem QR kódy...</span>
+                      <span>{t("generating")}</span>
                       <span>
                         {progress.current}/{progress.total} ({progressPercent}%)
                       </span>
@@ -141,8 +140,7 @@ export function BulkPage() {
                     disabled={validRows.length === 0}
                     onClick={handleGenerate}
                   >
-                    Generovať {validRows.length} QR{" "}
-                    {validRows.length === 1 ? "kód" : "kódov"}
+                    {t("generate", { count: validRows.length })}
                   </Button>
                 )}
 
@@ -152,6 +150,6 @@ export function BulkPage() {
           </CardContent>
         </Card>
       </div>
-    </main>
+    </div>
   );
 }

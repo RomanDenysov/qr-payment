@@ -1,7 +1,15 @@
 "use client";
 
-import { IconCheck, IconHistory, IconTrash, IconX } from "@tabler/icons-react";
+import {
+  IconBookmark,
+  IconBookmarkOff,
+  IconCheck,
+  IconHistory,
+  IconTrash,
+  IconX,
+} from "@tabler/icons-react";
 import { track } from "@vercel/analytics";
+import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
 import {
   AlertDialog,
@@ -16,6 +24,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Sheet,
   SheetContent,
@@ -36,13 +45,26 @@ import { cn, maskIban } from "@/lib/utils";
 
 export function HistorySheet({ onOpen }: { onOpen?: () => void } = {}) {
   const [open, setOpen] = useState(false);
+  const [namingId, setNamingId] = useState<string | null>(null);
+  const [nameInput, setNameInput] = useState("");
   const history = usePaymentHistory();
-  const { clearHistory, loadFromStorage, removeFromStorage } =
-    usePaymentActions();
+  const {
+    clearHistory,
+    loadFromStorage,
+    removeFromStorage,
+    nameEntry,
+    unnameEntry,
+  } = usePaymentActions();
+  const t = useTranslations("History");
+  const locale = useLocale();
+
+  const named = history.filter((p) => p.name);
+  const unnamed = history.filter((p) => !p.name);
+  const sorted = [...named, ...unnamed];
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return new Intl.DateTimeFormat("sk-SK", {
+    return new Intl.DateTimeFormat(locale, {
       timeZone: "Europe/Bratislava",
       dateStyle: "short",
       timeStyle: "short",
@@ -51,12 +73,32 @@ export function HistorySheet({ onOpen }: { onOpen?: () => void } = {}) {
       .replace(/\.\s+/g, ".");
   };
 
+  const startNaming = (id: string, currentName?: string) => {
+    setNamingId(id);
+    setNameInput(currentName ?? "");
+  };
+
+  const confirmName = () => {
+    if (!namingId) {
+      return;
+    }
+    const trimmed = nameInput.trim();
+    if (trimmed) {
+      nameEntry(namingId, trimmed);
+      track("history_entry_named");
+    }
+    setNamingId(null);
+    setNameInput("");
+  };
+
   return (
     <Sheet
       onOpenChange={(next) => {
         setOpen(next);
         if (next) {
           onOpen?.();
+        } else {
+          setNamingId(null);
         }
       }}
       open={open}
@@ -65,12 +107,12 @@ export function HistorySheet({ onOpen }: { onOpen?: () => void } = {}) {
         className={cn(buttonVariants({ variant: "ghost", size: "sm" }))}
       >
         <IconHistory />
-        História
+        {t("title")}
       </SheetTrigger>
       <SheetContent className="w-full data-[side=right]:w-full data-[side=right]:sm:max-w-lg">
         <SheetHeader>
           <div className="flex items-center gap-2">
-            <SheetTitle>História</SheetTitle>
+            <SheetTitle>{t("title")}</SheetTitle>
             <Badge variant="secondary">{history.length}</Badge>
           </div>
         </SheetHeader>
@@ -82,22 +124,23 @@ export function HistorySheet({ onOpen }: { onOpen?: () => void } = {}) {
                 render={
                   <Button className="w-full" size="sm" variant="destructive">
                     <IconTrash />
-                    Vymazať históriu
+                    {t("clearHistory")}
                   </Button>
                 }
               />
               <AlertDialogContent>
                 <AlertDialogHeader>
-                  <AlertDialogTitle>Vymazať históriu?</AlertDialogTitle>
+                  <AlertDialogTitle>
+                    {t("clearHistoryConfirm")}
+                  </AlertDialogTitle>
                   <AlertDialogDescription>
-                    Táto akcia sa nedá vrátiť späť. Všetky uložené platby budú
-                    odstránené.
+                    {t("clearHistoryDescription")}
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                  <AlertDialogCancel>Zrušiť</AlertDialogCancel>
+                  <AlertDialogCancel>{t("cancel")}</AlertDialogCancel>
                   <AlertDialogAction onClick={() => clearHistory()}>
-                    Vymazať
+                    {t("delete")}
                   </AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
@@ -106,27 +149,36 @@ export function HistorySheet({ onOpen }: { onOpen?: () => void } = {}) {
 
           {history.length === 0 ? (
             <p className="text-center text-muted-foreground text-xs">
-              Žiadna história
+              {t("empty")}
             </p>
           ) : (
             <div className="w-full flex-1 overflow-auto">
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="align-middle">Dátum</TableHead>
-                    <TableHead className="align-middle">IBAN</TableHead>
-                    <TableHead className="align-middle">Suma</TableHead>
+                    <TableHead className="align-middle">{t("date")}</TableHead>
+                    <TableHead className="align-middle">{t("iban")}</TableHead>
+                    <TableHead className="align-middle">
+                      {t("amount")}
+                    </TableHead>
                     <TableHead className="text-right align-middle">
-                      Akcie
+                      {t("actions")}
                     </TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {history.map((entry) => (
-                    <TableRow key={entry.id}>
+                  {sorted.map((entry) => (
+                    <TableRow
+                      className={entry.name ? "bg-accent/50" : undefined}
+                      key={entry.id}
+                    >
                       <TableCell className="align-middle text-xs tracking-tighter">
                         <div className="flex flex-col gap-0.5">
-                          {formatDate(entry.createdAt)}
+                          {entry.name ? (
+                            <span className="font-medium">{entry.name}</span>
+                          ) : (
+                            formatDate(entry.createdAt)
+                          )}
                           {(entry.format ?? "bysquare") === "epc" && (
                             <Badge className="w-fit" variant="outline">
                               EPC
@@ -141,54 +193,104 @@ export function HistorySheet({ onOpen }: { onOpen?: () => void } = {}) {
                         {entry.amount.toFixed(2)} EUR
                       </TableCell>
                       <TableCell className="text-right align-middle">
-                        <div className="flex justify-end gap-1">
-                          <Button
-                            className="size-7 p-0"
-                            onClick={() => {
-                              loadFromStorage(entry.id);
-                              track("history_item_selected");
-                              setOpen(false);
-                            }}
-                            size="sm"
-                            title="Naplniť formulár"
-                            variant="ghost"
-                          >
-                            <IconCheck className="size-3" />
-                          </Button>
-                          <AlertDialog>
-                            <AlertDialogTrigger
-                              render={
-                                <Button
-                                  className="size-7 p-0"
-                                  size="sm"
-                                  title="Vymazať"
-                                  variant="ghost"
-                                >
-                                  <IconX className="size-3" />
-                                </Button>
+                        {namingId === entry.id ? (
+                          <div className="flex items-center gap-1">
+                            <Input
+                              className="h-7 w-24 text-xs"
+                              maxLength={30}
+                              onChange={(e) => setNameInput(e.target.value)}
+                              onKeyDown={(e) =>
+                                e.key === "Enter" && confirmName()
                               }
+                              placeholder={t("namePlaceholder")}
+                              value={nameInput}
                             />
-                            <AlertDialogContent>
-                              <AlertDialogHeader>
-                                <AlertDialogTitle>
-                                  Vymazať záznam?
-                                </AlertDialogTitle>
-                                <AlertDialogDescription>
-                                  Táto akcia sa nedá vrátiť späť. Záznam bude
-                                  odstránený z histórie.
-                                </AlertDialogDescription>
-                              </AlertDialogHeader>
-                              <AlertDialogFooter>
-                                <AlertDialogCancel>Zrušiť</AlertDialogCancel>
-                                <AlertDialogAction
-                                  onClick={() => removeFromStorage(entry.id)}
-                                >
-                                  Vymazať
-                                </AlertDialogAction>
-                              </AlertDialogFooter>
-                            </AlertDialogContent>
-                          </AlertDialog>
-                        </div>
+                            <Button
+                              aria-label={t("save")}
+                              className="size-7 p-0"
+                              disabled={!nameInput.trim()}
+                              onClick={confirmName}
+                              size="sm"
+                              variant="ghost"
+                            >
+                              <IconCheck className="size-3" />
+                            </Button>
+                          </div>
+                        ) : (
+                          <div className="flex justify-end gap-1">
+                            {entry.name ? (
+                              <Button
+                                aria-label={t("unpin")}
+                                className="size-7 p-0"
+                                onClick={() => {
+                                  unnameEntry(entry.id);
+                                  track("history_entry_unnamed");
+                                }}
+                                size="sm"
+                                variant="ghost"
+                              >
+                                <IconBookmarkOff className="size-3" />
+                              </Button>
+                            ) : (
+                              <Button
+                                aria-label={t("pin")}
+                                className="size-7 p-0"
+                                onClick={() => startNaming(entry.id)}
+                                size="sm"
+                                variant="ghost"
+                              >
+                                <IconBookmark className="size-3" />
+                              </Button>
+                            )}
+                            <Button
+                              aria-label={t("fillForm")}
+                              className="size-7 p-0"
+                              onClick={() => {
+                                loadFromStorage(entry.id);
+                                track("history_item_selected");
+                                setOpen(false);
+                              }}
+                              size="sm"
+                              variant="ghost"
+                            >
+                              <IconCheck className="size-3" />
+                            </Button>
+                            <AlertDialog>
+                              <AlertDialogTrigger
+                                render={
+                                  <Button
+                                    aria-label={t("deleteRecord")}
+                                    className="size-7 p-0"
+                                    size="sm"
+                                    variant="ghost"
+                                  >
+                                    <IconX className="size-3" />
+                                  </Button>
+                                }
+                              />
+                              <AlertDialogContent>
+                                <AlertDialogHeader>
+                                  <AlertDialogTitle>
+                                    {t("deleteRecordConfirm")}
+                                  </AlertDialogTitle>
+                                  <AlertDialogDescription>
+                                    {t("deleteRecordDescription")}
+                                  </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                  <AlertDialogCancel>
+                                    {t("cancel")}
+                                  </AlertDialogCancel>
+                                  <AlertDialogAction
+                                    onClick={() => removeFromStorage(entry.id)}
+                                  >
+                                    {t("delete")}
+                                  </AlertDialogAction>
+                                </AlertDialogFooter>
+                              </AlertDialogContent>
+                            </AlertDialog>
+                          </div>
+                        )}
                       </TableCell>
                     </TableRow>
                   ))}

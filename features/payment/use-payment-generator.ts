@@ -1,4 +1,5 @@
 import { track } from "@vercel/analytics";
+import { useTranslations } from "next-intl";
 import { useCallback, useTransition } from "react";
 import { toast } from "sonner";
 import { useBrandingConfig } from "../branding/store";
@@ -11,6 +12,7 @@ export function usePaymentGenerator() {
   const [isPending, startTransition] = useTransition();
   const { setCurrent } = usePaymentActions();
   const branding = useBrandingConfig();
+  const t = useTranslations("QRPreview");
 
   const generate = useCallback(
     (formData: PaymentFormData) => {
@@ -27,19 +29,21 @@ export function usePaymentGenerator() {
 
           setCurrent(record);
           track("qr_generated", { format: formData.format ?? "bysquare" });
-          toast.success("QR kód vygenerovaný");
+          toast.success(t("generated"));
         } catch (error) {
-          if (error instanceof InvalidIBANError) {
-            toast.error(error.message);
-          } else if (error instanceof EpcPayloadTooLargeError) {
+          if (
+            error instanceof InvalidIBANError ||
+            error instanceof EpcPayloadTooLargeError
+          ) {
             toast.error(error.message);
           } else {
-            toast.error("Nepodarilo sa vygenerovať QR kód");
+            const detail = error instanceof Error ? `: ${error.message}` : "";
+            toast.error(`${t("generateFailed")}${detail}`);
           }
         }
       });
     },
-    [setCurrent, branding]
+    [setCurrent, branding, t]
   );
 
   return { generate, isPending };

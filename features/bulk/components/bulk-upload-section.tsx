@@ -2,6 +2,7 @@
 
 import { IconDownload } from "@tabler/icons-react";
 import { track } from "@vercel/analytics";
+import { useTranslations } from "next-intl";
 import { useCallback } from "react";
 import { parseCsv } from "../csv-parser";
 import { useBulkActions } from "../store";
@@ -10,6 +11,7 @@ import { downloadSampleCsv } from "./sample-csv";
 
 export function BulkUploadSection() {
   const { setRows, setDetectedFormat, setError, setResults } = useBulkActions();
+  const t = useTranslations("Bulk");
 
   const handleFile = useCallback(
     async (file: File) => {
@@ -26,12 +28,10 @@ export function BulkUploadSection() {
           });
         }
       } catch (err) {
-        setError(
-          err instanceof Error ? err.message : "Chyba pri čítaní súboru"
-        );
+        setError(err instanceof Error ? err.message : t("fileReadError"));
       }
     },
-    [setRows, setDetectedFormat, setError, setResults]
+    [setRows, setDetectedFormat, setError, setResults, t]
   );
 
   return (
@@ -39,7 +39,7 @@ export function BulkUploadSection() {
       <CsvDropzone onError={setError} onFile={handleFile} />
       <div className="flex items-center gap-2 text-muted-foreground text-xs">
         <IconDownload className="size-3.5" />
-        <span>Stiahnuť vzorový CSV:</span>
+        <span>{t("downloadSample")}</span>
         <button
           className="underline underline-offset-2 hover:text-foreground"
           onClick={() => {

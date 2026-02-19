@@ -1,14 +1,32 @@
-import type { Metadata } from "next";
-import Link from "next/link";
+import { getTranslations, setRequestLocale } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
+import { getAlternates } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Ochrana osobných údajov",
-  description: "Informácie o spracovaní osobných údajov v aplikácii QR Platby.",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Metadata" });
 
-export default function PrivacyPolicyPage() {
+  return {
+    title: t("privacyTitle"),
+    description: t("privacyDescription"),
+    alternates: getAlternates(locale, "/ochrana-udajov"),
+  };
+}
+
+export default async function PrivacyPolicyPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+
   return (
-    <main className="flex-1 pt-5 sm:pt-8 md:pt-16">
+    <div className="flex-1 pt-5 sm:pt-8 md:pt-16">
       <article className="prose-sm mx-auto max-w-2xl space-y-6 text-muted-foreground text-sm leading-relaxed">
         <h1 className="font-bold text-foreground text-xl">
           Ochrana osobných údajov
@@ -119,6 +137,6 @@ export default function PrivacyPolicyPage() {
           </Link>
         </div>
       </article>
-    </main>
+    </div>
   );
 }

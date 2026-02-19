@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { Field, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
@@ -54,6 +55,7 @@ export function ColorPicker({
   onChange,
   contrastWith,
 }: ColorPickerProps) {
+  const t = useTranslations("Branding");
   const contrastRatio = contrastWith
     ? getContrastRatio(value, contrastWith)
     : null;
@@ -76,7 +78,7 @@ export function ColorPicker({
         <span>{label}</span>
         {hasLowContrast && (
           <span className="rounded bg-destructive/10 px-1.5 py-0.5 font-normal text-destructive text-xs">
-            Nízky kontrast
+            {t("lowContrast")}
           </span>
         )}
       </FieldLabel>

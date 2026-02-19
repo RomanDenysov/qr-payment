@@ -1,11 +1,15 @@
-export function JsonLd() {
+import { getLocale, getTranslations } from "next-intl/server";
+
+export async function JsonLd() {
+  const locale = await getLocale();
+  const t = await getTranslations("Metadata");
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
     name: "QR Platby",
     url: "https://qr-platby.com",
-    description:
-      "Bezplatný online generátor QR kódov vo formátoch BySquare a EPC (SEPA) pre platby na Slovensku. Vytvorte a upravte QR kód pre platbu bez registrácie — vlastné farby, logo a text. Funguje so všetkými slovenskými bankami.",
+    description: t("description"),
     applicationCategory: "FinanceApplication",
     operatingSystem: "Any",
     browserRequirements: "Requires JavaScript",
@@ -14,17 +18,7 @@ export function JsonLd() {
       price: "0",
       priceCurrency: "EUR",
     },
-    featureList: [
-      "Generovanie QR kódov vo formáte BySquare",
-      "Generovanie QR kódov vo formáte EPC (SEPA)",
-      "Hromadné generovanie QR kódov z CSV",
-      "Úprava QR kódu — vlastné farby, logo a text",
-      "Podpora všetkých slovenských bánk",
-      "Export do ZIP a PDF",
-      "Lokálne uloženie histórie",
-      "Bez registrácie",
-    ],
-    inLanguage: "sk",
+    inLanguage: locale,
     isAccessibleForFree: true,
     author: {
       "@type": "Person",

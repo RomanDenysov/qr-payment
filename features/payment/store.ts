@@ -1,20 +1,25 @@
 import { electronicFormatIBAN } from "ibantools";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import type { PaymentFormat } from "./format";
 import type { PaymentRecord } from "./schema";
 
 interface PaymentHistoryState {
   current: PaymentRecord | null;
   history: PaymentRecord[];
+  preferredFormat: PaymentFormat;
 }
 
 interface PaymentHistoryActions {
   setCurrent: (payment: PaymentRecord) => void;
+  setPreferredFormat: (format: PaymentFormat) => void;
   saveToStorage: () => void;
   loadFromStorage: (id: string) => void;
   removeFromStorage: (id: string) => void;
   clearHistory: () => void;
   clearCurrent: () => void;
+  nameEntry: (id: string, name: string) => void;
+  unnameEntry: (id: string) => void;
 }
 
 const STORAGE_KEY = "qrPayments.v1";
@@ -59,11 +64,27 @@ function findDuplicatePayment(
   return history.find((p) => getPaymentFingerprint(p) === fingerprint);
 }
 
+/**
+ * Trims history to MAX_HISTORY_SIZE, but never evicts named (pinned) entries.
+ */
+function trimHistory(history: PaymentRecord[]): PaymentRecord[] {
+  if (history.length <= MAX_HISTORY_SIZE) {
+    return history;
+  }
+  const named = history.filter((p) => p.name);
+  const unnamed = history.filter((p) => !p.name);
+  return [...named, ...unnamed].slice(
+    0,
+    Math.max(MAX_HISTORY_SIZE, named.length)
+  );
+}
+
 const paymentStore = create<PaymentHistoryStore>()(
   persist(
     (set, get) => ({
       current: null,
       history: [],
+      preferredFormat: "bysquare",
       actions: {
         setCurrent: (payment: PaymentRecord) => {
           set({ current: payment });
@@ -72,29 +93,26 @@ const paymentStore = create<PaymentHistoryStore>()(
           const duplicate = findDuplicatePayment(history, payment);
 
           if (duplicate) {
-            // Update existing entry: refresh timestamp, move to top
             const updatedPayment = {
               ...duplicate,
               createdAt: payment.createdAt,
               qrDataUrl: payment.qrDataUrl,
-              // Keep original ID for consistency
             };
             const filteredHistory = history.filter(
               (p) => p.id !== duplicate.id
             );
             set({
-              history: [updatedPayment, ...filteredHistory].slice(
-                0,
-                MAX_HISTORY_SIZE
-              ),
+              history: trimHistory([updatedPayment, ...filteredHistory]),
               current: updatedPayment,
             });
           } else {
-            // New unique payment
             set({
-              history: [payment, ...history].slice(0, MAX_HISTORY_SIZE),
+              history: trimHistory([payment, ...history]),
             });
           }
+        },
+        setPreferredFormat: (format: PaymentFormat) => {
+          set({ preferredFormat: format });
         },
         saveToStorage: () => {
           const { current, history } = get();
@@ -104,7 +122,7 @@ const paymentStore = create<PaymentHistoryStore>()(
           const duplicate = findDuplicatePayment(history, current);
           if (!duplicate) {
             set({
-              history: [current, ...history].slice(0, MAX_HISTORY_SIZE),
+              history: trimHistory([current, ...history]),
             });
           }
         },
@@ -112,7 +130,10 @@ const paymentStore = create<PaymentHistoryStore>()(
           const { history } = get();
           const payment = history.find((p) => p.id === id);
           if (payment) {
-            set({ current: payment });
+            set({
+              current: payment,
+              preferredFormat: payment.format ?? "bysquare",
+            });
           }
         },
         removeFromStorage: (id) =>
@@ -122,6 +143,18 @@ const paymentStore = create<PaymentHistoryStore>()(
           })),
         clearHistory: () => set({ history: [] }),
         clearCurrent: () => set({ current: null }),
+        nameEntry: (id, name) =>
+          set((state) => ({
+            history: state.history.map((p) =>
+              p.id === id ? { ...p, name } : p
+            ),
+          })),
+        unnameEntry: (id) =>
+          set((state) => ({
+            history: state.history.map((p) =>
+              p.id === id ? { ...p, name: undefined } : p
+            ),
+          })),
       },
     }),
     {
@@ -129,6 +162,7 @@ const paymentStore = create<PaymentHistoryStore>()(
       partialize: (state) => ({
         history: state.history,
         current: state.current,
+        preferredFormat: state.preferredFormat,
       }),
     }
   )
@@ -136,4 +170,6 @@ const paymentStore = create<PaymentHistoryStore>()(
 
 export const useCurrentPayment = () => paymentStore((state) => state.current);
 export const usePaymentHistory = () => paymentStore((state) => state.history);
+export const usePreferredFormat = () =>
+  paymentStore((state) => state.preferredFormat);
 export const usePaymentActions = () => paymentStore((state) => state.actions);

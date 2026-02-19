@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { Field, FieldDescription, FieldLabel } from "@/components/ui/field";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
@@ -14,6 +15,7 @@ const MAX_CHARS = 50;
 export function CenterTextEditor({ value, onChange }: CenterTextEditorProps) {
   const charCount = value.length;
   const isNearLimit = charCount >= MAX_CHARS - 5;
+  const t = useTranslations("Branding");
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const next = e.target.value;
@@ -25,7 +27,7 @@ export function CenterTextEditor({ value, onChange }: CenterTextEditorProps) {
   return (
     <Field>
       <FieldLabel className="flex items-center justify-between">
-        <span>Text v strede</span>
+        <span>{t("centerText")}</span>
         <span
           className={cn(
             "font-normal text-muted-foreground text-xs",
@@ -38,11 +40,11 @@ export function CenterTextEditor({ value, onChange }: CenterTextEditorProps) {
       <Textarea
         maxLength={MAX_CHARS}
         onChange={handleChange}
-        placeholder="Naskenujte&#10;bankovou&#10;aplikáciou"
+        placeholder={t("centerTextPlaceholder")}
         rows={3}
         value={value}
       />
-      <FieldDescription>Každý riadok sa zobrazí samostatne</FieldDescription>
+      <FieldDescription>{t("centerTextDescription")}</FieldDescription>
     </Field>
   );
 }
