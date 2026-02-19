@@ -1,30 +1,33 @@
 import type { MetadataRoute } from "next";
+import { routing } from "@/i18n/routing";
+
+const BASE = "https://qr-platby.com";
+
+const pages = [
+  { path: "", changeFrequency: "monthly" as const, priority: 1 },
+  { path: "/bulk", changeFrequency: "monthly" as const, priority: 0.8 },
+  {
+    path: "/ochrana-udajov",
+    changeFrequency: "yearly" as const,
+    priority: 0.3,
+  },
+  { path: "/podmienky", changeFrequency: "yearly" as const, priority: 0.3 },
+];
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return [
-    {
-      url: "https://qr-platby.com",
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 1,
-    },
-    {
-      url: "https://qr-platby.com/bulk",
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: "https://qr-platby.com/ochrana-udajov",
-      lastModified: new Date(),
-      changeFrequency: "yearly",
-      priority: 0.3,
-    },
-    {
-      url: "https://qr-platby.com/podmienky",
-      lastModified: new Date(),
-      changeFrequency: "yearly",
-      priority: 0.3,
-    },
-  ];
+  const now = new Date();
+
+  return pages.flatMap((page) =>
+    routing.locales.map((locale) => ({
+      url: `${BASE}/${locale}${page.path}`,
+      lastModified: now,
+      changeFrequency: page.changeFrequency,
+      priority: page.priority,
+      alternates: {
+        languages: Object.fromEntries(
+          routing.locales.map((l) => [l, `${BASE}/${l}${page.path}`])
+        ),
+      },
+    }))
+  );
 }

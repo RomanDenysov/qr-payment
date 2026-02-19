@@ -1,12 +1,14 @@
 "use client";
 
 import { IconMoon, IconSun } from "@tabler/icons-react";
+import { useTranslations } from "next-intl";
 import { useTheme } from "next-themes";
 import { useCallback } from "react";
 import { Button } from "./ui/button";
 
 export function ThemeToggle() {
   const { setTheme, theme } = useTheme();
+  const t = useTranslations("Nav");
 
   const handleThemeToggle = useCallback(() => {
     setTheme(theme === "dark" ? "light" : "dark");
@@ -14,10 +16,10 @@ export function ThemeToggle() {
 
   return (
     <Button
+      aria-label={t("toggleTheme")}
       id="theme-toggle"
       onClick={handleThemeToggle}
       size="icon-sm"
-      title="Switch theme"
       variant="ghost"
     >
       <IconMoon className="fade-in size-4 animate-in opacity-100 transition-[opacity,transform] duration-300 dark:pointer-events-none dark:hidden dark:opacity-0" />

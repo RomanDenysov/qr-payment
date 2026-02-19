@@ -1,6 +1,7 @@
 "use client";
 
 import { IconPhoto, IconX } from "@tabler/icons-react";
+import { useTranslations } from "next-intl";
 import { useRef } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -15,13 +16,12 @@ interface LogoUploaderProps {
 
 export function LogoUploader({ value, onChange }: LogoUploaderProps) {
   const inputRef = useRef<HTMLInputElement>(null);
+  const t = useTranslations("Branding");
 
   const handleFile = async (file: File) => {
     const result = await compressLogo(file);
     if (!result) {
-      toast.error(
-        "Obrázok po kompresii na 64×64px prekročil 10 KB. Skúste jednoduchší alebo menší obrázok."
-      );
+      toast.error(t("logoTooLarge"));
       return;
     }
     onChange(result.data);
@@ -78,7 +78,7 @@ export function LogoUploader({ value, onChange }: LogoUploaderProps) {
         variant="outline"
       >
         <IconPhoto />
-        Pridať logo
+        {t("addLogo")}
       </Button>
     </>
   );

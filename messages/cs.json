@@ -1,0 +1,162 @@
+{
+  "Metadata": {
+    "title": "QR Platby - Generátor QR kódů pro platby",
+    "titleTemplate": "{title} | QR Platby",
+    "description": "Bezplatný online generátor QR kódů ve formátech BySquare a EPC (SEPA). Vytvořte a upravte QR kód pro platbu bez registrace — vlastní barvy, logo a text.",
+    "ogDescription": "Bezplatný online generátor QR kódů ve formátu BySquare. Vytvořte a upravte QR kód pro platbu — vlastní barvy, logo a text.",
+    "twitterDescription": "Bezplatný online generátor QR kódů ve formátu BySquare.",
+    "bulkTitle": "Hromadné generování",
+    "bulkDescription": "Hromadné generování QR kódů pro platby z CSV souboru. Stáhněte jako ZIP nebo PDF."
+  },
+  "Nav": {
+    "home": "Domů",
+    "bulk": "Hromadné generování",
+    "closeMenu": "Zavřít menu",
+    "openMenu": "Otevřít menu",
+    "toggleTheme": "Přepnout motiv",
+    "skipToContent": "Přeskočit na obsah"
+  },
+  "Footer": {
+    "privacy": "Vaše údaje nepotřebujeme. Všechny jsou uloženy ve vašem prohlížeči a neopustí ho.",
+    "copyright": "© 2025 Vyrobeno s 🖤",
+    "privacyPolicy": "Ochrana údajů",
+    "terms": "Podmínky"
+  },
+  "Consent": {
+    "message": "Tato stránka používá localStorage k uložení vašeho nastavení. Žádné cookies ani osobní údaje neshromažďujeme.",
+    "moreInfo": "Více info",
+    "accept": "Rozumím"
+  },
+  "PaymentForm": {
+    "title": "Platební údaje",
+    "iban": "IBAN",
+    "ibanRequired": "IBAN *",
+    "amount": "Částka (EUR) *",
+    "amountPlaceholder": "0,00",
+    "recipientName": "Jméno příjemce",
+    "recipientNameRequired": "Jméno příjemce *",
+    "recipientNamePlaceholder": "Jméno příjemce",
+    "note": "Poznámka",
+    "notePlaceholder": "Poznámka k platbě",
+    "paymentReference": "Reference platby",
+    "paymentReferencePlaceholder": "Reference platby",
+    "bic": "BIC / SWIFT",
+    "bicPlaceholder": "GIBACZPX",
+    "vs": "VS",
+    "ss": "SS",
+    "ks": "KS",
+    "clear": "Vymazat",
+    "generate": "Vygenerovat QR"
+  },
+  "Validation": {
+    "ibanRequired": "IBAN je povinný",
+    "ibanInvalid": "Neplatný formát IBAN",
+    "amountRequired": "Částka je povinná",
+    "amountMin": "Částka musí být větší než 0",
+    "max10chars": "Max 10 znaků",
+    "max4chars": "Max 4 znaky",
+    "max70chars": "Max 70 znaků",
+    "max140chars": "Max 140 znaků",
+    "max11chars": "Max 11 znaků",
+    "recipientRequired": "Jméno příjemce je povinné pro EPC QR",
+    "bicInvalid": "BIC musí mít 8 nebo 11 znaků",
+    "epcMaxAmount": "Max částka pro EPC QR je 999 999 999,99 €"
+  },
+  "QRPreview": {
+    "title": "QR kód",
+    "placeholder": "Zadejte údaje a klikněte Vygenerovat",
+    "download": "Stáhnout",
+    "share": "Sdílet",
+    "copy": "Kopírovat",
+    "downloaded": "QR kód stažen",
+    "copied": "QR kód zkopírován",
+    "copyFailed": "Nepodařilo se zkopírovat QR kód",
+    "shared": "QR kód sdílen",
+    "generated": "QR kód vygenerován",
+    "generateFailed": "Nepodařilo se vygenerovat QR kód",
+    "regenerateFailed": "Nepodařilo se přegenerovat QR kód. Zkuste změnit nastavení.",
+    "shareTitle": "QR platba"
+  },
+  "History": {
+    "title": "Historie",
+    "clearHistory": "Vymazat historii",
+    "clearHistoryConfirm": "Vymazat historii?",
+    "clearHistoryDescription": "Tuto akci nelze vrátit zpět. Všechny uložené platby budou odstraněny.",
+    "cancel": "Zrušit",
+    "delete": "Vymazat",
+    "empty": "Žádná historie",
+    "date": "Datum",
+    "iban": "IBAN",
+    "amount": "Částka",
+    "actions": "Akce",
+    "fillForm": "Vyplnit formulář",
+    "deleteRecord": "Vymazat záznam",
+    "deleteRecordConfirm": "Vymazat záznam?",
+    "deleteRecordDescription": "Tuto akci nelze vrátit zpět. Záznam bude odstraněn z historie.",
+    "pin": "Pojmenovat",
+    "unpin": "Zrušit název",
+    "namePlaceholder": "Název...",
+    "save": "Uložit"
+  },
+  "Branding": {
+    "edit": "Upravit",
+    "dialogTitle": "Upravit QR kód",
+    "warning": "Úpravy mohou ovlivnit čitelnost QR kódu. Před použitím otestujte.",
+    "fgColor": "Barva QR kódu",
+    "bgColor": "Barva pozadí",
+    "lowContrast": "Nízký kontrast",
+    "centerText": "Text uprostřed",
+    "centerTextPlaceholder": "Naskenujte\nbankovní\naplikací",
+    "centerTextDescription": "Každý řádek se zobrazí samostatně",
+    "logoHelp": "Logo nahradí text uprostřed QR kódu",
+    "addLogo": "Přidat logo",
+    "logoTooLarge": "Obrázek po kompresi na 64×64px překročil 10 KB. Zkuste jednodušší nebo menší obrázek.",
+    "reset": "Resetovat",
+    "done": "Hotovo"
+  },
+  "Templates": {
+    "title": "Šablony",
+    "deleteTemplate": "Vymazat šablonu",
+    "namePlaceholder": "Název šablony...",
+    "save": "Uložit"
+  },
+  "Bulk": {
+    "title": "Hromadné generování QR kódů",
+    "description": "Nahrajte CSV soubor s platebními údaji a vygenerujte QR kódy najednou.",
+    "format": "Formát:",
+    "clear": "Vymazat",
+    "generating": "Generuji QR kódy...",
+    "generate": "Generovat {count} QR {count, plural, one {kód} other {kódů}}",
+    "generated": "Vygenerováno {count} QR kódů",
+    "downloadZip": "Stáhnout ZIP",
+    "downloadPdf": "Stáhnout PDF",
+    "print": "Tisknout",
+    "zipError": "Chyba při exportu ZIP",
+    "pdfError": "Chyba při exportu PDF",
+    "csvOnly": "Podporovaný je pouze formát CSV",
+    "fileTooLarge": "Maximální velikost souboru je 1 MB",
+    "uploadTitle": "Nahrajte CSV soubor",
+    "uploadDescription": "Přetáhněte soubor sem nebo klikněte pro výběr",
+    "downloadSample": "Stáhnout vzorový CSV:",
+    "fileReadError": "Chyba při čtení souboru",
+    "total": "Celkem:",
+    "valid": "Platné:",
+    "invalid": "Neplatné:",
+    "noteColumn": "Poznámka",
+    "errorColumn": "Chyba"
+  },
+  "Error": {
+    "title": "Něco se pokazilo",
+    "defaultMessage": "Nastala neočekávaná chyba. Zkuste to znovu.",
+    "retry": "Zkusit znovu"
+  },
+  "NotFound": {
+    "title": "Stránka nenalezena",
+    "description": "Tato stránka neexistuje nebo byla přesunuta.",
+    "back": "Zpět na hlavní stránku"
+  },
+  "Offline": {
+    "title": "Jste offline",
+    "description": "Tato stránka není dostupná offline. Zkontrolujte připojení k internetu a zkuste to znovu."
+  }
+}

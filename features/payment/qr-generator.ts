@@ -164,12 +164,14 @@ export async function generatePaymentQR(
   });
 
   const ctx = canvas.getContext("2d");
-  if (ctx) {
-    if (branding?.logo) {
-      await drawLogo(ctx, QR_SIZE, branding.logo, bgColor);
-    } else {
-      drawCenterText(ctx, QR_SIZE, bgColor, fgColor, centerText);
-    }
+  if (!ctx) {
+    throw new Error("Nepodarilo sa vytvoriť canvas kontext");
+  }
+
+  if (branding?.logo) {
+    await drawLogo(ctx, QR_SIZE, branding.logo, bgColor);
+  } else {
+    drawCenterText(ctx, QR_SIZE, bgColor, fgColor, centerText);
   }
 
   return canvas.toDataURL("image/png");

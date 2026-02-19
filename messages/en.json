@@ -1,0 +1,162 @@
+{
+  "Metadata": {
+    "title": "QR Payments - QR Code Generator for Payments",
+    "titleTemplate": "{title} | QR Payments",
+    "description": "Free online QR code generator in BySquare and EPC (SEPA) formats. Create and customize your payment QR code without registration — custom colors, logo, and text.",
+    "ogDescription": "Free online QR code generator in BySquare format. Create and customize your payment QR code — custom colors, logo, and text.",
+    "twitterDescription": "Free online QR code generator in BySquare format for payments.",
+    "bulkTitle": "Bulk Generation",
+    "bulkDescription": "Bulk QR code generation for payments from a CSV file. Download as ZIP or PDF."
+  },
+  "Nav": {
+    "home": "Home",
+    "bulk": "Bulk Generation",
+    "closeMenu": "Close menu",
+    "openMenu": "Open menu",
+    "toggleTheme": "Toggle theme",
+    "skipToContent": "Skip to content"
+  },
+  "Footer": {
+    "privacy": "We don't need your data. Everything is stored in your browser and never leaves it.",
+    "copyright": "© 2025 Made with 🖤",
+    "privacyPolicy": "Privacy Policy",
+    "terms": "Terms"
+  },
+  "Consent": {
+    "message": "This site uses localStorage to save your settings. We don't collect cookies or personal data.",
+    "moreInfo": "More info",
+    "accept": "Got it"
+  },
+  "PaymentForm": {
+    "title": "Payment Details",
+    "iban": "IBAN",
+    "ibanRequired": "IBAN *",
+    "amount": "Amount (EUR) *",
+    "amountPlaceholder": "0.00",
+    "recipientName": "Recipient Name",
+    "recipientNameRequired": "Recipient Name *",
+    "recipientNamePlaceholder": "Recipient Name",
+    "note": "Note",
+    "notePlaceholder": "Payment note",
+    "paymentReference": "Payment Reference",
+    "paymentReferencePlaceholder": "Payment reference",
+    "bic": "BIC / SWIFT",
+    "bicPlaceholder": "GIBASKBX",
+    "vs": "VS",
+    "ss": "SS",
+    "ks": "KS",
+    "clear": "Clear",
+    "generate": "Generate QR"
+  },
+  "Validation": {
+    "ibanRequired": "IBAN is required",
+    "ibanInvalid": "Invalid IBAN format",
+    "amountRequired": "Amount is required",
+    "amountMin": "Amount must be greater than 0",
+    "max10chars": "Max 10 characters",
+    "max4chars": "Max 4 characters",
+    "max70chars": "Max 70 characters",
+    "max140chars": "Max 140 characters",
+    "max11chars": "Max 11 characters",
+    "recipientRequired": "Recipient name is required for EPC QR",
+    "bicInvalid": "BIC must be 8 or 11 characters",
+    "epcMaxAmount": "Max amount for EPC QR is 999,999,999.99 €"
+  },
+  "QRPreview": {
+    "title": "QR Code",
+    "placeholder": "Enter details and click Generate",
+    "download": "Download",
+    "share": "Share",
+    "copy": "Copy",
+    "downloaded": "QR code downloaded",
+    "copied": "QR code copied",
+    "copyFailed": "Failed to copy QR code",
+    "shared": "QR code shared",
+    "generated": "QR code generated",
+    "generateFailed": "Failed to generate QR code",
+    "regenerateFailed": "Failed to regenerate QR code. Try changing the settings.",
+    "shareTitle": "QR Payment"
+  },
+  "History": {
+    "title": "History",
+    "clearHistory": "Clear History",
+    "clearHistoryConfirm": "Clear history?",
+    "clearHistoryDescription": "This action cannot be undone. All saved payments will be removed.",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "empty": "No history",
+    "date": "Date",
+    "iban": "IBAN",
+    "amount": "Amount",
+    "actions": "Actions",
+    "fillForm": "Fill form",
+    "deleteRecord": "Delete record",
+    "deleteRecordConfirm": "Delete record?",
+    "deleteRecordDescription": "This action cannot be undone. The record will be removed from history.",
+    "pin": "Name entry",
+    "unpin": "Remove name",
+    "namePlaceholder": "Name...",
+    "save": "Save"
+  },
+  "Branding": {
+    "edit": "Customize",
+    "dialogTitle": "Customize QR Code",
+    "warning": "Customizations may affect QR code readability. Test before use.",
+    "fgColor": "QR Code Color",
+    "bgColor": "Background Color",
+    "lowContrast": "Low contrast",
+    "centerText": "Center Text",
+    "centerTextPlaceholder": "Scan with\nyour banking\napp",
+    "centerTextDescription": "Each line is displayed separately",
+    "logoHelp": "Logo replaces the center text of the QR code",
+    "addLogo": "Add logo",
+    "logoTooLarge": "Image after compression to 64×64px exceeded 10 KB. Try a simpler or smaller image.",
+    "reset": "Reset",
+    "done": "Done"
+  },
+  "Templates": {
+    "title": "Templates",
+    "deleteTemplate": "Delete template",
+    "namePlaceholder": "Template name...",
+    "save": "Save"
+  },
+  "Bulk": {
+    "title": "Bulk QR Code Generation",
+    "description": "Upload a CSV file with payment details and generate QR codes at once.",
+    "format": "Format:",
+    "clear": "Clear",
+    "generating": "Generating QR codes...",
+    "generate": "Generate {count} QR {count, plural, one {code} other {codes}}",
+    "generated": "{count} QR codes generated",
+    "downloadZip": "Download ZIP",
+    "downloadPdf": "Download PDF",
+    "print": "Print",
+    "zipError": "Error exporting ZIP",
+    "pdfError": "Error exporting PDF",
+    "csvOnly": "Only CSV format is supported",
+    "fileTooLarge": "Maximum file size is 1 MB",
+    "uploadTitle": "Upload CSV file",
+    "uploadDescription": "Drag a file here or click to browse",
+    "downloadSample": "Download sample CSV:",
+    "fileReadError": "Error reading file",
+    "total": "Total:",
+    "valid": "Valid:",
+    "invalid": "Invalid:",
+    "noteColumn": "Note",
+    "errorColumn": "Error"
+  },
+  "Error": {
+    "title": "Something went wrong",
+    "defaultMessage": "An unexpected error occurred. Please try again.",
+    "retry": "Try again"
+  },
+  "NotFound": {
+    "title": "Page not found",
+    "description": "This page doesn't exist or has been moved.",
+    "back": "Back to home page"
+  },
+  "Offline": {
+    "title": "You're offline",
+    "description": "This page is not available offline. Check your internet connection and try again."
+  }
+}

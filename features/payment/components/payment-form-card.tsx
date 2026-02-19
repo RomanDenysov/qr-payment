@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { IconLoader3, IconQrcode, IconTrash } from "@tabler/icons-react";
 import { track } from "@vercel/analytics";
 import dynamic from "next/dynamic";
+import { useTranslations } from "next-intl";
 import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { CurrencyInput } from "@/components/currency-input";
@@ -42,31 +43,36 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import type { PaymentFormat } from "../format";
 import { FORMAT_LABELS } from "../format";
-import { useFormatStore } from "../format-store";
 import {
   type PaymentFormData,
   type PaymentRecord,
   paymentFormSchema,
 } from "../schema";
-import { useCurrentPayment } from "../store";
+import {
+  useCurrentPayment,
+  usePaymentActions,
+  usePreferredFormat,
+} from "../store";
 import { usePaymentGenerator } from "../use-payment-generator";
 
 function BicField({
   register,
   errors,
+  t,
 }: {
   register: ReturnType<typeof useForm<PaymentFormData>>["register"];
   errors: ReturnType<typeof useForm<PaymentFormData>>["formState"]["errors"];
+  t: ReturnType<typeof useTranslations<"PaymentForm">>;
 }) {
   return (
     <Field>
-      <FieldLabel htmlFor="bic">BIC / SWIFT</FieldLabel>
+      <FieldLabel htmlFor="bic">{t("bic")}</FieldLabel>
       <FieldContent>
         <Input
           {...register("bic")}
           id="bic"
           maxLength={11}
-          placeholder="GIBASKBX"
+          placeholder={t("bicPlaceholder")}
         />
         <FieldError errors={errors.bic ? [errors.bic] : undefined} />
       </FieldContent>
@@ -77,14 +83,16 @@ function BicField({
 function SymbolFields({
   register,
   errors,
+  t,
 }: {
   register: ReturnType<typeof useForm<PaymentFormData>>["register"];
   errors: ReturnType<typeof useForm<PaymentFormData>>["formState"]["errors"];
+  t: ReturnType<typeof useTranslations<"PaymentForm">>;
 }) {
   return (
     <div className="grid grid-cols-3 gap-4">
       <Field>
-        <FieldLabel htmlFor="vs">VS</FieldLabel>
+        <FieldLabel htmlFor="vs">{t("vs")}</FieldLabel>
         <FieldContent>
           <Input
             {...register("variableSymbol")}
@@ -100,7 +108,7 @@ function SymbolFields({
       </Field>
 
       <Field>
-        <FieldLabel htmlFor="ss">SS</FieldLabel>
+        <FieldLabel htmlFor="ss">{t("ss")}</FieldLabel>
         <FieldContent>
           <Input
             {...register("specificSymbol")}
@@ -116,7 +124,7 @@ function SymbolFields({
       </Field>
 
       <Field>
-        <FieldLabel htmlFor="ks">KS</FieldLabel>
+        <FieldLabel htmlFor="ks">{t("ks")}</FieldLabel>
         <FieldContent>
           <Input
             {...register("constantSymbol")}
@@ -154,7 +162,9 @@ const defaultValues: PaymentFormData = {
 export function PaymentFormCard() {
   const { generate, isPending } = usePaymentGenerator();
   const currentPayment = useCurrentPayment();
-  const { format: storedFormat, setFormat: setStoredFormat } = useFormatStore();
+  const storedFormat = usePreferredFormat();
+  const { setPreferredFormat } = usePaymentActions();
+  const t = useTranslations("PaymentForm");
   const {
     register,
     handleSubmit,
@@ -173,7 +183,7 @@ export function PaymentFormCard() {
 
   const handleFormatChange = (newFormat: PaymentFormat) => {
     setValue("format", newFormat);
-    setStoredFormat(newFormat);
+    setPreferredFormat(newFormat);
     track("format_selected", { format: newFormat });
   };
 
@@ -188,9 +198,9 @@ export function PaymentFormCard() {
       setValue("constantSymbol", currentPayment.constantSymbol || "");
       setValue("paymentNote", currentPayment.paymentNote || "");
       setValue("bic", currentPayment.bic || "");
-      setStoredFormat(currentPayment.format ?? "bysquare");
+      setPreferredFormat(currentPayment.format ?? "bysquare");
     }
-  }, [currentPayment, setValue, setStoredFormat]);
+  }, [currentPayment, setValue, setPreferredFormat]);
 
   const handleClear = () => {
     reset({ ...defaultValues, format });
@@ -204,7 +214,7 @@ export function PaymentFormCard() {
     setValue("constantSymbol", payment.constantSymbol || "");
     setValue("paymentNote", payment.paymentNote || "");
     setValue("bic", payment.bic || "");
-    setStoredFormat(payment.format ?? "bysquare");
+    setPreferredFormat(payment.format ?? "bysquare");
     // amount is not filled — usually the amount is different
   };
 
@@ -212,7 +222,7 @@ export function PaymentFormCard() {
     <Card>
       <CardHeader>
         <div className="flex items-center justify-between gap-2">
-          <CardTitle>Platobné údaje</CardTitle>
+          <CardTitle>{t("title")}</CardTitle>
           <SegmentedControl
             onChange={handleFormatChange}
             options={FORMAT_OPTIONS}
@@ -224,7 +234,7 @@ export function PaymentFormCard() {
         <CardContent className="flex-1 grow">
           <FieldGroup>
             <Field>
-              <FieldLabel htmlFor="iban">IBAN *</FieldLabel>
+              <FieldLabel htmlFor="iban">{t("ibanRequired")}</FieldLabel>
 
               <Controller
                 control={control}
@@ -243,7 +253,7 @@ export function PaymentFormCard() {
             </Field>
 
             <Field>
-              <FieldLabel htmlFor="amount">Suma (EUR) *</FieldLabel>
+              <FieldLabel htmlFor="amount">{t("amount")}</FieldLabel>
               <FieldContent>
                 <Controller
                   control={control}
@@ -252,7 +262,7 @@ export function PaymentFormCard() {
                     <CurrencyInput
                       id="amount"
                       onChange={field.onChange}
-                      placeholder="0,00"
+                      placeholder={t("amountPlaceholder")}
                       value={field.value}
                     />
                   )}
@@ -264,21 +274,23 @@ export function PaymentFormCard() {
             </Field>
 
             {format === "epc" ? (
-              <BicField errors={errors} register={register} />
+              <BicField errors={errors} register={register} t={t} />
             ) : (
-              <SymbolFields errors={errors} register={register} />
+              <SymbolFields errors={errors} register={register} t={t} />
             )}
 
             <Field>
               <FieldLabel htmlFor="recipient">
-                Meno príjemcu{format === "epc" ? " *" : ""}
+                {format === "epc"
+                  ? t("recipientNameRequired")
+                  : t("recipientName")}
               </FieldLabel>
               <FieldContent>
                 <Input
                   {...register("recipientName")}
                   id="recipient"
                   maxLength={70}
-                  placeholder="Meno príjemcu"
+                  placeholder={t("recipientNamePlaceholder")}
                 />
                 <FieldError
                   errors={
@@ -290,7 +302,7 @@ export function PaymentFormCard() {
 
             <Field>
               <FieldLabel htmlFor="note">
-                {format === "epc" ? "Referencia platby" : "Poznámka"}
+                {format === "epc" ? t("paymentReference") : t("note")}
               </FieldLabel>
               <FieldContent>
                 <Textarea
@@ -298,7 +310,9 @@ export function PaymentFormCard() {
                   id="note"
                   maxLength={140}
                   placeholder={
-                    format === "epc" ? "Referencia platby" : "Poznámka k platbe"
+                    format === "epc"
+                      ? t("paymentReferencePlaceholder")
+                      : t("notePlaceholder")
                   }
                   rows={3}
                 />
@@ -312,7 +326,7 @@ export function PaymentFormCard() {
         <CardFooter className="mt-auto shrink-0 justify-end gap-2">
           <Button onClick={handleClear} type="button" variant="outline">
             <IconTrash />
-            Vymazať
+            {t("clear")}
           </Button>
           <Button disabled={isPending} type="submit">
             {isPending ? (
@@ -320,7 +334,7 @@ export function PaymentFormCard() {
             ) : (
               <IconQrcode />
             )}
-            Vygenerovať QR
+            {t("generate")}
           </Button>
         </CardFooter>
       </form>

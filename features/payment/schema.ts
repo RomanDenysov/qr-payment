@@ -60,4 +60,5 @@ export type PaymentRecord = PaymentFormData & {
   id: string;
   createdAt: string;
   qrDataUrl?: string;
+  name?: string;
 };

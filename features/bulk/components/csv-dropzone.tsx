@@ -1,6 +1,7 @@
 "use client";
 
 import { IconFileTypeCsv, IconUpload } from "@tabler/icons-react";
+import { useTranslations } from "next-intl";
 import { useCallback, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 
@@ -15,6 +16,7 @@ interface CsvDropzoneProps {
 export function CsvDropzone({ onFile, onError, disabled }: CsvDropzoneProps) {
   const [dragging, setDragging] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const t = useTranslations("Bulk");
 
   const handleFile = useCallback(
     (file: File | undefined) => {
@@ -22,16 +24,16 @@ export function CsvDropzone({ onFile, onError, disabled }: CsvDropzoneProps) {
         return;
       }
       if (!file.name.endsWith(".csv") && file.type !== "text/csv") {
-        onError?.("Podporovaný je len formát CSV");
+        onError?.(t("csvOnly"));
         return;
       }
       if (file.size > MAX_FILE_SIZE) {
-        onError?.("Maximálna veľkosť súboru je 1 MB");
+        onError?.(t("fileTooLarge"));
         return;
       }
       onFile(file);
     },
-    [onFile, onError]
+    [onFile, onError, t]
   );
 
   const handleDrop = useCallback(
@@ -66,9 +68,9 @@ export function CsvDropzone({ onFile, onError, disabled }: CsvDropzoneProps) {
         <IconUpload className="size-5" />
       </div>
       <div className="text-center text-sm">
-        <p className="font-medium">Nahrajte CSV súbor</p>
+        <p className="font-medium">{t("uploadTitle")}</p>
         <p className="text-muted-foreground text-xs">
-          Pretiahnite súbor sem alebo kliknite pre výber
+          {t("uploadDescription")}
         </p>
       </div>
       <input

@@ -1,6 +1,7 @@
 "use client";
 
 import { IconCheck, IconX } from "@tabler/icons-react";
+import { useTranslations } from "next-intl";
 import {
   Table,
   TableBody,
@@ -19,19 +20,23 @@ interface PreviewTableProps {
 export function PreviewTable({ rows }: PreviewTableProps) {
   const validCount = rows.filter((r) => r.valid).length;
   const invalidCount = rows.length - validCount;
+  const t = useTranslations("Bulk");
+  const tHistory = useTranslations("History");
 
   return (
     <div className="space-y-2">
       <div className="flex items-center gap-3 text-xs">
         <span className="text-muted-foreground">
-          Celkom:{" "}
+          {t("total")}{" "}
           <span className="font-medium text-foreground">{rows.length}</span>
         </span>
         <span className="text-green-600 dark:text-green-400">
-          Platné: {validCount}
+          {t("valid")} {validCount}
         </span>
         {invalidCount > 0 && (
-          <span className="text-destructive">Neplatné: {invalidCount}</span>
+          <span className="text-destructive">
+            {t("invalid")} {invalidCount}
+          </span>
         )}
       </div>
 
@@ -42,9 +47,9 @@ export function PreviewTable({ rows }: PreviewTableProps) {
               <TableHead className="w-8">#</TableHead>
               <TableHead className="w-8" />
               <TableHead>IBAN</TableHead>
-              <TableHead>Suma</TableHead>
-              <TableHead>Poznámka</TableHead>
-              <TableHead>Chyba</TableHead>
+              <TableHead>{tHistory("amount")}</TableHead>
+              <TableHead>{t("noteColumn")}</TableHead>
+              <TableHead>{t("errorColumn")}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>

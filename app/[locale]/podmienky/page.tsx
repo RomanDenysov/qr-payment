@@ -1,14 +1,22 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { setRequestLocale } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
 
 export const metadata: Metadata = {
   title: "Podmienky používania",
   description: "Podmienky používania aplikácie QR Platby.",
 };
 
-export default function TermsPage() {
+export default async function TermsPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+
   return (
-    <main className="flex-1 pt-5 sm:pt-8 md:pt-16">
+    <div className="flex-1 pt-5 sm:pt-8 md:pt-16">
       <article className="prose-sm mx-auto max-w-2xl space-y-6 text-muted-foreground text-sm leading-relaxed">
         <h1 className="font-bold text-foreground text-xl">
           Podmienky používania
@@ -97,6 +105,6 @@ export default function TermsPage() {
           </Link>
         </div>
       </article>
-    </main>
+    </div>
   );
 }

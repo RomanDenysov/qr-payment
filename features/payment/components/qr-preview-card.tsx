@@ -3,6 +3,7 @@
 import { IconCopy, IconDownload, IconShare } from "@tabler/icons-react";
 import { track } from "@vercel/analytics";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -16,7 +17,7 @@ import {
 import { BrandingDialog } from "@/features/branding/components/branding-dialog";
 import { useBrandingConfig } from "@/features/branding/store";
 import { maskIban } from "@/lib/utils";
-import { generatePaymentQR } from "../qr-generator";
+import { generatePaymentQR, InvalidIBANError } from "../qr-generator";
 import type { PaymentRecord } from "../schema";
 import { useCurrentPayment, usePaymentActions } from "../store";
 
@@ -61,6 +62,7 @@ export function QRPreviewCard() {
   const current = useCurrentPayment();
   const { setCurrent } = usePaymentActions();
   const branding = useBrandingConfig();
+  const t = useTranslations("QRPreview");
 
   const handleApplyBranding = async () => {
     if (!current) {
@@ -71,8 +73,12 @@ export function QRPreviewCard() {
 
       setCurrent({ ...current, qrDataUrl });
       track("qr_branding_applied");
-    } catch {
-      toast.error("Nepodarilo sa pregenerovať QR kód");
+    } catch (error) {
+      const message =
+        error instanceof InvalidIBANError
+          ? error.message
+          : t("regenerateFailed");
+      toast.error(message);
     }
   };
 
@@ -88,7 +94,7 @@ export function QRPreviewCard() {
     link.click();
     document.body.removeChild(link);
     track("qr_downloaded");
-    toast.success("QR kód stiahnutý");
+    toast.success(t("downloaded"));
   };
 
   const handleCopy = async () => {
@@ -103,9 +109,9 @@ export function QRPreviewCard() {
         new ClipboardItem({ "image/png": blob }),
       ]);
       track("qr_copied");
-      toast.success("QR kód skopírovaný");
+      toast.success(t("copied"));
     } catch {
-      toast.error("Nepodarilo sa skopírovať QR kód");
+      toast.error(t("copyFailed"));
     }
   };
 
@@ -123,10 +129,10 @@ export function QRPreviewCard() {
       });
       await navigator.share({
         files: [file],
-        title: "QR platba",
+        title: t("shareTitle"),
       });
       track("qr_shared");
-      toast.success("QR kód zdieľaný");
+      toast.success(t("shared"));
     } catch (error) {
       if ((error as Error).name !== "AbortError") {
         handleCopy();
@@ -138,7 +144,7 @@ export function QRPreviewCard() {
     <Card>
       <CardHeader>
         <div className="flex items-center justify-between">
-          <CardTitle>QR kód</CardTitle>
+          <CardTitle>{t("title")}</CardTitle>
           {current?.qrDataUrl ? (
             <BrandingDialog onApply={handleApplyBranding} />
           ) : null}
@@ -158,7 +164,7 @@ export function QRPreviewCard() {
           </>
         ) : (
           <p className="m-auto w-full text-center text-muted-foreground text-xs">
-            Zadajte údaje a kliknite Vygenerovať
+            {t("placeholder")}
           </p>
         )}
       </CardContent>
@@ -166,15 +172,15 @@ export function QRPreviewCard() {
         <CardFooter className="mt-auto gap-2">
           <Button className="flex-1" onClick={handleDownload} variant="outline">
             <IconDownload />
-            Stiahnuť
+            {t("download")}
           </Button>
           <Button className="flex-1" onClick={handleShare} variant="outline">
             <IconShare />
-            Zdieľať
+            {t("share")}
           </Button>
           <Button className="flex-1" onClick={handleCopy} variant="outline">
             <IconCopy />
-            Kopírovať
+            {t("copy")}
           </Button>
         </CardFooter>
       ) : null}

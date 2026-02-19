@@ -1,18 +1,20 @@
 "use client";
 
 import { IconHome, IconMenu2, IconNotes, IconX } from "@tabler/icons-react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";
 import { HistorySheet } from "@/components/history-sheet";
+import { LocaleSwitcher } from "@/components/locale-switcher";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Button, buttonVariants } from "@/components/ui/button";
+import { Link, usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 
 export function MobileNav() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
   const prevPathname = useRef(pathname);
+  const t = useTranslations("Nav");
 
   if (prevPathname.current !== pathname) {
     prevPathname.current = pathname;
@@ -24,6 +26,8 @@ export function MobileNav() {
   return (
     <div className="md:hidden">
       <Button
+        aria-expanded={open}
+        aria-label={open ? t("closeMenu") : t("openMenu")}
         onClick={() => setOpen((prev) => !prev)}
         size="icon-sm"
         variant="ghost"
@@ -46,7 +50,7 @@ export function MobileNav() {
               onClick={close}
             >
               <IconHome />
-              Domov
+              {t("home")}
             </Link>
             <Link
               className={cn(
@@ -57,12 +61,15 @@ export function MobileNav() {
               onClick={close}
             >
               <IconNotes />
-              Hromadné generovanie
+              {t("bulk")}
             </Link>
 
             <div className="flex items-center justify-between">
               <HistorySheet onOpen={close} />
-              <ThemeToggle />
+              <div className="flex items-center gap-1">
+                <LocaleSwitcher />
+                <ThemeToggle />
+              </div>
             </div>
           </nav>
         </div>
