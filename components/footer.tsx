@@ -1,6 +1,7 @@
 "use client";
 
 import { IconBrandGithub, IconCup } from "@tabler/icons-react";
+import { track } from "@vercel/analytics";
 import { useTranslations } from "next-intl";
 import { Separator } from "@/components/ui/separator";
 import { Link } from "@/i18n/navigation";
@@ -19,6 +20,7 @@ export function Footer() {
         <a
           className="inline-flex items-center gap-1 underline underline-offset-4 hover:text-foreground"
           href="https://buymeacoffee.com/romandenysov"
+          onClick={() => track("coffee_link_clicked")}
           rel="noopener noreferrer"
           target="_blank"
         >
