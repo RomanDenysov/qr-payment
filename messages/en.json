@@ -46,7 +46,8 @@
     "ss": "SS",
     "ks": "KS",
     "clear": "Clear",
-    "generate": "Generate QR"
+    "generate": "Generate QR",
+    "noHistoryResults": "No results from history"
   },
   "Validation": {
     "ibanRequired": "IBAN is required",

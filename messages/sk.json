@@ -46,7 +46,8 @@
     "ss": "SS",
     "ks": "KS",
     "clear": "Vymazať",
-    "generate": "Vygenerovať QR"
+    "generate": "Vygenerovať QR",
+    "noHistoryResults": "Žiadne výsledky z histórie"
   },
   "Validation": {
     "ibanRequired": "IBAN je povinný",

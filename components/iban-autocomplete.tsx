@@ -3,6 +3,7 @@
 import { Autocomplete } from "@base-ui/react/autocomplete";
 import { IconHistory } from "@tabler/icons-react";
 import { electronicFormatIBAN, friendlyFormatIBAN } from "ibantools";
+import { useTranslations } from "next-intl";
 import { useMemo } from "react";
 import type { PaymentRecord } from "@/features/payment/schema";
 import { usePaymentHistory } from "@/features/payment/store";
@@ -39,6 +40,7 @@ export function IBANAutocomplete({
   hasError = false,
   ref,
 }: IBANAutocompleteProps) {
+  const t = useTranslations("PaymentForm");
   const history = usePaymentHistory();
 
   const suggestions = useMemo((): IBANSuggestion[] => {
@@ -113,7 +115,7 @@ export function IBANAutocomplete({
             )}
           >
             <Autocomplete.Empty className="h-8 px-3 py-2 text-center text-muted-foreground text-sm">
-              Žiadne výsledky z histórie
+              {t("noHistoryResults")}
             </Autocomplete.Empty>
 
             <Autocomplete.List>
