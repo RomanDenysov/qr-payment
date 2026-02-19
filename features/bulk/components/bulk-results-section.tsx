@@ -1,6 +1,7 @@
 "use client";
 
 import { IconFileTypePdf, IconFileZip } from "@tabler/icons-react";
+import { track } from "@vercel/analytics";
 import { useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { exportPdf } from "../export-pdf";
@@ -17,6 +18,7 @@ export function BulkResultsSection() {
     }
     try {
       await exportZip(results);
+      track("bulk_exported_zip", { count: results.length });
     } catch {
       setError("Chyba pri exporte ZIP");
     }
@@ -28,6 +30,7 @@ export function BulkResultsSection() {
     }
     try {
       exportPdf(results);
+      track("bulk_exported_pdf", { count: results.length });
     } catch {
       setError("Chyba pri exporte PDF");
     }
