@@ -1,6 +1,7 @@
 "use client";
 
 import { IconDownload } from "@tabler/icons-react";
+import { track } from "@vercel/analytics";
 import { useCallback } from "react";
 import { parseCsv } from "../csv-parser";
 import { useBulkActions } from "../store";
@@ -19,6 +20,10 @@ export function BulkUploadSection() {
         setRows(parsed);
         if (parsed.length > 0) {
           setDetectedFormat(parsed[0].row.format);
+          track("bulk_csv_uploaded", {
+            count: parsed.length,
+            format: parsed[0].row.format,
+          });
         }
       } catch (err) {
         setError(
@@ -37,7 +42,10 @@ export function BulkUploadSection() {
         <span>Stiahnuť vzorový CSV:</span>
         <button
           className="underline underline-offset-2 hover:text-foreground"
-          onClick={() => downloadSampleCsv("bysquare")}
+          onClick={() => {
+            downloadSampleCsv("bysquare");
+            track("bulk_sample_csv_downloaded", { format: "bysquare" });
+          }}
           type="button"
         >
           PAY by square
@@ -45,7 +53,10 @@ export function BulkUploadSection() {
         <span>/</span>
         <button
           className="underline underline-offset-2 hover:text-foreground"
-          onClick={() => downloadSampleCsv("epc")}
+          onClick={() => {
+            downloadSampleCsv("epc");
+            track("bulk_sample_csv_downloaded", { format: "epc" });
+          }}
           type="button"
         >
           EPC QR

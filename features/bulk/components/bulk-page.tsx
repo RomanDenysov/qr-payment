@@ -1,6 +1,7 @@
 "use client";
 
 import { IconTrash } from "@tabler/icons-react";
+import { track } from "@vercel/analytics";
 import { useCallback, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -59,6 +60,7 @@ export function BulkPage() {
         (p) => updateProgress(p.current)
       );
       setResults(qrs);
+      track("bulk_qr_generated", { count: qrs.length, format: detectedFormat });
     } catch (err) {
       setError(err instanceof Error ? err.message : "Chyba pri generovaní");
     } finally {
@@ -67,6 +69,7 @@ export function BulkPage() {
   }, [
     validRows,
     branding,
+    detectedFormat,
     startGenerating,
     updateProgress,
     setResults,
