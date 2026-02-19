@@ -5,6 +5,9 @@ const nextConfig: NextConfig = {
   cacheComponents: false,
   typedRoutes: true,
   reactCompiler: true,
+  experimental: {
+    optimizePackageImports: ["@tabler/icons-react"],
+  },
 };
 
 export default nextConfig;
