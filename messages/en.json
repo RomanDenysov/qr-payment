@@ -5,8 +5,13 @@
     "description": "Free online QR code generator in BySquare and EPC (SEPA) formats. Create and customize your payment QR code without registration — custom colors, logo, and text.",
     "ogDescription": "Free online QR code generator in BySquare format. Create and customize your payment QR code — custom colors, logo, and text.",
     "twitterDescription": "Free online QR code generator in BySquare format for payments.",
+    "keywords": "QR code, payment, BySquare, EPC QR, SEPA, IBAN, generator, bank",
     "bulkTitle": "Bulk Generation",
-    "bulkDescription": "Bulk QR code generation for payments from a CSV file. Download as ZIP or PDF."
+    "bulkDescription": "Bulk QR code generation for payments from a CSV file. Download as ZIP or PDF.",
+    "privacyTitle": "Privacy Policy",
+    "privacyDescription": "Information about personal data processing in QR Payments.",
+    "termsTitle": "Terms of Use",
+    "termsDescription": "Terms of use for the QR Payments application."
   },
   "Nav": {
     "home": "Home",

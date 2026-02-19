@@ -1,11 +1,21 @@
-import type { Metadata } from "next";
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
+import { getAlternates } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Ochrana osobných údajov",
-  description: "Informácie o spracovaní osobných údajov v aplikácii QR Platby.",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Metadata" });
+
+  return {
+    title: t("privacyTitle"),
+    description: t("privacyDescription"),
+    alternates: getAlternates(locale, "/ochrana-udajov"),
+  };
+}
 
 export default async function PrivacyPolicyPage({
   params,

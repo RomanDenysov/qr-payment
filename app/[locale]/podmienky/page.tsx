@@ -1,11 +1,21 @@
-import type { Metadata } from "next";
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
+import { getAlternates } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Podmienky používania",
-  description: "Podmienky používania aplikácie QR Platby.",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Metadata" });
+
+  return {
+    title: t("termsTitle"),
+    description: t("termsDescription"),
+    alternates: getAlternates(locale, "/podmienky"),
+  };
+}
 
 export default async function TermsPage({
   params,

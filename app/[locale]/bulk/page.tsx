@@ -1,5 +1,6 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { BulkPage } from "@/features/bulk/components/bulk-page";
+import { getAlternates } from "@/lib/seo";
 
 export async function generateMetadata({
   params,
@@ -12,6 +13,7 @@ export async function generateMetadata({
   return {
     title: t("bulkTitle"),
     description: t("bulkDescription"),
+    alternates: getAlternates(locale, "/bulk"),
   };
 }
 

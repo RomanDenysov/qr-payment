@@ -9,6 +9,7 @@ import { Header } from "@/components/header";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { routing } from "@/i18n/routing";
+import { getAlternates } from "@/lib/seo";
 
 const OG_LOCALES: Record<string, string> = {
   sk: "sk_SK",
@@ -44,17 +45,7 @@ export async function generateMetadata({
       template: "%s | QR Platby",
     },
     description: t("description"),
-    keywords: [
-      "QR kód",
-      "platba",
-      "BySquare",
-      "EPC QR",
-      "SEPA",
-      "IBAN",
-      "Slovensko",
-      "generátor",
-      "banka",
-    ],
+    keywords: t("keywords").split(", "),
     authors: [
       { name: "Roman Denysov", url: "https://github.com/RomanDenysov" },
     ],
@@ -67,7 +58,7 @@ export async function generateMetadata({
     openGraph: {
       type: "website" as const,
       locale: getOgLocale(locale),
-      url: "https://qr-platby.com",
+      url: `https://qr-platby.com/${locale}`,
       siteName: "QR Platby",
       title: t("title"),
       description: t("ogDescription"),
@@ -104,14 +95,7 @@ export async function generateMetadata({
         "max-snippet": -1,
       },
     },
-    alternates: {
-      canonical: "https://qr-platby.com",
-      languages: {
-        sk: "https://qr-platby.com/sk",
-        cs: "https://qr-platby.com/cs",
-        en: "https://qr-platby.com/en",
-      },
-    },
+    alternates: getAlternates(locale),
     verification: {
       google: "fdbFmzG3Hzf6pZiMA9kWUnywwtYSaivcvhHEsDnA50E",
     },
