@@ -126,7 +126,7 @@ export default async function PrivacyPolicyPage({ params }: Props) {
           </p>
         </section>
 
-        <div className="pt-4">
+        <div className="pt-4 text-center">
           <Link
             className="text-foreground text-xs underline underline-offset-4 hover:text-primary"
             href="/"

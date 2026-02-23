@@ -11,6 +11,7 @@ import {
   CardDescription,
   CardHeader,
 } from "@/components/ui/card";
+import { Link } from "@/i18n/navigation";
 import { useBrandingConfig } from "@/features/branding/store";
 import { FORMAT_LABELS } from "@/features/payment/format";
 import { generateBulkQR } from "../bulk-generator";
@@ -36,6 +37,7 @@ export function BulkPage() {
   const results = useBulkResults();
   const error = useBulkError();
   const t = useTranslations("Bulk");
+  const tMeta = useTranslations("Metadata");
   const {
     setResults,
     setError,
@@ -150,6 +152,14 @@ export function BulkPage() {
             )}
           </CardContent>
         </Card>
+        <div className="pt-4 text-center">
+          <Link
+            className="text-foreground text-xs underline underline-offset-4 hover:text-primary"
+            href="/"
+          >
+            ← {tMeta("backToHome")}
+          </Link>
+        </div>
       </div>
     </div>
   );
