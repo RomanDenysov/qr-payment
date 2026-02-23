@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "bun --bun next dev",
-    "build": "next build",
+    "build": "next --bun build",
     "start": "bun --bun next start",
     "lint": "ultracite check",
     "format": "ultracite fix"

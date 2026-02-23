@@ -11,11 +11,15 @@
     "privacyTitle": "Ochrana osobných údajov",
     "privacyDescription": "Informácie o spracovaní osobných údajov v aplikácii QR Platby.",
     "termsTitle": "Podmienky používania",
-    "termsDescription": "Podmienky používania aplikácie QR Platby."
+    "termsDescription": "Podmienky používania aplikácie QR Platby.",
+    "faqTitle": "Často kladené otázky",
+    "faqDescription": "Odpovede na najčastejšie otázky o generátore QR kódov pre platby.",
+    "backToHome": "Späť na hlavnú stránku"
   },
   "Nav": {
     "home": "Domov",
     "bulk": "Hromadné generovanie",
+    "faq": "Otázky",
     "closeMenu": "Zavrieť menu",
     "openMenu": "Otvoriť menu",
     "toggleTheme": "Prepnúť tému",

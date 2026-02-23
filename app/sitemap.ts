@@ -12,6 +12,7 @@ const pages = [
     priority: 0.3,
   },
   { path: "/podmienky", changeFrequency: "yearly" as const, priority: 0.3 },
+  { path: "/faq", changeFrequency: "monthly" as const, priority: 0.5 },
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {

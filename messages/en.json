@@ -11,11 +11,15 @@
     "privacyTitle": "Privacy Policy",
     "privacyDescription": "Information about personal data processing in QR Payments.",
     "termsTitle": "Terms of Use",
-    "termsDescription": "Terms of use for the QR Payments application."
+    "termsDescription": "Terms of use for the QR Payments application.",
+    "faqTitle": "Frequently Asked Questions",
+    "faqDescription": "Answers to the most common questions about the QR code payment generator.",
+    "backToHome": "Back to home page"
   },
   "Nav": {
     "home": "Home",
     "bulk": "Bulk Generation",
+    "faq": "FAQ",
     "closeMenu": "Close menu",
     "openMenu": "Open menu",
     "toggleTheme": "Toggle theme",

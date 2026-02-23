@@ -1,6 +1,12 @@
 "use client";
 
-import { IconHome, IconMenu2, IconNotes, IconX } from "@tabler/icons-react";
+import {
+  IconHelp,
+  IconHome,
+  IconMenu2,
+  IconNotes,
+  IconX,
+} from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";
 import { HistorySheet } from "@/components/history-sheet";
@@ -62,6 +68,17 @@ export function MobileNav() {
             >
               <IconNotes />
               {t("bulk")}
+            </Link>
+            <Link
+              className={cn(
+                buttonVariants({ variant: "ghost", size: "sm" }),
+                "justify-start"
+              )}
+              href="/faq"
+              onClick={close}
+            >
+              <IconHelp />
+              {t("faq")}
             </Link>
 
             <div className="flex items-center justify-between">
