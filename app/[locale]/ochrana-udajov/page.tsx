@@ -2,11 +2,11 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { getAlternates } from "@/lib/seo";
 
-export async function generateMetadata({
-  params,
-}: {
+type Props = {
   params: Promise<{ locale: string }>;
-}) {
+};
+
+export async function generateMetadata({ params }: Props) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "Metadata" });
 
@@ -17,18 +17,16 @@ export async function generateMetadata({
   };
 }
 
-export default async function PrivacyPolicyPage({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
+export default async function PrivacyPolicyPage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
+
+  const t = await getTranslations({ locale, namespace: "Metadata" });
 
   return (
     <div className="flex-1 pt-5 sm:pt-8 md:pt-16">
       <article className="prose-sm mx-auto max-w-2xl space-y-6 text-muted-foreground text-sm leading-relaxed">
-        <h1 className="font-bold text-foreground text-xl">
+        <h1 className="font-bold text-foreground text-lg uppercase tracking-wider sm:text-xl">
           Ochrana osobných údajov
         </h1>
         <p className="text-muted-foreground text-xs">
@@ -133,7 +131,7 @@ export default async function PrivacyPolicyPage({
             className="text-foreground text-xs underline underline-offset-4 hover:text-primary"
             href="/"
           >
-            ← Späť na hlavnú stránku
+            ← {t("backToHome")}
           </Link>
         </div>
       </article>

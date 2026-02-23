@@ -1,19 +1,20 @@
 {
   "Metadata": {
-    "title": "QR Platby - Generátor QR kódů pro platby",
+    "title": "QR Platby - Bezplatný generátor QR kódů pro bankovní převody | PAY by square & EPC QR",
     "titleTemplate": "{title} | QR Platby",
-    "description": "Bezplatný online generátor QR kódů ve formátech BySquare a EPC (SEPA). Vytvořte a upravte QR kód pro platbu bez registrace — vlastní barvy, logo a text.",
-    "ogDescription": "Bezplatný online generátor QR kódů ve formátu BySquare. Vytvořte a upravte QR kód pro platbu — vlastní barvy, logo a text.",
-    "twitterDescription": "Bezplatný online generátor QR kódů ve formátu BySquare.",
-    "keywords": "QR kód, platba, BySquare, EPC QR, SEPA, IBAN, Česko, generátor, banka",
-    "bulkTitle": "Hromadné generování",
-    "bulkDescription": "Hromadné generování QR kódů pro platby z CSV souboru. Stáhněte jako ZIP nebo PDF.",
+    "description": "Bezplatný generátor QR kódů pro bankovní převody ve formátu PAY by square a EPC (SEPA). Funguje se všemi bankami bez registrace.",
+    "ogDescription": "Vytvořte QR kód pro bankovní převod zdarma. Podpora PAY by square a EPC QR. Vlastní barvy, logo a text.",
+    "twitterDescription": "Bezplatný generátor QR kódů pro bankovní převody. PAY by square & EPC QR.",
+    "keywords": "QR kód, platba, bankovní převod, BySquare, PAY by square, EPC QR, SEPA, IBAN, generátor QR kódů, platební QR kód, bezplatný, online platba",
+    "bulkTitle": "Hromadné generování QR kódů pro platby",
+    "bulkDescription": "Hromadné generování QR kódů pro bankovní převody z CSV souboru. Stáhněte jako ZIP nebo PDF.",
     "privacyTitle": "Ochrana osobních údajů",
     "privacyDescription": "Informace o zpracování osobních údajů v aplikaci QR Platby.",
     "termsTitle": "Podmínky používání",
     "termsDescription": "Podmínky používání aplikace QR Platby.",
     "faqTitle": "Často kladené otázky",
     "faqDescription": "Odpovědi na nejčastější otázky o generátoru QR kódů pro platby.",
+    "homeH1": "Bezplatný generátor QR kódů pro bankovní převody",
     "backToHome": "Zpět na hlavní stránku"
   },
   "Nav": {

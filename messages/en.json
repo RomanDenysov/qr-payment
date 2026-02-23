@@ -1,19 +1,20 @@
 {
   "Metadata": {
-    "title": "QR Payments - QR Code Generator for Payments",
-    "titleTemplate": "{title} | QR Payments",
-    "description": "Free online QR code generator in BySquare and EPC (SEPA) formats. Create and customize your payment QR code without registration — custom colors, logo, and text.",
-    "ogDescription": "Free online QR code generator in BySquare format. Create and customize your payment QR code — custom colors, logo, and text.",
-    "twitterDescription": "Free online QR code generator in BySquare format for payments.",
-    "keywords": "QR code, payment, BySquare, EPC QR, SEPA, IBAN, generator, bank",
-    "bulkTitle": "Bulk Generation",
-    "bulkDescription": "Bulk QR code generation for payments from a CSV file. Download as ZIP or PDF.",
+    "title": "QR Platby - Free QR Code Generator for Bank Transfers | PAY by square & EPC QR",
+    "titleTemplate": "{title} | QR Platby",
+    "description": "Free QR code generator for bank transfers in PAY by square and EPC (SEPA) formats. Works with all Slovak banks. No registration required.",
+    "ogDescription": "Generate payment QR codes for free. Supports PAY by square and EPC QR formats. Custom colors, logo, and text. All Slovak banks supported.",
+    "twitterDescription": "Free QR code generator for bank transfers. PAY by square & EPC QR for Slovak banks.",
+    "keywords": "QR code, payment, bank transfer, BySquare, PAY by square, EPC QR, SEPA, IBAN, Slovakia, QR code generator, Slovak banks, payment QR code, free, online payment",
+    "bulkTitle": "Bulk QR Code Generation for Payments",
+    "bulkDescription": "Bulk QR code generation for bank transfers from a CSV file. Download as ZIP or PDF.",
     "privacyTitle": "Privacy Policy",
     "privacyDescription": "Information about personal data processing in QR Payments.",
     "termsTitle": "Terms of Use",
     "termsDescription": "Terms of use for the QR Payments application.",
     "faqTitle": "Frequently Asked Questions",
     "faqDescription": "Answers to the most common questions about the QR code payment generator.",
+    "homeH1": "Free QR Code Generator for Bank Payments",
     "backToHome": "Back to home page"
   },
   "Nav": {
