@@ -9,11 +9,11 @@ import { getFaqData } from "@/features/faq/data";
 import { Link } from "@/i18n/navigation";
 import { getAlternates } from "@/lib/seo";
 
-export async function generateMetadata({
-  params,
-}: {
+type Props = {
   params: Promise<{ locale: string }>;
-}) {
+};
+
+export async function generateMetadata({ params }: Props) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "Metadata" });
 
@@ -24,11 +24,7 @@ export async function generateMetadata({
   };
 }
 
-export default async function FaqPage({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
+export default async function FaqPage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
 
@@ -51,7 +47,9 @@ export default async function FaqPage({
   return (
     <div className="flex-1 pt-5 sm:pt-8 md:pt-16">
       <div className="mx-auto max-w-2xl space-y-6">
-        <h1 className="font-bold text-foreground text-xl">{t("faqTitle")}</h1>
+        <h1 className="font-bold text-foreground text-lg uppercase tracking-wider sm:text-xl">
+          {t("faqTitle")}
+        </h1>
         <Accordion>
           {faqItems.map((item) => (
             <AccordionItem key={item.question} value={item.question}>

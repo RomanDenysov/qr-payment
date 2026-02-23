@@ -1,19 +1,20 @@
 {
   "Metadata": {
-    "title": "QR Platby - Generátor QR kódov pre platby",
+    "title": "QR Platby - Bezplatný generátor QR kódov pre bankové prevody | PAY by square & EPC QR",
     "titleTemplate": "{title} | QR Platby",
-    "description": "Bezplatný online generátor QR kódov vo formátoch BySquare a EPC (SEPA) pre Slovensko. Vytvorte a upravte QR kód pre platbu bez registrácie — vlastné farby, logo a text. Funguje so všetkými slovenskými bankami.",
-    "ogDescription": "Bezplatný online generátor QR kódov v BySquare formáte. Vytvorte a upravte QR kód pre platbu — vlastné farby, logo a text. Funguje so všetkými slovenskými bankami.",
-    "twitterDescription": "Bezplatný online generátor QR kódov v BySquare formáte pre Slovensko.",
-    "keywords": "QR kód, platba, BySquare, EPC QR, SEPA, IBAN, Slovensko, generátor, banka",
-    "bulkTitle": "Hromadné generovanie",
-    "bulkDescription": "Hromadné generovanie QR kódov pre platby z CSV súboru. Stiahnite ako ZIP alebo PDF.",
+    "description": "Bezplatný generátor QR kódov pre bankové prevody vo formáte PAY by square a EPC (SEPA). Funguje so všetkými slovenskými bankami bez registrácie.",
+    "ogDescription": "Vytvorte QR kód pre bankový prevod zadarmo. Podpora PAY by square a EPC QR. Vlastné farby, logo a text. Všetky slovenské banky.",
+    "twitterDescription": "Bezplatný generátor QR kódov pre bankové prevody. PAY by square & EPC QR pre slovenské banky.",
+    "keywords": "QR kód, QR platba, bankový prevod, BySquare, PAY by square, EPC QR, SEPA, IBAN, Slovensko, generátor QR kódov, slovenské banky, platobný QR kód, bezplatný, online platba",
+    "bulkTitle": "Hromadné generovanie QR kódov pre platby",
+    "bulkDescription": "Hromadné generovanie QR kódov pre bankové prevody z CSV súboru. Stiahnite ako ZIP alebo PDF.",
     "privacyTitle": "Ochrana osobných údajov",
     "privacyDescription": "Informácie o spracovaní osobných údajov v aplikácii QR Platby.",
     "termsTitle": "Podmienky používania",
     "termsDescription": "Podmienky používania aplikácie QR Platby.",
     "faqTitle": "Často kladené otázky",
     "faqDescription": "Odpovede na najčastejšie otázky o generátore QR kódov pre platby.",
+    "homeH1": "Bezplatný generátor QR kódov pre bankové prevody",
     "backToHome": "Späť na hlavnú stránku"
   },
   "Nav": {

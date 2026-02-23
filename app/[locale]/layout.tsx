@@ -10,6 +10,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { routing } from "@/i18n/routing";
 import { getAlternates } from "@/lib/seo";
+import { JsonLd } from "./json-ld";
 
 const OG_LOCALES: Record<string, string> = {
   sk: "sk_SK",
@@ -121,6 +122,7 @@ export default async function LocaleLayout({ children, params }: Props) {
       >
         <Header />
         <main id="main-content">{children}</main>
+        <JsonLd />
         <Footer />
         <Background />
         <Toaster />

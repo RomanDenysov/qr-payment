@@ -10,7 +10,6 @@ import {
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
 import { useBrandingConfig } from "@/features/branding/store";
 import { FORMAT_LABELS } from "@/features/payment/format";
@@ -87,9 +86,11 @@ export function BulkPage() {
   return (
     <div className="flex-1 pt-5 sm:pt-8 md:pt-16">
       <div className="mx-auto max-w-2xl space-y-6">
+        <h1 className="font-bold text-foreground text-lg uppercase tracking-wider sm:text-xl">
+          {t("title")}
+        </h1>
         <Card>
           <CardHeader>
-            <CardTitle>{t("title")}</CardTitle>
             <CardDescription>{t("description")}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
