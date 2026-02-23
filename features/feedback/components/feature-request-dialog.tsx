@@ -167,7 +167,10 @@ export function FeatureRequestDialog({
                 <PreviousRequests />
               </>
             ) : (
-              <p className="text-muted-foreground text-xs">{t("maxReached")}</p>
+              <>
+                <p className="text-muted-foreground text-xs">{t("maxReached")}</p>
+                <PreviousRequests />
+              </>
             )}
 
             <div className="flex gap-2 pt-2">
