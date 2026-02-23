@@ -11,7 +11,7 @@ QR Platby - A free online QR code generator for Slovak banking payments using th
 ```bash
 # Development
 bun dev                    # Start dev server
-bun build                  # Production build
+bun run build              # Production build (NOT `bun build` — that's bun's bundler)
 bun start                  # Start production server
 
 # Code Quality (Biome/Ultracite)
@@ -79,6 +79,9 @@ This project uses Ultracite (Biome preset) for formatting and linting. Key rules
 
 - **Zod v4**: Use `.issues` not `.errors` on `ZodError` objects
 - **`bun install` after pull**: Remote PRs may add deps — run `bun install` before building
+- **`bunx shadcn` hangs**: CLI often hangs on "Resolving dependencies". Fetch source from `https://ui.shadcn.com/r/styles/base-lyra/<component>.json` instead
+- **Biome suppression in JSX props**: Use `// biome-ignore` inline comment on the prop line, not `{/* */}` JSX comment
+- **UI components**: Always use shadcn/Base UI primitives (`@base-ui/react/accordion`, etc.) — don't build custom alternatives from lower-level primitives
 
 ## Worktrees
 
