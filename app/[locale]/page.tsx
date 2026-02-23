@@ -3,20 +3,16 @@ import { PaymentFormCard } from "@/features/payment/components/payment-form-card
 import { QRPreviewCard } from "@/features/payment/components/qr-preview-card";
 import { getAlternates } from "@/lib/seo";
 
-export async function generateMetadata({
-  params,
-}: {
+type Props = {
   params: Promise<{ locale: string }>;
-}) {
+};
+
+export async function generateMetadata({ params }: Props) {
   const { locale } = await params;
   return { alternates: getAlternates(locale) };
 }
 
-export default async function Page({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
+export default async function Page({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
 

@@ -9,11 +9,11 @@ import { getFaqData } from "@/features/faq/data";
 import { Link } from "@/i18n/navigation";
 import { getAlternates } from "@/lib/seo";
 
-export async function generateMetadata({
-  params,
-}: {
+type Props = {
   params: Promise<{ locale: string }>;
-}) {
+};
+
+export async function generateMetadata({ params }: Props) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "Metadata" });
 
@@ -24,11 +24,7 @@ export async function generateMetadata({
   };
 }
 
-export default async function FaqPage({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
+export default async function FaqPage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
 
