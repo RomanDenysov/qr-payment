@@ -1,3 +1,5 @@
+import { GeistMono } from "geist/font/mono";
+import { GeistPixelSquare } from "geist/font/pixel";
 import { useLocale } from "next-intl";
 import { getTranslations } from "next-intl/server";
 
@@ -11,7 +13,11 @@ export default function RootLayout({
   const locale = useLocale();
 
   return (
-    <html className="dark" lang={locale} suppressHydrationWarning>
+    <html
+      className={`dark ${GeistMono.variable} ${GeistPixelSquare.variable}`}
+      lang={locale}
+      suppressHydrationWarning
+    >
       <body className="container relative mx-auto flex min-h-screen max-w-5xl flex-col px-2 tracking-tight md:px-4">
         <SkipLink />
         {children}

@@ -323,12 +323,21 @@ export function PaymentFormCard() {
             </Field>
           </FieldGroup>
         </CardContent>
-        <CardFooter className="mt-auto shrink-0 justify-end gap-2">
-          <Button onClick={handleClear} type="button" variant="outline">
+        <CardFooter className="mt-auto shrink-0 gap-2 sm:justify-end">
+          <Button
+            className="flex-1 sm:flex-initial"
+            onClick={handleClear}
+            type="button"
+            variant="outline"
+          >
             <IconTrash />
             {t("clear")}
           </Button>
-          <Button disabled={isPending} type="submit">
+          <Button
+            className="flex-1 sm:flex-initial"
+            disabled={isPending}
+            type="submit"
+          >
             {isPending ? (
               <IconLoader3 className="animate-spin" />
             ) : (

@@ -46,11 +46,11 @@ export function MobileNav() {
         style={{ gridTemplateRows: open ? "1fr" : "0fr" }}
       >
         <div className="overflow-hidden">
-          <nav className="flex flex-col gap-1 border-b bg-card p-3 shadow-md">
+          <nav className="flex flex-col gap-2 border-b bg-card p-4 shadow-md ring-1 ring-foreground/10">
             <Link
               className={cn(
-                buttonVariants({ variant: "ghost", size: "sm" }),
-                "justify-start"
+                buttonVariants({ variant: "ghost", size: "default" }),
+                "justify-start text-sm"
               )}
               href="/"
               onClick={close}
@@ -60,8 +60,8 @@ export function MobileNav() {
             </Link>
             <Link
               className={cn(
-                buttonVariants({ variant: "ghost", size: "sm" }),
-                "justify-start"
+                buttonVariants({ variant: "ghost", size: "default" }),
+                "justify-start text-sm"
               )}
               href="/bulk"
               onClick={close}
@@ -71,8 +71,8 @@ export function MobileNav() {
             </Link>
             <Link
               className={cn(
-                buttonVariants({ variant: "ghost", size: "sm" }),
-                "justify-start"
+                buttonVariants({ variant: "ghost", size: "default" }),
+                "justify-start text-sm"
               )}
               href="/faq"
               onClick={close}

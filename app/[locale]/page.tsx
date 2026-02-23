@@ -20,7 +20,7 @@ export default async function Page({ params }: Props) {
 
   return (
     <div className="flex-1 pt-5 sm:pt-8 md:pt-16">
-      <h1 className="font-bold text-foreground text-lg uppercase tracking-wider sm:text-xl">
+      <h1 className="font-bold font-pixel text-2xl text-foreground tracking-wide sm:text-3xl">
         {t("homeH1")}
       </h1>
       <section className="mt-6 grid gap-8 *:rounded-none sm:grid-cols-2">
