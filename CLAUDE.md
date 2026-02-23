@@ -82,6 +82,7 @@ This project uses Ultracite (Biome preset) for formatting and linting. Key rules
 - **`bunx shadcn` hangs**: CLI often hangs on "Resolving dependencies". Fetch source from `https://ui.shadcn.com/r/styles/base-lyra/<component>.json` instead
 - **Biome suppression in JSX props**: Use `// biome-ignore` inline comment on the prop line, not `{/* */}` JSX comment
 - **UI components**: Always use shadcn/Base UI primitives (`@base-ui/react/accordion`, etc.) — don't build custom alternatives from lower-level primitives
+- **JSX ternary branches**: Must return a single expression — wrap multiple siblings in `<>...</>` fragment
 
 ## Worktrees
 
