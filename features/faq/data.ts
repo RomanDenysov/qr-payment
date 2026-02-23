@@ -6,6 +6,11 @@ interface FaqItem {
 const faqData: Record<string, FaqItem[]> = {
   sk: [
     {
+      question: "Aký je rozdiel medzi QR Platby a systémom NOP?",
+      answer:
+        "QR Platby generuje QR kódy pre bankové prevody podľa štandardu PAY by square - ideálne pre faktúry, e-maily a webstránky. Pre kamenné predajne s eKasou existuje štátny systém NOP (Notifikátor okamžitých platieb), ktorý slúži na okamžité oznámenie platby priamo na pokladnicu.",
+    },
+    {
       question: "Čo je QR Platby?",
       answer:
         "QR Platby je bezplatný online nástroj na vytváranie QR kódov pre bankové platby. Podporuje formáty BySquare (štandard pre Slovensko) a EPC QR (SEPA štandard pre Európu).",
@@ -28,12 +33,12 @@ const faqData: Record<string, FaqItem[]> = {
     {
       question: "S ktorými bankami to funguje?",
       answer:
-        "QR kódy vo formáte BySquare fungujú so všetkými slovenskými bankami — Tatra banka, Slovenská sporiteľňa, VÚB, ČSOB, mBank, Fio banka a ďalšie. EPC QR formát je podporovaný väčšinou európskych bánk.",
+        "QR kódy vo formáte BySquare fungujú so všetkými slovenskými bankami - Tatra banka, Slovenská sporiteľňa, VÚB, ČSOB, mBank, Fio banka a ďalšie. EPC QR formát je podporovaný väčšinou európskych bánk.",
     },
     {
       question: "Aký je rozdiel medzi BySquare a EPC QR?",
       answer:
-        "BySquare je slovenský štandard pre platobné QR kódy — podporuje variabilný, špecifický a konštantný symbol. EPC QR (European Payments Council) je európsky SEPA štandard, ktorý funguje naprieč krajinami EÚ, ale nepodporuje slovenské symboly. Ak platíte na Slovensku, použite BySquare. Pre medzinárodné SEPA platby zvoľte EPC QR.",
+        "BySquare je slovenský štandard pre platobné QR kódy - podporuje variabilný, špecifický a konštantný symbol. EPC QR (European Payments Council) je európsky SEPA štandard, ktorý funguje naprieč krajinami EÚ, ale nepodporuje slovenské symboly. Ak platíte na Slovensku, použite BySquare. Pre medzinárodné SEPA platby zvoľte EPC QR.",
     },
     {
       question: "Môžem si QR kód upraviť?",
@@ -52,6 +57,11 @@ const faqData: Record<string, FaqItem[]> = {
     },
   ],
   en: [
+    {
+      question: "What is the difference between QR Platby and the NOP system?",
+      answer:
+        "QR Platby generates QR codes for bank transfers using the PAY by square standard - ideal for invoices, emails, and websites. For brick-and-mortar stores with eKasa, there is the state NOP system (Instant Payment Notifier) that provides instant payment confirmation directly to the cash register.",
+    },
     {
       question: "What is QR Platby?",
       answer:
@@ -75,12 +85,12 @@ const faqData: Record<string, FaqItem[]> = {
     {
       question: "Which banks does it work with?",
       answer:
-        "BySquare QR codes work with all Slovak banks — Tatra banka, Slovenská sporiteľňa, VÚB, ČSOB, mBank, Fio banka, and more. EPC QR format is supported by most European banks.",
+        "BySquare QR codes work with all Slovak banks - Tatra banka, Slovenská sporiteľňa, VÚB, ČSOB, mBank, Fio banka, and more. EPC QR format is supported by most European banks.",
     },
     {
       question: "What is the difference between BySquare and EPC QR?",
       answer:
-        "BySquare is the Slovak standard for payment QR codes — it supports variable, specific, and constant symbols. EPC QR (European Payments Council) is a European SEPA standard that works across EU countries but does not support Slovak symbols. For payments within Slovakia, use BySquare. For international SEPA payments, choose EPC QR.",
+        "BySquare is the Slovak standard for payment QR codes - it supports variable, specific, and constant symbols. EPC QR (European Payments Council) is a European SEPA standard that works across EU countries but does not support Slovak symbols. For payments within Slovakia, use BySquare. For international SEPA payments, choose EPC QR.",
     },
     {
       question: "Can I customize the QR code?",
@@ -99,6 +109,11 @@ const faqData: Record<string, FaqItem[]> = {
     },
   ],
   cs: [
+    {
+      question: "Jaký je rozdíl mezi QR Platby a systémem NOP?",
+      answer:
+        "QR Platby generuje QR kódy pro bankovní převody podle standardu PAY by square - ideální pro faktury, e-maily a webové stránky. Pro kamenné prodejny s eKasou existuje státní systém NOP (Notifikátor okamžitých plateb), který slouží k okamžitému oznámení platby přímo na pokladnu.",
+    },
     {
       question: "Co je QR Platby?",
       answer:
@@ -122,12 +137,12 @@ const faqData: Record<string, FaqItem[]> = {
     {
       question: "Se kterými bankami to funguje?",
       answer:
-        "QR kódy ve formátu BySquare fungují se všemi slovenskými bankami — Tatra banka, Slovenská sporiteľňa, VÚB, ČSOB, mBank, Fio banka a další. EPC QR formát je podporován většinou evropských bank.",
+        "QR kódy ve formátu BySquare fungují se všemi slovenskými bankami - Tatra banka, Slovenská sporiteľňa, VÚB, ČSOB, mBank, Fio banka a další. EPC QR formát je podporován většinou evropských bank.",
     },
     {
       question: "Jaký je rozdíl mezi BySquare a EPC QR?",
       answer:
-        "BySquare je slovenský standard pro platební QR kódy — podporuje variabilní, specifický a konstantní symbol. EPC QR (European Payments Council) je evropský SEPA standard, který funguje napříč zeměmi EU, ale nepodporuje slovenské symboly. Pokud platíte na Slovensku, použijte BySquare. Pro mezinárodní SEPA platby zvolte EPC QR.",
+        "BySquare je slovenský standard pro platební QR kódy - podporuje variabilní, specifický a konstantní symbol. EPC QR (European Payments Council) je evropský SEPA standard, který funguje napříč zeměmi EU, ale nepodporuje slovenské symboly. Pokud platíte na Slovensku, použijte BySquare. Pro mezinárodní SEPA platby zvolte EPC QR.",
     },
     {
       question: "Můžu si QR kód upravit?",
