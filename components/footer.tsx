@@ -23,7 +23,11 @@ export function Footer() {
           </div>
           <FeatureRequestDialog
             trigger={
-              <Button className="w-full shrink-0 sm:w-auto" size="lg" variant="outline">
+              <Button
+                className="w-full shrink-0 sm:w-auto"
+                size="lg"
+                variant="outline"
+              >
                 <IconBulb />
                 {tFeedback("trigger")}
               </Button>

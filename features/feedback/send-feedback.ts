@@ -1,16 +1,26 @@
 "use server";
 
+import z from "zod";
 import { env } from "@/env";
 
-interface SendFeedbackInput {
-  message: string;
-  language: string;
-  deviceType: string;
-}
+const feedbackSchema = z.object({
+  message: z.string().min(1).max(500),
+  language: z.string().min(1).max(10),
+  deviceType: z.string().min(1).max(50),
+});
+
+type SendFeedbackResult = { success: true } | { success: false; error: string };
 
 export async function sendFeedback(
-  input: SendFeedbackInput
-): Promise<{ success: boolean }> {
+  input: unknown
+): Promise<SendFeedbackResult> {
+  const parsed = feedbackSchema.safeParse(input);
+  if (!parsed.success) {
+    return { success: false, error: "invalid-input" };
+  }
+
+  const { message, language, deviceType } = parsed.data;
+
   const timestamp = new Date().toLocaleString("sk-SK", {
     timeZone: "Europe/Bratislava",
   });
@@ -18,12 +28,12 @@ export async function sendFeedback(
   const text = [
     "💡 Feature Request",
     "",
-    input.message,
+    message,
     "",
     "———",
     `🕐 ${timestamp}`,
-    `🌐 ${input.language}`,
-    `📱 ${input.deviceType}`,
+    `🌐 ${language}`,
+    `📱 ${deviceType}`,
   ].join("\n");
 
   try {
@@ -45,7 +55,7 @@ export async function sendFeedback(
         status: response.status,
         description: body?.description,
       });
-      return { success: false };
+      return { success: false, error: "api-error" };
     }
 
     return { success: true };
@@ -54,6 +64,6 @@ export async function sendFeedback(
       "[Feedback] Network error:",
       error instanceof Error ? error.message : error
     );
-    return { success: false };
+    return { success: false, error: "network-error" };
   }
 }

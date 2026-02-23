@@ -1,50 +1,24 @@
 "use client";
 
-import { Dialog } from "@base-ui/react/dialog";
 import { IconBulb, IconSend } from "@tabler/icons-react";
 import { track } from "@vercel/analytics";
 import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import { createFeatureRequestSchema } from "../schema";
 import { sendFeedback } from "../send-feedback";
 import { useFeedbackActions } from "../store";
 import { PreviousRequests } from "./previous-requests";
-
-function DialogPortal({ ...props }: Dialog.Portal.Props) {
-  return <Dialog.Portal data-slot="dialog-portal" {...props} />;
-}
-
-function DialogOverlay({ className, ...props }: Dialog.Backdrop.Props) {
-  return (
-    <Dialog.Backdrop
-      className={cn(
-        "data-closed:fade-out-0 data-open:fade-in-0 fixed inset-0 isolate z-50 bg-black/10 duration-100 data-closed:animate-out data-open:animate-in supports-backdrop-filter:backdrop-blur-xs",
-        className
-      )}
-      data-slot="dialog-overlay"
-      {...props}
-    />
-  );
-}
-
-function DialogContent({ className, ...props }: Dialog.Popup.Props) {
-  return (
-    <DialogPortal>
-      <DialogOverlay />
-      <Dialog.Popup
-        className={cn(
-          "data-closed:fade-out-0 data-open:fade-in-0 data-closed:zoom-out-95 data-open:zoom-in-95 fixed top-1/2 left-1/2 z-50 grid w-full max-w-md -translate-x-1/2 -translate-y-1/2 gap-4 rounded-none bg-background p-4 outline-none ring-1 ring-foreground/10 duration-100 data-closed:animate-out data-open:animate-in",
-          className
-        )}
-        data-slot="dialog-content"
-        {...props}
-      />
-    </DialogPortal>
-  );
-}
 
 type DialogState = "idle" | "submitting" | "success";
 
@@ -93,23 +67,29 @@ export function FeatureRequestDialog({
 
     const isMobile = MOBILE_RE.test(navigator.userAgent);
 
-    const response = await sendFeedback({
-      message: result.data.message,
-      language: navigator.language,
-      deviceType: isMobile ? "Mobile" : "Desktop",
-    });
+    try {
+      const response = await sendFeedback({
+        message: result.data.message,
+        language: navigator.language,
+        deviceType: isMobile ? "Mobile" : "Desktop",
+      });
 
-    if (!response.success) {
+      if (!response.success) {
+        setState("idle");
+        setError(t("sendFailed"));
+        track("feature_request_failed");
+        return;
+      }
+
+      addRequest(result.data.message);
+      track("feature_request_submitted");
+      toast.success(t("submitted"));
+      setState("success");
+    } catch {
       setState("idle");
       setError(t("sendFailed"));
       track("feature_request_failed");
-      return;
     }
-
-    addRequest(result.data.message);
-    track("feature_request_submitted");
-    toast.success(t("submitted"));
-    setState("success");
   }, [message, addRequest, schema, t]);
 
   useEffect(() => {
@@ -126,22 +106,18 @@ export function FeatureRequestDialog({
   const charCount = message.length;
 
   return (
-    <Dialog.Root onOpenChange={handleOpenChange}>
+    <Dialog onOpenChange={handleOpenChange}>
       {trigger ? (
-        <Dialog.Trigger render={trigger} />
+        <DialogTrigger render={trigger} />
       ) : (
-        <Dialog.Trigger render={<Button size="sm" variant="outline" />}>
+        <DialogTrigger render={<Button size="sm" variant="outline" />}>
           <IconBulb />
           {t("trigger")}
-        </Dialog.Trigger>
+        </DialogTrigger>
       )}
       <DialogContent>
-        <Dialog.Title className="font-medium text-sm">
-          {t("title")}
-        </Dialog.Title>
-        <Dialog.Description className="text-muted-foreground text-xs">
-          {t("description")}
-        </Dialog.Description>
+        <DialogTitle>{t("title")}</DialogTitle>
+        <DialogDescription>{t("description")}</DialogDescription>
 
         {state === "success" ? (
           <div className="py-6 text-center">
@@ -195,9 +171,9 @@ export function FeatureRequestDialog({
             )}
 
             <div className="flex gap-2 pt-2">
-              <Dialog.Close render={<Button size="sm" variant="outline" />}>
+              <DialogClose render={<Button size="sm" variant="outline" />}>
                 {t("close")}
-              </Dialog.Close>
+              </DialogClose>
               {allowed && (
                 <Button
                   className="flex-1"
@@ -213,8 +189,8 @@ export function FeatureRequestDialog({
           </div>
         )}
 
-        <Dialog.Close className="hidden" ref={closeRef} />
+        <DialogClose className="hidden" ref={closeRef} />
       </DialogContent>
-    </Dialog.Root>
+    </Dialog>
   );
 }
