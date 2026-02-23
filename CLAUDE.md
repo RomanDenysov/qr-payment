@@ -27,11 +27,13 @@ bun x ultracite check      # Check for issues without fixing
 - **Forms**: react-hook-form + Zod validation
 - **State**: Zustand with localStorage persistence
 - **QR Generation**: bysquare library + qrcode canvas rendering
+- **i18n**: next-intl with `[locale]` routing — locales: sk, en, cs
 
 ## Architecture
 
 ```
 app/                      # Next.js App Router pages
+  [locale]/               # Locale-segmented routes
 components/               # Reusable UI components
   ui/                     # shadcn Base UI primitives
 features/payment/         # Payment feature module
@@ -40,8 +42,10 @@ features/payment/         # Payment feature module
   store.ts                # Zustand store (history, deduplication)
   qr-generator.ts         # QR code generation with canvas overlay
   use-payment-generator.ts # Form submission hook
+features/feedback/        # Feature request / feedback module
 lib/utils.ts              # Utility functions (cn, maskIban)
 env.ts                    # T3 env validation
+messages/{sk,en,cs}.json  # Translation files (namespaced keys)
 ```
 
 ## Key Patterns
@@ -51,6 +55,9 @@ env.ts                    # T3 env validation
 - **Feature-based organization** - Domain logic grouped in `features/` directory
 - **Zustand store hooks** - Use `useCurrentPayment()`, `usePaymentHistory()`, `usePaymentActions()`
 - **Form validation** - Zod schemas with react-hook-form Controller pattern
+- **i18n in client components** - `useTranslations("Namespace")` hook, `Link` from `@/i18n/navigation`
+- **Translated Zod validation** - Use schema factory functions (e.g. `createSchema(messages)`) since hooks can't be called in schemas
+- **Base UI Dialog** - Inline wrapper components (DialogPortal, DialogOverlay, DialogContent), not shadcn re-exports
 
 ## Code Standards
 
@@ -61,10 +68,17 @@ This project uses Ultracite (Biome preset) for formatting and linting. Key rules
 - Use `async/await` over promise chains
 - React 19: Use ref as prop (no forwardRef needed)
 - Always run `bun x ultracite fix` before committing
+- Block statements required for all if/else (no `if (x) return y`)
+- Regex literals must be top-level constants, not inline
 
 ## Path Alias
 
 `@/*` maps to project root (e.g., `@/components/ui/button`)
+
+## Gotchas
+
+- **Zod v4**: Use `.issues` not `.errors` on `ZodError` objects
+- **`bun install` after pull**: Remote PRs may add deps — run `bun install` before building
 
 ## Worktrees
 

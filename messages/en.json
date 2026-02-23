@@ -164,5 +164,28 @@
   "Offline": {
     "title": "You're offline",
     "description": "This page is not available offline. Check your internet connection and try again."
+  },
+  "Feedback": {
+    "trigger": "Suggest a feature",
+    "title": "Suggest a feature",
+    "description": "Have an idea for improvement? Let us know.",
+    "placeholder": "Describe your suggestion...",
+    "messageMin": "Message must be at least 10 characters",
+    "messageMax": "Message can be at most 500 characters",
+    "submitting": "Submitting...",
+    "submit": "Submit",
+    "close": "Close",
+    "successTitle": "Thank you for your suggestion!",
+    "successClose": "This window will close automatically...",
+    "maxReached": "You have sent the maximum number of suggestions.",
+    "sendFailed": "Failed to send message",
+    "submitted": "Suggestion submitted",
+    "previousTitle": "Previous suggestions ({count})",
+    "timeNow": "just now",
+    "timeMinutes": "{count} min ago",
+    "timeHours": "{count}h ago",
+    "timeDays": "{count}d ago",
+    "ctaTitle": "Help us improve QR Platby",
+    "ctaDescription": "Got an idea for improvement? Let us know."
   }
 }

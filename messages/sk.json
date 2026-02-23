@@ -164,5 +164,28 @@
   "Offline": {
     "title": "Ste offline",
     "description": "Táto stránka nie je dostupná offline. Skontrolujte pripojenie k internetu a skúste to znova."
+  },
+  "Feedback": {
+    "trigger": "Navrhnúť vylepšenie",
+    "title": "Navrhnúť vylepšenie",
+    "description": "Máte nápad na zlepšenie? Napíšte nám.",
+    "placeholder": "Popíšte váš návrh...",
+    "messageMin": "Správa musí mať aspoň 10 znakov",
+    "messageMax": "Správa môže mať maximálne 500 znakov",
+    "submitting": "Odosielam...",
+    "submit": "Odoslať",
+    "close": "Zavrieť",
+    "successTitle": "Ďakujeme za váš návrh!",
+    "successClose": "Okno sa automaticky zatvorí...",
+    "maxReached": "Odoslali ste maximálny počet návrhov.",
+    "sendFailed": "Nepodarilo sa odoslať správu",
+    "submitted": "Návrh bol odoslaný",
+    "previousTitle": "Predchádzajúce návrhy ({count})",
+    "timeNow": "práve teraz",
+    "timeMinutes": "pred {count} min",
+    "timeHours": "pred {count} h",
+    "timeDays": "pred {count} d",
+    "ctaTitle": "Pomôžte nám zlepšiť QR Platby",
+    "ctaDescription": "Máte nápad na zlepšenie? Dajte nám vedieť."
   }
 }
