@@ -182,6 +182,7 @@
     "close": "Zavřít",
     "successTitle": "Děkujeme za váš návrh!",
     "successClose": "Okno se automaticky zavře...",
+    "maxReachedTitle": "Limit dosažen",
     "maxReached": "Odeslali jste maximální počet návrhů.",
     "sendFailed": "Nepodařilo se odeslat zprávu",
     "submitted": "Návrh byl odeslán",

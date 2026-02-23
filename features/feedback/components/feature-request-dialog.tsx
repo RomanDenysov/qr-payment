@@ -1,6 +1,6 @@
 "use client";
 
-import { IconBulb, IconSend } from "@tabler/icons-react";
+import { IconBulb, IconInfoCircle, IconSend } from "@tabler/icons-react";
 import { track } from "@vercel/analytics";
 import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -14,6 +14,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { cn } from "@/lib/utils";
 import { createFeatureRequestSchema } from "../schema";
 import { sendFeedback } from "../send-feedback";
@@ -168,7 +169,11 @@ export function FeatureRequestDialog({
               </>
             ) : (
               <>
-                <p className="text-muted-foreground text-xs">{t("maxReached")}</p>
+                <Alert>
+                  <IconInfoCircle />
+                  <AlertTitle>{t("maxReachedTitle")}</AlertTitle>
+                  <AlertDescription>{t("maxReached")}</AlertDescription>
+                </Alert>
                 <PreviousRequests />
               </>
             )}

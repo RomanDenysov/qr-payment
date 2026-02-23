@@ -182,6 +182,7 @@
     "close": "Close",
     "successTitle": "Thank you for your suggestion!",
     "successClose": "This window will close automatically...",
+    "maxReachedTitle": "Limit reached",
     "maxReached": "You have sent the maximum number of suggestions.",
     "sendFailed": "Failed to send message",
     "submitted": "Suggestion submitted",
