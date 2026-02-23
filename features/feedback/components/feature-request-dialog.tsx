@@ -5,6 +5,7 @@ import { track } from "@vercel/analytics";
 import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -14,7 +15,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { cn } from "@/lib/utils";
 import { createFeatureRequestSchema } from "../schema";
 import { sendFeedback } from "../send-feedback";
@@ -78,18 +78,15 @@ export function FeatureRequestDialog({
       if (!response.success) {
         setState("idle");
         setError(t("sendFailed"));
-        track("feature_request_failed");
         return;
       }
 
       addRequest(result.data.message);
-      track("feature_request_submitted");
       toast.success(t("submitted"));
       setState("success");
     } catch {
       setState("idle");
       setError(t("sendFailed"));
-      track("feature_request_failed");
     }
   }, [message, addRequest, schema, t]);
 
