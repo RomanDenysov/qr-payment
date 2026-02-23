@@ -9,7 +9,7 @@ function Card({
   return (
     <div
       className={cn(
-        "group/card flex flex-col gap-4 overflow-hidden rounded-none bg-card py-4 text-card-foreground text-xs/relaxed ring-1 ring-foreground/10 has-[>img:first-child]:pt-0 has-data-[slot=card-footer]:pb-0 data-[size=sm]:gap-2 data-[size=sm]:py-3 data-[size=sm]:has-data-[slot=card-footer]:pb-0 *:[img:first-child]:rounded-none *:[img:last-child]:rounded-none",
+        "group/card flex flex-col gap-4 overflow-hidden rounded-none bg-card py-4 text-card-foreground text-sm/relaxed ring-1 ring-foreground/10 has-[>img:first-child]:pt-0 has-data-[slot=card-footer]:pb-0 data-[size=sm]:gap-2 data-[size=sm]:py-3 data-[size=sm]:has-data-[slot=card-footer]:pb-0 *:[img:first-child]:rounded-none *:[img:last-child]:rounded-none",
         className
       )}
       data-size={size}
@@ -36,7 +36,7 @@ function CardTitle({ className, ...props }: ComponentProps<"div">) {
   return (
     <div
       className={cn(
-        "font-medium text-sm group-data-[size=sm]/card:text-sm",
+        "font-medium text-base group-data-[size=sm]/card:text-sm",
         className
       )}
       data-slot="card-title"
@@ -48,7 +48,7 @@ function CardTitle({ className, ...props }: ComponentProps<"div">) {
 function CardDescription({ className, ...props }: ComponentProps<"div">) {
   return (
     <div
-      className={cn("text-muted-foreground text-xs/relaxed", className)}
+      className={cn("text-muted-foreground text-sm/relaxed", className)}
       data-slot="card-description"
       {...props}
     />

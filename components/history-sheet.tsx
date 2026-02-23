@@ -104,7 +104,7 @@ export function HistorySheet({ onOpen }: { onOpen?: () => void } = {}) {
       open={open}
     >
       <SheetTrigger
-        className={cn(buttonVariants({ variant: "ghost", size: "sm" }))}
+        className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "h-8 text-sm md:h-7 md:text-xs")}
       >
         <IconHistory />
         {t("title")}
@@ -196,7 +196,7 @@ export function HistorySheet({ onOpen }: { onOpen?: () => void } = {}) {
                         {namingId === entry.id ? (
                           <div className="flex items-center gap-1">
                             <Input
-                              className="h-7 w-24 text-xs"
+                              className="h-9 w-28 text-sm"
                               maxLength={30}
                               onChange={(e) => setNameInput(e.target.value)}
                               onKeyDown={(e) =>
@@ -207,13 +207,13 @@ export function HistorySheet({ onOpen }: { onOpen?: () => void } = {}) {
                             />
                             <Button
                               aria-label={t("save")}
-                              className="size-7 p-0"
+                              className="size-9 p-0"
                               disabled={!nameInput.trim()}
                               onClick={confirmName}
                               size="sm"
                               variant="ghost"
                             >
-                              <IconCheck className="size-3" />
+                              <IconCheck className="size-4" />
                             </Button>
                           </div>
                         ) : (
@@ -221,7 +221,7 @@ export function HistorySheet({ onOpen }: { onOpen?: () => void } = {}) {
                             {entry.name ? (
                               <Button
                                 aria-label={t("unpin")}
-                                className="size-7 p-0"
+                                className="size-9 p-0"
                                 onClick={() => {
                                   unnameEntry(entry.id);
                                   track("history_entry_unnamed");
@@ -229,22 +229,22 @@ export function HistorySheet({ onOpen }: { onOpen?: () => void } = {}) {
                                 size="sm"
                                 variant="ghost"
                               >
-                                <IconBookmarkOff className="size-3" />
+                                <IconBookmarkOff className="size-4" />
                               </Button>
                             ) : (
                               <Button
                                 aria-label={t("pin")}
-                                className="size-7 p-0"
+                                className="size-9 p-0"
                                 onClick={() => startNaming(entry.id)}
                                 size="sm"
                                 variant="ghost"
                               >
-                                <IconBookmark className="size-3" />
+                                <IconBookmark className="size-4" />
                               </Button>
                             )}
                             <Button
                               aria-label={t("fillForm")}
-                              className="size-7 p-0"
+                              className="size-9 p-0"
                               onClick={() => {
                                 loadFromStorage(entry.id);
                                 track("history_item_selected");
@@ -253,18 +253,18 @@ export function HistorySheet({ onOpen }: { onOpen?: () => void } = {}) {
                               size="sm"
                               variant="ghost"
                             >
-                              <IconCheck className="size-3" />
+                              <IconCheck className="size-4" />
                             </Button>
                             <AlertDialog>
                               <AlertDialogTrigger
                                 render={
                                   <Button
                                     aria-label={t("deleteRecord")}
-                                    className="size-7 p-0"
+                                    className="size-9 p-0"
                                     size="sm"
                                     variant="ghost"
                                   >
-                                    <IconX className="size-3" />
+                                    <IconX className="size-4" />
                                   </Button>
                                 }
                               />

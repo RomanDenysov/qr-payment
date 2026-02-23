@@ -140,6 +140,7 @@ export function BulkPage() {
 
                 {!(results || generating) && (
                   <Button
+                    className="w-full sm:w-auto"
                     disabled={validRows.length === 0}
                     onClick={handleGenerate}
                   >

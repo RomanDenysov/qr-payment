@@ -56,16 +56,28 @@ export function BulkResultsSection() {
       <p className="text-green-600 text-sm dark:text-green-400">
         {t("generated", { count: results.length })}
       </p>
-      <div className="flex gap-2 print:hidden">
-        <Button onClick={handleExportZip} variant="outline">
+      <div className="flex flex-col gap-2 sm:flex-row print:hidden">
+        <Button
+          className="flex-1 sm:flex-initial"
+          onClick={handleExportZip}
+          variant="outline"
+        >
           <IconFileZip className="size-4" />
           {t("downloadZip")}
         </Button>
-        <Button onClick={handleExportPdf} variant="outline">
+        <Button
+          className="flex-1 sm:flex-initial"
+          onClick={handleExportPdf}
+          variant="outline"
+        >
           <IconFileTypePdf className="size-4" />
           {t("downloadPdf")}
         </Button>
-        <Button onClick={handlePrint} variant="outline">
+        <Button
+          className="flex-1 sm:flex-initial"
+          onClick={handlePrint}
+          variant="outline"
+        >
           <IconPrinter className="size-4" />
           {t("print")}
         </Button>

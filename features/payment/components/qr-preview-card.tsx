@@ -154,7 +154,7 @@ export function QRPreviewCard() {
           <>
             <Image
               alt="QR payment code"
-              className="mb-4 size-64 rounded-none md:size-96"
+              className="mb-4 w-full max-w-96 rounded-none"
               height={384}
               src={current.qrDataUrl}
               width={384}
