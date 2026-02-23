@@ -59,7 +59,7 @@ export async function generateMetadata({
     openGraph: {
       type: "website" as const,
       locale: getOgLocale(locale),
-      url: `https://qr-platby.com/${locale}`,
+      url: locale === "sk" ? "https://qr-platby.com" : `https://qr-platby.com/${locale}`,
       siteName: "QR Platby",
       title: t("title"),
       description: t("ogDescription"),
