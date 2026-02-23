@@ -47,7 +47,7 @@ export default async function FaqPage({ params }: Props) {
   return (
     <div className="flex-1 pt-5 sm:pt-8 md:pt-16">
       <div className="mx-auto max-w-2xl space-y-6">
-        <h1 className="font-bold text-foreground text-lg uppercase tracking-wider sm:text-xl">
+        <h1 className="font-bold font-pixel text-foreground text-lg tracking-wide sm:text-xl">
           {t("faqTitle")}
         </h1>
         <Accordion>

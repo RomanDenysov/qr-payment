@@ -16,7 +16,9 @@ export function Footer() {
       <div className="border border-foreground/10 border-dashed px-4 py-3">
         <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div className="min-w-0">
-            <p className="font-medium text-sm md:text-base">{tFeedback("ctaTitle")}</p>
+            <p className="font-medium text-sm md:text-base">
+              {tFeedback("ctaTitle")}
+            </p>
             <p className="mt-0.5 text-muted-foreground text-xs md:text-sm">
               {tFeedback("ctaDescription")}
             </p>

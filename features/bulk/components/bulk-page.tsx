@@ -11,9 +11,9 @@ import {
   CardDescription,
   CardHeader,
 } from "@/components/ui/card";
-import { Link } from "@/i18n/navigation";
 import { useBrandingConfig } from "@/features/branding/store";
 import { FORMAT_LABELS } from "@/features/payment/format";
+import { Link } from "@/i18n/navigation";
 import { generateBulkQR } from "../bulk-generator";
 import {
   useBulkActions,
@@ -88,7 +88,7 @@ export function BulkPage() {
   return (
     <div className="flex-1 pt-5 sm:pt-8 md:pt-16">
       <div className="mx-auto max-w-2xl space-y-6">
-        <h1 className="font-bold text-foreground text-lg uppercase tracking-wider sm:text-xl">
+        <h1 className="font-bold font-pixel text-foreground text-lg tracking-wide sm:text-xl">
           {t("title")}
         </h1>
         <Card>
