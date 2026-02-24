@@ -170,6 +170,24 @@
     "title": "Ste offline",
     "description": "Táto stránka nie je dostupná offline. Skontrolujte pripojenie k internetu a skúste to znova."
   },
+  "ShareLink": {
+    "trigger": "Zdieľať link",
+    "title": "Zdieľať platbu odkazom",
+    "description": "Odkaz obsahuje IBAN, sumu, meno príjemcu, platobné symboly, poznámku a vzhľad QR kódu.",
+    "copyLink": "Kopírovať odkaz",
+    "copied": "Odkaz skopírovaný",
+    "copyFailed": "Nepodarilo sa skopírovať odkaz"
+  },
+  "SharePage": {
+    "title": "Platba QR kódom",
+    "download": "Stiahnuť",
+    "copy": "Kopírovať",
+    "copied": "QR kód skopírovaný",
+    "copyFailed": "Nepodarilo sa skopírovať QR kód",
+    "generateFailed": "Nepodarilo sa vygenerovať QR kód",
+    "invalidLink": "Neplatný alebo poškodený odkaz na platbu.",
+    "backHome": "Späť na hlavnú stránku"
+  },
   "Feedback": {
     "trigger": "Navrhnúť vylepšenie",
     "title": "Navrhnúť vylepšenie",

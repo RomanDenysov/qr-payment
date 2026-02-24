@@ -104,7 +104,10 @@ export function HistorySheet({ onOpen }: { onOpen?: () => void } = {}) {
       open={open}
     >
       <SheetTrigger
-        className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "h-8 text-sm md:h-7 md:text-xs")}
+        className={cn(
+          buttonVariants({ variant: "ghost", size: "sm" }),
+          "h-8 text-sm md:h-7 md:text-xs"
+        )}
       >
         <IconHistory />
         {t("title")}
