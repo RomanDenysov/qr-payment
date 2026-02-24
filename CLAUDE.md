@@ -61,6 +61,9 @@ i18n/                     # next-intl config (routing, navigation, request)
 lib/utils.ts              # Utility functions (cn, maskIban)
 env.ts                    # T3 env validation
 messages/{sk,en,cs}.json  # Translation files (namespaced keys)
+docs/
+  features.json           # Feature catalog (name, source, route, category)
+  analytics-events.json   # Analytics event map (event names, properties, sources)
 ```
 
 ## Key Patterns
@@ -109,6 +112,14 @@ This project uses Ultracite (Biome preset) for formatting and linting. Key rules
 - **UI components**: Always use shadcn/Base UI primitives (`@base-ui/react/accordion`, etc.) — don't build custom alternatives from lower-level primitives
 - **JSX ternary branches**: Must return a single expression — wrap multiple siblings in `<>...</>` fragment
 - **No `client-zip`**: ZIP export uses a zero-dependency manual implementation (STORE method) because Turbopack can't chunk the ESM-only `client-zip` package. Don't re-add it.
+
+## Documentation JSONs
+
+`docs/features.json` and `docs/analytics-events.json` are the source of truth for features and tracked events.
+
+- **Before implementation**: Read the relevant JSON to understand existing features/events
+- **After changes**: Update the JSON if you added, removed, or modified a feature or analytics event
+- Keep `source` paths accurate — they must point to real files
 
 ## Worktrees
 
