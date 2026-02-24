@@ -14,10 +14,9 @@ export function generateMetadata() {
 }
 
 export default async function SharePage({ params, searchParams }: Props) {
-  const { locale } = await params;
+  const [{ locale }, { d }] = await Promise.all([params, searchParams]);
   setRequestLocale(locale);
 
-  const { d } = await searchParams;
   const data = d ? decodeShareData(d) : null;
 
   return <SharePaymentView data={data} />;
