@@ -1,0 +1,163 @@
+{
+  "qr_generation": {
+    "qr_generated": {
+      "description": "User generated a QR code from the payment form",
+      "properties": { "format": "bysquare | epc" },
+      "source": "features/payment/use-payment-generator.ts"
+    },
+    "format_selected": {
+      "description": "User switched the QR format (BySquare / EPC)",
+      "properties": { "format": "bysquare | epc" },
+      "source": "features/payment/components/payment-form-card.tsx"
+    }
+  },
+
+  "qr_actions": {
+    "qr_downloaded": {
+      "description": "User downloaded the generated QR code as PNG",
+      "properties": null,
+      "source": "features/payment/components/qr-preview-card.tsx"
+    },
+    "qr_copied": {
+      "description": "User copied the QR code image to clipboard",
+      "properties": null,
+      "source": "features/payment/components/qr-preview-card.tsx"
+    },
+    "qr_shared": {
+      "description": "User used the native Web Share API to share the QR code",
+      "properties": null,
+      "source": "features/payment/components/qr-preview-card.tsx"
+    }
+  },
+
+  "share_link": {
+    "share_link_copied": {
+      "description": "User copied the shareable payment link from the share dialog",
+      "properties": null,
+      "source": "features/payment/components/share-link-dialog.tsx"
+    },
+    "shared_qr_downloaded": {
+      "description": "Recipient downloaded the QR code from the shared payment page",
+      "properties": null,
+      "source": "app/[locale]/p/share-qr-section.tsx"
+    },
+    "shared_qr_copied": {
+      "description": "Recipient copied the QR code from the shared payment page",
+      "properties": null,
+      "source": "app/[locale]/p/share-qr-section.tsx"
+    }
+  },
+
+  "branding": {
+    "qr_branding_applied": {
+      "description": "User applied custom branding (colors, text, logo) to the QR code",
+      "properties": null,
+      "source": "features/payment/components/qr-preview-card.tsx"
+    },
+    "logo_uploaded": {
+      "description": "User uploaded a custom logo for the QR code center",
+      "properties": null,
+      "source": "features/branding/components/branding-dialog.tsx"
+    },
+    "branding_reset": {
+      "description": "User reset branding settings to defaults",
+      "properties": null,
+      "source": "features/branding/components/branding-dialog.tsx"
+    },
+    "branding_template_saved": {
+      "description": "User saved current branding config as a reusable template",
+      "properties": null,
+      "source": "features/branding/components/template-selector.tsx"
+    },
+    "branding_template_loaded": {
+      "description": "User loaded a previously saved branding template",
+      "properties": null,
+      "source": "features/branding/components/template-selector.tsx"
+    },
+    "branding_template_deleted": {
+      "description": "User deleted a saved branding template",
+      "properties": null,
+      "source": "features/branding/components/template-selector.tsx"
+    }
+  },
+
+  "history": {
+    "history_entry_named": {
+      "description": "User assigned a custom name to a payment history entry",
+      "properties": null,
+      "source": "components/history-sheet.tsx"
+    },
+    "history_entry_unnamed": {
+      "description": "User removed the custom name from a history entry",
+      "properties": null,
+      "source": "components/history-sheet.tsx"
+    },
+    "history_item_selected": {
+      "description": "User loaded a previous payment from history into the form",
+      "properties": null,
+      "source": "components/history-sheet.tsx"
+    }
+  },
+
+  "bulk": {
+    "bulk_csv_uploaded": {
+      "description": "User uploaded a CSV file for bulk QR generation",
+      "properties": { "count": "number of rows", "format": "bysquare | epc" },
+      "source": "features/bulk/components/bulk-upload-section.tsx"
+    },
+    "bulk_sample_csv_downloaded": {
+      "description": "User downloaded the sample CSV template",
+      "properties": { "format": "bysquare | epc" },
+      "source": "features/bulk/components/bulk-upload-section.tsx"
+    },
+    "bulk_qr_generated": {
+      "description": "Bulk QR codes were generated from uploaded CSV",
+      "properties": {
+        "count": "number of QR codes",
+        "errorCount": "number of failed rows"
+      },
+      "source": "features/bulk/components/bulk-content.tsx"
+    },
+    "bulk_exported_zip": {
+      "description": "User exported bulk QR codes as a ZIP archive",
+      "properties": { "count": "number of QR codes" },
+      "source": "features/bulk/components/bulk-results-section.tsx"
+    },
+    "bulk_exported_pdf": {
+      "description": "User exported bulk QR codes as a PDF document",
+      "properties": { "count": "number of QR codes" },
+      "source": "features/bulk/components/bulk-results-section.tsx"
+    },
+    "bulk_printed": {
+      "description": "User printed bulk QR codes via browser print dialog",
+      "properties": { "count": "number of QR codes" },
+      "source": "features/bulk/components/bulk-results-section.tsx"
+    }
+  },
+
+  "feedback": {
+    "feature_request_opened": {
+      "description": "User opened the feature request / feedback dialog",
+      "properties": null,
+      "source": "features/feedback/components/feature-request-dialog.tsx"
+    },
+    "feature_request_submitted": {
+      "description": "User successfully submitted a feature request",
+      "properties": null,
+      "source": "features/feedback/send-feedback.ts"
+    },
+    "feature_request_failed": {
+      "description": "Feature request submission failed",
+      "properties": { "reason": "api-error | timeout | network-error" },
+      "source": "features/feedback/send-feedback.ts"
+    }
+  },
+
+  "misc": {
+    "consent_banner_dismissed": {
+      "description": "User dismissed the cookie/analytics consent banner",
+      "properties": null,
+      "source": "components/consent-banner.tsx"
+    }
+  }
+}
