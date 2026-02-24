@@ -25,7 +25,7 @@ const MAX_ROWS = 100;
 
 function detectFormat(headers: string[]): PaymentFormat {
   const lower = headers.map((h) => h.trim().toLowerCase());
-  if (lower.includes("bic") || lower.includes("recipientname")) {
+  if (lower.includes("bic")) {
     return "epc";
   }
   return "bysquare";
@@ -48,6 +48,7 @@ export function getExpectedHeaders(format: PaymentFormat): string[] {
         "variableSymbol",
         "specificSymbol",
         "constantSymbol",
+        "recipientName",
         "paymentNote",
       ];
 }

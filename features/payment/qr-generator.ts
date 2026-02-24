@@ -141,6 +141,7 @@ function buildQrPayload(
     ...(data.specificSymbol && { specificSymbol: data.specificSymbol }),
     ...(data.constantSymbol && { constantSymbol: data.constantSymbol }),
     ...(data.paymentNote && { paymentNote: data.paymentNote }),
+    ...(data.recipientName && { beneficiary: { name: data.recipientName } }),
   };
 
   return {

@@ -1,8 +1,8 @@
 import type { PaymentFormat } from "@/features/payment/format";
 
-const BYSQUARE_SAMPLE = `iban,amount,variableSymbol,specificSymbol,constantSymbol,paymentNote
-SK31 1200 0000 1987 4263 7541,25.50,1234567890,,,Platba za faktúru
-SK89 7500 0000 0000 1234 5671,100.00,9876543210,1234,0308,Nájomné január`;
+const BYSQUARE_SAMPLE = `iban,amount,variableSymbol,specificSymbol,constantSymbol,recipientName,paymentNote
+SK31 1200 0000 1987 4263 7541,25.50,1234567890,,,Ján Novák,Platba za faktúru
+SK89 7500 0000 0000 1234 5671,100.00,9876543210,1234,0308,Eva Horváthová,Nájomné január`;
 
 const EPC_SAMPLE = `iban,amount,recipientName,bic,paymentNote
 SK31 1200 0000 1987 4263 7541,25.50,Ján Novák,TATRSKBX,Platba za faktúru
