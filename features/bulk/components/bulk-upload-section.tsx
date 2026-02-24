@@ -10,6 +10,19 @@ import { useBulkActions } from "../store";
 import { CsvDropzone } from "./csv-dropzone";
 import { downloadSampleCsv } from "./sample-csv";
 
+function rowBucket(count: number): string {
+  if (count <= 5) {
+    return "1-5";
+  }
+  if (count <= 20) {
+    return "6-20";
+  }
+  if (count <= 50) {
+    return "21-50";
+  }
+  return "51-100";
+}
+
 const CSV_ERROR_KEYS = {
   empty: "csvEmpty",
   tooManyRows: "csvTooManyRows",
@@ -34,6 +47,7 @@ export function BulkUploadSection() {
           track("bulk_csv_uploaded", {
             count: parsed.length,
             format: parsed[0].row.format,
+            row_bucket: rowBucket(parsed.length),
           });
         }
       } catch (err) {

@@ -2,7 +2,12 @@
   "qr_generation": {
     "qr_generated": {
       "description": "User generated a QR code from the payment form",
-      "properties": { "format": "bysquare | epc" },
+      "properties": {
+        "format": "bysquare | epc",
+        "has_branding": "true if colors or center text differ from defaults",
+        "has_logo": "true if a logo is set",
+        "fields_filled": "count of optional fields filled (0-6)"
+      },
       "source": "features/payment/use-payment-generator.ts"
     },
     "format_selected": {
@@ -35,6 +40,14 @@
       "description": "User copied the shareable payment link from the share dialog",
       "properties": null,
       "source": "features/payment/components/share-link-dialog.tsx"
+    },
+    "share_page_viewed": {
+      "description": "Recipient opened the shared payment page",
+      "properties": {
+        "format": "bysquare | epc",
+        "has_amount": "true if amount > 0"
+      },
+      "source": "app/[locale]/p/share-qr-section.tsx"
     },
     "shared_qr_downloaded": {
       "description": "Recipient downloaded the QR code from the shared payment page",
@@ -102,7 +115,11 @@
   "bulk": {
     "bulk_csv_uploaded": {
       "description": "User uploaded a CSV file for bulk QR generation",
-      "properties": { "count": "number of rows", "format": "bysquare | epc" },
+      "properties": {
+        "count": "number of rows",
+        "format": "bysquare | epc",
+        "row_bucket": "1-5 | 6-20 | 21-50 | 51-100"
+      },
       "source": "features/bulk/components/bulk-upload-section.tsx"
     },
     "bulk_sample_csv_downloaded": {

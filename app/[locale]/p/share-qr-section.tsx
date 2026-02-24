@@ -32,6 +32,13 @@ export function ShareQRSection({ payment, branding, children }: Props) {
   const t = useTranslations("QRPreview");
 
   useEffect(() => {
+    track("share_page_viewed", {
+      format: payment.format ?? "bysquare",
+      has_amount: payment.amount > 0,
+    });
+  }, [payment.format, payment.amount]);
+
+  useEffect(() => {
     generatePaymentQR(payment, {
       ...branding,
       logo: null,
