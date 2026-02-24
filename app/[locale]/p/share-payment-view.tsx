@@ -15,7 +15,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { generatePaymentQR } from "@/features/payment/qr-generator";
+import {
+  generatePaymentQR,
+  InvalidIBANError,
+} from "@/features/payment/qr-generator";
 import type { SharePayload } from "@/features/payment/share-link";
 import { Link } from "@/i18n/navigation";
 import { maskIban } from "@/lib/utils";
@@ -49,10 +52,14 @@ export function SharePaymentView({ data }: Props) {
     })
       .then(setQrDataUrl)
       .catch((error) => {
+        const message =
+          error instanceof InvalidIBANError
+            ? error.message
+            : t("generateFailed");
         console.error("[SharePaymentView] Failed to generate QR code", error, {
           format: data.payment.format ?? "bysquare",
         });
-        toast.error(t("generateFailed"));
+        toast.error(message);
       });
   }, [data, t]);
 

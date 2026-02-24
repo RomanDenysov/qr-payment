@@ -19,5 +19,12 @@ export default async function SharePage({ params, searchParams }: Props) {
 
   const data = d ? decodeShareData(d) : null;
 
+  if (d && !data) {
+    console.error("[SharePage] Invalid share link", {
+      locale,
+      encodedLength: d.length,
+    });
+  }
+
   return <SharePaymentView data={data} />;
 }

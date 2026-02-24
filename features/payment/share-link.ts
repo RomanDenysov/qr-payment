@@ -132,7 +132,10 @@ export function decodeShareData(encoded: string): SharePayload | null {
         centerText: compact.ct ?? DEFAULT_CENTER_TEXT,
       },
     };
-  } catch {
+  } catch (error) {
+    console.error("[decodeShareData] Failed to decode share link", error, {
+      encodedLength: encoded.length,
+    });
     return null;
   }
 }
