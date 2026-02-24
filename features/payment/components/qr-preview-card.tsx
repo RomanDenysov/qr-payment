@@ -20,6 +20,7 @@ import { maskIban } from "@/lib/utils";
 import { generatePaymentQR, InvalidIBANError } from "../qr-generator";
 import type { PaymentRecord } from "../schema";
 import { useCurrentPayment, usePaymentActions } from "../store";
+import { ShareLinkDialog } from "./share-link-dialog";
 
 function FormatBadges({ payment }: { payment: PaymentRecord }) {
   const format = payment.format ?? "bysquare";
@@ -168,16 +169,21 @@ export function QRPreviewCard() {
         )}
       </CardContent>
       {current?.qrDataUrl ? (
-        <CardFooter className="mt-auto gap-2">
-          <Button className="flex-1" onClick={handleDownload} variant="outline">
+        <CardFooter className="mt-auto grid grid-cols-2 gap-2 sm:flex">
+          <ShareLinkDialog payment={current} />
+          <Button
+            className="col-span-2 sm:col-span-1 sm:flex-1"
+            onClick={handleDownload}
+            variant="outline"
+          >
             <IconDownload />
             {t("download")}
           </Button>
-          <Button className="flex-1" onClick={handleShare} variant="outline">
+          <Button className="sm:flex-1" onClick={handleShare} variant="outline">
             <IconShare />
             {t("share")}
           </Button>
-          <Button className="flex-1" onClick={handleCopy} variant="outline">
+          <Button className="sm:flex-1" onClick={handleCopy} variant="outline">
             <IconCopy />
             {t("copy")}
           </Button>

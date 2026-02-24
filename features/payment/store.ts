@@ -94,9 +94,9 @@ const paymentStore = create<PaymentHistoryStore>()(
 
           if (duplicate) {
             const updatedPayment = {
-              ...duplicate,
-              createdAt: payment.createdAt,
-              qrDataUrl: payment.qrDataUrl,
+              ...payment,
+              id: duplicate.id,
+              name: duplicate.name,
             };
             const filteredHistory = history.filter(
               (p) => p.id !== duplicate.id

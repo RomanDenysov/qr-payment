@@ -170,6 +170,25 @@
     "title": "You're offline",
     "description": "This page is not available offline. Check your internet connection and try again."
   },
+  "ShareLink": {
+    "trigger": "Share link",
+    "title": "Share payment via link",
+    "description": "The link contains IBAN, amount, recipient name, payment symbols, note, and QR code appearance.",
+    "copyLink": "Copy link",
+    "copied": "Link copied",
+    "copyFailed": "Failed to copy link",
+    "logoNotice": "The logo won't appear in the shared link. The recipient's QR code will be displayed without it."
+  },
+  "SharePage": {
+    "title": "QR Code Payment",
+    "download": "Download",
+    "copy": "Copy",
+    "copied": "QR code copied",
+    "copyFailed": "Failed to copy QR code",
+    "generateFailed": "Failed to generate QR code",
+    "invalidLink": "Invalid or corrupted payment link.",
+    "backHome": "Back to home page"
+  },
   "Feedback": {
     "trigger": "Suggest a feature",
     "title": "Suggest a feature",
