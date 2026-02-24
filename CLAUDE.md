@@ -27,6 +27,10 @@ bun x ultracite check      # Check for issues without fixing
 - **Forms**: react-hook-form + Zod validation
 - **State**: Zustand with localStorage persistence
 - **QR Generation**: bysquare library + qrcode canvas rendering
+- **Bulk Export**: jsPDF (PDF), manual ZIP (STORE method), PapaParse (CSV)
+- **Toasts**: Sonner
+- **Themes**: next-themes
+- **Analytics**: @vercel/analytics
 - **i18n**: next-intl with `[locale]` routing — locales: sk, en, cs
 
 ## Architecture
@@ -42,7 +46,18 @@ features/payment/         # Payment feature module
   store.ts                # Zustand store (history, deduplication)
   qr-generator.ts         # QR code generation with canvas overlay
   use-payment-generator.ts # Form submission hook
+features/bulk/            # Bulk QR generation from CSV
+  bulk-generator.ts       # Batch QR generation with progress
+  csv-parser.ts           # CSV parsing and validation (PapaParse)
+  export-pdf.ts           # A4 PDF export (jsPDF, 2x3 grid)
+  export-zip.ts           # ZIP export (zero-dep STORE method)
+  store.ts                # Zustand store for bulk state
+features/branding/        # QR code customization
+  store.ts                # Branding config (colors, logo, overlay text)
+  compress-logo.ts        # Logo compression for QR overlay
 features/feedback/        # Feature request / feedback module
+features/faq/             # FAQ data (translated)
+i18n/                     # next-intl config (routing, navigation, request)
 lib/utils.ts              # Utility functions (cn, maskIban)
 env.ts                    # T3 env validation
 messages/{sk,en,cs}.json  # Translation files (namespaced keys)
@@ -60,7 +75,10 @@ messages/{sk,en,cs}.json  # Translation files (namespaced keys)
   - `next/dynamic` with `ssr: false` requires a `"use client"` wrapper — cannot be used in server components
 - **Dynamic imports with SSR disabled** for Base UI components (prevents hydration mismatches)
 - **Feature-based organization** - Domain logic grouped in `features/` directory
-- **Zustand store hooks** - Use `useCurrentPayment()`, `usePaymentHistory()`, `usePaymentActions()`
+- **Zustand store hooks** - Each feature has its own store with granular selectors:
+  - Payment: `useCurrentPayment()`, `usePaymentHistory()`, `usePaymentActions()`
+  - Bulk: `useBulkRows()`, `useBulkResults()`, `useBulkActions()`, etc.
+  - Branding: `useBrandingConfig()`, `useBrandingActions()`
 - **Form validation** - Zod schemas with react-hook-form Controller pattern
 - **Translated Zod validation** - Use schema factory functions (e.g. `createSchema(messages)`) since hooks can't be called in schemas
 - **Base UI Dialog** - Inline wrapper components (DialogPortal, DialogOverlay, DialogContent), not shadcn re-exports
@@ -90,6 +108,7 @@ This project uses Ultracite (Biome preset) for formatting and linting. Key rules
 - **Biome suppression in JSX props**: Use `// biome-ignore` inline comment on the prop line, not `{/* */}` JSX comment
 - **UI components**: Always use shadcn/Base UI primitives (`@base-ui/react/accordion`, etc.) — don't build custom alternatives from lower-level primitives
 - **JSX ternary branches**: Must return a single expression — wrap multiple siblings in `<>...</>` fragment
+- **No `client-zip`**: ZIP export uses a zero-dependency manual implementation (STORE method) because Turbopack can't chunk the ESM-only `client-zip` package. Don't re-add it.
 
 ## Worktrees
 
