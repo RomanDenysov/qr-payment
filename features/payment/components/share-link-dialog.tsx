@@ -30,24 +30,23 @@ export function ShareLinkDialog({ payment }: Props) {
   const locale = useLocale();
   const t = useTranslations("ShareLink");
 
-  const shareUrl = useMemo(() => {
-    const encoded = encodeShareData(payment, {
+  const encoded = useMemo(() => {
+    return encodeShareData(payment, {
       fgColor: branding.fgColor,
       bgColor: branding.bgColor,
       centerText: branding.centerText,
     });
-    const prefix = locale === "sk" ? "" : `/${locale}`;
-    return `${window.location.origin}${prefix}/p?d=${encoded}`;
   }, [
     payment,
     branding.fgColor,
     branding.bgColor,
     branding.centerText,
-    locale,
   ]);
 
   const handleCopy = async () => {
     try {
+      const prefix = locale === "sk" ? "" : `/${locale}`;
+      const shareUrl = `${window.location.origin}${prefix}/p?d=${encoded}`;
       await navigator.clipboard.writeText(shareUrl);
       setCopied(true);
       track("share_link_copied");

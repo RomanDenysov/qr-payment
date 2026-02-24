@@ -133,9 +133,13 @@ export function SharePaymentView({ data }: Props) {
                 {maskIban(payment.iban)}
                 <button
                   className="inline-flex size-6 items-center justify-center rounded-sm text-muted-foreground hover:text-foreground"
-                  onClick={() => {
-                    navigator.clipboard.writeText(payment.iban);
-                    toast.success(t("copied"));
+                  onClick={async () => {
+                    try {
+                      await navigator.clipboard.writeText(payment.iban);
+                      toast.success(t("copied"));
+                    } catch {
+                      toast.error(t("copyFailed"));
+                    }
                   }}
                   type="button"
                 >

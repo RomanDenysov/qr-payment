@@ -89,15 +89,29 @@ export function encodeShareData(
   }
 
   const json = JSON.stringify(compact);
-  return toBase64Url(unescape(encodeURIComponent(json)));
+  const bytes = new TextEncoder().encode(json);
+  const binary = String.fromCharCode(...bytes);
+  return toBase64Url(binary);
 }
 
 export function decodeShareData(encoded: string): SharePayload | null {
   try {
-    const json = decodeURIComponent(escape(fromBase64Url(encoded)));
+    const binary = fromBase64Url(encoded);
+    const bytes = Uint8Array.from(binary, (c) => c.charCodeAt(0));
+    const json = new TextDecoder().decode(bytes);
     const compact: CompactPayload = JSON.parse(json);
 
     if (!(compact.f && compact.i && typeof compact.a === "number")) {
+      return null;
+    }
+
+    if (
+      typeof compact.f !== "string" ||
+      typeof compact.i !== "string" ||
+      compact.i.length > 34 ||
+      compact.a < 0 ||
+      compact.a > 999_999_999.99
+    ) {
       return null;
     }
 
