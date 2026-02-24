@@ -1,4 +1,3 @@
-import { downloadZip } from "client-zip";
 import type { GeneratedQR } from "./bulk-generator";
 
 const MIME_RE = /:(.*?);/;
@@ -15,6 +14,8 @@ function dataUrlToBlob(dataUrl: string): Blob {
 }
 
 export async function exportZip(items: GeneratedQR[]): Promise<void> {
+  const { downloadZip } = await import("client-zip");
+
   const files = items.map((item) => ({
     name: item.filename,
     input: dataUrlToBlob(item.dataUrl),

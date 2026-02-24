@@ -1,6 +1,7 @@
 "use server";
 
 import { track } from "@vercel/analytics/server";
+import { after } from "next/server";
 import z from "zod";
 import { env } from "@/env";
 
@@ -68,23 +69,31 @@ export async function sendFeedback(
         status: response.status,
         description: body?.description,
       });
-      await track("feature_request_failed", { reason: "api-error" });
+      after(async () => {
+        await track("feature_request_failed", { reason: "api-error" });
+      });
       return { success: false, error: "api-error" };
     }
 
-    await track("feature_request_submitted");
+    after(async () => {
+      await track("feature_request_submitted");
+    });
     return { success: true };
   } catch (error) {
     if (error instanceof Error && error.name === "AbortError") {
       console.error("[Feedback] Request timeout");
-      await track("feature_request_failed", { reason: "timeout" });
+      after(async () => {
+        await track("feature_request_failed", { reason: "timeout" });
+      });
       return { success: false, error: "timeout" };
     }
     console.error(
       "[Feedback] Network error:",
       error instanceof Error ? error.message : error
     );
-    await track("feature_request_failed", { reason: "network-error" });
+    after(async () => {
+      await track("feature_request_failed", { reason: "network-error" });
+    });
     return { success: false, error: "network-error" };
   }
 }

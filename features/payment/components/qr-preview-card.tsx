@@ -2,6 +2,7 @@
 
 import { IconCopy, IconDownload, IconShare } from "@tabler/icons-react";
 import { track } from "@vercel/analytics";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
@@ -14,13 +15,20 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { BrandingDialog } from "@/features/branding/components/branding-dialog";
 import { useBrandingConfig } from "@/features/branding/store";
 import { maskIban } from "@/lib/utils";
 import { generatePaymentQR, InvalidIBANError } from "../qr-generator";
 import type { PaymentRecord } from "../schema";
 import { useCurrentPayment, usePaymentActions } from "../store";
 import { ShareLinkDialog } from "./share-link-dialog";
+
+const BrandingDialog = dynamic(
+  () =>
+    import("@/features/branding/components/branding-dialog").then(
+      (m) => m.BrandingDialog
+    ),
+  { loading: () => null }
+);
 
 function FormatBadges({ payment }: { payment: PaymentRecord }) {
   const format = payment.format ?? "bysquare";

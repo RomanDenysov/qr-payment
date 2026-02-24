@@ -1,4 +1,3 @@
-import { jsPDF } from "jspdf";
 import { maskIban } from "@/lib/utils";
 import type { GeneratedQR } from "./bulk-generator";
 
@@ -14,7 +13,9 @@ const CELL_H = (PAGE_H - MARGIN * 2) / ROWS;
 const QR_SIZE = Math.min(CELL_W, CELL_H) * 0.65;
 const FONT_SIZE = 9;
 
-export function exportPdf(items: GeneratedQR[]): void {
+export async function exportPdf(items: GeneratedQR[]): Promise<void> {
+  const { jsPDF } = await import("jspdf");
+
   const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
 
   for (const [index, item] of items.entries()) {

@@ -4,6 +4,9 @@ import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 
+const CURRENCY_RE = /^[\d]*[,.]?[\d]{0,2}$/;
+const WHITESPACE_RE = /\s/g;
+
 interface CurrencyInputProps {
   value: number;
   onChange: (value: number) => void;
@@ -35,15 +38,14 @@ export function CurrencyInput({
       : "";
 
   const parseValue = (str: string): number => {
-    const normalized = str.replace(/\s/g, "").replace(",", ".");
+    const normalized = str.replace(WHITESPACE_RE, "").replace(",", ".");
     const parsed = Number.parseFloat(normalized);
     return Number.isNaN(parsed) ? 0 : Math.round(parsed * 100) / 100;
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const raw = e.target.value;
-    // biome-ignore lint/performance/useTopLevelRegex: Regex used in event handler
-    if (/^[\d]*[,.]?[\d]{0,2}$/.test(raw.replace(/\s/g, ""))) {
+    if (CURRENCY_RE.test(raw.replace(WHITESPACE_RE, ""))) {
       setInputValue(raw);
       onChange(parseValue(raw));
     }

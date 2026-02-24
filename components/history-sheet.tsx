@@ -40,6 +40,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import type { PaymentRecord } from "@/features/payment/schema";
 import { usePaymentActions, usePaymentHistory } from "@/features/payment/store";
 import { cn, maskIban } from "@/lib/utils";
 
@@ -58,8 +59,15 @@ export function HistorySheet({ onOpen }: { onOpen?: () => void } = {}) {
   const t = useTranslations("History");
   const locale = useLocale();
 
-  const named = history.filter((p) => p.name);
-  const unnamed = history.filter((p) => !p.name);
+  const named: PaymentRecord[] = [];
+  const unnamed: PaymentRecord[] = [];
+  for (const p of history) {
+    if (p.name) {
+      named.push(p);
+    } else {
+      unnamed.push(p);
+    }
+  }
   const sorted = [...named, ...unnamed];
 
   const formatDate = (dateString: string) => {

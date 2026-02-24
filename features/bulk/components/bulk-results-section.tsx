@@ -27,12 +27,12 @@ export function BulkResultsSection() {
     }
   }, [results, setError, t]);
 
-  const handleExportPdf = useCallback(() => {
+  const handleExportPdf = useCallback(async () => {
     if (!results) {
       return;
     }
     try {
-      exportPdf(results);
+      await exportPdf(results);
       track("bulk_exported_pdf", { count: results.length });
     } catch {
       setError(t("pdfError"));

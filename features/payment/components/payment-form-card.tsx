@@ -188,19 +188,22 @@ export function PaymentFormCard() {
   };
 
   useEffect(() => {
-    if (currentPayment) {
-      setValue("format", currentPayment.format ?? "bysquare");
-      setValue("iban", currentPayment.iban);
-      setValue("amount", currentPayment.amount);
-      setValue("recipientName", currentPayment.recipientName || "");
-      setValue("variableSymbol", currentPayment.variableSymbol || "");
-      setValue("specificSymbol", currentPayment.specificSymbol || "");
-      setValue("constantSymbol", currentPayment.constantSymbol || "");
-      setValue("paymentNote", currentPayment.paymentNote || "");
-      setValue("bic", currentPayment.bic || "");
-      setPreferredFormat(currentPayment.format ?? "bysquare");
+    if (!currentPayment) {
+      return;
     }
-  }, [currentPayment, setValue, setPreferredFormat]);
+    reset({
+      format: currentPayment.format ?? "bysquare",
+      iban: currentPayment.iban,
+      amount: currentPayment.amount,
+      recipientName: currentPayment.recipientName || "",
+      variableSymbol: currentPayment.variableSymbol || "",
+      specificSymbol: currentPayment.specificSymbol || "",
+      constantSymbol: currentPayment.constantSymbol || "",
+      paymentNote: currentPayment.paymentNote || "",
+      bic: currentPayment.bic || "",
+    });
+    setPreferredFormat(currentPayment.format ?? "bysquare");
+  }, [currentPayment, reset, setPreferredFormat]);
 
   const handleClear = () => {
     reset({ ...defaultValues, format });
