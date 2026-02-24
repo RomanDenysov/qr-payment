@@ -14,7 +14,14 @@ const QR_SIZE = Math.min(CELL_W, CELL_H) * 0.65;
 const FONT_SIZE = 9;
 
 export async function exportPdf(items: GeneratedQR[]): Promise<void> {
-  const { jsPDF } = await import("jspdf");
+  let jsPDF: typeof import("jspdf").jsPDF;
+  try {
+    const mod = await import("jspdf");
+    jsPDF = mod.jsPDF;
+  } catch (error) {
+    console.error("[ExportPdf] Failed to load jsPDF library:", error);
+    throw new Error("Failed to load PDF library");
+  }
 
   const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
 

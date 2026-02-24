@@ -69,21 +69,27 @@ export async function sendFeedback(
         status: response.status,
         description: body?.description,
       });
-      after(async () => {
-        await track("feature_request_failed", { reason: "api-error" });
+      after(() => {
+        track("feature_request_failed", { reason: "api-error" }).catch((err) =>
+          console.error("[Feedback] Failed to track event:", err)
+        );
       });
       return { success: false, error: "api-error" };
     }
 
-    after(async () => {
-      await track("feature_request_submitted");
+    after(() => {
+      track("feature_request_submitted").catch((err) =>
+        console.error("[Feedback] Failed to track event:", err)
+      );
     });
     return { success: true };
   } catch (error) {
     if (error instanceof Error && error.name === "AbortError") {
       console.error("[Feedback] Request timeout");
-      after(async () => {
-        await track("feature_request_failed", { reason: "timeout" });
+      after(() => {
+        track("feature_request_failed", { reason: "timeout" }).catch((err) =>
+          console.error("[Feedback] Failed to track event:", err)
+        );
       });
       return { success: false, error: "timeout" };
     }
@@ -91,8 +97,10 @@ export async function sendFeedback(
       "[Feedback] Network error:",
       error instanceof Error ? error.message : error
     );
-    after(async () => {
-      await track("feature_request_failed", { reason: "network-error" });
+    after(() => {
+      track("feature_request_failed", { reason: "network-error" }).catch(
+        (err) => console.error("[Feedback] Failed to track event:", err)
+      );
     });
     return { success: false, error: "network-error" };
   }

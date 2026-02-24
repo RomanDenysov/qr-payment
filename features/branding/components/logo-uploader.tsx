@@ -26,7 +26,8 @@ export function LogoUploader({ value, onChange }: LogoUploaderProps) {
         return;
       }
       onChange(result.data);
-    } catch (_error) {
+    } catch (error) {
+      console.error("[LogoUploader] Failed to compress logo:", error);
       toast.error(t("logoUploadError"));
     }
   };

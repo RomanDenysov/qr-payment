@@ -14,7 +14,14 @@ function dataUrlToBlob(dataUrl: string): Blob {
 }
 
 export async function exportZip(items: GeneratedQR[]): Promise<void> {
-  const { downloadZip } = await import("client-zip");
+  let downloadZip: typeof import("client-zip")["downloadZip"];
+  try {
+    const mod = await import("client-zip");
+    downloadZip = mod.downloadZip;
+  } catch (error) {
+    console.error("[ExportZip] Failed to load zip library:", error);
+    throw new Error("Failed to load ZIP library");
+  }
 
   const files = items.map((item) => ({
     name: item.filename,

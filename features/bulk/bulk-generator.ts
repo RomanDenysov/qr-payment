@@ -77,10 +77,17 @@ export async function generateBulkQR(
           filename: buildFilename(row),
         });
       } catch (err) {
+        const errorMessage =
+          err instanceof Error ? err.message : "Neznáma chyba";
+        console.error("[BulkGenerator] Row failed:", {
+          row: row.rowNumber,
+          iban: row.iban,
+          error: errorMessage,
+        });
         errors.push({
           rowNumber: row.rowNumber,
           iban: row.iban,
-          error: err instanceof Error ? err.message : "Neznáma chyba",
+          error: errorMessage,
         });
       }
 
