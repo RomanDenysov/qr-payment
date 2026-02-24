@@ -28,7 +28,7 @@ export function Footer() {
               <Button
                 className="w-full shrink-0 sm:w-auto"
                 size="lg"
-                variant="outline"
+                variant="default"
               >
                 <IconBulb />
                 {tFeedback("trigger")}
