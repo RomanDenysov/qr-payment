@@ -14,35 +14,15 @@ function dataUrlToBlob(dataUrl: string): Blob {
 }
 
 export async function exportZip(items: GeneratedQR[]): Promise<void> {
-  let downloadZip: typeof import("client-zip")["downloadZip"];
-  try {
-    const mod = await import("client-zip");
-    downloadZip = mod.downloadZip;
-  } catch (error) {
-    console.error("[ExportZip] Failed to load zip library:", error);
-    throw new Error("Failed to load ZIP library");
-  }
+  const { downloadZip } = await import("client-zip");
 
   const files = items.map((item) => ({
     name: item.filename,
     input: dataUrlToBlob(item.dataUrl),
   }));
 
-  let blob: Blob;
-  try {
-    blob = await downloadZip(files).blob();
-  } catch (error) {
-    console.error("[ExportZip] Failed to create ZIP:", error);
-    throw new Error("Failed to create ZIP file");
-  }
-
-  let url: string;
-  try {
-    url = URL.createObjectURL(blob);
-  } catch (error) {
-    console.error("[ExportZip] Failed to create object URL:", error);
-    throw new Error("Failed to create download link");
-  }
+  const blob = await downloadZip(files).blob();
+  const url = URL.createObjectURL(blob);
 
   try {
     const a = document.createElement("a");

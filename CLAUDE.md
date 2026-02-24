@@ -77,6 +77,7 @@ This project uses Ultracite (Biome preset) for formatting and linting. Key rules
 
 ## Gotchas
 
+- **Dynamic `import()` — don't wrap in try-catch**: Let errors propagate naturally to the caller. Never use `let x; try { x = await import(...) } catch { ... }` — it's ugly, loses the stack trace, and the caller already handles errors. Use bare `const { x } = await import("lib")`.
 - **Zod v4**: Use `.issues` not `.errors` on `ZodError` objects
 - **`bun install` after pull**: Remote PRs may add deps — run `bun install` before building
 - **`bunx shadcn` hangs**: CLI often hangs on "Resolving dependencies". Fetch source from `https://ui.shadcn.com/r/styles/base-lyra/<component>.json` instead
