@@ -183,7 +183,8 @@
     "copyLink": "Kopírovat odkaz",
     "copied": "Odkaz zkopírován",
     "copyFailed": "Nepodařilo se zkopírovat odkaz",
-    "logoNotice": "Logo se ve sdíleném odkazu nezobrazí. QR kód na stránce příjemce bude bez loga."
+    "logoNotice": "Logo se ve sdíleném odkazu nezobrazí. QR kód na stránce příjemce bude bez loga.",
+    "hint": "Po kliknutí na odkaz se příjemci zobrazí stránka s QR kódem, který naskenuje bankovní aplikací."
   },
   "SharePage": {
     "title": "Platba QR kódem",

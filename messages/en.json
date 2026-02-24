@@ -183,7 +183,8 @@
     "copyLink": "Copy link",
     "copied": "Link copied",
     "copyFailed": "Failed to copy link",
-    "logoNotice": "The logo won't appear in the shared link. The recipient's QR code will be displayed without it."
+    "logoNotice": "The logo won't appear in the shared link. The recipient's QR code will be displayed without it.",
+    "hint": "The recipient will see a page with the QR code, which they can scan using their banking app."
   },
   "SharePage": {
     "title": "QR Code Payment",

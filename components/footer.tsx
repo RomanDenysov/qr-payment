@@ -1,4 +1,4 @@
-import { IconBrandGithub, IconBulb } from "@tabler/icons-react";
+import { IconBrandGithub, IconBulb, IconCup } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { FeatureRequestDialog } from "@/features/feedback/components/feature-request-dialog";
@@ -56,6 +56,7 @@ export function Footer() {
           rel="noopener noreferrer"
           target="_blank"
         >
+          <IconCup className="size-4" />
           Buy me a coffee
         </a>
         <span className="text-foreground/15">·</span>

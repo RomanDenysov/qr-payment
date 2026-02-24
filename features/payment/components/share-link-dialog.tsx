@@ -127,6 +127,10 @@ export function ShareLinkDialog({ payment }: Props) {
               <Badge variant="secondary">BIC: {payment.bic}</Badge>
             ) : null}
           </div>
+
+          <p className="text-muted-foreground text-center text-xs">
+            {t("hint")}
+          </p>
         </div>
 
         {branding.logo ? (
