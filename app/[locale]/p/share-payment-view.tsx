@@ -204,6 +204,15 @@ export function SharePaymentView({ data }: Props) {
           </CardFooter>
         ) : null}
       </Card>
+
+      <div className="pt-4 text-center">
+        <Link
+          className="text-foreground text-xs underline underline-offset-4 hover:text-primary"
+          href="/"
+        >
+          ← {t("backHome")}
+        </Link>
+      </div>
     </div>
   );
 }
