@@ -4,7 +4,7 @@ import { IconCheck, IconCopy, IconLink } from "@tabler/icons-react";
 import { track } from "@vercel/analytics";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -26,6 +26,7 @@ interface Props {
 
 export function ShareLinkDialog({ payment }: Props) {
   const [copied, setCopied] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setTimeout>>(null);
   const branding = useBrandingConfig();
   const locale = useLocale();
   const t = useTranslations("ShareLink");
@@ -36,12 +37,7 @@ export function ShareLinkDialog({ payment }: Props) {
       bgColor: branding.bgColor,
       centerText: branding.centerText,
     });
-  }, [
-    payment,
-    branding.fgColor,
-    branding.bgColor,
-    branding.centerText,
-  ]);
+  }, [payment, branding.fgColor, branding.bgColor, branding.centerText]);
 
   const handleCopy = async () => {
     try {
@@ -51,11 +47,26 @@ export function ShareLinkDialog({ payment }: Props) {
       setCopied(true);
       track("share_link_copied");
       toast.success(t("copied"));
-      setTimeout(() => setCopied(false), 2000);
-    } catch {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
+      timerRef.current = setTimeout(() => setCopied(false), 2000);
+    } catch (error) {
+      console.error("[ShareLinkDialog] Failed to copy share link", error, {
+        locale,
+        encodedLength: encoded.length,
+      });
       toast.error(t("copyFailed"));
     }
   };
+
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
+    };
+  }, []);
 
   const format = payment.format ?? "bysquare";
 

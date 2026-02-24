@@ -101,14 +101,13 @@ export function decodeShareData(encoded: string): SharePayload | null {
     const json = new TextDecoder().decode(bytes);
     const compact: CompactPayload = JSON.parse(json);
 
-    if (!(compact.f && compact.i && typeof compact.a === "number")) {
-      return null;
-    }
-
     if (
       typeof compact.f !== "string" ||
+      (compact.f !== "bysquare" && compact.f !== "epc") ||
       typeof compact.i !== "string" ||
+      compact.i.length === 0 ||
       compact.i.length > 34 ||
+      typeof compact.a !== "number" ||
       compact.a < 0 ||
       compact.a > 999_999_999.99
     ) {
@@ -117,7 +116,7 @@ export function decodeShareData(encoded: string): SharePayload | null {
 
     return {
       payment: {
-        format: compact.f as PaymentFormData["format"],
+        format: compact.f,
         iban: compact.i,
         amount: compact.a,
         variableSymbol: compact.vs,

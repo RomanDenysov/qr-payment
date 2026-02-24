@@ -48,7 +48,10 @@ export function SharePaymentView({ data }: Props) {
       logo: null,
     })
       .then(setQrDataUrl)
-      .catch(() => {
+      .catch((error) => {
+        console.error("[SharePaymentView] Failed to generate QR code", error, {
+          format: data.payment.format ?? "bysquare",
+        });
         toast.error(t("generateFailed"));
       });
   }, [data, t]);
@@ -92,7 +95,8 @@ export function SharePaymentView({ data }: Props) {
       ]);
       track("shared_qr_copied");
       toast.success(t("copied"));
-    } catch {
+    } catch (error) {
+      console.error("[SharePaymentView] Failed to copy QR image", error);
       toast.error(t("copyFailed"));
     }
   };
@@ -137,7 +141,11 @@ export function SharePaymentView({ data }: Props) {
                     try {
                       await navigator.clipboard.writeText(payment.iban);
                       toast.success(t("copied"));
-                    } catch {
+                    } catch (error) {
+                      console.error(
+                        "[SharePaymentView] Failed to copy IBAN",
+                        error
+                      );
                       toast.error(t("copyFailed"));
                     }
                   }}
@@ -172,9 +180,7 @@ export function SharePaymentView({ data }: Props) {
             {payment.paymentNote ? (
               <PaymentField
                 label={
-                  format === "epc"
-                    ? tForm("paymentReference")
-                    : tForm("note")
+                  format === "epc" ? tForm("paymentReference") : tForm("note")
                 }
                 value={payment.paymentNote}
               />
