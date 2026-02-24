@@ -1,11 +1,17 @@
 "use client";
 
-import { IconCheck, IconCopy, IconLink } from "@tabler/icons-react";
+import {
+  IconCheck,
+  IconCopy,
+  IconInfoCircle,
+  IconLink,
+} from "@tabler/icons-react";
 import { track } from "@vercel/analytics";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -122,6 +128,13 @@ export function ShareLinkDialog({ payment }: Props) {
             ) : null}
           </div>
         </div>
+
+        {branding.logo ? (
+          <Alert>
+            <IconInfoCircle />
+            <AlertDescription>{t("logoNotice")}</AlertDescription>
+          </Alert>
+        ) : null}
 
         <Button className="w-full" onClick={handleCopy}>
           {copied ? <IconCheck /> : <IconCopy />}

@@ -176,7 +176,8 @@
     "description": "Odkaz obsahuje IBAN, sumu, meno príjemcu, platobné symboly, poznámku a vzhľad QR kódu.",
     "copyLink": "Kopírovať odkaz",
     "copied": "Odkaz skopírovaný",
-    "copyFailed": "Nepodarilo sa skopírovať odkaz"
+    "copyFailed": "Nepodarilo sa skopírovať odkaz",
+    "logoNotice": "Logo sa v zdieľanom odkaze nezobrazí. QR kód na stránke príjemcu bude bez loga."
   },
   "SharePage": {
     "title": "Platba QR kódom",

@@ -176,7 +176,8 @@
     "description": "The link contains IBAN, amount, recipient name, payment symbols, note, and QR code appearance.",
     "copyLink": "Copy link",
     "copied": "Link copied",
-    "copyFailed": "Failed to copy link"
+    "copyFailed": "Failed to copy link",
+    "logoNotice": "The logo won't appear in the shared link. The recipient's QR code will be displayed without it."
   },
   "SharePage": {
     "title": "QR Code Payment",
