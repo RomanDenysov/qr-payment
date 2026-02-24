@@ -17,7 +17,6 @@
     "@vercel/analytics": "^1.6.1",
     "bysquare": "^2.13.3",
     "class-variance-authority": "^0.7.1",
-    "client-zip": "^2.5.0",
     "clsx": "^2.1.1",
     "geist": "^1.7.0",
     "ibantools": "^4.5.1",

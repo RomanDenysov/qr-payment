@@ -15,14 +15,15 @@ export function BulkResultsSection() {
   const { setError } = useBulkActions();
   const t = useTranslations("Bulk");
 
-  const handleExportZip = useCallback(async () => {
+  const handleExportZip = useCallback(() => {
     if (!results) {
       return;
     }
     try {
-      await exportZip(results);
+      exportZip(results);
       track("bulk_exported_zip", { count: results.length });
-    } catch {
+    } catch (err) {
+      console.error("[BulkExport] ZIP failed:", err);
       setError(t("zipError"));
     }
   }, [results, setError, t]);
@@ -58,7 +59,7 @@ export function BulkResultsSection() {
       </p>
       <div className="flex flex-col gap-2 sm:flex-row print:hidden">
         <Button
-          className="flex-1 sm:flex-initial"
+          className="w-full sm:w-auto"
           onClick={handleExportZip}
           variant="outline"
         >
@@ -66,7 +67,7 @@ export function BulkResultsSection() {
           {t("downloadZip")}
         </Button>
         <Button
-          className="flex-1 sm:flex-initial"
+          className="w-full sm:w-auto"
           onClick={handleExportPdf}
           variant="outline"
         >
@@ -74,7 +75,7 @@ export function BulkResultsSection() {
           {t("downloadPdf")}
         </Button>
         <Button
-          className="flex-1 sm:flex-initial"
+          className="w-full sm:w-auto"
           onClick={handlePrint}
           variant="outline"
         >

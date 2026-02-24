@@ -93,6 +93,10 @@
   --chart-5: oklch(0.424 0.199 265.638);
 }
 
+@page {
+  margin: 10mm 15mm;
+}
+
 @media print {
   header,
   footer,

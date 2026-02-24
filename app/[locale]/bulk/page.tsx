@@ -38,18 +38,18 @@ export default async function Page({
   return (
     <div className="flex-1 pt-5 sm:pt-8 md:pt-16">
       <div className="mx-auto max-w-2xl space-y-6">
-        <h1 className="font-bold font-pixel text-foreground text-lg tracking-wide sm:text-xl">
+        <h1 className="font-bold font-pixel text-foreground text-lg tracking-wide print:hidden sm:text-xl">
           {t("title")}
         </h1>
         <Card>
-          <CardHeader>
+          <CardHeader className="print:hidden">
             <CardDescription>{t("description")}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <BulkContent />
           </CardContent>
         </Card>
-        <div className="pt-4 text-center">
+        <div className="pt-4 text-center print:hidden">
           <Link
             className="text-foreground text-xs underline underline-offset-4 hover:text-primary"
             href="/"

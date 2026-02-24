@@ -100,7 +100,7 @@ export function BulkContent() {
 
       {rows && (
         <>
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between print:hidden">
             <span className="text-muted-foreground text-xs">
               {t("format")}{" "}
               <span className="font-medium text-foreground">
