@@ -5,7 +5,7 @@ import { IconLoader3, IconQrcode, IconTrash } from "@tabler/icons-react";
 import { track } from "@vercel/analytics";
 import dynamic from "next/dynamic";
 import { useTranslations } from "next-intl";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { CurrencyInput } from "@/components/currency-input";
 import { inputVariants } from "@/components/ui/input";
@@ -44,9 +44,9 @@ import { Textarea } from "@/components/ui/textarea";
 import type { PaymentFormat } from "../format";
 import { FORMAT_LABELS } from "../format";
 import {
+  createPaymentFormSchema,
   type PaymentFormData,
   type PaymentRecord,
-  paymentFormSchema,
 } from "../schema";
 import {
   useCurrentPayment,
@@ -165,6 +165,8 @@ export function PaymentFormCard() {
   const storedFormat = usePreferredFormat();
   const { setPreferredFormat } = usePaymentActions();
   const t = useTranslations("PaymentForm");
+  const tv = useTranslations("Validation");
+  const schema = useMemo(() => createPaymentFormSchema(tv), [tv]);
   const {
     register,
     handleSubmit,
@@ -175,7 +177,7 @@ export function PaymentFormCard() {
     formState: { errors },
   } = useForm<PaymentFormData>({
     defaultValues: { ...defaultValues, format: storedFormat },
-    resolver: zodResolver(paymentFormSchema),
+    resolver: zodResolver(schema),
     mode: "onBlur",
   });
 

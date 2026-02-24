@@ -128,7 +128,7 @@ export function ShareLinkDialog({ payment }: Props) {
             ) : null}
           </div>
 
-          <p className="text-muted-foreground text-center text-xs">
+          <p className="text-center text-muted-foreground text-xs">
             {t("hint")}
           </p>
         </div>

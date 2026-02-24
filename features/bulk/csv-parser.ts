@@ -1,6 +1,7 @@
 import Papa from "papaparse";
+import type z from "zod";
 import type { PaymentFormat } from "@/features/payment/format";
-import { paymentFormSchema } from "@/features/payment/schema";
+import type { PaymentFormData } from "@/features/payment/schema";
 
 export interface CsvRow {
   rowNumber: number;
@@ -21,6 +22,24 @@ export interface ParsedRow {
   errors: string[];
 }
 
+type CsvErrorVariant =
+  | { code: "empty"; params?: undefined }
+  | { code: "tooManyRows"; params: { max: number; count: number } }
+  | { code: "readError"; params: { error: string } };
+
+export type CsvErrorCode = CsvErrorVariant["code"];
+
+export class CsvValidationError extends Error {
+  code: CsvErrorCode;
+  params?: Record<string, string | number>;
+
+  constructor(variant: CsvErrorVariant) {
+    super(variant.code);
+    this.code = variant.code;
+    this.params = variant.params;
+  }
+}
+
 const MAX_ROWS = 100;
 
 function detectFormat(headers: string[]): PaymentFormat {
@@ -29,14 +48,6 @@ function detectFormat(headers: string[]): PaymentFormat {
     return "epc";
   }
   return "bysquare";
-}
-
-function validateRow(row: CsvRow): string[] {
-  const result = paymentFormSchema.safeParse(row);
-  if (result.success) {
-    return [];
-  }
-  return result.error.issues.map((i) => i.message);
 }
 
 export function getExpectedHeaders(format: PaymentFormat): string[] {
@@ -53,22 +64,26 @@ export function getExpectedHeaders(format: PaymentFormat): string[] {
       ];
 }
 
-export async function parseCsv(file: File): Promise<ParsedRow[]> {
+export function parseCsv(
+  file: File,
+  schema: z.ZodType<PaymentFormData>
+): Promise<ParsedRow[]> {
   return new Promise((resolve, reject) => {
     Papa.parse<Record<string, string>>(file, {
       header: true,
       skipEmptyLines: true,
       complete: (results) => {
         if (!results.data.length) {
-          reject(new Error("CSV súbor je prázdny"));
+          reject(new CsvValidationError({ code: "empty" }));
           return;
         }
 
         if (results.data.length > MAX_ROWS) {
           reject(
-            new Error(
-              `Maximálny počet riadkov je ${MAX_ROWS} (nahraných: ${results.data.length})`
-            )
+            new CsvValidationError({
+              code: "tooManyRows",
+              params: { max: MAX_ROWS, count: results.data.length },
+            })
           );
           return;
         }
@@ -90,14 +105,22 @@ export async function parseCsv(file: File): Promise<ParsedRow[]> {
             format,
           };
 
-          const errors = validateRow(row);
+          const result = schema.safeParse(row);
+          const errors = result.success
+            ? []
+            : result.error.issues.map((i) => i.message);
           return { row, valid: errors.length === 0, errors };
         });
 
         resolve(parsed);
       },
       error: (error) =>
-        reject(new Error(`Chyba pri čítaní CSV: ${error.message}`)),
+        reject(
+          new CsvValidationError({
+            code: "readError",
+            params: { error: error.message },
+          })
+        ),
     });
   });
 }

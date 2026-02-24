@@ -4,76 +4,80 @@ import z from "zod";
 const BIC_RE = /^[A-Z]{4}[A-Z]{2}[A-Z0-9]{2}([A-Z0-9]{3})?$/i;
 const DIGITS_RE = /^\d*$/;
 
-export const paymentFormSchema = z
-  .object({
-    format: z.enum(["bysquare", "epc"]),
-    iban: z
-      .string()
-      .min(1, "IBAN je povinný")
-      .refine(
-        (val) => {
-          const electronic = electronicFormatIBAN(val);
-          return electronic && isValidIBAN(electronic);
-        },
-        { message: "Neplatný formát IBAN" }
-      ),
-    amount: z
-      .number({ message: "Suma je povinná" })
-      .min(0.01, "Suma musí byť väčšia ako 0"),
-    variableSymbol: z
-      .string()
-      .max(10, "Max 10 znakov")
-      .refine((val) => DIGITS_RE.test(val), "Povolené sú len číslice")
-      .optional(),
-    specificSymbol: z
-      .string()
-      .max(10, "Max 10 znakov")
-      .refine((val) => DIGITS_RE.test(val), "Povolené sú len číslice")
-      .optional(),
-    constantSymbol: z
-      .string()
-      .max(4, "Max 4 znaky")
-      .refine((val) => DIGITS_RE.test(val), "Povolené sú len číslice")
-      .optional(),
-    recipientName: z.string().max(70, "Max 70 znakov").optional(),
-    paymentNote: z.string().max(140, "Max 140 znakov").optional(),
-    bic: z.string().max(11, "Max 11 znakov").optional(),
-  })
-  .superRefine((data, ctx) => {
-    if (data.format === "epc") {
-      if (!data.recipientName?.trim()) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "Meno príjemcu je povinné pre EPC QR",
-          path: ["recipientName"],
-        });
-      }
+export function createPaymentFormSchema(t: (key: string) => string) {
+  return z
+    .object({
+      format: z.enum(["bysquare", "epc"]),
+      iban: z
+        .string()
+        .min(1, t("ibanRequired"))
+        .refine(
+          (val) => {
+            const electronic = electronicFormatIBAN(val);
+            return electronic && isValidIBAN(electronic);
+          },
+          { message: t("ibanInvalid") }
+        ),
+      amount: z
+        .number({ message: t("amountRequired") })
+        .min(0.01, t("amountMin")),
+      variableSymbol: z
+        .string()
+        .max(10, t("max10chars"))
+        .refine((val) => DIGITS_RE.test(val), t("digitsOnly"))
+        .optional(),
+      specificSymbol: z
+        .string()
+        .max(10, t("max10chars"))
+        .refine((val) => DIGITS_RE.test(val), t("digitsOnly"))
+        .optional(),
+      constantSymbol: z
+        .string()
+        .max(4, t("max4chars"))
+        .refine((val) => DIGITS_RE.test(val), t("digitsOnly"))
+        .optional(),
+      recipientName: z.string().max(70, t("max70chars")).optional(),
+      paymentNote: z.string().max(140, t("max140chars")).optional(),
+      bic: z.string().max(11, t("max11chars")).optional(),
+    })
+    .superRefine((data, ctx) => {
+      if (data.format === "epc") {
+        if (!data.recipientName?.trim()) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: t("recipientRequired"),
+            path: ["recipientName"],
+          });
+        }
 
-      if (data.bic && !BIC_RE.test(data.bic)) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "BIC musí mať 8 alebo 11 znakov",
-          path: ["bic"],
-        });
-      }
+        if (data.bic && !BIC_RE.test(data.bic)) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: t("bicInvalid"),
+            path: ["bic"],
+          });
+        }
 
-      if (data.amount > 999_999_999.99) {
+        if (data.amount > 999_999_999.99) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: t("epcMaxAmount"),
+            path: ["amount"],
+          });
+        }
+      } else if (data.format === "bysquare" && data.amount > 999_999_999.99) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
-          message: "Max suma pre EPC QR je 999 999 999,99 €",
+          message: t("bysquareMaxAmount"),
           path: ["amount"],
         });
       }
-    } else if (data.format === "bysquare" && data.amount > 999_999_999.99) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: "Suma je príliš veľká",
-        path: ["amount"],
-      });
-    }
-  });
+    });
+}
 
-export type PaymentFormData = z.infer<typeof paymentFormSchema>;
+export type PaymentFormData = z.infer<
+  ReturnType<typeof createPaymentFormSchema>
+>;
 
 export type PaymentRecord = PaymentFormData & {
   id: string;

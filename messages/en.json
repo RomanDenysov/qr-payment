@@ -160,7 +160,11 @@
     "errorColumn": "Error",
     "generationErrors": "{count, plural, one {Error generating QR code} other {Errors generating {count} QR codes}}",
     "rowError": "Row {row} ({iban}): {error}",
-    "moreErrors": "...and {count} more {count, plural, one {error} other {errors}}"
+    "moreErrors": "...and {count} more {count, plural, one {error} other {errors}}",
+    "csvEmpty": "CSV file is empty",
+    "csvTooManyRows": "Maximum number of rows is {max} (uploaded: {count})",
+    "csvReadError": "Error reading CSV: {error}",
+    "generateError": "Error generating QR codes"
   },
   "Error": {
     "title": "Something went wrong",
@@ -188,11 +192,8 @@
   },
   "SharePage": {
     "title": "QR Code Payment",
-    "download": "Download",
-    "copy": "Copy",
-    "copied": "QR code copied",
-    "copyFailed": "Failed to copy QR code",
-    "generateFailed": "Failed to generate QR code",
+    "copied": "IBAN copied",
+    "copyFailed": "Failed to copy IBAN",
     "invalidLink": "Invalid or corrupted payment link.",
     "backHome": "Back to home page"
   },

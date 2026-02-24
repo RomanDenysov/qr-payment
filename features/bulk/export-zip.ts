@@ -5,17 +5,17 @@ const CRC_TABLE = new Uint32Array(256);
 for (let i = 0; i < 256; i++) {
   let c = i;
   for (let j = 0; j < 8; j++) {
-    c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1;
+    c = c & 1 ? 0xed_b8_83_20 ^ (c >>> 1) : c >>> 1;
   }
   CRC_TABLE[i] = c;
 }
 
 function crc32(data: Uint8Array): number {
-  let crc = 0xffffffff;
+  let crc = 0xff_ff_ff_ff;
   for (const byte of data) {
     crc = (crc >>> 8) ^ CRC_TABLE[(crc ^ byte) & 0xff];
   }
-  return (crc ^ 0xffffffff) >>> 0;
+  return (crc ^ 0xff_ff_ff_ff) >>> 0;
 }
 
 function dataUrlToUint8Array(dataUrl: string): Uint8Array {
@@ -63,7 +63,7 @@ function createZip(files: { name: string; data: Uint8Array }[]): Blob {
 
     // Local file header (30 bytes)
     const local = new DataView(new ArrayBuffer(30));
-    local.setUint32(0, 0x04034b50, true);
+    local.setUint32(0, 0x04_03_4b_50, true);
     local.setUint16(4, 20, true);
     local.setUint16(8, 0, true);
     local.setUint32(14, crc, true);
@@ -75,7 +75,7 @@ function createZip(files: { name: string; data: Uint8Array }[]): Blob {
 
     // Central directory entry (46 bytes)
     const central = new DataView(new ArrayBuffer(46));
-    central.setUint32(0, 0x02014b50, true);
+    central.setUint32(0, 0x02_01_4b_50, true);
     central.setUint16(4, 20, true);
     central.setUint16(6, 20, true);
     central.setUint16(8, 0, true);
@@ -97,7 +97,7 @@ function createZip(files: { name: string; data: Uint8Array }[]): Blob {
 
   // End of central directory (22 bytes)
   const end = new DataView(new ArrayBuffer(22));
-  end.setUint32(0, 0x06054b50, true);
+  end.setUint32(0, 0x06_05_4b_50, true);
   end.setUint16(8, files.length, true);
   end.setUint16(10, files.length, true);
   end.setUint32(12, centralSize, true);

@@ -3,22 +3,31 @@
 import { IconDownload } from "@tabler/icons-react";
 import { track } from "@vercel/analytics";
 import { useTranslations } from "next-intl";
-import { useCallback } from "react";
-import { parseCsv } from "../csv-parser";
+import { useCallback, useMemo } from "react";
+import { createPaymentFormSchema } from "@/features/payment/schema";
+import { type CsvErrorCode, CsvValidationError, parseCsv } from "../csv-parser";
 import { useBulkActions } from "../store";
 import { CsvDropzone } from "./csv-dropzone";
 import { downloadSampleCsv } from "./sample-csv";
 
+const CSV_ERROR_KEYS = {
+  empty: "csvEmpty",
+  tooManyRows: "csvTooManyRows",
+  readError: "csvReadError",
+} as const satisfies Record<CsvErrorCode, string>;
+
 export function BulkUploadSection() {
   const { setRows, setDetectedFormat, setError, setResults } = useBulkActions();
   const t = useTranslations("Bulk");
+  const tv = useTranslations("Validation");
+  const schema = useMemo(() => createPaymentFormSchema(tv), [tv]);
 
   const handleFile = useCallback(
     async (file: File) => {
       setError(null);
       setResults(null);
       try {
-        const parsed = await parseCsv(file);
+        const parsed = await parseCsv(file, schema);
         setRows(parsed);
         if (parsed.length > 0) {
           setDetectedFormat(parsed[0].row.format);
@@ -28,10 +37,14 @@ export function BulkUploadSection() {
           });
         }
       } catch (err) {
-        setError(err instanceof Error ? err.message : t("fileReadError"));
+        if (err instanceof CsvValidationError) {
+          setError(t(CSV_ERROR_KEYS[err.code], err.params));
+        } else {
+          setError(err instanceof Error ? err.message : t("fileReadError"));
+        }
       }
     },
-    [setRows, setDetectedFormat, setError, setResults, t]
+    [setRows, setDetectedFormat, setError, setResults, t, schema]
   );
 
   return (

@@ -160,7 +160,11 @@
     "errorColumn": "Chyba",
     "generationErrors": "{count, plural, one {Chyba pri generovaní QR kódu} other {Chyby pri generovaní {count} QR kódov}}",
     "rowError": "Riadok {row} ({iban}): {error}",
-    "moreErrors": "...a ďalších {count} {count, plural, one {chyba} other {chýb}}"
+    "moreErrors": "...a ďalších {count} {count, plural, one {chyba} other {chýb}}",
+    "csvEmpty": "CSV súbor je prázdny",
+    "csvTooManyRows": "Maximálny počet riadkov je {max} (nahraných: {count})",
+    "csvReadError": "Chyba pri čítaní CSV: {error}",
+    "generateError": "Chyba pri generovaní"
   },
   "Error": {
     "title": "Niečo sa pokazilo",
@@ -188,11 +192,8 @@
   },
   "SharePage": {
     "title": "Platba QR kódom",
-    "download": "Stiahnuť",
-    "copy": "Kopírovať",
-    "copied": "QR kód skopírovaný",
-    "copyFailed": "Nepodarilo sa skopírovať QR kód",
-    "generateFailed": "Nepodarilo sa vygenerovať QR kód",
+    "copied": "IBAN skopírovaný",
+    "copyFailed": "Nepodarilo sa skopírovať IBAN",
     "invalidLink": "Neplatný alebo poškodený odkaz na platbu.",
     "backHome": "Späť na hlavnú stránku"
   },

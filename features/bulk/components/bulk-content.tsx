@@ -67,7 +67,7 @@ export function BulkContent() {
         format: detectedFormat,
       });
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Chyba pri generovani");
+      setError(err instanceof Error ? err.message : t("generateError"));
     } finally {
       finishGenerating();
     }
@@ -81,6 +81,7 @@ export function BulkContent() {
     setErrors,
     setError,
     finishGenerating,
+    t,
   ]);
 
   const progressPercent =

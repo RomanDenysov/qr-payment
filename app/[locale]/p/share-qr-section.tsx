@@ -29,7 +29,7 @@ interface Props {
 
 export function ShareQRSection({ payment, branding, children }: Props) {
   const [qrDataUrl, setQrDataUrl] = useState<string | null>(null);
-  const t = useTranslations("SharePage");
+  const t = useTranslations("QRPreview");
 
   useEffect(() => {
     generatePaymentQR(payment, {
