@@ -50,12 +50,18 @@ messages/{sk,en,cs}.json  # Translation files (namespaced keys)
 
 ## Key Patterns
 
-- **Server Components by default** - Mark interactive components with `"use client"`
+- **Server Components by default** - Only add `"use client"` when the component uses hooks, event handlers, or browser APIs. Push client boundaries to the smallest interactive leaves:
+  - Page-level layouts, headings, cards, and static text must stay server components
+  - Extract interactive parts (buttons with onClick, forms, state) into small client "islands"
+  - Pass server-rendered content into client components via `children` prop (RSC composition)
+  - `useTranslations` from `next-intl` works in both server and client components — prefer server
+  - `getTranslations` from `next-intl/server` for async server components
+  - Pure styled wrappers (e.g. table, label) without hooks must not have `"use client"`
+  - `next/dynamic` with `ssr: false` requires a `"use client"` wrapper — cannot be used in server components
 - **Dynamic imports with SSR disabled** for Base UI components (prevents hydration mismatches)
 - **Feature-based organization** - Domain logic grouped in `features/` directory
 - **Zustand store hooks** - Use `useCurrentPayment()`, `usePaymentHistory()`, `usePaymentActions()`
 - **Form validation** - Zod schemas with react-hook-form Controller pattern
-- **i18n in client components** - `useTranslations("Namespace")` hook, `Link` from `@/i18n/navigation`
 - **Translated Zod validation** - Use schema factory functions (e.g. `createSchema(messages)`) since hooks can't be called in schemas
 - **Base UI Dialog** - Inline wrapper components (DialogPortal, DialogOverlay, DialogContent), not shadcn re-exports
 
