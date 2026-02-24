@@ -1,0 +1,166 @@
+{
+  "features": [
+    {
+      "name": "QR Code Generator",
+      "source": "features/payment/",
+      "route": "/",
+      "category": "core",
+      "i18nNamespace": "Payment",
+      "clientSide": true,
+      "description": "Users enter payment details (IBAN, amount, symbols) and generate a scannable QR code in BySquare or EPC format."
+    },
+    {
+      "name": "QR Code Branding",
+      "source": "features/branding/",
+      "route": null,
+      "category": "core",
+      "i18nNamespace": "Branding",
+      "clientSide": true,
+      "description": "Customize QR code colors, add center text overlay, upload a logo, and save/load branding templates."
+    },
+    {
+      "name": "Payment History",
+      "source": "features/payment/store.ts",
+      "route": null,
+      "category": "core",
+      "i18nNamespace": "History",
+      "clientSide": true,
+      "description": "Auto-saves generated payments locally (max 50). Supports naming, pinning, restoring, and deleting entries."
+    },
+    {
+      "name": "Share Payment Link",
+      "source": "features/payment/components/share-link-dialog.tsx",
+      "route": "/p",
+      "category": "core",
+      "i18nNamespace": "SharePayment",
+      "clientSide": true,
+      "description": "Generate a shareable URL with encoded payment details. Recipients see the QR code and can copy the IBAN."
+    },
+    {
+      "name": "Bulk QR Generation",
+      "source": "features/bulk/",
+      "route": "/bulk",
+      "category": "core",
+      "i18nNamespace": "Bulk",
+      "clientSide": true,
+      "description": "Upload a CSV file to generate multiple QR codes at once. Export as ZIP, PDF, or print directly."
+    },
+    {
+      "name": "Format Selection",
+      "source": "features/payment/format.ts",
+      "route": null,
+      "category": "core",
+      "i18nNamespace": "Payment",
+      "clientSide": true,
+      "description": "Switch between BySquare (Slovak standard with VS/SS/KS) and EPC QR (European SEPA with BIC)."
+    },
+    {
+      "name": "QR Download & Copy",
+      "source": "features/payment/components/qr-actions.tsx",
+      "route": null,
+      "category": "export",
+      "i18nNamespace": "Payment",
+      "clientSide": true,
+      "description": "Download QR code as PNG, copy to clipboard, or share via system share menu."
+    },
+    {
+      "name": "Bulk ZIP Export",
+      "source": "features/bulk/export-zip.ts",
+      "route": null,
+      "category": "export",
+      "i18nNamespace": "Bulk",
+      "clientSide": true,
+      "description": "Download all generated QR codes as PNG files in a ZIP archive using a zero-dependency STORE implementation."
+    },
+    {
+      "name": "Bulk PDF Export",
+      "source": "features/bulk/export-pdf.ts",
+      "route": null,
+      "category": "export",
+      "i18nNamespace": "Bulk",
+      "clientSide": true,
+      "description": "Generate a printable A4 PDF with QR codes laid out in a 2x3 grid per page using jsPDF."
+    },
+    {
+      "name": "Bulk Print",
+      "source": "features/bulk/components/bulk-results-section.tsx",
+      "route": null,
+      "category": "export",
+      "i18nNamespace": "Bulk",
+      "clientSide": true,
+      "description": "Print QR codes directly from the browser with an optimized 3-column grid layout."
+    },
+    {
+      "name": "FAQ",
+      "source": "features/faq/",
+      "route": "/faq",
+      "category": "ui",
+      "i18nNamespace": "FAQ",
+      "clientSide": false,
+      "description": "Accordion-style FAQ page with JSON-LD structured data for SEO."
+    },
+    {
+      "name": "Feature Requests",
+      "source": "features/feedback/",
+      "route": null,
+      "category": "ui",
+      "i18nNamespace": "Feedback",
+      "clientSide": true,
+      "description": "Dialog for users to submit improvement suggestions with rate limiting and submission history."
+    },
+    {
+      "name": "Multi-Language Support",
+      "source": "messages/",
+      "route": null,
+      "category": "ui",
+      "i18nNamespace": null,
+      "clientSide": false,
+      "description": "Full localization in Slovak, Czech, and English with locale-prefixed routes and language switcher."
+    },
+    {
+      "name": "Theme Switching",
+      "source": "components/theme-toggle.tsx",
+      "route": null,
+      "category": "ui",
+      "i18nNamespace": null,
+      "clientSide": true,
+      "description": "Toggle between light and dark mode with OS preference detection and persistence."
+    },
+    {
+      "name": "Consent Banner",
+      "source": "components/consent-banner.tsx",
+      "route": null,
+      "category": "ui",
+      "i18nNamespace": "Consent",
+      "clientSide": true,
+      "description": "One-time banner informing users about localStorage usage. No cookies, no data collection."
+    },
+    {
+      "name": "Offline Support",
+      "source": "app/[locale]/~offline/page.tsx",
+      "route": "/~offline",
+      "category": "ui",
+      "i18nNamespace": "Offline",
+      "clientSide": false,
+      "description": "Service worker enables partial offline functionality. QR generation works without internet."
+    },
+    {
+      "name": "Privacy Policy",
+      "source": "app/[locale]/ochrana-udajov/page.tsx",
+      "route": "/ochrana-udajov",
+      "category": "legal",
+      "i18nNamespace": "Privacy",
+      "clientSide": false,
+      "description": "Data protection information page explaining that all data stays in the browser."
+    },
+    {
+      "name": "Terms of Service",
+      "source": "app/[locale]/podmienky/page.tsx",
+      "route": "/podmienky",
+      "category": "legal",
+      "i18nNamespace": "Terms",
+      "clientSide": false,
+      "description": "Usage terms and conditions for the service."
+    }
+  ]
+}
