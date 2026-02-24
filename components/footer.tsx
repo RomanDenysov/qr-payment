@@ -1,7 +1,4 @@
-"use client";
-
-import { IconBrandGithub, IconBulb, IconCup } from "@tabler/icons-react";
-import { track } from "@vercel/analytics";
+import { IconBrandGithub, IconBulb } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { FeatureRequestDialog } from "@/features/feedback/components/feature-request-dialog";
@@ -56,11 +53,9 @@ export function Footer() {
         <a
           className="inline-flex items-center gap-1 hover:text-foreground"
           href="https://buymeacoffee.com/romandenysov"
-          onClick={() => track("coffee_link_clicked")}
           rel="noopener noreferrer"
           target="_blank"
         >
-          <IconCup className="size-4" />
           Buy me a coffee
         </a>
         <span className="text-foreground/15">·</span>
