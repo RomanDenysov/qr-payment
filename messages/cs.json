@@ -71,7 +71,9 @@
     "max11chars": "Max 11 znaků",
     "recipientRequired": "Jméno příjemce je povinné pro EPC QR",
     "bicInvalid": "BIC musí mít 8 nebo 11 znaků",
-    "epcMaxAmount": "Max částka pro EPC QR je 999 999 999,99 €"
+    "epcMaxAmount": "Max částka pro EPC QR je 999 999 999,99 €",
+    "digitsOnly": "Povoleny jsou pouze číslice",
+    "bysquareMaxAmount": "Částka je příliš velká"
   },
   "QRPreview": {
     "title": "QR kód",
@@ -81,7 +83,7 @@
     "copy": "Kopírovat",
     "downloaded": "QR kód stažen",
     "copied": "QR kód zkopírován",
-    "copyFailed": "Nepodařilo se zkopírovat QR kód",
+    "copyFailed": "Nepodařilo se zkopírovati QR kód",
     "shared": "QR kód sdílen",
     "generated": "QR kód vygenerován",
     "generateFailed": "Nepodařilo se vygenerovat QR kód",
@@ -123,7 +125,8 @@
     "addLogo": "Přidat logo",
     "logoTooLarge": "Obrázek po kompresi na 64×64px překročil 10 KB. Zkuste jednodušší nebo menší obrázek.",
     "reset": "Resetovat",
-    "done": "Hotovo"
+    "done": "Hotovo",
+    "logoUploadError": "Chyba při nahrávání loga. Zkuste to znovu."
   },
   "Templates": {
     "title": "Šablony",
@@ -154,7 +157,10 @@
     "valid": "Platné:",
     "invalid": "Neplatné:",
     "noteColumn": "Poznámka",
-    "errorColumn": "Chyba"
+    "errorColumn": "Chyba",
+    "generationErrors": "{count, plural, one {Chyba při generování QR kódu} other {Chyby při generování {count} QR kódů}}",
+    "rowError": "Řádek {row} ({iban}): {error}",
+    "moreErrors": "...a dalších {count} {count, plural, one {chyba} other {chyb}}"
   },
   "Error": {
     "title": "Něco se pokazilo",

@@ -11,9 +11,20 @@ export interface GeneratedQR {
   filename: string;
 }
 
+export interface RowError {
+  rowNumber: number;
+  iban: string;
+  error: string;
+}
+
 export interface GenerationProgress {
   current: number;
   total: number;
+}
+
+export interface BulkGenerationResult {
+  results: GeneratedQR[];
+  errors: RowError[];
 }
 
 const CHUNK_SIZE = 2;
@@ -46,25 +57,37 @@ export async function generateBulkQR(
   rows: CsvRow[],
   branding: QRBranding | undefined,
   onProgress?: (progress: GenerationProgress) => void
-): Promise<GeneratedQR[]> {
+): Promise<BulkGenerationResult> {
   const results: GeneratedQR[] = [];
+  const errors: RowError[] = [];
 
   for (let i = 0; i < rows.length; i += CHUNK_SIZE) {
     const chunk = rows.slice(i, i + CHUNK_SIZE);
 
     for (const row of chunk) {
-      const data = toPaymentData(row);
-      const dataUrl = await generatePaymentQR(data, branding);
+      try {
+        const data = toPaymentData(row);
+        const dataUrl = await generatePaymentQR(data, branding);
 
-      results.push({
-        rowNumber: row.rowNumber,
-        iban: row.iban,
-        amount: row.amount,
-        dataUrl,
-        filename: buildFilename(row),
+        results.push({
+          rowNumber: row.rowNumber,
+          iban: row.iban,
+          amount: row.amount,
+          dataUrl,
+          filename: buildFilename(row),
+        });
+      } catch (err) {
+        errors.push({
+          rowNumber: row.rowNumber,
+          iban: row.iban,
+          error: err instanceof Error ? err.message : "Neznáma chyba",
+        });
+      }
+
+      onProgress?.({
+        current: results.length + errors.length,
+        total: rows.length,
       });
-
-      onProgress?.({ current: results.length, total: rows.length });
     }
 
     if (i + CHUNK_SIZE < rows.length) {
@@ -72,5 +95,5 @@ export async function generateBulkQR(
     }
   }
 
-  return results;
+  return { results, errors };
 }

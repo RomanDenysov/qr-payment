@@ -19,12 +19,16 @@ export function LogoUploader({ value, onChange }: LogoUploaderProps) {
   const t = useTranslations("Branding");
 
   const handleFile = async (file: File) => {
-    const result = await compressLogo(file);
-    if (!result) {
-      toast.error(t("logoTooLarge"));
-      return;
+    try {
+      const result = await compressLogo(file);
+      if (!result) {
+        toast.error(t("logoTooLarge"));
+        return;
+      }
+      onChange(result.data);
+    } catch (_error) {
+      toast.error(t("logoUploadError"));
     }
-    onChange(result.data);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

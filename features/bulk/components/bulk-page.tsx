@@ -19,6 +19,7 @@ import {
   useBulkActions,
   useBulkDetectedFormat,
   useBulkError,
+  useBulkErrors,
   useBulkGenerating,
   useBulkProgress,
   useBulkResults,
@@ -35,11 +36,13 @@ export function BulkPage() {
   const generating = useBulkGenerating();
   const progress = useBulkProgress();
   const results = useBulkResults();
+  const rowErrors = useBulkErrors();
   const error = useBulkError();
   const t = useTranslations("Bulk");
   const tMeta = useTranslations("Metadata");
   const {
     setResults,
+    setErrors,
     setError,
     startGenerating,
     updateProgress,
@@ -57,13 +60,20 @@ export function BulkPage() {
     startGenerating(validRows.length);
 
     try {
-      const qrs = await generateBulkQR(
+      const { results: qrs, errors: qrErrors } = await generateBulkQR(
         validRows.map((r) => r.row),
         branding,
         (p) => updateProgress(p.current)
       );
       setResults(qrs);
-      track("bulk_qr_generated", { count: qrs.length, format: detectedFormat });
+      if (qrErrors.length > 0) {
+        setErrors(qrErrors);
+      }
+      track("bulk_qr_generated", {
+        count: qrs.length,
+        errors: qrErrors.length,
+        format: detectedFormat,
+      });
     } catch (err) {
       setError(err instanceof Error ? err.message : "Chyba pri generovani");
     } finally {
@@ -76,6 +86,7 @@ export function BulkPage() {
     startGenerating,
     updateProgress,
     setResults,
+    setErrors,
     setError,
     finishGenerating,
   ]);
@@ -149,6 +160,32 @@ export function BulkPage() {
                 )}
 
                 <BulkResultsSection />
+
+                {rowErrors && rowErrors.length > 0 && (
+                  <div className="border border-amber-500/50 bg-amber-500/10 p-3 text-amber-700 text-sm dark:text-amber-400">
+                    <p className="mb-2 font-medium">
+                      {t("generationErrors", { count: rowErrors.length })}
+                    </p>
+                    <ul className="space-y-1 text-xs">
+                      {rowErrors.slice(0, 5).map((err) => (
+                        <li key={err.rowNumber}>
+                          {t("rowError", {
+                            row: err.rowNumber,
+                            iban: err.iban,
+                            error: err.error,
+                          })}
+                        </li>
+                      ))}
+                      {rowErrors.length > 5 && (
+                        <li>
+                          {t("moreErrors", {
+                            count: rowErrors.length - 5,
+                          })}
+                        </li>
+                      )}
+                    </ul>
+                  </div>
+                )}
               </>
             )}
           </CardContent>

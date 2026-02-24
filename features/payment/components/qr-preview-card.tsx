@@ -110,7 +110,8 @@ export function QRPreviewCard() {
       ]);
       track("qr_copied");
       toast.success(t("copied"));
-    } catch {
+    } catch (error) {
+      console.error("[QRPreviewCard] Failed to copy QR image:", error);
       toast.error(t("copyFailed"));
     }
   };

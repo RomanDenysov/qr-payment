@@ -71,7 +71,9 @@
     "max11chars": "Max 11 characters",
     "recipientRequired": "Recipient name is required for EPC QR",
     "bicInvalid": "BIC must be 8 or 11 characters",
-    "epcMaxAmount": "Max amount for EPC QR is 999,999,999.99 €"
+    "epcMaxAmount": "Max amount for EPC QR is 999,999,999.99 €",
+    "digitsOnly": "Only digits are allowed",
+    "bysquareMaxAmount": "Amount is too large"
   },
   "QRPreview": {
     "title": "QR Code",
@@ -123,7 +125,8 @@
     "addLogo": "Add logo",
     "logoTooLarge": "Image after compression to 64×64px exceeded 10 KB. Try a simpler or smaller image.",
     "reset": "Reset",
-    "done": "Done"
+    "done": "Done",
+    "logoUploadError": "Error uploading logo. Please try again."
   },
   "Templates": {
     "title": "Templates",
@@ -154,7 +157,10 @@
     "valid": "Valid:",
     "invalid": "Invalid:",
     "noteColumn": "Note",
-    "errorColumn": "Error"
+    "errorColumn": "Error",
+    "generationErrors": "{count, plural, one {Error generating QR code} other {Errors generating {count} QR codes}}",
+    "rowError": "Row {row} ({iban}): {error}",
+    "moreErrors": "...and {count} more {count, plural, one {error} other {errors}}"
   },
   "Error": {
     "title": "Something went wrong",

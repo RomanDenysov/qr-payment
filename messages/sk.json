@@ -71,7 +71,9 @@
     "max11chars": "Max 11 znakov",
     "recipientRequired": "Meno príjemcu je povinné pre EPC QR",
     "bicInvalid": "BIC musí mať 8 alebo 11 znakov",
-    "epcMaxAmount": "Max suma pre EPC QR je 999 999 999,99 €"
+    "epcMaxAmount": "Max suma pre EPC QR je 999 999 999,99 €",
+    "digitsOnly": "Povolené sú len číslice",
+    "bysquareMaxAmount": "Suma je príliš veľká"
   },
   "QRPreview": {
     "title": "QR kód",
@@ -115,7 +117,7 @@
     "warning": "Úpravy môžu ovplyvniť čitateľnosť QR kódu. Pred použitím otestujte.",
     "fgColor": "Farba QR kódu",
     "bgColor": "Farba pozadia",
-    "lowContrast": "Nízky kontrast",
+    "lowContrast": "Nízký kontrast",
     "centerText": "Text v strede",
     "centerTextPlaceholder": "Naskenujte\nbankovou\naplikáciou",
     "centerTextDescription": "Každý riadok sa zobrazí samostatne",
@@ -123,7 +125,8 @@
     "addLogo": "Pridať logo",
     "logoTooLarge": "Obrázok po kompresii na 64×64px prekročil 10 KB. Skúste jednoduchší alebo menší obrázok.",
     "reset": "Resetovať",
-    "done": "Hotovo"
+    "done": "Hotovo",
+    "logoUploadError": "Chyba pri nahrávání loga. Skúste znova."
   },
   "Templates": {
     "title": "Šablóny",
@@ -154,7 +157,10 @@
     "valid": "Platné:",
     "invalid": "Neplatné:",
     "noteColumn": "Poznámka",
-    "errorColumn": "Chyba"
+    "errorColumn": "Chyba",
+    "generationErrors": "{count, plural, one {Chyba pri generovaní QR kódu} other {Chyby pri generovaní {count} QR kódov}}",
+    "rowError": "Riadok {row} ({iban}): {error}",
+    "moreErrors": "...a ďalších {count} {count, plural, one {chyba} other {chýb}}"
   },
   "Error": {
     "title": "Niečo sa pokazilo",

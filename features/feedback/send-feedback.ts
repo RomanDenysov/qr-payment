@@ -10,7 +10,12 @@ const feedbackSchema = z.object({
   deviceType: z.string().min(1).max(50),
 });
 
-type SendFeedbackResult = { success: true } | { success: false; error: string };
+type SendFeedbackResult =
+  | { success: true }
+  | {
+      success: false;
+      error: "invalid-input" | "api-error" | "network-error" | "timeout";
+    };
 
 function formatMessage(
   message: string,
@@ -70,6 +75,11 @@ export async function sendFeedback(
     await track("feature_request_submitted");
     return { success: true };
   } catch (error) {
+    if (error instanceof Error && error.name === "AbortError") {
+      console.error("[Feedback] Request timeout");
+      await track("feature_request_failed", { reason: "timeout" });
+      return { success: false, error: "timeout" };
+    }
     console.error(
       "[Feedback] Network error:",
       error instanceof Error ? error.message : error

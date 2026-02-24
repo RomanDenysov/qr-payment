@@ -38,9 +38,14 @@ function getPaymentFingerprint(payment: PaymentRecord): string {
   const iban = electronicFormatIBAN(payment.iban) || payment.iban;
 
   if (format === "epc") {
-    return ["epc", iban, payment.amount.toFixed(2), payment.bic || ""].join(
-      "|"
-    );
+    return [
+      "epc",
+      iban,
+      payment.amount.toFixed(2),
+      payment.bic || "",
+      payment.recipientName || "",
+      payment.paymentNote || "",
+    ].join("|");
   }
 
   return [
@@ -50,6 +55,8 @@ function getPaymentFingerprint(payment: PaymentRecord): string {
     payment.variableSymbol || "",
     payment.specificSymbol || "",
     payment.constantSymbol || "",
+    payment.recipientName || "",
+    payment.paymentNote || "",
   ].join("|");
 }
 
@@ -164,6 +171,14 @@ const paymentStore = create<PaymentHistoryStore>()(
         current: state.current,
         preferredFormat: state.preferredFormat,
       }),
+      onRehydrateStorage: () => (_state, error) => {
+        if (error) {
+          console.error(
+            "[PaymentStore] Failed to rehydrate from localStorage:",
+            error
+          );
+        }
+      },
     }
   )
 );

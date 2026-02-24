@@ -2,6 +2,7 @@ import { electronicFormatIBAN, isValidIBAN } from "ibantools";
 import z from "zod";
 
 const BIC_RE = /^[A-Z]{4}[A-Z]{2}[A-Z0-9]{2}([A-Z0-9]{3})?$/i;
+const DIGITS_RE = /^\d*$/;
 
 export const paymentFormSchema = z
   .object({
@@ -19,9 +20,21 @@ export const paymentFormSchema = z
     amount: z
       .number({ message: "Suma je povinná" })
       .min(0.01, "Suma musí byť väčšia ako 0"),
-    variableSymbol: z.string().max(10, "Max 10 znakov").optional(),
-    specificSymbol: z.string().max(10, "Max 10 znakov").optional(),
-    constantSymbol: z.string().max(4, "Max 4 znaky").optional(),
+    variableSymbol: z
+      .string()
+      .max(10, "Max 10 znakov")
+      .refine((val) => DIGITS_RE.test(val), "Povolené sú len číslice")
+      .optional(),
+    specificSymbol: z
+      .string()
+      .max(10, "Max 10 znakov")
+      .refine((val) => DIGITS_RE.test(val), "Povolené sú len číslice")
+      .optional(),
+    constantSymbol: z
+      .string()
+      .max(4, "Max 4 znaky")
+      .refine((val) => DIGITS_RE.test(val), "Povolené sú len číslice")
+      .optional(),
     recipientName: z.string().max(70, "Max 70 znakov").optional(),
     paymentNote: z.string().max(140, "Max 140 znakov").optional(),
     bic: z.string().max(11, "Max 11 znakov").optional(),
@@ -51,6 +64,12 @@ export const paymentFormSchema = z
           path: ["amount"],
         });
       }
+    } else if (data.format === "bysquare" && data.amount > 999_999_999.99) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Suma je príliš veľká",
+        path: ["amount"],
+      });
     }
   });
 

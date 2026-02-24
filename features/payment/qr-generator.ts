@@ -70,8 +70,17 @@ function drawCenterText(
 function loadImage(src: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
     const img = new Image();
-    img.onload = () => resolve(img);
-    img.onerror = () => reject(new Error("Failed to load logo"));
+    const timer = setTimeout(() => {
+      reject(new Error("Logo loading timed out"));
+    }, 5000);
+    img.onload = () => {
+      clearTimeout(timer);
+      resolve(img);
+    };
+    img.onerror = () => {
+      clearTimeout(timer);
+      reject(new Error("Failed to load logo"));
+    };
     img.src = src;
   });
 }

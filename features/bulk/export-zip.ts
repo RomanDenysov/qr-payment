@@ -20,13 +20,28 @@ export async function exportZip(items: GeneratedQR[]): Promise<void> {
     input: dataUrlToBlob(item.dataUrl),
   }));
 
-  const blob = await downloadZip(files).blob();
-  const url = URL.createObjectURL(blob);
+  let blob: Blob;
+  try {
+    blob = await downloadZip(files).blob();
+  } catch (error) {
+    console.error("[ExportZip] Failed to create ZIP:", error);
+    throw new Error("Failed to create ZIP file");
+  }
 
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "qr-platby.zip";
-  a.click();
+  let url: string;
+  try {
+    url = URL.createObjectURL(blob);
+  } catch (error) {
+    console.error("[ExportZip] Failed to create object URL:", error);
+    throw new Error("Failed to create download link");
+  }
 
-  URL.revokeObjectURL(url);
+  try {
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "qr-platby.zip";
+    a.click();
+  } finally {
+    URL.revokeObjectURL(url);
+  }
 }

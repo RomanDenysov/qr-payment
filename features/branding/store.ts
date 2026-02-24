@@ -81,6 +81,14 @@ const brandingStore = create<BrandingState>()(
         config: state.config,
         templates: state.templates,
       }),
+      onRehydrateStorage: () => (_state, error) => {
+        if (error) {
+          console.error(
+            "[BrandingStore] Failed to rehydrate from localStorage:",
+            error
+          );
+        }
+      },
     }
   )
 );
