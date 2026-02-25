@@ -10,6 +10,15 @@
       "description": "Users enter payment details (IBAN, amount, symbols) and generate a scannable QR code in BySquare or EPC format."
     },
     {
+      "name": "QR Code Generation API",
+      "source": "app/api/v1/qr/route.ts",
+      "route": "/api/v1/qr",
+      "category": "core",
+      "i18nNamespace": null,
+      "clientSide": false,
+      "description": "REST API for generating BySquare QR payment codes. Supports PNG/SVG output, configurable size, and IP-based rate limiting via Upstash Redis."
+    },
+    {
       "name": "QR Code Branding",
       "source": "features/branding/",
       "route": null,

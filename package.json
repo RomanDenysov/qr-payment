@@ -14,6 +14,8 @@
     "@hookform/resolvers": "^5.2.2",
     "@t3-oss/env-nextjs": "^0.13.10",
     "@tabler/icons-react": "^3.36.1",
+    "@upstash/ratelimit": "^2.0.8",
+    "@upstash/redis": "^1.36.2",
     "@vercel/analytics": "^1.6.1",
     "bysquare": "^2.13.3",
     "class-variance-authority": "^0.7.1",

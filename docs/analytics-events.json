@@ -17,6 +17,17 @@
     }
   },
 
+  "api": {
+    "api_qr_generated": {
+      "description": "QR code generated via the REST API",
+      "properties": {
+        "format": "png | svg",
+        "hasAmount": "true if amount was provided"
+      },
+      "source": "app/api/v1/qr/route.ts"
+    }
+  },
+
   "qr_actions": {
     "qr_downloaded": {
       "description": "User downloaded the generated QR code as PNG",

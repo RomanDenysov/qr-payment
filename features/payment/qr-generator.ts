@@ -1,7 +1,6 @@
-import { CurrencyCode, encode, PaymentOptions } from "bysquare";
 import { electronicFormatIBAN, isValidIBAN } from "ibantools";
 import QRCode from "qrcode";
-import { encodeEpcQr } from "./epc-encoder";
+import { buildQrPayload } from "./qr-payload";
 import type { PaymentFormData } from "./schema";
 
 export class InvalidIBANError extends Error {
@@ -111,43 +110,6 @@ async function drawLogo(
   ctx.fill();
 
   ctx.drawImage(img, x, y, logoSize, logoSize);
-}
-
-function buildQrPayload(
-  data: PaymentFormData,
-  cleanIban: string
-): { payload: string; errorCorrectionLevel: "H" | "M" } {
-  const format = data.format ?? "bysquare";
-
-  if (format === "epc") {
-    return {
-      payload: encodeEpcQr({
-        iban: cleanIban,
-        amount: data.amount,
-        beneficiaryName: data.recipientName ?? "",
-        bic: data.bic || undefined,
-        remittanceText: data.paymentNote || undefined,
-      }),
-      errorCorrectionLevel: "M",
-    };
-  }
-
-  const payment: Parameters<typeof encode>[0]["payments"][0] = {
-    type: PaymentOptions.PaymentOrder,
-    amount: data.amount,
-    currencyCode: CurrencyCode.EUR,
-    bankAccounts: [{ iban: cleanIban }],
-    ...(data.variableSymbol && { variableSymbol: data.variableSymbol }),
-    ...(data.specificSymbol && { specificSymbol: data.specificSymbol }),
-    ...(data.constantSymbol && { constantSymbol: data.constantSymbol }),
-    ...(data.paymentNote && { paymentNote: data.paymentNote }),
-    ...(data.recipientName && { beneficiary: { name: data.recipientName } }),
-  };
-
-  return {
-    payload: encode({ payments: [payment] }),
-    errorCorrectionLevel: "H",
-  };
 }
 
 export async function generatePaymentQR(
