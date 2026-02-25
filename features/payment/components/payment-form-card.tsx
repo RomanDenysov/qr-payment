@@ -248,23 +248,11 @@ export function PaymentFormCard() {
       <CardHeader>
         <div className="flex items-center justify-between gap-2">
           <CardTitle>{t("title")}</CardTitle>
-          <div className="flex gap-2">
-            {format === "bysquare" ? (
-              <SegmentedControl
-                onChange={(val) => {
-                  setValue("currency", val as "EUR" | "CZK");
-                  setPreferredCurrency(val as "EUR" | "CZK");
-                }}
-                options={CURRENCY_OPTIONS}
-                value={currency ?? "EUR"}
-              />
-            ) : null}
-            <SegmentedControl
-              onChange={handleFormatChange}
-              options={FORMAT_OPTIONS}
-              value={format ?? "bysquare"}
-            />
-          </div>
+          <SegmentedControl
+            onChange={handleFormatChange}
+            options={FORMAT_OPTIONS}
+            value={format ?? "bysquare"}
+          />
         </div>
       </CardHeader>
       <form className="flex h-full flex-col" onSubmit={handleSubmit(generate)}>
@@ -292,19 +280,34 @@ export function PaymentFormCard() {
             <Field>
               <FieldLabel htmlFor="amount">{t("amount")}</FieldLabel>
               <FieldContent>
-                <Controller
-                  control={control}
-                  name="amount"
-                  render={({ field }) => (
-                    <CurrencyInput
-                      currency={currency ?? "EUR"}
-                      id="amount"
-                      onChange={field.onChange}
-                      placeholder={t("amountPlaceholder")}
-                      value={field.value}
+                <div className="flex items-stretch gap-2">
+                  <div className="flex-1">
+                    <Controller
+                      control={control}
+                      name="amount"
+                      render={({ field }) => (
+                        <CurrencyInput
+                          currency={currency ?? "EUR"}
+                          id="amount"
+                          onChange={field.onChange}
+                          placeholder={t("amountPlaceholder")}
+                          value={field.value}
+                        />
+                      )}
                     />
-                  )}
-                />
+                  </div>
+                  {format === "bysquare" ? (
+                    <SegmentedControl
+                      className="h-auto"
+                      onChange={(val) => {
+                        setValue("currency", val as "EUR" | "CZK");
+                        setPreferredCurrency(val as "EUR" | "CZK");
+                      }}
+                      options={CURRENCY_OPTIONS}
+                      value={currency ?? "EUR"}
+                    />
+                  ) : null}
+                </div>
                 <FieldError
                   errors={errors.amount ? [errors.amount] : undefined}
                 />
