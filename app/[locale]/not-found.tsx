@@ -10,7 +10,9 @@ export default function NotFoundPage() {
   return (
     <div className="flex flex-1 flex-col items-center justify-center gap-4 py-16 text-center">
       <IconMoodSad className="size-12 text-muted-foreground" />
-      <h1 className="font-pixel font-semibold text-xl">{t("title")}</h1>
+      <h1 className="font-bold font-pixel text-xl tracking-wide">
+        {t("title")}
+      </h1>
       <p className="max-w-md text-muted-foreground text-sm">
         {t("description")}
       </p>

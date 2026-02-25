@@ -34,7 +34,9 @@ export default async function TermsPage({ params }: Props) {
         </p>
 
         <section className="space-y-2">
-          <h2 className="font-semibold text-base text-foreground">O službe</h2>
+          <h2 className="font-pixel font-semibold text-base text-foreground">
+            O službe
+          </h2>
           <p>
             QR Platby je bezplatný online nástroj na generovanie QR kódov pre
             bankové platby vo formáte BySquare a EPC. Služba je poskytovaná „tak
@@ -43,7 +45,7 @@ export default async function TermsPage({ params }: Props) {
         </section>
 
         <section className="space-y-2">
-          <h2 className="font-semibold text-base text-foreground">
+          <h2 className="font-pixel font-semibold text-base text-foreground">
             Zodpovednosť
           </h2>
           <p>
@@ -54,7 +56,7 @@ export default async function TermsPage({ params }: Props) {
         </section>
 
         <section className="space-y-2">
-          <h2 className="font-semibold text-base text-foreground">
+          <h2 className="font-pixel font-semibold text-base text-foreground">
             Kompatibilita
           </h2>
           <p>
@@ -64,7 +66,7 @@ export default async function TermsPage({ params }: Props) {
         </section>
 
         <section className="space-y-2">
-          <h2 className="font-semibold text-base text-foreground">
+          <h2 className="font-pixel font-semibold text-base text-foreground">
             Zmeny služby
           </h2>
           <p>
@@ -74,7 +76,7 @@ export default async function TermsPage({ params }: Props) {
         </section>
 
         <section className="space-y-2">
-          <h2 className="font-semibold text-base text-foreground">
+          <h2 className="font-pixel font-semibold text-base text-foreground">
             Zdrojový kód
           </h2>
           <p>
@@ -92,7 +94,9 @@ export default async function TermsPage({ params }: Props) {
         </section>
 
         <section className="space-y-2">
-          <h2 className="font-semibold text-base text-foreground">Kontakt</h2>
+          <h2 className="font-pixel font-semibold text-base text-foreground">
+            Kontakt
+          </h2>
           <p>
             V prípade otázok kontaktujte:{" "}
             <a

@@ -16,7 +16,9 @@ export default function ErrorPage({
   return (
     <div className="flex flex-1 flex-col items-center justify-center gap-4 py-16 text-center">
       <IconAlertTriangle className="size-12 text-destructive" />
-      <h1 className="font-pixel font-semibold text-xl">{t("title")}</h1>
+      <h1 className="font-bold font-pixel text-xl tracking-wide">
+        {t("title")}
+      </h1>
       <p className="max-w-md text-muted-foreground text-sm">
         {error.message || t("defaultMessage")}
       </p>
