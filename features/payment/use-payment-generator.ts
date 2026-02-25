@@ -9,6 +9,12 @@ import { generatePaymentQR, InvalidIBANError } from "./qr-generator";
 import type { PaymentFormData, PaymentRecord } from "./schema";
 import { usePaymentActions } from "./store";
 
+function resolveCenter(branding: BrandingConfig, translated: string): string {
+  return branding.centerText === DEFAULT_CONFIG.centerText
+    ? translated
+    : branding.centerText;
+}
+
 function trackQrGenerated(formData: PaymentFormData, branding: BrandingConfig) {
   const hasBranding =
     branding.fgColor !== DEFAULT_CONFIG.fgColor ||
@@ -37,12 +43,19 @@ export function usePaymentGenerator() {
   const { setCurrent } = usePaymentActions();
   const branding = useBrandingConfig();
   const t = useTranslations("QRPreview");
+  const tBranding = useTranslations("Branding");
 
   const generate = useCallback(
     (formData: PaymentFormData) => {
       startTransition(async () => {
         try {
-          const qrDataUrl = await generatePaymentQR(formData, branding);
+          const qrDataUrl = await generatePaymentQR(formData, {
+            ...branding,
+            centerText: resolveCenter(
+              branding,
+              tBranding("centerTextPlaceholder")
+            ),
+          });
 
           const record: PaymentRecord = {
             ...formData,
@@ -67,7 +80,7 @@ export function usePaymentGenerator() {
         }
       });
     },
-    [setCurrent, branding, t]
+    [setCurrent, branding, t, tBranding]
   );
 
   return { generate, isPending };

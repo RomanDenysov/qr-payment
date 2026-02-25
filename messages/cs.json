@@ -14,7 +14,7 @@
     "termsDescription": "Podmínky používání aplikace QR Platby.",
     "faqTitle": "Často kladené otázky",
     "faqDescription": "Odpovědi na nejčastější otázky o generátoru QR kódů pro platby.",
-    "homeH1": "Bezplatný generátor QR kódů pro bankovní převody",
+    "homeH1": "Bezplatný generátor QR kódů pro české a slovenské bankovní platby",
     "backToHome": "Zpět na hlavní stránku"
   },
   "Nav": {
@@ -201,7 +201,7 @@
     "title": "API k dispozici",
     "description": "Integrujte generování QR kódů do vaší aplikace, chatbota nebo workflow. Zdarma, bez API klíče.",
     "promptHint": "Stačí se zeptat ChatGPT nebo Clauda:",
-    "prompt": "Vygeneruj QR kód pro slovenskou bankovní platbu 25€ na IBAN SK3112000000198742637541 pomocí QR Platby API na https://qr-platby.com/api/v1/qr",
+    "prompt": "Nejprve zavolej GET https://qr-platby.com/api/v1/qr pro dokumentaci API, poté vygeneruj PAY by square QR kód na 25€ na IBAN SK3112000000198742637541",
     "viewDocs": "Zobrazit API dokumentaci",
     "copied": "Zkopírováno!",
     "copyFailed": "Nepodařilo se zkopírovat"

@@ -14,7 +14,7 @@
     "termsDescription": "Terms of use for the QR Payments application.",
     "faqTitle": "Frequently Asked Questions",
     "faqDescription": "Answers to the most common questions about the QR code payment generator.",
-    "homeH1": "Free QR Code Generator for Bank Payments",
+    "homeH1": "Free QR Code Generator for Slovak & Czech Bank Payments",
     "backToHome": "Back to home page"
   },
   "Nav": {
@@ -201,7 +201,7 @@
     "title": "API Available",
     "description": "Integrate QR code generation into your app, chatbot, or workflow. Free, no API key required.",
     "promptHint": "Just ask ChatGPT or Claude:",
-    "prompt": "Generate a QR code for a Slovak bank payment of 25€ to IBAN SK3112000000198742637541 using the QR Platby API at https://qr-platby.com/api/v1/qr",
+    "prompt": "First GET https://qr-platby.com/api/v1/qr to read the API docs, then generate a PAY by square QR code for 25€ to IBAN SK3112000000198742637541",
     "viewDocs": "View API Docs",
     "copied": "Copied!",
     "copyFailed": "Failed to copy"
