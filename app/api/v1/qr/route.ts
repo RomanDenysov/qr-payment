@@ -3,6 +3,7 @@ import type { CurrencyCode } from "bysquare";
 import { type NextRequest, NextResponse } from "next/server";
 import { InvalidIBANError } from "@/features/payment/qr-generator";
 import { generatePaymentQRServer } from "@/features/payment/qr-generator.server";
+import { apiDocs } from "@/lib/api/qr-docs";
 import {
   type QrErrorResponse,
   type QrGenerationResponse,
@@ -14,9 +15,18 @@ export const runtime = "nodejs";
 
 const CORS_HEADERS = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "POST, OPTIONS",
+  "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type",
 };
+
+export function GET() {
+  return NextResponse.json(apiDocs, {
+    headers: {
+      ...CORS_HEADERS,
+      "Cache-Control": "public, max-age=3600",
+    },
+  });
+}
 
 export function OPTIONS() {
   return new NextResponse(null, { status: 204, headers: CORS_HEADERS });

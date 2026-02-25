@@ -13,8 +13,8 @@ interface Limiter {
   ) => Promise<{ success: boolean; remaining: number; reset: number }>;
 }
 
-const MINUTE_LIMIT = 10;
-const DAILY_LIMIT = 100;
+export const MINUTE_LIMIT = 10;
+export const DAILY_LIMIT = 100;
 
 let minuteLimiter: Limiter | null = null;
 let dailyLimiter: Limiter | null = null;

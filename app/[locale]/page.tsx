@@ -1,4 +1,5 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { ApiCard } from "@/features/api/api-card";
 import { PaymentFormCard } from "@/features/payment/components/payment-form-card";
 import { QRPreviewCard } from "@/features/payment/components/qr-preview-card";
 import { getAlternates } from "@/lib/seo";
@@ -26,6 +27,9 @@ export default async function Page({ params }: Props) {
       <section className="mt-6 grid gap-8 *:rounded-none sm:grid-cols-2">
         <PaymentFormCard />
         <QRPreviewCard />
+      </section>
+      <section className="mt-8">
+        <ApiCard />
       </section>
     </div>
   );

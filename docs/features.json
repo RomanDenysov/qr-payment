@@ -19,6 +19,24 @@
       "description": "REST API for generating BySquare QR payment codes. Supports PNG/SVG output, configurable size, and IP-based rate limiting via Upstash Redis."
     },
     {
+      "name": "API Documentation Endpoint",
+      "source": "lib/api/qr-docs.ts",
+      "route": "/api/v1/qr",
+      "category": "core",
+      "i18nNamespace": null,
+      "clientSide": false,
+      "description": "GET handler returning machine-readable JSON docs for the QR generation API, enabling AI agent discovery."
+    },
+    {
+      "name": "API Card",
+      "source": "features/api/api-card.tsx",
+      "route": "/",
+      "category": "ui",
+      "i18nNamespace": "Api",
+      "clientSide": true,
+      "description": "Homepage card advertising the QR generation API with a copyable ChatGPT/Claude prompt and link to API docs."
+    },
+    {
       "name": "QR Code Branding",
       "source": "features/branding/",
       "route": null,

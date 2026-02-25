@@ -197,6 +197,15 @@
     "invalidLink": "Invalid or corrupted payment link.",
     "backHome": "Back to home page"
   },
+  "Api": {
+    "title": "API Available",
+    "description": "Integrate QR code generation into your app, chatbot, or workflow. Free, no API key required.",
+    "promptHint": "Just ask ChatGPT or Claude:",
+    "prompt": "Generate a QR code for a Slovak bank payment of 25€ to IBAN SK3112000000198742637541 using the QR Platby API at https://qr-platby.com/api/v1/qr",
+    "viewDocs": "View API Docs",
+    "copied": "Copied!",
+    "copyFailed": "Failed to copy"
+  },
   "Feedback": {
     "trigger": "Suggest a feature",
     "title": "Suggest a feature",

@@ -197,6 +197,15 @@
     "invalidLink": "Neplatný alebo poškodený odkaz na platbu.",
     "backHome": "Späť na hlavnú stránku"
   },
+  "Api": {
+    "title": "API k dispozícii",
+    "description": "Integrujte generovanie QR kódov do vašej aplikácie, chatbota alebo workflow. Zadarmo, bez API kľúča.",
+    "promptHint": "Stačí sa opýtať ChatGPT alebo Clauda:",
+    "prompt": "Vygeneruj QR kód pre slovenskú bankovú platbu 25€ na IBAN SK3112000000198742637541 pomocou QR Platby API na https://qr-platby.com/api/v1/qr",
+    "viewDocs": "Zobraziť API dokumentáciu",
+    "copied": "Skopírované!",
+    "copyFailed": "Nepodarilo sa skopírovať"
+  },
   "Feedback": {
     "trigger": "Navrhnúť vylepšenie",
     "title": "Navrhnúť vylepšenie",
