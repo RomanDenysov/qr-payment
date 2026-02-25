@@ -1,10 +1,6 @@
 "use client";
 
-import {
-  IconArrowRight,
-  IconCheck,
-  IconCopy,
-} from "@tabler/icons-react";
+import { IconArrowRight, IconCheck, IconCopy } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -27,7 +23,12 @@ export function ApiCard() {
   };
 
   return (
-    <div className="group overflow-hidden ring-1 ring-foreground/10 transition-[box-shadow] duration-300 hover:ring-foreground/20">
+    <article
+      aria-label="QR Platby API"
+      className="group overflow-hidden ring-1 ring-foreground/10 transition-[box-shadow] duration-300 hover:ring-foreground/20"
+      itemScope
+      itemType="https://schema.org/WebAPI"
+    >
       {/* Terminal header bar */}
       <div className="flex items-center justify-between border-foreground/10 border-b bg-muted/50 px-4 py-2">
         <div className="flex items-center gap-3">
@@ -50,10 +51,16 @@ export function ApiCard() {
       {/* Card body */}
       <div className="space-y-4 px-4 py-4">
         <div className="space-y-1">
-          <h3 className="font-bold font-pixel text-xl tracking-wide sm:text-2xl">
+          <h3
+            className="font-bold font-pixel text-xl tracking-wide sm:text-2xl"
+            itemProp="name"
+          >
             {t("title")}
           </h3>
-          <p className="text-muted-foreground text-sm/relaxed">
+          <p
+            className="text-muted-foreground text-sm/relaxed"
+            itemProp="description"
+          >
             {t("description")}
           </p>
         </div>
@@ -62,8 +69,8 @@ export function ApiCard() {
         <div className="space-y-2">
           <p className="text-muted-foreground text-xs">{t("promptHint")}</p>
           <div className="group/prompt relative">
-            <div className="overflow-x-auto bg-foreground/[0.04] p-3 ring-1 ring-foreground/5 dark:bg-foreground/[0.06]">
-              <div className="flex gap-2 text-xs leading-relaxed">
+            <pre className="overflow-x-auto bg-foreground/[0.04] p-3 ring-1 ring-foreground/5 dark:bg-foreground/[0.06]">
+              <code className="flex gap-2 text-xs leading-relaxed">
                 <span
                   aria-hidden="true"
                   className="shrink-0 select-none text-muted-foreground/60"
@@ -78,8 +85,8 @@ export function ApiCard() {
                     style={{ animation: "blink 1s step-end infinite" }}
                   />
                 </span>
-              </div>
-            </div>
+              </code>
+            </pre>
             <button
               className="absolute top-2 right-2 bg-background p-1.5 text-muted-foreground opacity-0 ring-1 ring-foreground/10 transition-all hover:text-foreground group-hover/prompt:opacity-100"
               onClick={handleCopy}
@@ -99,6 +106,7 @@ export function ApiCard() {
           <a
             className="inline-flex items-center gap-1 text-muted-foreground text-xs underline-offset-4 transition-colors hover:text-foreground hover:underline"
             href="/api/v1/qr"
+            itemProp="documentation"
             rel="noopener noreferrer"
             target="_blank"
           >
@@ -110,6 +118,7 @@ export function ApiCard() {
           </span>
         </div>
       </div>
-    </div>
+      <link href="/podmienky" itemProp="termsOfService" />
+    </article>
   );
 }

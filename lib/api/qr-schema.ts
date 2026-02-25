@@ -1,3 +1,4 @@
+// OpenAPI spec: public/openapi.json — keep schemas in sync
 import { electronicFormatIBAN, isValidIBAN } from "ibantools";
 import z from "zod";
 

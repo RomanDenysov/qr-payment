@@ -1,0 +1,302 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "QR Platby API",
+    "version": "1.0.0",
+    "description": "Generate PAY by square QR codes for Slovak bank payments. Free, no authentication required.",
+    "contact": {
+      "name": "QR Platby",
+      "url": "https://qr-platby.com"
+    },
+    "license": {
+      "name": "Free to use",
+      "url": "https://qr-platby.com/podmienky"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://qr-platby.com",
+      "description": "Production"
+    }
+  ],
+  "paths": {
+    "/api/v1/qr": {
+      "get": {
+        "operationId": "getApiDocs",
+        "summary": "API documentation",
+        "description": "Returns machine-readable JSON documentation for the QR generation API.",
+        "responses": {
+          "200": {
+            "description": "API documentation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "generateQr",
+        "summary": "Generate a PAY by square QR code",
+        "description": "Generates a QR code in BySquare format for Slovak bank payments. Returns base64 PNG data URI or SVG markup.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/QrRequest"
+              },
+              "examples": {
+                "basicPayment": {
+                  "summary": "Basic payment with amount and variable symbol",
+                  "value": {
+                    "iban": "SK3112000000198742637541",
+                    "amount": 25.5,
+                    "currency": "EUR",
+                    "variableSymbol": "2024001"
+                  }
+                },
+                "ibanOnly": {
+                  "summary": "Minimal request with IBAN only",
+                  "value": {
+                    "iban": "SK3112000000198742637541"
+                  }
+                },
+                "czechSvg": {
+                  "summary": "Czech CZK payment as SVG",
+                  "value": {
+                    "iban": "CZ6508000000192000145399",
+                    "amount": 1500,
+                    "currency": "CZK",
+                    "recipientName": "Jan Novák",
+                    "format": "svg"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "QR code generated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QrSuccessResponse"
+                }
+              }
+            },
+            "headers": {
+              "X-RateLimit-Limit": {
+                "schema": { "type": "integer" },
+                "description": "Maximum requests per window"
+              },
+              "X-RateLimit-Remaining": {
+                "schema": { "type": "integer" },
+                "description": "Remaining requests in current window"
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QrErrorResponse"
+                },
+                "example": {
+                  "success": false,
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "message": "Validation failed",
+                    "issues": [
+                      {
+                        "path": "iban",
+                        "message": "Invalid IBAN"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QrErrorResponse"
+                },
+                "example": {
+                  "success": false,
+                  "error": {
+                    "code": "RATE_LIMIT",
+                    "message": "Rate limit exceeded. Please try again later."
+                  }
+                }
+              }
+            },
+            "headers": {
+              "X-RateLimit-Limit": {
+                "schema": { "type": "integer" },
+                "description": "Maximum requests per window"
+              },
+              "X-RateLimit-Remaining": {
+                "schema": { "type": "integer", "example": 0 },
+                "description": "Always 0 when rate limited"
+              },
+              "Retry-After": {
+                "schema": { "type": "integer" },
+                "description": "Seconds until rate limit resets"
+              }
+            }
+          }
+        }
+      },
+      "options": {
+        "operationId": "corsPreflightQr",
+        "summary": "CORS preflight",
+        "responses": {
+          "204": {
+            "description": "CORS headers returned"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "QrRequest": {
+        "type": "object",
+        "required": ["iban"],
+        "properties": {
+          "iban": {
+            "type": "string",
+            "description": "Recipient IBAN (e.g. SK3112000000198742637541)",
+            "example": "SK3112000000198742637541"
+          },
+          "amount": {
+            "type": "number",
+            "minimum": 0.01,
+            "maximum": 999999999.99,
+            "description": "Payment amount"
+          },
+          "currency": {
+            "type": "string",
+            "enum": ["EUR", "CZK"],
+            "default": "EUR"
+          },
+          "variableSymbol": {
+            "type": "string",
+            "maxLength": 10,
+            "pattern": "^\\d*$",
+            "description": "Variable symbol (up to 10 digits)"
+          },
+          "specificSymbol": {
+            "type": "string",
+            "maxLength": 10,
+            "pattern": "^\\d*$",
+            "description": "Specific symbol (up to 10 digits)"
+          },
+          "constantSymbol": {
+            "type": "string",
+            "maxLength": 4,
+            "pattern": "^\\d*$",
+            "description": "Constant symbol (up to 4 digits)"
+          },
+          "recipientName": {
+            "type": "string",
+            "maxLength": 70,
+            "description": "Recipient name"
+          },
+          "paymentNote": {
+            "type": "string",
+            "maxLength": 140,
+            "description": "Payment note / message for recipient"
+          },
+          "format": {
+            "type": "string",
+            "enum": ["png", "svg"],
+            "default": "png",
+            "description": "Output format — png returns base64 data URI, svg returns SVG markup"
+          },
+          "size": {
+            "type": "integer",
+            "minimum": 100,
+            "maximum": 1000,
+            "default": 300,
+            "description": "QR code size in pixels (png only)"
+          }
+        }
+      },
+      "QrSuccessResponse": {
+        "type": "object",
+        "required": ["success", "data", "format", "iban", "currency"],
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "const": true
+          },
+          "data": {
+            "type": "string",
+            "description": "Base64 data URI (png) or SVG markup string (svg)"
+          },
+          "format": {
+            "type": "string",
+            "enum": ["png", "svg"]
+          },
+          "iban": {
+            "type": "string",
+            "description": "Normalized IBAN"
+          },
+          "amount": {
+            "type": "number",
+            "description": "Echoed back if provided in request"
+          },
+          "currency": {
+            "type": "string",
+            "enum": ["EUR", "CZK"]
+          }
+        }
+      },
+      "QrErrorResponse": {
+        "type": "object",
+        "required": ["success", "error"],
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "const": false
+          },
+          "error": {
+            "type": "object",
+            "required": ["code", "message"],
+            "properties": {
+              "code": {
+                "type": "string",
+                "enum": ["VALIDATION_ERROR", "RATE_LIMIT", "INTERNAL_ERROR"]
+              },
+              "message": {
+                "type": "string"
+              },
+              "issues": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": ["path", "message"],
+                  "properties": {
+                    "path": { "type": "string" },
+                    "message": { "type": "string" }
+                  }
+                },
+                "description": "Validation issue details (only for VALIDATION_ERROR)"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

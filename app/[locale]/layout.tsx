@@ -103,6 +103,10 @@ export async function generateMetadata({
     verification: {
       google: "fdbFmzG3Hzf6pZiMA9kWUnywwtYSaivcvhHEsDnA50E",
     },
+    other: {
+      "api-endpoint": "https://qr-platby.com/api/v1/qr",
+      "api-docs": "https://qr-platby.com/api/v1/qr",
+    },
   };
 }
 
@@ -117,6 +121,7 @@ export default async function LocaleLayout({ children, params }: Props) {
 
   return (
     <NextIntlClientProvider>
+      <link href="/openapi.json" rel="describedby" type="application/json" />
       <ThemeProvider
         attribute="class"
         defaultTheme="system"
