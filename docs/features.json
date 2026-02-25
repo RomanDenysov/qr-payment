@@ -46,6 +46,15 @@
       "description": "Homepage card advertising the QR generation API with a copyable ChatGPT/Claude prompt and link to API docs."
     },
     {
+      "name": "WebMCP Tool Registration",
+      "source": "features/webmcp/",
+      "route": null,
+      "category": "core",
+      "i18nNamespace": null,
+      "clientSide": true,
+      "description": "Registers a generate_pay_by_square_qr tool via the W3C Web Model Context API, allowing in-browser AI agents to generate QR codes directly without API calls."
+    },
+    {
       "name": "QR Code Branding",
       "source": "features/branding/",
       "route": null,

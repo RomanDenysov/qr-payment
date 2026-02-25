@@ -8,6 +8,7 @@ import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
+import { WebMcpProvider } from "@/features/webmcp/webmcp-provider";
 import { routing } from "@/i18n/routing";
 import { getAlternates } from "@/lib/seo";
 import { JsonLd } from "./json-ld";
@@ -136,6 +137,7 @@ export default async function LocaleLayout({ children, params }: Props) {
         <Toaster />
         <ConsentBannerLoader />
         <Analytics />
+        <WebMcpProvider />
       </ThemeProvider>
     </NextIntlClientProvider>
   );
