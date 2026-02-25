@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  IconApi,
   IconArrowRight,
   IconCheck,
   IconCopy,
@@ -51,8 +50,7 @@ export function ApiCard() {
       {/* Card body */}
       <div className="space-y-4 px-4 py-4">
         <div className="space-y-1">
-          <h3 className="flex items-center gap-2 font-bold font-pixel text-xl tracking-wide sm:text-2xl">
-            <IconApi className="size-6" />
+          <h3 className="font-bold font-pixel text-xl tracking-wide sm:text-2xl">
             {t("title")}
           </h3>
           <p className="text-muted-foreground text-sm/relaxed">

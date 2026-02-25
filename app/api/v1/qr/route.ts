@@ -20,9 +20,10 @@ const CORS_HEADERS = {
 };
 
 export function GET() {
-  return NextResponse.json(apiDocs, {
+  return new Response(JSON.stringify(apiDocs, null, 2), {
     headers: {
       ...CORS_HEADERS,
+      "Content-Type": "application/json",
       "Cache-Control": "public, max-age=3600",
     },
   });
