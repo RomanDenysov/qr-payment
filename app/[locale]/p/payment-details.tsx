@@ -33,7 +33,7 @@ export async function PaymentDetails({ payment, format }: Props) {
       </div>
       <PaymentField
         label={tForm("amount")}
-        value={`${payment.amount.toFixed(2)} EUR`}
+        value={`${payment.amount.toFixed(2)} ${payment.currency ?? "EUR"}`}
       />
       {payment.recipientName ? (
         <PaymentField

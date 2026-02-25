@@ -41,7 +41,7 @@
     "title": "Platobné údaje",
     "iban": "IBAN",
     "ibanRequired": "IBAN *",
-    "amount": "Suma (EUR) *",
+    "amount": "Suma *",
     "amountPlaceholder": "0,00",
     "recipientName": "Meno príjemcu",
     "recipientNameRequired": "Meno príjemcu *",
@@ -73,6 +73,7 @@
     "bicInvalid": "BIC musí mať 8 alebo 11 znakov",
     "epcMaxAmount": "Max suma pre EPC QR je 999 999 999,99 €",
     "digitsOnly": "Povolené sú len číslice",
+    "epcEurOnly": "EPC QR podporuje len EUR",
     "bysquareMaxAmount": "Suma je príliš veľká"
   },
   "QRPreview": {

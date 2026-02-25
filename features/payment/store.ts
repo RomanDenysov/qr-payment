@@ -4,15 +4,19 @@ import { persist } from "zustand/middleware";
 import type { PaymentFormat } from "./format";
 import type { PaymentRecord } from "./schema";
 
+type Currency = "EUR" | "CZK";
+
 interface PaymentHistoryState {
   current: PaymentRecord | null;
   history: PaymentRecord[];
   preferredFormat: PaymentFormat;
+  preferredCurrency: Currency;
 }
 
 interface PaymentHistoryActions {
   setCurrent: (payment: PaymentRecord) => void;
   setPreferredFormat: (format: PaymentFormat) => void;
+  setPreferredCurrency: (currency: Currency) => void;
   saveToStorage: () => void;
   loadFromStorage: (id: string) => void;
   removeFromStorage: (id: string) => void;
@@ -52,6 +56,7 @@ function getPaymentFingerprint(payment: PaymentRecord): string {
     "bysquare",
     iban,
     payment.amount.toFixed(2),
+    payment.currency ?? "EUR",
     payment.variableSymbol || "",
     payment.specificSymbol || "",
     payment.constantSymbol || "",
@@ -92,6 +97,7 @@ const paymentStore = create<PaymentHistoryStore>()(
       current: null,
       history: [],
       preferredFormat: "bysquare",
+      preferredCurrency: "EUR",
       actions: {
         setCurrent: (payment: PaymentRecord) => {
           set({ current: payment });
@@ -121,6 +127,9 @@ const paymentStore = create<PaymentHistoryStore>()(
         setPreferredFormat: (format: PaymentFormat) => {
           set({ preferredFormat: format });
         },
+        setPreferredCurrency: (currency: Currency) => {
+          set({ preferredCurrency: currency });
+        },
         saveToStorage: () => {
           const { current, history } = get();
           if (!current) {
@@ -140,6 +149,7 @@ const paymentStore = create<PaymentHistoryStore>()(
             set({
               current: payment,
               preferredFormat: payment.format ?? "bysquare",
+              preferredCurrency: payment.currency ?? "EUR",
             });
           }
         },
@@ -170,6 +180,7 @@ const paymentStore = create<PaymentHistoryStore>()(
         history: state.history,
         current: state.current,
         preferredFormat: state.preferredFormat,
+        preferredCurrency: state.preferredCurrency,
       }),
       onRehydrateStorage: () => (_state, error) => {
         if (error) {
@@ -187,4 +198,6 @@ export const useCurrentPayment = () => paymentStore((state) => state.current);
 export const usePaymentHistory = () => paymentStore((state) => state.history);
 export const usePreferredFormat = () =>
   paymentStore((state) => state.preferredFormat);
+export const usePreferredCurrency = () =>
+  paymentStore((state) => state.preferredCurrency);
 export const usePaymentActions = () => paymentStore((state) => state.actions);

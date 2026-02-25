@@ -110,7 +110,9 @@ export function ShareLinkDialog({ payment }: Props) {
               <Badge variant="secondary">{payment.recipientName}</Badge>
             ) : null}
             <Badge variant="secondary">{maskIban(payment.iban)}</Badge>
-            <Badge variant="secondary">{payment.amount.toFixed(2)} EUR</Badge>
+            <Badge variant="secondary">
+              {payment.amount.toFixed(2)} {payment.currency ?? "EUR"}
+            </Badge>
             {payment.variableSymbol ? (
               <Badge variant="secondary">VS: {payment.variableSymbol}</Badge>
             ) : null}

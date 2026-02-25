@@ -32,6 +32,7 @@ const CHUNK_SIZE = 2;
 function toPaymentData(row: CsvRow): PaymentFormData {
   return {
     format: row.format,
+    currency: "EUR",
     iban: row.iban,
     amount: row.amount,
     variableSymbol: row.variableSymbol,

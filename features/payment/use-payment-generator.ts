@@ -32,6 +32,7 @@ function trackQrGenerated(formData: PaymentFormData, branding: BrandingConfig) {
 
   track("qr_generated", {
     format: formData.format ?? "bysquare",
+    currency: formData.currency ?? "EUR",
     has_branding: hasBranding,
     has_logo: branding.logo !== null,
     fields_filled: fieldsFilled,

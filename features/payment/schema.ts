@@ -8,6 +8,7 @@ export function createPaymentFormSchema(t: (key: string) => string) {
   return z
     .object({
       format: z.enum(["bysquare", "epc"]),
+      currency: z.enum(["EUR", "CZK"]),
       iban: z
         .string()
         .min(1, t("ibanRequired"))
@@ -41,34 +42,35 @@ export function createPaymentFormSchema(t: (key: string) => string) {
       bic: z.string().max(11, t("max11chars")).optional(),
     })
     .superRefine((data, ctx) => {
-      if (data.format === "epc") {
-        if (!data.recipientName?.trim()) {
-          ctx.addIssue({
-            code: z.ZodIssueCode.custom,
-            message: t("recipientRequired"),
-            path: ["recipientName"],
-          });
-        }
-
-        if (data.bic && !BIC_RE.test(data.bic)) {
-          ctx.addIssue({
-            code: z.ZodIssueCode.custom,
-            message: t("bicInvalid"),
-            path: ["bic"],
-          });
-        }
-
-        if (data.amount > 999_999_999.99) {
-          ctx.addIssue({
-            code: z.ZodIssueCode.custom,
-            message: t("epcMaxAmount"),
-            path: ["amount"],
-          });
-        }
-      } else if (data.format === "bysquare" && data.amount > 999_999_999.99) {
+      if (data.format === "epc" && data.currency !== "EUR") {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
-          message: t("bysquareMaxAmount"),
+          message: t("epcEurOnly"),
+          path: ["currency"],
+        });
+      }
+
+      if (data.format === "epc" && !data.recipientName?.trim()) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: t("recipientRequired"),
+          path: ["recipientName"],
+        });
+      }
+
+      if (data.format === "epc" && data.bic && !BIC_RE.test(data.bic)) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: t("bicInvalid"),
+          path: ["bic"],
+        });
+      }
+
+      if (data.amount > 999_999_999.99) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message:
+            data.format === "epc" ? t("epcMaxAmount") : t("bysquareMaxAmount"),
           path: ["amount"],
         });
       }

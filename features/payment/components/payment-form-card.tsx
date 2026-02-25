@@ -51,6 +51,7 @@ import {
 import {
   useCurrentPayment,
   usePaymentActions,
+  usePreferredCurrency,
   usePreferredFormat,
 } from "../store";
 import { usePaymentGenerator } from "../use-payment-generator";
@@ -147,8 +148,14 @@ const FORMAT_OPTIONS: { value: PaymentFormat; label: string }[] = [
   { value: "epc", label: FORMAT_LABELS.epc },
 ];
 
+const CURRENCY_OPTIONS: { value: "EUR" | "CZK"; label: string }[] = [
+  { value: "EUR", label: "EUR" },
+  { value: "CZK", label: "CZK" },
+];
+
 const defaultValues: PaymentFormData = {
   format: "bysquare",
+  currency: "EUR",
   iban: "",
   amount: 0,
   variableSymbol: "",
@@ -163,7 +170,8 @@ export function PaymentFormCard() {
   const { generate, isPending } = usePaymentGenerator();
   const currentPayment = useCurrentPayment();
   const storedFormat = usePreferredFormat();
-  const { setPreferredFormat } = usePaymentActions();
+  const storedCurrency = usePreferredCurrency();
+  const { setPreferredFormat, setPreferredCurrency } = usePaymentActions();
   const t = useTranslations("PaymentForm");
   const tv = useTranslations("Validation");
   const schema = useMemo(() => createPaymentFormSchema(tv), [tv]);
@@ -176,16 +184,24 @@ export function PaymentFormCard() {
     reset,
     formState: { errors },
   } = useForm<PaymentFormData>({
-    defaultValues: { ...defaultValues, format: storedFormat },
+    defaultValues: {
+      ...defaultValues,
+      format: storedFormat,
+      currency: storedCurrency ?? "EUR",
+    },
     resolver: zodResolver(schema),
     mode: "onBlur",
   });
 
   const format = watch("format");
+  const currency = watch("currency");
 
   const handleFormatChange = (newFormat: PaymentFormat) => {
     setValue("format", newFormat);
     setPreferredFormat(newFormat);
+    if (newFormat === "epc") {
+      setValue("currency", "EUR");
+    }
     track("format_selected", { format: newFormat });
   };
 
@@ -195,6 +211,7 @@ export function PaymentFormCard() {
     }
     reset({
       format: currentPayment.format ?? "bysquare",
+      currency: currentPayment.currency ?? "EUR",
       iban: currentPayment.iban,
       amount: currentPayment.amount,
       recipientName: currentPayment.recipientName || "",
@@ -205,7 +222,8 @@ export function PaymentFormCard() {
       bic: currentPayment.bic || "",
     });
     setPreferredFormat(currentPayment.format ?? "bysquare");
-  }, [currentPayment, reset, setPreferredFormat]);
+    setPreferredCurrency(currentPayment.currency ?? "EUR");
+  }, [currentPayment, reset, setPreferredFormat, setPreferredCurrency]);
 
   const handleClear = () => {
     reset({ ...defaultValues, format });
@@ -213,6 +231,7 @@ export function PaymentFormCard() {
 
   const handleSelectFromHistory = (payment: PaymentRecord) => {
     setValue("format", payment.format ?? "bysquare");
+    setValue("currency", payment.currency ?? "EUR");
     setValue("recipientName", payment.recipientName || "");
     setValue("variableSymbol", payment.variableSymbol || "");
     setValue("specificSymbol", payment.specificSymbol || "");
@@ -220,6 +239,7 @@ export function PaymentFormCard() {
     setValue("paymentNote", payment.paymentNote || "");
     setValue("bic", payment.bic || "");
     setPreferredFormat(payment.format ?? "bysquare");
+    setPreferredCurrency(payment.currency ?? "EUR");
     // amount is not filled — usually the amount is different
   };
 
@@ -228,11 +248,23 @@ export function PaymentFormCard() {
       <CardHeader>
         <div className="flex items-center justify-between gap-2">
           <CardTitle>{t("title")}</CardTitle>
-          <SegmentedControl
-            onChange={handleFormatChange}
-            options={FORMAT_OPTIONS}
-            value={format ?? "bysquare"}
-          />
+          <div className="flex gap-2">
+            {format === "bysquare" ? (
+              <SegmentedControl
+                onChange={(val) => {
+                  setValue("currency", val as "EUR" | "CZK");
+                  setPreferredCurrency(val as "EUR" | "CZK");
+                }}
+                options={CURRENCY_OPTIONS}
+                value={currency ?? "EUR"}
+              />
+            ) : null}
+            <SegmentedControl
+              onChange={handleFormatChange}
+              options={FORMAT_OPTIONS}
+              value={format ?? "bysquare"}
+            />
+          </div>
         </div>
       </CardHeader>
       <form className="flex h-full flex-col" onSubmit={handleSubmit(generate)}>
@@ -265,6 +297,7 @@ export function PaymentFormCard() {
                   name="amount"
                   render={({ field }) => (
                     <CurrencyInput
+                      currency={currency ?? "EUR"}
                       id="amount"
                       onChange={field.onChange}
                       placeholder={t("amountPlaceholder")}

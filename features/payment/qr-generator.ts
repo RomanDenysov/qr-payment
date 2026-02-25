@@ -1,3 +1,4 @@
+import { CurrencyCode } from "bysquare";
 import { electronicFormatIBAN, isValidIBAN } from "ibantools";
 import QRCode from "qrcode";
 import { buildQrPayload } from "./qr-payload";
@@ -125,7 +126,13 @@ export async function generatePaymentQR(
   const bgColor = branding?.bgColor ?? "#ffffff";
   const centerText = branding?.centerText ?? "Naskenujte\nbankovou\naplikáciou";
 
-  const { payload, errorCorrectionLevel } = buildQrPayload(data, cleanIban);
+  const currency =
+    data.currency === "CZK" ? CurrencyCode.CZK : CurrencyCode.EUR;
+  const { payload, errorCorrectionLevel } = buildQrPayload(
+    data,
+    cleanIban,
+    currency
+  );
 
   const canvas = document.createElement("canvas");
   await QRCode.toCanvas(canvas, payload, {

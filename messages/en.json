@@ -41,7 +41,7 @@
     "title": "Payment Details",
     "iban": "IBAN",
     "ibanRequired": "IBAN *",
-    "amount": "Amount (EUR) *",
+    "amount": "Amount *",
     "amountPlaceholder": "0.00",
     "recipientName": "Recipient Name",
     "recipientNameRequired": "Recipient Name *",
@@ -73,6 +73,7 @@
     "bicInvalid": "BIC must be 8 or 11 characters",
     "epcMaxAmount": "Max amount for EPC QR is 999,999,999.99 €",
     "digitsOnly": "Only digits are allowed",
+    "epcEurOnly": "EPC QR only supports EUR",
     "bysquareMaxAmount": "Amount is too large"
   },
   "QRPreview": {

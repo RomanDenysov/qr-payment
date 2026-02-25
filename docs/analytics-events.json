@@ -4,6 +4,7 @@
       "description": "User generated a QR code from the payment form",
       "properties": {
         "format": "bysquare | epc",
+        "currency": "EUR | CZK",
         "has_branding": "true if colors or center text differ from defaults",
         "has_logo": "true if a logo is set",
         "fields_filled": "count of optional fields filled (0-6)"

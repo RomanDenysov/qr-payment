@@ -21,6 +21,7 @@ interface CompactPayload {
   n?: string;
   pn?: string;
   b?: string;
+  c?: string;
   fg?: string;
   bg?: string;
   ct?: string;
@@ -77,6 +78,9 @@ export function encodeShareData(
   if (payment.bic) {
     compact.b = payment.bic;
   }
+  if (payment.currency && payment.currency !== "EUR") {
+    compact.c = payment.currency;
+  }
 
   if (branding.fgColor !== DEFAULT_FG) {
     compact.fg = branding.fgColor;
@@ -109,7 +113,8 @@ export function decodeShareData(encoded: string): SharePayload | null {
       compact.i.length > 34 ||
       typeof compact.a !== "number" ||
       compact.a < 0 ||
-      compact.a > 999_999_999.99
+      compact.a > 999_999_999.99 ||
+      (compact.c != null && compact.c !== "EUR" && compact.c !== "CZK")
     ) {
       return null;
     }
@@ -119,6 +124,7 @@ export function decodeShareData(encoded: string): SharePayload | null {
         format: compact.f,
         iban: compact.i,
         amount: compact.a,
+        currency: compact.c ?? "EUR",
         variableSymbol: compact.vs,
         specificSymbol: compact.ss,
         constantSymbol: compact.ks,
