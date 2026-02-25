@@ -34,7 +34,7 @@ export default async function PrivacyPolicyPage({ params }: Props) {
         </p>
 
         <section className="space-y-2">
-          <h2 className="font-semibold text-base text-foreground">
+          <h2 className="font-pixel font-semibold text-base text-foreground">
             Prevádzkovateľ
           </h2>
           <p>
@@ -59,7 +59,7 @@ export default async function PrivacyPolicyPage({ params }: Props) {
         </section>
 
         <section className="space-y-2">
-          <h2 className="font-semibold text-base text-foreground">
+          <h2 className="font-pixel font-semibold text-base text-foreground">
             Aké údaje zbierame
           </h2>
           <p>
@@ -71,7 +71,7 @@ export default async function PrivacyPolicyPage({ params }: Props) {
         </section>
 
         <section className="space-y-2">
-          <h2 className="font-semibold text-base text-foreground">
+          <h2 className="font-pixel font-semibold text-base text-foreground">
             Lokálne úložisko (localStorage)
           </h2>
           <p>
@@ -86,7 +86,9 @@ export default async function PrivacyPolicyPage({ params }: Props) {
         </section>
 
         <section className="space-y-2">
-          <h2 className="font-semibold text-base text-foreground">Analytika</h2>
+          <h2 className="font-pixel font-semibold text-base text-foreground">
+            Analytika
+          </h2>
           <p>
             Používame{" "}
             <a
@@ -104,7 +106,7 @@ export default async function PrivacyPolicyPage({ params }: Props) {
         </section>
 
         <section className="space-y-2">
-          <h2 className="font-semibold text-base text-foreground">
+          <h2 className="font-pixel font-semibold text-base text-foreground">
             Cookies a sledovanie
           </h2>
           <p>
@@ -114,7 +116,9 @@ export default async function PrivacyPolicyPage({ params }: Props) {
         </section>
 
         <section className="space-y-2">
-          <h2 className="font-semibold text-base text-foreground">Kontakt</h2>
+          <h2 className="font-pixel font-semibold text-base text-foreground">
+            Kontakt
+          </h2>
           <p>
             V prípade otázok nás kontaktujte:{" "}
             <a
