@@ -1,0 +1,45 @@
+# QR Platby
+
+> Free QR code generator for Slovak bank payments using the PAY by square (BySquare) format. Provides both a web app and a REST API. No authentication required.
+
+## Web App
+
+The web app lets users create QR codes for Slovak banking payments. All data stays in the browser (localStorage).
+
+- [Home — Generate QR Code](https://qr-platby.com/sk): Single payment form with IBAN, amount, symbols, recipient, and note
+- [Bulk QR Generation](https://qr-platby.com/sk/bulk): Upload CSV to generate QR codes in batch, export as PDF or ZIP
+- [FAQ](https://qr-platby.com/sk/faq): Frequently asked questions about QR payments
+
+Available in Slovak, English, and Czech (`/sk`, `/en`, `/cs` prefixes).
+
+## API
+
+Single REST endpoint for programmatic QR code generation. Free, no API key needed.
+
+- [API Documentation (JSON)](https://qr-platby.com/api/v1/qr): `GET` returns machine-readable docs, `POST` generates QR codes
+- [OpenAPI Specification](https://qr-platby.com/openapi.json): OpenAPI 3.1 spec for the QR generation API
+- [Full API Reference](https://qr-platby.com/llms-full.txt): Complete parameters, response schemas, error codes, and examples
+
+### Quick Example
+
+```bash
+curl -X POST https://qr-platby.com/api/v1/qr \
+  -H "Content-Type: application/json" \
+  -d '{"iban":"SK3112000000198742637541","amount":25.50,"variableSymbol":"2024001"}'
+```
+
+Returns JSON with `success: true` and a `data` field containing a base64 PNG data URI of the QR code.
+
+### Rate Limits
+
+- 10 requests per minute
+- 100 requests per day
+- Per IP address, no authentication
+
+## Technical Details
+
+- QR format: PAY by square (BySquare) — Slovak banking standard
+- Output formats: PNG (base64 data URI) or SVG markup
+- CORS enabled for all origins
+- Supports Slovak (SK) and Czech (CZ) IBANs
+- Currencies: EUR, CZK

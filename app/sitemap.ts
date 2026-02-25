@@ -18,28 +18,43 @@ const pages = [
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
 
-  return [
-    ...pages.flatMap((page) =>
-      routing.locales.map((locale) => ({
-        url: `${BASE}/${locale}${page.path}`,
-        lastModified: now,
-        changeFrequency: page.changeFrequency,
-        priority: page.priority,
-        alternates: {
-          languages: {
-            ...Object.fromEntries(
-              routing.locales.map((l) => [l, `${BASE}/${l}${page.path}`])
-            ),
-            "x-default": `${BASE}/${routing.defaultLocale}${page.path}`,
-          },
+  const localePages = pages.flatMap((page) =>
+    routing.locales.map((locale) => ({
+      url: `${BASE}/${locale}${page.path}`,
+      lastModified: now,
+      changeFrequency: page.changeFrequency,
+      priority: page.priority,
+      alternates: {
+        languages: {
+          ...Object.fromEntries(
+            routing.locales.map((l) => [l, `${BASE}/${l}${page.path}`])
+          ),
+          "x-default": `${BASE}/${routing.defaultLocale}${page.path}`,
         },
-      }))
-    ),
+      },
+    }))
+  );
+
+  const staticFiles: MetadataRoute.Sitemap = [
     {
       url: `${BASE}/openapi.json`,
       lastModified: now,
-      changeFrequency: "yearly" as const,
+      changeFrequency: "yearly",
+      priority: 0.3,
+    },
+    {
+      url: `${BASE}/llms.txt`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.5,
+    },
+    {
+      url: `${BASE}/llms-full.txt`,
+      lastModified: now,
+      changeFrequency: "monthly",
       priority: 0.3,
     },
   ];
+
+  return [...localePages, ...staticFiles];
 }

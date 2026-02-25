@@ -1,0 +1,228 @@
+# QR Platby API — Full Reference
+
+> Complete API reference for the QR Platby QR code generation endpoint. Generate PAY by square QR codes for Slovak bank payments. Free, no authentication required.
+
+## Endpoint
+
+```
+POST https://qr-platby.com/api/v1/qr
+```
+
+Content-Type: `application/json`
+
+CORS is enabled for all origins. An `OPTIONS` preflight returns `204` with appropriate headers.
+
+## Request Parameters
+
+| Parameter | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `iban` | string | Yes | — | Recipient IBAN (e.g. `SK3112000000198742637541`). Slovak and Czech IBANs supported. |
+| `amount` | number | No | — | Payment amount, range `0.01` – `999999999.99` |
+| `currency` | string | No | `"EUR"` | Currency code: `"EUR"` or `"CZK"` |
+| `variableSymbol` | string | No | — | Variable symbol, up to 10 digits (digits only) |
+| `specificSymbol` | string | No | — | Specific symbol, up to 10 digits (digits only) |
+| `constantSymbol` | string | No | — | Constant symbol, up to 4 digits (digits only) |
+| `recipientName` | string | No | — | Recipient name, up to 70 characters |
+| `paymentNote` | string | No | — | Payment note / message, up to 140 characters |
+| `format` | string | No | `"png"` | Output format: `"png"` (base64 data URI) or `"svg"` (SVG markup) |
+| `size` | integer | No | `300` | QR code size in pixels, range `100` – `1000` (PNG only, ignored for SVG) |
+
+## Response — Success (200)
+
+```json
+{
+  "success": true,
+  "data": "data:image/png;base64,iVBORw0KGgo...",
+  "format": "png",
+  "iban": "SK3112000000198742637541",
+  "amount": 25.50,
+  "currency": "EUR"
+}
+```
+
+| Field | Type | Description |
+|---|---|---|
+| `success` | `true` | Always `true` on success |
+| `data` | string | Base64 data URI (PNG) or SVG markup string (SVG) |
+| `format` | string | `"png"` or `"svg"` |
+| `iban` | string | Normalized IBAN (spaces removed, uppercased) |
+| `amount` | number | Echoed back if provided in request |
+| `currency` | string | `"EUR"` or `"CZK"` |
+
+### Rate Limit Headers (Success)
+
+| Header | Description |
+|---|---|
+| `X-RateLimit-Limit` | Maximum requests per window |
+| `X-RateLimit-Remaining` | Remaining requests in current window |
+
+## Response — Validation Error (400)
+
+Returned when request parameters fail validation.
+
+```json
+{
+  "success": false,
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "message": "Validation failed",
+    "issues": [
+      { "path": "iban", "message": "Invalid IBAN" },
+      { "path": "amount", "message": "Amount must be at least 0.01" }
+    ]
+  }
+}
+```
+
+| Field | Type | Description |
+|---|---|---|
+| `success` | `false` | Always `false` on error |
+| `error.code` | string | `"VALIDATION_ERROR"` |
+| `error.message` | string | Human-readable summary |
+| `error.issues` | array | List of `{ path, message }` objects describing each validation failure |
+
+## Response — Rate Limit (429)
+
+Returned when per-IP rate limits are exceeded.
+
+```json
+{
+  "success": false,
+  "error": {
+    "code": "RATE_LIMIT",
+    "message": "Rate limit exceeded. Please try again later."
+  }
+}
+```
+
+### Rate Limit Headers (429)
+
+| Header | Description |
+|---|---|
+| `X-RateLimit-Limit` | Maximum requests per window |
+| `X-RateLimit-Remaining` | Always `0` when rate limited |
+| `Retry-After` | Seconds until rate limit resets |
+
+### Rate Limits
+
+- **10 requests per minute** per IP address
+- **100 requests per day** per IP address
+- No authentication or API key required
+
+## Response — Internal Error (500)
+
+```json
+{
+  "success": false,
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "message": "An unexpected error occurred"
+  }
+}
+```
+
+## Error Codes Summary
+
+| Code | HTTP Status | When |
+|---|---|---|
+| `VALIDATION_ERROR` | 400 | Invalid request parameters (bad IBAN, amount out of range, etc.) |
+| `RATE_LIMIT` | 429 | Per-IP rate limit exceeded (10/min or 100/day) |
+| `INTERNAL_ERROR` | 500 | Unexpected server error |
+
+## Examples
+
+### curl — Basic Payment
+
+```bash
+curl -X POST https://qr-platby.com/api/v1/qr \
+  -H "Content-Type: application/json" \
+  -d '{"iban":"SK3112000000198742637541","amount":25.50,"variableSymbol":"2024001"}'
+```
+
+### curl — IBAN Only (Minimal)
+
+```bash
+curl -X POST https://qr-platby.com/api/v1/qr \
+  -H "Content-Type: application/json" \
+  -d '{"iban":"SK3112000000198742637541"}'
+```
+
+### curl — SVG Format with Czech CZK
+
+```bash
+curl -X POST https://qr-platby.com/api/v1/qr \
+  -H "Content-Type: application/json" \
+  -d '{"iban":"CZ6508000000192000145399","amount":1500,"currency":"CZK","recipientName":"Jan Novák","format":"svg"}'
+```
+
+### JavaScript (fetch)
+
+```javascript
+const response = await fetch("https://qr-platby.com/api/v1/qr", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    iban: "SK3112000000198742637541",
+    amount: 25.50,
+    variableSymbol: "2024001",
+  }),
+});
+
+const result = await response.json();
+
+if (result.success) {
+  // result.data contains base64 PNG data URI — use directly in <img src>
+  console.log(result.data);
+} else {
+  console.error(result.error.code, result.error.message);
+}
+```
+
+### Python (requests)
+
+```python
+import requests
+
+response = requests.post(
+    "https://qr-platby.com/api/v1/qr",
+    json={
+        "iban": "SK3112000000198742637541",
+        "amount": 25.50,
+        "variableSymbol": "2024001",
+    },
+)
+
+result = response.json()
+
+if result["success"]:
+    # result["data"] contains base64 PNG data URI
+    print(result["data"])
+else:
+    print(result["error"]["code"], result["error"]["message"])
+```
+
+### Python — Save QR as PNG File
+
+```python
+import base64
+import requests
+
+response = requests.post(
+    "https://qr-platby.com/api/v1/qr",
+    json={"iban": "SK3112000000198742637541", "amount": 100},
+)
+
+result = response.json()
+
+if result["success"]:
+    # Strip the data URI prefix and decode
+    b64_data = result["data"].split(",", 1)[1]
+    with open("payment-qr.png", "wb") as f:
+        f.write(base64.b64decode(b64_data))
+```
+
+## Machine-Readable Resources
+
+- **OpenAPI 3.1 spec**: [https://qr-platby.com/openapi.json](https://qr-platby.com/openapi.json)
+- **API docs (JSON)**: `GET https://qr-platby.com/api/v1/qr` — returns endpoint documentation as JSON
+- **Concise overview**: [https://qr-platby.com/llms.txt](https://qr-platby.com/llms.txt)
