@@ -16,7 +16,7 @@ interface QrPayloadInput {
 export function buildQrPayload(
   data: QrPayloadInput,
   cleanIban: string,
-  currencyCode: string = CurrencyCode.EUR
+  currencyCode: CurrencyCode = CurrencyCode.EUR
 ): { payload: string; errorCorrectionLevel: "H" | "M" } {
   const format = data.format ?? "bysquare";
 
@@ -36,7 +36,7 @@ export function buildQrPayload(
   const payment: Parameters<typeof encode>[0]["payments"][0] = {
     type: PaymentOptions.PaymentOrder,
     amount: data.amount ?? 0,
-    currencyCode: currencyCode as CurrencyCode,
+    currencyCode,
     bankAccounts: [{ iban: cleanIban }],
     ...(data.variableSymbol && { variableSymbol: data.variableSymbol }),
     ...(data.specificSymbol && { specificSymbol: data.specificSymbol }),

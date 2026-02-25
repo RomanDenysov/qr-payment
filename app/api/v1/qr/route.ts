@@ -1,4 +1,5 @@
 import { track } from "@vercel/analytics/server";
+import type { CurrencyCode } from "bysquare";
 import { type NextRequest, NextResponse } from "next/server";
 import { InvalidIBANError } from "@/features/payment/qr-generator";
 import { generatePaymentQRServer } from "@/features/payment/qr-generator.server";
@@ -53,7 +54,8 @@ export async function POST(req: NextRequest) {
   let body: unknown;
   try {
     body = await req.json();
-  } catch {
+  } catch (parseError) {
+    console.warn("[api/v1/qr] JSON parse error:", parseError);
     return NextResponse.json(
       {
         success: false,
@@ -88,14 +90,16 @@ export async function POST(req: NextRequest) {
 
   try {
     const data = await generatePaymentQRServer(
-      { ...paymentData, currency },
+      { ...paymentData, currency: currency as CurrencyCode },
       { format, size }
     );
 
     track("api_qr_generated", {
       format,
       hasAmount: paymentData.amount != null,
-    }).catch(() => undefined);
+    }).catch((err) => {
+      console.warn("[api/v1/qr] Analytics tracking failed:", err);
+    });
 
     return NextResponse.json(
       {

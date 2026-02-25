@@ -1,3 +1,4 @@
+import type { CurrencyCode } from "bysquare";
 import { electronicFormatIBAN, isValidIBAN } from "ibantools";
 import QRCode from "qrcode";
 import { InvalidIBANError } from "./qr-generator";
@@ -6,7 +7,7 @@ import { buildQrPayload } from "./qr-payload";
 interface ServerQrInput {
   iban: string;
   amount?: number;
-  currency?: string;
+  currency?: CurrencyCode;
   variableSymbol?: string;
   specificSymbol?: string;
   constantSymbol?: string;
