@@ -1,11 +1,26 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import type {
+  CenterTextFont,
+  CenterTextSize,
+  DotStyle,
+} from "@/features/payment/qr-generator";
+
+export type {
+  CenterTextFont,
+  CenterTextSize,
+  DotStyle,
+} from "@/features/payment/qr-generator";
 
 export interface BrandingConfig {
   fgColor: string;
   bgColor: string;
   centerText: string;
   logo: string | null;
+  dotStyle: DotStyle;
+  centerTextSize: CenterTextSize;
+  centerTextBold: boolean;
+  centerTextFont: CenterTextFont;
 }
 
 export interface BrandingTemplate {
@@ -32,10 +47,21 @@ const DEFAULT_CONFIG: BrandingConfig = {
   bgColor: "#ffffff",
   centerText: "Naskenujte\nbankovou\naplikáciou",
   logo: null,
+  dotStyle: "square",
+  centerTextSize: "medium",
+  centerTextBold: true,
+  centerTextFont: "mono",
 };
 
 const STORAGE_KEY = "qrBranding.v1";
 const MAX_TEMPLATES = 20;
+
+function migrateConfig(config: BrandingConfig): void {
+  config.dotStyle ??= "square";
+  config.centerTextSize ??= "medium";
+  config.centerTextBold ??= true;
+  config.centerTextFont ??= "mono";
+}
 
 const brandingStore = create<BrandingState>()(
   persist(
@@ -81,12 +107,19 @@ const brandingStore = create<BrandingState>()(
         config: state.config,
         templates: state.templates,
       }),
-      onRehydrateStorage: () => (_state, error) => {
+      onRehydrateStorage: () => (state, error) => {
         if (error) {
           console.error(
             "[BrandingStore] Failed to rehydrate from localStorage:",
             error
           );
+          return;
+        }
+        if (state) {
+          migrateConfig(state.config);
+          for (const template of state.templates) {
+            migrateConfig(template.config);
+          }
         }
       },
     }

@@ -61,7 +61,7 @@
       "category": "core",
       "i18nNamespace": "Branding",
       "clientSide": true,
-      "description": "Customize QR code colors, add center text overlay, upload a logo, and save/load branding templates."
+      "description": "Customize QR code colors, dot style (square, rounded, circles, classy), add center text overlay, upload a logo, and save/load branding templates."
     },
     {
       "name": "Payment History",
