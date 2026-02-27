@@ -23,6 +23,7 @@
         "next-intl": "^4.8.3",
         "next-themes": "^0.4.6",
         "papaparse": "^5.5.3",
+        "qr-code-styling": "^1.9.2",
         "qrcode": "^1.5.4",
         "react": "^19.2.3",
         "react-dom": "^19.2.3",
@@ -926,7 +927,11 @@
 
     "proxy-addr": ["proxy-addr@2.0.7", "", { "dependencies": { "forwarded": "0.2.0", "ipaddr.js": "1.9.1" } }, "sha512-llQsMLSUDUPT44jdrU/O37qlnifitDP+ZwrmmZcoSKyLKvtZxpyV0n2/bD/N4tBAAZ/gJEdZU7KMraoK1+XYAg=="],
 
+    "qr-code-styling": ["qr-code-styling@1.9.2", "", { "dependencies": { "qrcode-generator": "^1.4.4" } }, "sha512-RgJaZJ1/RrXJ6N0j7a+pdw3zMBmzZU4VN2dtAZf8ZggCfRB5stEQ3IoDNGaNhYY3nnZKYlYSLl5YkfWN5dPutg=="],
+
     "qrcode": ["qrcode@1.5.4", "", { "dependencies": { "dijkstrajs": "^1.0.1", "pngjs": "^5.0.0", "yargs": "^15.3.1" }, "bin": { "qrcode": "bin/qrcode" } }, "sha512-1ca71Zgiu6ORjHqFBDpnSMTR2ReToX4l1Au1VFLyVeBTFavzQnv5JxMFr3ukHVKpSrSA2MCk0lNJSykjUfz7Zg=="],
+
+    "qrcode-generator": ["qrcode-generator@1.5.2", "", {}, "sha512-pItrW0Z9HnDBnFmgiNrY1uxRdri32Uh9EjNYLPVC2zZ3ZRIIEqBoDgm4DkvDwNNDHTK7FNkmr8zAa77BYc9xNw=="],
 
     "qs": ["qs@6.15.0", "", { "dependencies": { "side-channel": "^1.1.0" } }, "sha512-mAZTtNCeetKMH+pSjrb76NAM8V9a05I9aBZOHztWy/UqcJdQYNsf59vrRKWnojAT9Y+GbIvoTBC++CPHqpDBhQ=="],
 

@@ -86,6 +86,11 @@ docs/
 - **Translated Zod validation** - Use schema factory functions (e.g. `createSchema(messages)`) since hooks can't be called in schemas
 - **Base UI Dialog** - Inline wrapper components (DialogPortal, DialogOverlay, DialogContent), not shadcn re-exports
 
+## Design System
+
+- **No border radius** — All UI components use `rounded-none`. Buttons, cards, inputs, dialogs, badges, alerts — everything is sharp-cornered. When creating new UI elements, always use `rounded-none` or omit border-radius entirely. Never use `rounded-md`, `rounded-lg`, etc.
+- **Match existing patterns** — Always check existing shadcn/Base UI components before creating custom UI. New interactive elements must visually match the established design (borders, spacing, colors, typography).
+
 ## Code Standards
 
 This project uses Ultracite (Biome preset) for formatting and linting. Key rules:

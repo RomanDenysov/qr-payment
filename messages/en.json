@@ -127,7 +127,12 @@
     "logoTooLarge": "Image after compression to 64×64px exceeded 10 KB. Try a simpler or smaller image.",
     "reset": "Reset",
     "done": "Done",
-    "logoUploadError": "Error uploading logo. Please try again."
+    "logoUploadError": "Error uploading logo. Please try again.",
+    "dotStyle": "Dot style",
+    "dotStyleSquare": "Square",
+    "dotStyleRounded": "Rounded",
+    "dotStyleDots": "Circles",
+    "dotStyleClassyRounded": "Classy"
   },
   "Templates": {
     "title": "Templates",
