@@ -19,6 +19,7 @@ import {
 import { useBrandingActions, useBrandingConfig } from "../store";
 import { CenterTextEditor } from "./center-text-editor";
 import { ColorPicker } from "./color-picker";
+import { DotStyleSelector } from "./dot-style-selector";
 import { LogoUploader } from "./logo-uploader";
 import { TemplateSelector } from "./template-selector";
 
@@ -56,8 +57,24 @@ export function BrandingDialog({ onApply }: BrandingDialogProps) {
             onChange={(bgColor) => actions.update({ bgColor })}
             value={config.bgColor}
           />
+          <DotStyleSelector
+            onChange={(dotStyle) => actions.update({ dotStyle })}
+            value={config.dotStyle}
+          />
           <CenterTextEditor
             onChange={(centerText) => actions.update({ centerText })}
+            onTextBoldChange={(centerTextBold) =>
+              actions.update({ centerTextBold })
+            }
+            onTextFontChange={(centerTextFont) =>
+              actions.update({ centerTextFont })
+            }
+            onTextSizeChange={(centerTextSize) =>
+              actions.update({ centerTextSize })
+            }
+            textBold={config.centerTextBold}
+            textFont={config.centerTextFont}
+            textSize={config.centerTextSize}
             value={config.centerText}
           />
           <div className="flex flex-col gap-1.5">

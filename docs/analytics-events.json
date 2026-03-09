@@ -103,6 +103,11 @@
       "description": "User deleted a saved branding template",
       "properties": null,
       "source": "features/branding/components/template-selector.tsx"
+    },
+    "qr_dot_style_changed": {
+      "description": "User changed the QR code dot style",
+      "properties": { "style": "square | rounded | dots | classy-rounded" },
+      "source": "features/branding/components/dot-style-selector.tsx"
     }
   },
 

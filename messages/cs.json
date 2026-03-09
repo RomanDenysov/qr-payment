@@ -127,7 +127,12 @@
     "logoTooLarge": "Obrázek po kompresi na 64×64px překročil 10 KB. Zkuste jednodušší nebo menší obrázek.",
     "reset": "Resetovat",
     "done": "Hotovo",
-    "logoUploadError": "Chyba při nahrávání loga. Zkuste to znovu."
+    "logoUploadError": "Chyba při nahrávání loga. Zkuste to znovu.",
+    "dotStyle": "Styl bodů",
+    "dotStyleSquare": "Čtverce",
+    "dotStyleRounded": "Zaoblené",
+    "dotStyleDots": "Kruhy",
+    "dotStyleClassyRounded": "Elegantní"
   },
   "Templates": {
     "title": "Šablony",
