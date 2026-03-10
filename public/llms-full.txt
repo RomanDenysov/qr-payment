@@ -1,6 +1,6 @@
 # QR Platby API — Full Reference
 
-> Complete API reference for the QR Platby QR code generation endpoint. Generate PAY by square QR codes for Slovak bank payments. Free, no authentication required.
+> Complete API reference for the QR Platby QR code generation endpoint. Generate QR codes for Slovak and Czech bank payments in BySquare, EPC, and SPAYD formats. Free, no authentication required.
 
 ## Endpoint
 
@@ -24,6 +24,7 @@ CORS is enabled for all origins. An `OPTIONS` preflight returns `204` with appro
 | `constantSymbol` | string | No | — | Constant symbol, up to 4 digits (digits only) |
 | `recipientName` | string | No | — | Recipient name, up to 70 characters |
 | `paymentNote` | string | No | — | Payment note / message, up to 140 characters |
+| `paymentFormat` | string | No | `"bysquare"` | Payment format: `"bysquare"` (Slovak PAY by square) or `"spayd"` (Czech QR Platba) |
 | `format` | string | No | `"png"` | Output format: `"png"` (base64 data URI) or `"svg"` (SVG markup) |
 | `size` | integer | No | `300` | QR code size in pixels, range `100` – `1000` (PNG only, ignored for SVG) |
 
@@ -153,6 +154,14 @@ curl -X POST https://qr-platby.com/api/v1/qr \
 curl -X POST https://qr-platby.com/api/v1/qr \
   -H "Content-Type: application/json" \
   -d '{"iban":"CZ6508000000192000145399","amount":1500,"currency":"CZK","recipientName":"Jan Novák","format":"svg"}'
+```
+
+### curl - SPAYD (Czech QR Platba)
+
+```bash
+curl -X POST https://qr-platby.com/api/v1/qr \
+  -H "Content-Type: application/json" \
+  -d '{"iban":"CZ6508000000192000145399","amount":1500,"currency":"CZK","recipientName":"Jan Novák","paymentFormat":"spayd"}'
 ```
 
 ### JavaScript (fetch)

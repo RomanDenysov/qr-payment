@@ -21,88 +21,75 @@ export default async function TermsPage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
 
-  const t = await getTranslations({ locale, namespace: "Metadata" });
+  const t = await getTranslations({ locale, namespace: "Terms" });
+  const tMeta = await getTranslations({ locale, namespace: "Metadata" });
+
+  const linkClass =
+    "text-foreground underline underline-offset-4 hover:text-primary";
 
   return (
     <div className="flex-1 pt-5 sm:pt-8 md:pt-16">
       <article className="prose-sm mx-auto max-w-2xl space-y-6 text-muted-foreground text-sm leading-relaxed">
         <h1 className="font-bold font-pixel text-foreground text-lg tracking-wide sm:text-xl">
-          Podmienky používania
+          {t("title")}
         </h1>
-        <p className="text-muted-foreground text-xs">
-          Posledná aktualizácia: 11. február 2026
-        </p>
+        <p className="text-muted-foreground text-xs">{t("lastUpdated")}</p>
 
         <section className="space-y-2">
           <h2 className="font-pixel font-semibold text-base text-foreground">
-            O službe
+            {t("about.heading")}
+          </h2>
+          <p>{t("about.body")}</p>
+        </section>
+
+        <section className="space-y-2">
+          <h2 className="font-pixel font-semibold text-base text-foreground">
+            {t("responsibility.heading")}
+          </h2>
+          <p>{t("responsibility.body")}</p>
+        </section>
+
+        <section className="space-y-2">
+          <h2 className="font-pixel font-semibold text-base text-foreground">
+            {t("compatibility.heading")}
+          </h2>
+          <p>{t("compatibility.body")}</p>
+        </section>
+
+        <section className="space-y-2">
+          <h2 className="font-pixel font-semibold text-base text-foreground">
+            {t("changes.heading")}
+          </h2>
+          <p>{t("changes.body")}</p>
+        </section>
+
+        <section className="space-y-2">
+          <h2 className="font-pixel font-semibold text-base text-foreground">
+            {t("sourceCode.heading")}
           </h2>
           <p>
-            QR Platby je bezplatný online nástroj na generovanie QR kódov pre
-            bankové platby vo formáte BySquare a EPC. Služba je poskytovaná „tak
-            ako je" (as-is), bez akýchkoľvek záruk.
+            {t.rich("sourceCode.body", {
+              link: (chunks) => (
+                <a
+                  className={linkClass}
+                  href="https://github.com/RomanDenysov/qr-payment"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  {chunks}
+                </a>
+              ),
+            })}
           </p>
         </section>
 
         <section className="space-y-2">
           <h2 className="font-pixel font-semibold text-base text-foreground">
-            Zodpovednosť
+            {t("contact.heading")}
           </h2>
           <p>
-            Prevádzkovateľ nezodpovedá za chyby v generovaných QR kódoch ani za
-            problémy s platbami. Používateľ je povinný skontrolovať správnosť
-            údajov v QR kóde pred jeho použitím.
-          </p>
-        </section>
-
-        <section className="space-y-2">
-          <h2 className="font-pixel font-semibold text-base text-foreground">
-            Kompatibilita
-          </h2>
-          <p>
-            QR kódy sú generované podľa štandardov BySquare a EPC, ale
-            nezaručujeme kompatibilitu so všetkými bankovými aplikáciami.
-          </p>
-        </section>
-
-        <section className="space-y-2">
-          <h2 className="font-pixel font-semibold text-base text-foreground">
-            Zmeny služby
-          </h2>
-          <p>
-            Vyhradzujeme si právo službu kedykoľvek upraviť, pozastaviť alebo
-            ukončiť bez predchádzajúceho upozornenia.
-          </p>
-        </section>
-
-        <section className="space-y-2">
-          <h2 className="font-pixel font-semibold text-base text-foreground">
-            Zdrojový kód
-          </h2>
-          <p>
-            Zdrojový kód aplikácie je verejne dostupný na{" "}
-            <a
-              className="text-foreground underline underline-offset-4 hover:text-primary"
-              href="https://github.com/RomanDenysov/qr-payment"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              GitHube
-            </a>
-            .
-          </p>
-        </section>
-
-        <section className="space-y-2">
-          <h2 className="font-pixel font-semibold text-base text-foreground">
-            Kontakt
-          </h2>
-          <p>
-            V prípade otázok kontaktujte:{" "}
-            <a
-              className="text-foreground underline underline-offset-4 hover:text-primary"
-              href="mailto:info@qr-platby.com"
-            >
+            {t("contact.body")}{" "}
+            <a className={linkClass} href="mailto:info@qr-platby.com">
               info@qr-platby.com
             </a>
           </p>
@@ -113,7 +100,7 @@ export default async function TermsPage({ params }: Props) {
             className="text-foreground text-xs underline underline-offset-4 hover:text-primary"
             href="/"
           >
-            ← {t("backToHome")}
+            ← {tMeta("backToHome")}
           </Link>
         </div>
       </article>

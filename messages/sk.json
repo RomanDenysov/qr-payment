@@ -15,7 +15,8 @@
     "faqTitle": "Často kladené otázky",
     "faqDescription": "Odpovede na najčastejšie otázky o generátore QR kódov pre platby.",
     "homeH1": "Bezplatný generátor QR kódov pre slovenské bankové platby",
-    "backToHome": "Späť na hlavnú stránku"
+    "backToHome": "Späť na hlavnú stránku",
+    "webApiDescription": "REST API pre generovanie QR kódov pre bankové platby vo formátoch BySquare, EPC a SPAYD. Zadarmo, bez autentifikácie."
   },
   "Nav": {
     "home": "Domov",
@@ -235,5 +236,63 @@
     "timeDays": "pred {count} d",
     "ctaTitle": "Pomôžte nám zlepšiť QR Platby",
     "ctaDescription": "Máte nápad na zlepšenie? Dajte nám vedieť."
+  },
+  "PrivacyPolicy": {
+    "title": "Ochrana osobných údajov",
+    "lastUpdated": "Posledná aktualizácia: 11. február 2026",
+    "operator": {
+      "heading": "Prevádzkovateľ",
+      "author": "Nezávislý autor",
+      "contact": "Kontakt:"
+    },
+    "dataCollection": {
+      "heading": "Aké údaje zbierame",
+      "body": "<strong>Žiadne.</strong> Aplikácia QR Platby nezbiera, neukladá ani neprenáša žiadne osobné údaje na server. Všetky platobné údaje (IBAN, suma, symboly) sú spracované výlučne vo vašom prehliadači."
+    },
+    "localStorage": {
+      "heading": "Lokálne úložisko (localStorage)",
+      "body1": "Aplikácia používa localStorage vášho prehliadača na uloženie histórie platieb a nastavení. Tieto údaje nikdy neopustia váš prehliadač a nie sú prístupné nám ani tretím stranám.",
+      "body2": "Údaje môžete kedykoľvek vymazať pomocou tlačidla „Vymazať históriu“ v aplikácii alebo cez nastavenia prehliadača."
+    },
+    "analytics": {
+      "heading": "Analytika",
+      "body": "Používame <link>Vercel Web Analytics</link>, ktoré zbierajú anonymné údaje o návštevnosti (počet zobrazení, krajina). Nepoužívajú cookies a neidentifikujú jednotlivých používateľov."
+    },
+    "cookies": {
+      "heading": "Cookies a sledovanie",
+      "body": "Aplikácia nepoužíva cookies. Nepoužívame žiadne reklamné, sledovacie ani marketingové nástroje tretích strán."
+    },
+    "contact": {
+      "heading": "Kontakt",
+      "body": "V prípade otázok nás kontaktujte:"
+    }
+  },
+  "Terms": {
+    "title": "Podmienky používania",
+    "lastUpdated": "Posledná aktualizácia: 11. február 2026",
+    "about": {
+      "heading": "O službe",
+      "body": "QR Platby je bezplatný online nástroj na generovanie QR kódov pre bankové platby vo formáte BySquare, EPC a SPAYD (QR Platba). Služba je poskytovaná „tak ako je“ (as-is), bez akýchkoľvek záruk."
+    },
+    "responsibility": {
+      "heading": "Zodpovednosť",
+      "body": "Prevádzkovateľ nezodpovedá za chyby v generovaných QR kódoch ani za problémy s platbami. Používateľ je povinný skontrolovať správnosť údajov v QR kóde pred jeho použitím."
+    },
+    "compatibility": {
+      "heading": "Kompatibilita",
+      "body": "QR kódy sú generované podľa štandardov BySquare, EPC a SPAYD, ale nezaručujeme kompatibilitu so všetkými bankovými aplikáciami."
+    },
+    "changes": {
+      "heading": "Zmeny služby",
+      "body": "Vyhradzujeme si právo službu kedykoľvek upraviť, pozastaviť alebo ukončiť bez predchádzajúceho upozornenia."
+    },
+    "sourceCode": {
+      "heading": "Zdrojový kód",
+      "body": "Zdrojový kód aplikácie je verejne dostupný na <link>GitHube</link>."
+    },
+    "contact": {
+      "heading": "Kontakt",
+      "body": "V prípade otázok kontaktujte:"
+    }
   }
 }

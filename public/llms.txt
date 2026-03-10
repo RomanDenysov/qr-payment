@@ -1,12 +1,12 @@
 # QR Platby
 
-> Free QR code generator for Slovak bank payments using the PAY by square (BySquare) format. Provides both a web app and a REST API. No authentication required.
+> Free QR code generator for Slovak and Czech bank payments. Supports PAY by square (BySquare), EPC QR (SEPA), and SPAYD (QR Platba) formats. Provides both a web app and a REST API. No authentication required.
 
 ## Web App
 
-The web app lets users create QR codes for Slovak banking payments. All data stays in the browser (localStorage).
+The web app lets users create QR codes for Slovak and Czech banking payments. All data stays in the browser (localStorage).
 
-- [Home — Generate QR Code](https://qr-platby.com/sk): Single payment form with IBAN, amount, symbols, recipient, and note
+- [Home - Generate QR Code](https://qr-platby.com/sk): Single payment form with IBAN, amount, symbols, recipient, and note
 - [Bulk QR Generation](https://qr-platby.com/sk/bulk): Upload CSV to generate QR codes in batch, export as PDF or ZIP
 - [FAQ](https://qr-platby.com/sk/faq): Frequently asked questions about QR payments
 
@@ -38,7 +38,7 @@ Returns JSON with `success: true` and a `data` field containing a base64 PNG dat
 
 ## Technical Details
 
-- QR format: PAY by square (BySquare) — Slovak banking standard
+- QR formats: PAY by square (BySquare) - Slovak banking standard, EPC QR - SEPA standard, SPAYD (QR Platba) - Czech banking standard
 - Output formats: PNG (base64 data URI) or SVG markup
 - CORS enabled for all origins
 - Supports Slovak (SK) and Czech (CZ) IBANs

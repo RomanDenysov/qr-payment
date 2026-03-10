@@ -21,6 +21,7 @@ export async function JsonLd() {
           priceCurrency: "EUR",
         },
         inLanguage: locale,
+        availableLanguage: ["sk", "cs", "en"],
         isAccessibleForFree: true,
         author: {
           "@type": "Person",
@@ -31,8 +32,7 @@ export async function JsonLd() {
       {
         "@type": "WebAPI",
         name: "QR Platby API",
-        description:
-          "REST API for generating PAY by square QR codes for Slovak bank payments. Free, no authentication required.",
+        description: t("webApiDescription"),
         url: "https://qr-platby.com/api/v1/qr",
         documentation: "https://qr-platby.com/api/v1/qr",
         termsOfService: "https://qr-platby.com/podmienky",
@@ -40,6 +40,7 @@ export async function JsonLd() {
           "@type": "Organization",
           name: "QR Platby",
           url: "https://qr-platby.com",
+          areaServed: ["SK", "CZ"],
         },
         offers: {
           "@type": "Offer",
