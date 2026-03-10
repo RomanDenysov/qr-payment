@@ -1,4 +1,5 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { linkVariants } from "@/components/ui/link";
 import { Link } from "@/i18n/navigation";
 import { getAlternates } from "@/lib/seo";
 
@@ -24,9 +25,6 @@ export default async function PrivacyPolicyPage({ params }: Props) {
   const t = await getTranslations({ locale, namespace: "PrivacyPolicy" });
   const tMeta = await getTranslations({ locale, namespace: "Metadata" });
 
-  const linkClass =
-    "text-foreground underline underline-offset-4 hover:text-primary";
-
   return (
     <div className="flex-1 pt-5 sm:pt-8 md:pt-16">
       <article className="prose-sm mx-auto max-w-2xl space-y-6 text-muted-foreground text-sm leading-relaxed">
@@ -41,7 +39,7 @@ export default async function PrivacyPolicyPage({ params }: Props) {
           </h2>
           <p>
             <a
-              className={linkClass}
+              className={linkVariants()}
               href="https://buymeacoffee.com/romandenysov"
               rel="noopener noreferrer"
               target="_blank"
@@ -51,7 +49,7 @@ export default async function PrivacyPolicyPage({ params }: Props) {
           </p>
           <p>
             {t("operator.contact")}{" "}
-            <a className={linkClass} href="mailto:info@qr-platby.com">
+            <a className={linkVariants()} href="mailto:info@qr-platby.com">
               info@qr-platby.com
             </a>
           </p>
@@ -86,7 +84,7 @@ export default async function PrivacyPolicyPage({ params }: Props) {
             {t.rich("analytics.body", {
               link: (chunks) => (
                 <a
-                  className={linkClass}
+                  className={linkVariants()}
                   href="https://vercel.com/docs/analytics/privacy-policy"
                   rel="noopener noreferrer"
                   target="_blank"
@@ -111,17 +109,14 @@ export default async function PrivacyPolicyPage({ params }: Props) {
           </h2>
           <p>
             {t("contact.body")}{" "}
-            <a className={linkClass} href="mailto:info@qr-platby.com">
+            <a className={linkVariants()} href="mailto:info@qr-platby.com">
               info@qr-platby.com
             </a>
           </p>
         </section>
 
         <div className="pt-4 text-center">
-          <Link
-            className="text-foreground text-xs underline underline-offset-4 hover:text-primary"
-            href="/"
-          >
+          <Link className={linkVariants({ size: "sm" })} href="/">
             ← {tMeta("backToHome")}
           </Link>
         </div>

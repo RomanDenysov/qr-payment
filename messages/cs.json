@@ -58,7 +58,12 @@
     "ks": "KS",
     "clear": "Vymazat",
     "generate": "Vygenerovat QR",
-    "noHistoryResults": "Žádné výsledky z historie"
+    "noHistoryResults": "Žádné výsledky z historie",
+    "formatDescription": {
+      "bysquare": "Standard slovenských bank",
+      "epc": "Evropský SEPA standard",
+      "spayd": "Standard českých bank (SPAYD)"
+    }
   },
   "Validation": {
     "ibanRequired": "IBAN je povinný",

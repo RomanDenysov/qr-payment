@@ -1,4 +1,5 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { linkVariants } from "@/components/ui/link";
 import { Link } from "@/i18n/navigation";
 import { getAlternates } from "@/lib/seo";
 
@@ -23,9 +24,6 @@ export default async function TermsPage({ params }: Props) {
 
   const t = await getTranslations({ locale, namespace: "Terms" });
   const tMeta = await getTranslations({ locale, namespace: "Metadata" });
-
-  const linkClass =
-    "text-foreground underline underline-offset-4 hover:text-primary";
 
   return (
     <div className="flex-1 pt-5 sm:pt-8 md:pt-16">
@@ -71,7 +69,7 @@ export default async function TermsPage({ params }: Props) {
             {t.rich("sourceCode.body", {
               link: (chunks) => (
                 <a
-                  className={linkClass}
+                  className={linkVariants()}
                   href="https://github.com/RomanDenysov/qr-payment"
                   rel="noopener noreferrer"
                   target="_blank"
@@ -89,17 +87,14 @@ export default async function TermsPage({ params }: Props) {
           </h2>
           <p>
             {t("contact.body")}{" "}
-            <a className={linkClass} href="mailto:info@qr-platby.com">
+            <a className={linkVariants()} href="mailto:info@qr-platby.com">
               info@qr-platby.com
             </a>
           </p>
         </section>
 
         <div className="pt-4 text-center">
-          <Link
-            className="text-foreground text-xs underline underline-offset-4 hover:text-primary"
-            href="/"
-          >
+          <Link className={linkVariants({ size: "sm" })} href="/">
             ← {tMeta("backToHome")}
           </Link>
         </div>

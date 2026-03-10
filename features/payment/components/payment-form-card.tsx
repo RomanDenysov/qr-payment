@@ -279,6 +279,9 @@ export function PaymentFormCard() {
             value={format ?? "bysquare"}
           />
         </div>
+        <p className="text-muted-foreground text-xs">
+          {t(`formatDescription.${format ?? "bysquare"}`)}
+        </p>
       </CardHeader>
       <form className="flex h-full flex-col" onSubmit={handleSubmit(generate)}>
         <CardContent className="flex-1 grow">
