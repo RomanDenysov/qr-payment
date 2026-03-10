@@ -1,8 +1,10 @@
 import { CurrencyCode, encode, PaymentOptions } from "bysquare";
 import { encodeEpcQr } from "./epc-encoder";
+import type { PaymentFormat } from "./format";
+import { encodeSpaydQr } from "./spayd-encoder";
 
 interface QrPayloadInput {
-  format?: "bysquare" | "epc";
+  format?: PaymentFormat;
   iban: string;
   amount?: number;
   variableSymbol?: string;
@@ -28,6 +30,24 @@ export function buildQrPayload(
         beneficiaryName: data.recipientName ?? "",
         bic: data.bic || undefined,
         remittanceText: data.paymentNote || undefined,
+      }),
+      errorCorrectionLevel: "M",
+    };
+  }
+
+  if (format === "spayd") {
+    const currency = currencyCode === CurrencyCode.CZK ? "CZK" : "EUR";
+    return {
+      payload: encodeSpaydQr({
+        iban: cleanIban,
+        amount: data.amount ?? 0,
+        currency,
+        variableSymbol: data.variableSymbol || undefined,
+        specificSymbol: data.specificSymbol || undefined,
+        constantSymbol: data.constantSymbol || undefined,
+        recipientName: data.recipientName || undefined,
+        paymentNote: data.paymentNote || undefined,
+        bic: data.bic || undefined,
       }),
       errorCorrectionLevel: "M",
     };

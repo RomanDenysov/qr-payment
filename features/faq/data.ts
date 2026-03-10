@@ -6,14 +6,14 @@ interface FaqItem {
 const faqData: Record<string, FaqItem[]> = {
   sk: [
     {
-      question: "Aký je rozdiel medzi QR Platby a systémom NOP?",
+      question: "Čo je SPAYD (QR Platba)?",
       answer:
-        "QR Platby generuje QR kódy pre bankové prevody podľa štandardu PAY by square - ideálne pre faktúry, e-maily a webstránky. Pre kamenné predajne s eKasou existuje štátny systém NOP (Notifikátor okamžitých platieb), ktorý slúži na okamžité oznámenie platby priamo na pokladnicu.",
+        "SPAYD (QR Platba) je český štandard pre platobné QR kódy zavedený Českou bankovnou asociáciou. Formát SPD (Short Payment Descriptor) podporujú všetky české banky - Air Bank, Česká spořitelna, ČSOB, Fio banka, Komerční banka, Raiffeisenbank, mBank a ďalšie. QR Platby tento formát plne podporuje.",
     },
     {
       question: "Čo je QR Platby?",
       answer:
-        "QR Platby je bezplatný online nástroj na vytváranie QR kódov pre bankové platby. Podporuje formáty BySquare (štandard pre Slovensko) a EPC QR (SEPA štandard pre Európu).",
+        "QR Platby je bezplatný online nástroj na vytváranie QR kódov pre bankové platby. Podporuje formáty BySquare (štandard pre Slovensko), EPC QR (SEPA štandard pre Európu) a SPAYD (štandard pre Česko).",
     },
     {
       question: "Ako to funguje?",
@@ -33,12 +33,12 @@ const faqData: Record<string, FaqItem[]> = {
     {
       question: "S ktorými bankami to funguje?",
       answer:
-        "QR kódy vo formáte BySquare fungujú so všetkými slovenskými bankami - Tatra banka, Slovenská sporiteľňa, VÚB, ČSOB, mBank, Fio banka a ďalšie. EPC QR formát je podporovaný väčšinou európskych bánk.",
+        "QR kódy vo formáte BySquare fungujú so všetkými slovenskými bankami - Tatra banka, Slovenská sporiteľňa, VÚB, ČSOB, mBank, Fio banka a ďalšie. Formát SPAYD (QR Platba) funguje so všetkými českými bankami - Air Bank, Česká spořitelna, ČSOB, Fio banka, Komerční banka, Raiffeisenbank a ďalšie. EPC QR formát je podporovaný väčšinou európskych bánk.",
     },
     {
-      question: "Aký je rozdiel medzi BySquare a EPC QR?",
+      question: "Aký je rozdiel medzi BySquare, EPC QR a SPAYD?",
       answer:
-        "BySquare je slovenský štandard pre platobné QR kódy - podporuje variabilný, špecifický a konštantný symbol. EPC QR (European Payments Council) je európsky SEPA štandard, ktorý funguje naprieč krajinami EÚ, ale nepodporuje slovenské symboly. Ak platíte na Slovensku, použite BySquare. Pre medzinárodné SEPA platby zvoľte EPC QR.",
+        "BySquare je slovenský štandard pre platobné QR kódy - podporuje variabilný, špecifický a konštantný symbol. SPAYD (QR Platba) je český štandard s rovnakými symbolmi, ale v inom formáte. EPC QR (European Payments Council) je európsky SEPA štandard, ktorý funguje naprieč krajinami EÚ, ale nepodporuje české a slovenské symboly. Na platby na Slovensku použite BySquare, na platby v Česku SPAYD a na medzinárodné SEPA platby EPC QR.",
     },
     {
       question: "Môžem si QR kód upraviť?",
@@ -58,14 +58,14 @@ const faqData: Record<string, FaqItem[]> = {
   ],
   en: [
     {
-      question: "What is the difference between QR Platby and the NOP system?",
+      question: "What is SPAYD (QR Platba)?",
       answer:
-        "QR Platby generates QR codes for bank transfers using the PAY by square standard - ideal for invoices, emails, and websites. For brick-and-mortar stores with eKasa, there is the state NOP system (Instant Payment Notifier) that provides instant payment confirmation directly to the cash register.",
+        "SPAYD (QR Platba) is a Czech standard for payment QR codes established by the Czech Banking Association. The SPD (Short Payment Descriptor) format is supported by all Czech banks - Air Bank, Česká spořitelna, ČSOB, Fio banka, Komerční banka, Raiffeisenbank, mBank and others. QR Platby fully supports this format.",
     },
     {
       question: "What is QR Platby?",
       answer:
-        "QR Platby is a free online tool for creating QR codes for bank payments. It supports BySquare format (standard for Slovakia) and EPC QR (SEPA standard for Europe).",
+        "QR Platby is a free online tool for creating QR codes for bank payments. It supports BySquare format (standard for Slovakia), EPC QR (SEPA standard for Europe), and SPAYD (standard for Czech Republic).",
     },
     {
       question: "How does it work?",
@@ -85,12 +85,12 @@ const faqData: Record<string, FaqItem[]> = {
     {
       question: "Which banks does it work with?",
       answer:
-        "BySquare QR codes work with all Slovak banks - Tatra banka, Slovenská sporiteľňa, VÚB, ČSOB, mBank, Fio banka, and more. EPC QR format is supported by most European banks.",
+        "BySquare QR codes work with all Slovak banks - Tatra banka, Slovenská sporiteľňa, VÚB, ČSOB, mBank, Fio banka, and more. SPAYD (QR Platba) format works with all Czech banks - Air Bank, Česká spořitelna, ČSOB, Fio banka, Komerční banka, Raiffeisenbank, and more. EPC QR format is supported by most European banks.",
     },
     {
-      question: "What is the difference between BySquare and EPC QR?",
+      question: "What is the difference between BySquare, EPC QR, and SPAYD?",
       answer:
-        "BySquare is the Slovak standard for payment QR codes - it supports variable, specific, and constant symbols. EPC QR (European Payments Council) is a European SEPA standard that works across EU countries but does not support Slovak symbols. For payments within Slovakia, use BySquare. For international SEPA payments, choose EPC QR.",
+        "BySquare is the Slovak standard for payment QR codes - it supports variable, specific, and constant symbols. SPAYD (QR Platba) is the Czech standard with the same symbols but in a different format. EPC QR (European Payments Council) is a European SEPA standard that works across EU countries but does not support Czech and Slovak symbols. For payments within Slovakia, use BySquare. For payments within Czech Republic, use SPAYD. For international SEPA payments, choose EPC QR.",
     },
     {
       question: "Can I customize the QR code?",
@@ -110,14 +110,14 @@ const faqData: Record<string, FaqItem[]> = {
   ],
   cs: [
     {
-      question: "Jaký je rozdíl mezi QR Platby a systémem NOP?",
+      question: "Co je QR Platba (SPAYD)?",
       answer:
-        "QR Platby generuje QR kódy pro bankovní převody podle standardu PAY by square - ideální pro faktury, e-maily a webové stránky. Pro kamenné prodejny s eKasou existuje státní systém NOP (Notifikátor okamžitých plateb), který slouží k okamžitému oznámení platby přímo na pokladnu.",
+        "QR Platba (SPAYD) je český standard pro platební QR kódy zavedený Českou bankovní asociací. Formát SPD (Short Payment Descriptor) podporují všechny české banky - Air Bank, Česká spořitelna, ČSOB, Fio banka, Komerční banka, Raiffeisenbank, mBank a další. QR Platby tento formát plně podporuje.",
     },
     {
       question: "Co je QR Platby?",
       answer:
-        "QR Platby je bezplatný online nástroj na vytváření QR kódů pro bankovní platby. Podporuje formáty BySquare (standard pro Slovensko) a EPC QR (SEPA standard pro Evropu).",
+        "QR Platby je bezplatný online nástroj na vytváření QR kódů pro bankovní platby. Podporuje formáty BySquare (standard pro Slovensko), EPC QR (SEPA standard pro Evropu) a SPAYD/QR Platba (standard pro Česko).",
     },
     {
       question: "Jak to funguje?",
@@ -137,12 +137,12 @@ const faqData: Record<string, FaqItem[]> = {
     {
       question: "Se kterými bankami to funguje?",
       answer:
-        "QR kódy ve formátu BySquare fungují se všemi slovenskými bankami - Tatra banka, Slovenská sporiteľňa, VÚB, ČSOB, mBank, Fio banka a další. EPC QR formát je podporován většinou evropských bank.",
+        "QR kódy ve formátu BySquare fungují se všemi slovenskými bankami - Tatra banka, Slovenská sporiteľňa, VÚB, ČSOB, mBank, Fio banka a další. Formát SPAYD (QR Platba) funguje se všemi českými bankami - Air Bank, Česká spořitelna, ČSOB, Fio banka, Komerční banka, Raiffeisenbank a další. EPC QR formát je podporován většinou evropských bank.",
     },
     {
-      question: "Jaký je rozdíl mezi BySquare a EPC QR?",
+      question: "Jaký je rozdíl mezi BySquare, EPC QR a SPAYD?",
       answer:
-        "BySquare je slovenský standard pro platební QR kódy - podporuje variabilní, specifický a konstantní symbol. EPC QR (European Payments Council) je evropský SEPA standard, který funguje napříč zeměmi EU, ale nepodporuje slovenské symboly. Pokud platíte na Slovensku, použijte BySquare. Pro mezinárodní SEPA platby zvolte EPC QR.",
+        "BySquare je slovenský standard pro platební QR kódy - podporuje variabilní, specifický a konstantní symbol. SPAYD (QR Platba) je český standard se stejnými symboly, ale v jiném formátu. EPC QR (European Payments Council) je evropský SEPA standard, který funguje napříč zeměmi EU, ale nepodporuje české a slovenské symboly. Pro platby na Slovensku použijte BySquare, pro platby v Česku SPAYD a pro mezinárodní SEPA platby EPC QR.",
     },
     {
       question: "Můžu si QR kód upravit?",

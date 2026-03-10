@@ -3,7 +3,7 @@ import { DAILY_LIMIT, MINUTE_LIMIT } from "@/lib/api/rate-limiter";
 export const apiDocs = {
   name: "QR Platby API",
   description:
-    "Generate PAY by square QR codes for Slovak bank payments. Returns base64 PNG or SVG string.",
+    "Generate PAY by square and SPAYD (Czech) QR codes for Slovak and Czech bank payments. Returns base64 PNG or SVG string.",
   endpoint: "https://qr-platby.com/api/v1/qr",
   method: "POST",
   headers: {
@@ -46,6 +46,13 @@ export const apiDocs = {
         type: "string",
         description: "Up to 140 characters",
       },
+      paymentFormat: {
+        type: "string",
+        enum: ["bysquare", "spayd"],
+        default: "bysquare",
+        description:
+          "Payment QR format. bysquare for Slovak banks, spayd for Czech banks.",
+      },
       format: {
         type: "string",
         enum: ["png", "svg"],
@@ -85,5 +92,8 @@ export const apiDocs = {
     curl: `curl -X POST https://qr-platby.com/api/v1/qr \\
   -H "Content-Type: application/json" \\
   -d '{"iban":"SK3112000000198742637541","amount":25.50,"variableSymbol":"2024001"}'`,
+    curlSpayd: `curl -X POST https://qr-platby.com/api/v1/qr \\
+  -H "Content-Type: application/json" \\
+  -d '{"iban":"CZ6508000000192000145399","amount":480.50,"currency":"CZK","paymentFormat":"spayd","variableSymbol":"1234567890"}'`,
   },
 };

@@ -146,6 +146,7 @@ function SymbolFields({
 const FORMAT_OPTIONS: { value: PaymentFormat; label: string }[] = [
   { value: "bysquare", label: FORMAT_LABELS.bysquare },
   { value: "epc", label: FORMAT_LABELS.epc },
+  { value: "spayd", label: FORMAT_LABELS.spayd },
 ];
 
 const CURRENCY_OPTIONS: { value: "EUR" | "CZK"; label: string }[] = [
@@ -201,6 +202,9 @@ export function PaymentFormCard() {
     setPreferredFormat(newFormat);
     if (newFormat === "epc") {
       setValue("currency", "EUR");
+    } else if (newFormat === "spayd") {
+      setValue("currency", "CZK");
+      setPreferredCurrency("CZK");
     }
     track("format_selected", { format: newFormat });
   };
@@ -296,7 +300,7 @@ export function PaymentFormCard() {
                       )}
                     />
                   </div>
-                  {format === "bysquare" ? (
+                  {format !== "epc" ? (
                     <SegmentedControl
                       className="h-auto"
                       onChange={(val) => {

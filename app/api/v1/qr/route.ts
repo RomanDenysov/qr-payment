@@ -97,16 +97,21 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const { format, size, currency, ...paymentData } = parsed.data;
+  const { format, size, currency, paymentFormat, ...paymentData } = parsed.data;
 
   try {
     const data = await generatePaymentQRServer(
-      { ...paymentData, currency: currency as CurrencyCode },
+      {
+        ...paymentData,
+        format: paymentFormat,
+        currency: currency as CurrencyCode,
+      },
       { format, size }
     );
 
     track("api_qr_generated", {
       format,
+      paymentFormat,
       hasAmount: paymentData.amount != null,
     }).catch((err) => {
       console.warn("[api/v1/qr] Analytics tracking failed:", err);

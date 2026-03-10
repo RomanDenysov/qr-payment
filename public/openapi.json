@@ -3,7 +3,7 @@
   "info": {
     "title": "QR Platby API",
     "version": "1.0.0",
-    "description": "Generate PAY by square QR codes for Slovak bank payments. Free, no authentication required.",
+    "description": "Generate PAY by square and SPAYD QR codes for Slovak and Czech bank payments. Free, no authentication required.",
     "contact": {
       "name": "QR Platby",
       "url": "https://qr-platby.com"
@@ -40,8 +40,8 @@
       },
       "post": {
         "operationId": "generateQr",
-        "summary": "Generate a PAY by square QR code",
-        "description": "Generates a QR code in BySquare format for Slovak bank payments. Returns base64 PNG data URI or SVG markup.",
+        "summary": "Generate a PAY by square or SPAYD QR code",
+        "description": "Generates a QR code in BySquare or SPAYD format for Slovak/Czech bank payments. Returns base64 PNG data URI or SVG markup.",
         "requestBody": {
           "required": true,
           "content": {
@@ -63,6 +63,16 @@
                   "summary": "Minimal request with IBAN only",
                   "value": {
                     "iban": "SK3112000000198742637541"
+                  }
+                },
+                "czechSpayd": {
+                  "summary": "Czech SPAYD QR code",
+                  "value": {
+                    "iban": "CZ6508000000192000145399",
+                    "amount": 480.5,
+                    "currency": "CZK",
+                    "paymentFormat": "spayd",
+                    "variableSymbol": "1234567890"
                   }
                 },
                 "czechSvg": {
@@ -216,6 +226,12 @@
             "type": "string",
             "maxLength": 140,
             "description": "Payment note / message for recipient"
+          },
+          "paymentFormat": {
+            "type": "string",
+            "enum": ["bysquare", "spayd"],
+            "default": "bysquare",
+            "description": "Payment QR standard. Use 'bysquare' for Slovak banks (PAY by square) or 'spayd' for Czech banks (QR Platba/SPD)."
           },
           "format": {
             "type": "string",

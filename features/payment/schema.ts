@@ -7,7 +7,7 @@ const DIGITS_RE = /^\d*$/;
 export function createPaymentFormSchema(t: (key: string) => string) {
   return z
     .object({
-      format: z.enum(["bysquare", "epc"]),
+      format: z.enum(["bysquare", "epc", "spayd"]),
       currency: z.enum(["EUR", "CZK"]),
       iban: z
         .string()

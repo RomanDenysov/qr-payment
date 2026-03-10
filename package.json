@@ -13,6 +13,7 @@
     "@base-ui/react": "^1.1.0",
     "@hookform/resolvers": "^5.2.2",
     "@mcp-b/global": "^1.6.0",
+    "@spayd/core": "^0.0.3",
     "@t3-oss/env-nextjs": "^0.13.10",
     "@tabler/icons-react": "^3.36.1",
     "@upstash/ratelimit": "^2.0.8",

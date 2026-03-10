@@ -1,11 +1,11 @@
 {
   "Metadata": {
-    "title": "QR Platby - Bezplatný generátor QR kódov pre bankové prevody | PAY by square & EPC QR",
+    "title": "QR Platby - Bezplatný generátor QR kódov pre bankové prevody | PAY by square, EPC QR a SPAYD",
     "titleTemplate": "{title} | QR Platby",
-    "description": "Bezplatný generátor QR kódov pre bankové prevody vo formáte PAY by square a EPC (SEPA). Funguje so všetkými slovenskými bankami bez registrácie.",
-    "ogDescription": "Vytvorte QR kód pre bankový prevod zadarmo. Podpora PAY by square a EPC QR. Vlastné farby, logo a text. Všetky slovenské banky.",
-    "twitterDescription": "Bezplatný generátor QR kódov pre bankové prevody. PAY by square & EPC QR pre slovenské banky.",
-    "keywords": "QR kód, QR platba, bankový prevod, BySquare, PAY by square, EPC QR, SEPA, IBAN, Slovensko, generátor QR kódov, slovenské banky, platobný QR kód, bezplatný, online platba",
+    "description": "Bezplatný generátor QR kódov pre bankové prevody vo formáte PAY by square, EPC (SEPA) a SPAYD. Funguje so všetkými slovenskými a českými bankami bez registrácie.",
+    "ogDescription": "Vytvorte QR kód pre bankový prevod zadarmo. Podpora PAY by square, EPC QR a SPAYD. Vlastné farby, logo a text. Všetky slovenské a české banky.",
+    "twitterDescription": "Bezplatný generátor QR kódov pre bankové prevody. PAY by square, EPC QR a SPAYD pre slovenskú a českú banky.",
+    "keywords": "QR kód, QR platba, bankový prevod, BySquare, PAY by square, EPC QR, SEPA, IBAN, Slovensko, generátor QR kódov, slovenské banky, platobný QR kód, bezplatný, online platba, SPAYD, Česko, české banky",
     "bulkTitle": "Hromadné generovanie QR kódov pre platby",
     "bulkDescription": "Hromadné generovanie QR kódov pre bankové prevody z CSV súboru. Stiahnite ako ZIP alebo PDF.",
     "privacyTitle": "Ochrana osobných údajov",
