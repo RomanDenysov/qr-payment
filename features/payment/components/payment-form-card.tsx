@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { IconLoader3, IconQrcode, IconTrash } from "@tabler/icons-react";
 import { track } from "@vercel/analytics";
 import dynamic from "next/dynamic";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useMemo } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { CurrencyInput } from "@/components/currency-input";
@@ -173,6 +173,7 @@ export function PaymentFormCard() {
   const storedFormat = usePreferredFormat();
   const storedCurrency = usePreferredCurrency();
   const { setPreferredFormat, setPreferredCurrency } = usePaymentActions();
+  const locale = useLocale();
   const t = useTranslations("PaymentForm");
   const tv = useTranslations("Validation");
   const schema = useMemo(() => createPaymentFormSchema(tv), [tv]);
@@ -228,6 +229,20 @@ export function PaymentFormCard() {
     setPreferredFormat(currentPayment.format ?? "bysquare");
     setPreferredCurrency(currentPayment.currency ?? "EUR");
   }, [currentPayment, reset, setPreferredFormat, setPreferredCurrency]);
+
+  // Set locale defaults for first-time Czech users
+  useEffect(() => {
+    if (locale !== "cs") {
+      return;
+    }
+    if (localStorage.getItem("qrPayments.v1")) {
+      return;
+    }
+    setValue("format", "spayd");
+    setValue("currency", "CZK");
+    setPreferredFormat("spayd");
+    setPreferredCurrency("CZK");
+  }, [locale, setValue, setPreferredFormat, setPreferredCurrency]);
 
   const handleClear = () => {
     reset({ ...defaultValues, format });
