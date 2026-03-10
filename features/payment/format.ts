@@ -5,3 +5,9 @@ export const FORMAT_LABELS: Record<PaymentFormat, string> = {
   epc: "EPC QR",
   spayd: "QR Platba",
 };
+
+export const FORMAT_HINTS: Record<PaymentFormat, string> = {
+  bysquare: "SK",
+  epc: "EU",
+  spayd: "CZ",
+};
