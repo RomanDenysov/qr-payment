@@ -38,8 +38,10 @@ bun x ultracite check      # Check for issues without fixing
 ```
 app/                      # Next.js App Router pages
   [locale]/               # Locale-segmented routes
+  api/v1/qr/route.ts      # QR generation REST API (POST + GET docs)
 components/               # Reusable UI components
   ui/                     # shadcn Base UI primitives
+features/api/             # API card component (homepage)
 features/payment/         # Payment feature module
   components/             # Payment-specific components
   schema.ts               # Zod validation schema
@@ -58,12 +60,19 @@ features/branding/        # QR code customization
 features/feedback/        # Feature request / feedback module
 features/faq/             # FAQ data (translated)
 i18n/                     # next-intl config (routing, navigation, request)
+lib/api/                  # API utilities
+  rate-limiter.ts         # Upstash Redis rate limiting (sliding window)
+  qr-schema.ts            # Zod schema + TypeScript types for API
+  qr-docs.ts              # Machine-readable API documentation
+  cors.ts                 # CORS headers
 lib/utils.ts              # Utility functions (cn, maskIban)
+lib/seo.ts                # SEO utilities (canonical, hreflang alternates)
 env.ts                    # T3 env validation
 messages/{sk,en,cs}.json  # Translation files (namespaced keys)
 docs/
   features.json           # Feature catalog (name, source, route, category)
   analytics-events.json   # Analytics event map (event names, properties, sources)
+public/openapi.json       # OpenAPI 3.1 spec - keep in sync with qr-schema.ts and route.ts
 ```
 
 ## Key Patterns
@@ -117,6 +126,16 @@ This project uses Ultracite (Biome preset) for formatting and linting. Key rules
 - **UI components**: Always use shadcn/Base UI primitives (`@base-ui/react/accordion`, etc.) — don't build custom alternatives from lower-level primitives
 - **JSX ternary branches**: Must return a single expression — wrap multiple siblings in `<>...</>` fragment
 - **No `client-zip`**: ZIP export uses a zero-dependency manual implementation (STORE method) because Turbopack can't chunk the ESM-only `client-zip` package. Don't re-add it.
+- **`ultracite fix` touches unrelated files**: Auto-fix may reformat files you didn't change (trailing newlines, commas). This is normal - include them in the commit.
+
+## API Changes
+
+When modifying the `/api/v1/qr` endpoint, keep these files in sync:
+- `app/api/v1/qr/route.ts` - route handler (error responses, headers)
+- `lib/api/qr-schema.ts` - TypeScript types and Zod validation
+- `lib/api/qr-docs.ts` - machine-readable docs (returned by GET)
+- `public/openapi.json` - OpenAPI spec (served at `/api/openapi.json`)
+- `features/api/api-card.tsx` - homepage API card (rate limit display is hardcoded)
 
 ## Documentation JSONs
 
