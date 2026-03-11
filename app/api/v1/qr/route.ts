@@ -10,15 +10,10 @@ import {
   type QrGenerationResponse,
   qrRequestSchema,
 } from "@/lib/api/qr-schema";
+import { CORS_HEADERS, corsOptions } from "@/lib/api/cors";
 import { checkRateLimit, getClientIp } from "@/lib/api/rate-limiter";
 
 export const runtime = "nodejs";
-
-const CORS_HEADERS = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type",
-};
 
 export function GET() {
   return new Response(JSON.stringify(apiDocs, null, 2), {
@@ -30,9 +25,7 @@ export function GET() {
   });
 }
 
-export function OPTIONS() {
-  return new NextResponse(null, { status: 204, headers: CORS_HEADERS });
-}
+export { corsOptions as OPTIONS };
 
 export async function POST(req: NextRequest) {
   const ip = getClientIp(req);

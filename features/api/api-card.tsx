@@ -2,12 +2,13 @@
 
 import { IconArrowRight, IconCheck, IconCopy } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { toast } from "sonner";
 
 export function ApiCard() {
   const t = useTranslations("Api");
   const [copied, setCopied] = useState<"main" | "alt" | false>(false);
+  const timerRef = useRef<ReturnType<typeof setTimeout>>(null);
 
   const handleCopy = async (key: "prompt" | "promptAlt") => {
     try {
@@ -15,7 +16,10 @@ export function ApiCard() {
       const source = key === "prompt" ? "main" : "alt";
       setCopied(source);
       toast.success(t("copied"));
-      setTimeout(() => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
+      timerRef.current = setTimeout(() => {
         setCopied(false);
       }, 2000);
     } catch {

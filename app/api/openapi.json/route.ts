@@ -1,14 +1,9 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { NextResponse } from "next/server";
+import { CORS_HEADERS, corsOptions } from "@/lib/api/cors";
 
 const spec = readFileSync(join(process.cwd(), "public/openapi.json"), "utf-8");
-
-const CORS_HEADERS = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "GET, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type",
-};
 
 export function GET() {
   return new NextResponse(spec, {
@@ -20,6 +15,4 @@ export function GET() {
   });
 }
 
-export function OPTIONS() {
-  return new NextResponse(null, { status: 204, headers: CORS_HEADERS });
-}
+export { corsOptions as OPTIONS };
