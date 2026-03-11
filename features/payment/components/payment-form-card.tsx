@@ -42,7 +42,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import type { PaymentFormat } from "../format";
-import { FORMAT_HINTS, FORMAT_LABELS } from "../format";
+import { FORMAT_LABELS } from "../format";
 import {
   createPaymentFormSchema,
   type PaymentFormData,
@@ -143,16 +143,11 @@ function SymbolFields({
   );
 }
 
-const FORMAT_OPTIONS: { value: PaymentFormat; label: React.ReactNode }[] = (
+const FORMAT_OPTIONS: { value: PaymentFormat; label: string }[] = (
   ["bysquare", "epc", "spayd"] as const
 ).map((f) => ({
   value: f,
-  label: (
-    <>
-      {FORMAT_LABELS[f]}{" "}
-      <span className="text-[10px] opacity-50">{FORMAT_HINTS[f]}</span>
-    </>
-  ),
+  label: FORMAT_LABELS[f],
 }));
 
 const CURRENCY_OPTIONS: { value: "EUR" | "CZK"; label: string }[] = [

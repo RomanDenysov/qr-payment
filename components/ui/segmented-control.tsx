@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 
 interface SegmentedControlOption<T extends string> {
   value: T;
-  label: React.ReactNode;
+  label: string;
 }
 
 interface SegmentedControlProps<T extends string> {
