@@ -1,63 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>Widget Test</title>
-  <style>body { font-family: sans-serif; max-width: 800px; margin: 2rem auto; padding: 1rem; } h2 { margin-top: 2rem; }</style>
-</head>
-<body>
-  <h1>QR Platby Widget Test</h1>
+  <head>
+    <meta charset="utf-8">
+    <title>Widget Test</title>
+    <style>
+    body {
+      font-family: sans-serif;
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 1rem;
+    }
+    h2 {
+      margin-top: 2rem;
+    }
+    </style>
+  </head>
+  <body>
+    <h1>QR Platby Widget Test</h1>
 
-  <h2>SPAYD (Czech)</h2>
-  <div class="qr-platby-widget"
-    data-format="spayd"
-    data-iban="CZ6508000000192000145399"
-    data-amount="1500"
-    data-currency="CZK"
-    data-variable-symbol="2024001"
-    data-recipient="Jan Novak"
-    data-message="Faktura 2024001">
-  </div>
+    <h2>SPAYD (Czech)</h2>
+    <div
+      class="qr-platby-widget"
+      data-format="spayd"
+      data-iban="CZ6508000000192000145399"
+      data-amount="1500"
+      data-currency="CZK"
+      data-variable-symbol="2024001"
+      data-recipient="Jan Novak"
+      data-message="Faktura 2024001"
+    ></div>
 
-  <h2>EPC QR (European)</h2>
-  <div class="qr-platby-widget"
-    data-format="epc"
-    data-iban="DE89370400440532013000"
-    data-amount="50.00"
-    data-recipient="Max Mustermann"
-    data-bic="COBADEFFXXX"
-    data-theme="dark">
-  </div>
+    <h2>EPC QR (European)</h2>
+    <div
+      class="qr-platby-widget"
+      data-format="epc"
+      data-iban="DE89370400440532013000"
+      data-amount="50.00"
+      data-recipient="Max Mustermann"
+      data-bic="COBADEFFXXX"
+      data-theme="dark"
+    ></div>
 
-  <h2>PAY by square (Slovak)</h2>
-  <div class="qr-platby-widget"
-    data-format="paybysquare"
-    data-iban="SK3112000000198742637541"
-    data-amount="25.50"
-    data-recipient="Jan Novak"
-    data-show-amount-input="true"
-    data-show-message-input="true">
-  </div>
+    <h2>PAY by square (Slovak)</h2>
+    <div
+      class="qr-platby-widget"
+      data-format="paybysquare"
+      data-iban="SK3112000000198742637541"
+      data-amount="25.50"
+      data-recipient="Jan Novak"
+      data-show-amount-input="true"
+      data-show-message-input="true"
+    ></div>
 
-  <h2>JS API Test</h2>
-  <div id="api-widget"></div>
-  <script src="../public/widget.js"></script>
-  <script>
+    <h2>JS API Test</h2>
+    <div id="api-widget"></div>
+    <script src="../public/widget.js"></script>
+    <script>
+    "use strict";
     // Test programmatic API
     setTimeout(() => {
       const w = QRPlatby.create({
-        element: document.getElementById('api-widget'),
-        format: 'spayd',
-        iban: 'CZ6508000000192000145399',
+        element: document.getElementById("api-widget"),
+        format: "spayd",
+        iban: "CZ6508000000192000145399",
         amount: 999,
-        currency: 'CZK',
-        theme: 'light',
-        branding: false
+        currency: "CZK",
+        theme: "light",
+        branding: false,
       });
-      console.log('Widget created:', w);
-      console.log('SVG:', w.toSVG().substring(0, 100));
-      console.log('Version:', QRPlatby.version);
+      console.log("Widget created:", w);
+      console.log("SVG:", w.toSVG().substring(0, 100));
+      console.log("Version:", QRPlatby.version);
     }, 100);
-  </script>
-</body>
+    </script>
+  </body>
 </html>

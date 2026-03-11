@@ -188,6 +188,18 @@
     }
   },
 
+  "widget": {
+    "widget_ping": {
+      "description": "Fire-and-forget analytics ping sent when an embedded widget generates a QR code",
+      "properties": {
+        "format": "paybysquare | epc | spayd",
+        "domain": "hostname of the page embedding the widget",
+        "v": "widget version string"
+      },
+      "source": "widget/src/widget.ts"
+    }
+  },
+
   "misc": {
     "consent_banner_dismissed": {
       "description": "User dismissed the cookie/analytics consent banner",

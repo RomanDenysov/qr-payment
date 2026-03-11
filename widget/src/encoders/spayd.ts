@@ -1,6 +1,8 @@
 import type { EncoderResult } from "../types";
 
 const SPAYD_MAX_BYTES = 360;
+const DIACRITICS_RE = /[\u0300-\u036f]/g;
+const WHITESPACE_RE = /\s+/g;
 
 /**
  * Encode special characters per SPAYD spec.
@@ -9,7 +11,7 @@ const SPAYD_MAX_BYTES = 360;
 function encodeSpaydChars(str: string): string {
   const normalized = str
     .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
+    .replace(DIACRITICS_RE, "")
     .normalize("NFC");
   let result = "";
   for (let i = 0; i < normalized.length; i++) {
@@ -45,7 +47,7 @@ interface SpaydInput {
 export function encodeSpaydQr(
   input: SpaydInput
 ): EncoderResult | { error: string } {
-  const iban = input.iban.replace(/\s+/g, "").toUpperCase();
+  const iban = input.iban.replace(WHITESPACE_RE, "").toUpperCase();
   const acc = input.bic ? `${iban}+${input.bic}` : iban;
   const parts: string[] = [`SPD*1.0*ACC:${acc}`];
 

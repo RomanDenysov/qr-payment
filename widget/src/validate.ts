@@ -2,6 +2,7 @@ import type { PaymentFormat, ValidationError } from "./types";
 
 const IBAN_FORMAT_RE = /^[A-Z]{2}\d{2}[A-Z0-9]+$/;
 const CURRENCY_RE = /^[A-Z]{3}$/;
+const WHITESPACE_RE = /\s+/g;
 
 /**
  * IBAN validation using ISO 13616 mod-97 checksum.
@@ -11,7 +12,7 @@ export function validateIBAN(raw: string): {
   clean: string;
   error?: string;
 } {
-  const clean = raw.replace(/\s+/g, "").toUpperCase();
+  const clean = raw.replace(WHITESPACE_RE, "").toUpperCase();
 
   if (clean.length < 5 || clean.length > 34) {
     return { valid: false, clean, error: "Invalid IBAN length" };

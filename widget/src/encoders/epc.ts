@@ -12,18 +12,18 @@ const GERMAN_MAP: Record<string, string> = {
   "\u00DF": "ss",
 };
 const GERMAN_RE = /[\u00E4\u00F6\u00FC\u00C4\u00D6\u00DC\u00DF]/g;
+const DIACRITICS_RE = /[\u0300-\u036f]/g;
+const NON_ASCII_PRINTABLE_RE = /[^\x20-\x7E]/g;
+const WHITESPACE_RE = /\s+/g;
 
 function sanitize(input: string): string {
   let result = input.replace(GERMAN_RE, (ch) => GERMAN_MAP[ch] ?? ch);
-  result = result
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .normalize("NFC");
-  return result.replace(/[^\x20-\x7E]/g, "");
+  result = result.normalize("NFD").replace(DIACRITICS_RE, "").normalize("NFC");
+  return result.replace(NON_ASCII_PRINTABLE_RE, "");
 }
 
 function stripSpaces(iban: string): string {
-  return iban.replace(/\s+/g, "").toUpperCase();
+  return iban.replace(WHITESPACE_RE, "").toUpperCase();
 }
 
 interface EpcInput {

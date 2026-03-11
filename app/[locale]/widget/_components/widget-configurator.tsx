@@ -2,6 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { SegmentedControl } from "@/components/ui/segmented-control";
 
 type Format = "paybysquare" | "spayd" | "epc";
 
@@ -35,30 +36,59 @@ const DEFAULT_CONFIG: ConfigState = {
   branding: true,
 };
 
+const FORMAT_OPTIONS = [
+  { value: "paybysquare" as const, label: "PAY by square" },
+  { value: "spayd" as const, label: "SPAYD / QR Platba" },
+  { value: "epc" as const, label: "EPC QR (SEPA)" },
+];
+
+const CURRENCY_OPTIONS = [
+  { value: "EUR", label: "EUR" },
+  { value: "CZK", label: "CZK" },
+];
+
+const THEME_OPTIONS = [
+  { value: "light" as const, label: "Light" },
+  { value: "dark" as const, label: "Dark" },
+];
+
+const AMP_RE = /&/g;
+const QUOT_RE = /"/g;
+const LT_RE = /</g;
+const GT_RE = />/g;
+
+function escapeAttr(str: string): string {
+  return str
+    .replace(AMP_RE, "&amp;")
+    .replace(QUOT_RE, "&quot;")
+    .replace(LT_RE, "&lt;")
+    .replace(GT_RE, "&gt;");
+}
+
 function buildEmbedCode(config: ConfigState): string {
   const attrs: string[] = [];
-  attrs.push(`  data-format="${config.format}"`);
-  attrs.push(`  data-iban="${config.iban}"`);
+  attrs.push(`  data-format="${escapeAttr(config.format)}"`);
+  attrs.push(`  data-iban="${escapeAttr(config.iban)}"`);
   if (config.amount) {
-    attrs.push(`  data-amount="${config.amount}"`);
+    attrs.push(`  data-amount="${escapeAttr(config.amount)}"`);
   }
   if (config.currency !== "EUR") {
-    attrs.push(`  data-currency="${config.currency}"`);
+    attrs.push(`  data-currency="${escapeAttr(config.currency)}"`);
   }
   if (config.recipient) {
-    attrs.push(`  data-recipient="${config.recipient}"`);
+    attrs.push(`  data-recipient="${escapeAttr(config.recipient)}"`);
   }
   if (config.message) {
-    attrs.push(`  data-message="${config.message}"`);
+    attrs.push(`  data-message="${escapeAttr(config.message)}"`);
   }
   if (config.variableSymbol) {
-    attrs.push(`  data-variable-symbol="${config.variableSymbol}"`);
+    attrs.push(`  data-variable-symbol="${escapeAttr(config.variableSymbol)}"`);
   }
   if (config.theme !== "light") {
-    attrs.push(`  data-theme="${config.theme}"`);
+    attrs.push(`  data-theme="${escapeAttr(config.theme)}"`);
   }
   if (config.size !== "200") {
-    attrs.push(`  data-size="${config.size}"`);
+    attrs.push(`  data-size="${escapeAttr(config.size)}"`);
   }
   if (!config.showDownload) {
     attrs.push('  data-show-download="false"');
@@ -73,19 +103,21 @@ function buildEmbedCode(config: ConfigState): string {
   return `<div class="qr-platby-widget"\n${attrs.join("\n")}>\n</div>\n\n<script src="https://qr-platby.com/widget.js" async></script>`;
 }
 
-function buildPreviewHTML(config: ConfigState): string {
+function buildPreviewHTML(config: ConfigState, origin: string): string {
   const attrs = [
-    `data-format="${config.format}"`,
-    `data-iban="${config.iban}"`,
-    config.amount ? `data-amount="${config.amount}"` : "",
-    config.currency !== "EUR" ? `data-currency="${config.currency}"` : "",
-    config.recipient ? `data-recipient="${config.recipient}"` : "",
-    config.message ? `data-message="${config.message}"` : "",
-    config.variableSymbol
-      ? `data-variable-symbol="${config.variableSymbol}"`
+    `data-format="${escapeAttr(config.format)}"`,
+    `data-iban="${escapeAttr(config.iban)}"`,
+    config.amount ? `data-amount="${escapeAttr(config.amount)}"` : "",
+    config.currency !== "EUR"
+      ? `data-currency="${escapeAttr(config.currency)}"`
       : "",
-    `data-theme="${config.theme}"`,
-    `data-size="${config.size}"`,
+    config.recipient ? `data-recipient="${escapeAttr(config.recipient)}"` : "",
+    config.message ? `data-message="${escapeAttr(config.message)}"` : "",
+    config.variableSymbol
+      ? `data-variable-symbol="${escapeAttr(config.variableSymbol)}"`
+      : "",
+    `data-theme="${escapeAttr(config.theme)}"`,
+    `data-size="${escapeAttr(config.size)}"`,
     config.showDownload ? "" : 'data-show-download="false"',
     config.showAmountInput ? 'data-show-amount-input="true"' : "",
     config.branding ? "" : 'data-branding="false"',
@@ -98,7 +130,7 @@ function buildPreviewHTML(config: ConfigState): string {
 <head><meta charset="utf-8"><style>body{margin:0;display:flex;justify-content:center;padding:16px;background:${config.theme === "dark" ? "#111827" : "#ffffff"};}</style></head>
 <body>
 <div class="qr-platby-widget" ${attrs}></div>
-<script src="/widget.js"></script>
+<script src="${origin}/widget.js"></script>
 </body>
 </html>`;
 }
@@ -133,7 +165,7 @@ export function WidgetConfigurator() {
     if (!iframe) {
       return;
     }
-    const html = buildPreviewHTML(config);
+    const html = buildPreviewHTML(config, window.location.origin);
     const blob = new Blob([html], { type: "text/html" });
     const url = URL.createObjectURL(blob);
     iframe.src = url;
@@ -154,19 +186,13 @@ export function WidgetConfigurator() {
       <div className="space-y-4">
         {/* Format */}
         <div className="space-y-1">
-          <label className="font-medium text-xs" htmlFor="cfg-format">
-            {t("cfgFormat")}
-          </label>
-          <select
-            className="w-full border bg-background p-2 text-sm"
-            id="cfg-format"
-            onChange={(e) => updateConfig("format", e.target.value)}
+          <p className="font-medium text-xs">{t("cfgFormat")}</p>
+          <SegmentedControl
+            className="w-full"
+            onChange={(value) => updateConfig("format", value)}
+            options={FORMAT_OPTIONS}
             value={config.format}
-          >
-            <option value="paybysquare">PAY by square</option>
-            <option value="spayd">SPAYD / QR Platba</option>
-            <option value="epc">EPC QR (SEPA)</option>
-          </select>
+          />
         </div>
 
         {/* IBAN */}
@@ -199,19 +225,16 @@ export function WidgetConfigurator() {
             />
           </div>
           <div className="space-y-1">
-            <label className="font-medium text-xs" htmlFor="cfg-currency">
-              {t("cfgCurrency")}
-            </label>
-            <select
-              className="w-full border bg-background p-2 text-sm"
-              disabled={config.format === "epc"}
-              id="cfg-currency"
-              onChange={(e) => updateConfig("currency", e.target.value)}
+            <p className="font-medium text-xs">{t("cfgCurrency")}</p>
+            <SegmentedControl
+              onChange={(value) => updateConfig("currency", value)}
+              options={
+                config.format === "epc"
+                  ? [{ value: "EUR", label: "EUR" }]
+                  : CURRENCY_OPTIONS
+              }
               value={config.currency}
-            >
-              <option value="EUR">EUR</option>
-              <option value="CZK">CZK</option>
-            </select>
+            />
           </div>
         </div>
 
@@ -246,18 +269,12 @@ export function WidgetConfigurator() {
         {/* Theme + Size */}
         <div className="grid grid-cols-2 gap-2">
           <div className="space-y-1">
-            <label className="font-medium text-xs" htmlFor="cfg-theme">
-              {t("cfgTheme")}
-            </label>
-            <select
-              className="w-full border bg-background p-2 text-sm"
-              id="cfg-theme"
-              onChange={(e) => updateConfig("theme", e.target.value)}
+            <p className="font-medium text-xs">{t("cfgTheme")}</p>
+            <SegmentedControl
+              onChange={(value) => updateConfig("theme", value)}
+              options={THEME_OPTIONS}
               value={config.theme}
-            >
-              <option value="light">Light</option>
-              <option value="dark">Dark</option>
-            </select>
+            />
           </div>
           <div className="space-y-1">
             <label className="font-medium text-xs" htmlFor="cfg-size">
@@ -314,7 +331,7 @@ export function WidgetConfigurator() {
             <iframe
               className="w-full"
               ref={iframeRef}
-              sandbox="allow-scripts"
+              sandbox="allow-scripts allow-same-origin"
               style={{
                 height: `${Number(config.size) + 140}px`,
                 border: "none",

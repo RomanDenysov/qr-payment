@@ -142,7 +142,10 @@ export class QRPaymentWidget implements QRWidget {
     this.generateQR(qrContainer, wrapper);
   }
 
-  private generateQR(qrContainer: HTMLElement, wrapper: HTMLElement): void {
+  private async generateQR(
+    qrContainer: HTMLElement,
+    wrapper: HTMLElement
+  ): Promise<void> {
     const result = this.encode();
 
     if (result instanceof Promise) {
@@ -151,10 +154,9 @@ export class QRPaymentWidget implements QRWidget {
       loadingDiv.textContent = this.lang.loading;
       qrContainer.appendChild(loadingDiv);
       this.root.appendChild(wrapper);
-      result.then((res) => {
-        clearElement(qrContainer);
-        this.handleEncoderResult(res, qrContainer, wrapper);
-      });
+      const res = await result;
+      clearElement(qrContainer);
+      this.handleEncoderResult(res, qrContainer, wrapper);
       return;
     }
 
