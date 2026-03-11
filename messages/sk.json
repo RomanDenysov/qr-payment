@@ -1,11 +1,11 @@
 {
   "Metadata": {
-    "title": "QR Platby - Bezplatný generátor QR kódov pre bankové prevody | PAY by square & EPC QR",
+    "title": "QR Platby - Bezplatný generátor QR kódov pre bankové prevody | PAY by square, EPC QR a SPAYD",
     "titleTemplate": "{title} | QR Platby",
-    "description": "Bezplatný generátor QR kódov pre bankové prevody vo formáte PAY by square a EPC (SEPA). Funguje so všetkými slovenskými bankami bez registrácie.",
-    "ogDescription": "Vytvorte QR kód pre bankový prevod zadarmo. Podpora PAY by square a EPC QR. Vlastné farby, logo a text. Všetky slovenské banky.",
-    "twitterDescription": "Bezplatný generátor QR kódov pre bankové prevody. PAY by square & EPC QR pre slovenské banky.",
-    "keywords": "QR kód, QR platba, bankový prevod, BySquare, PAY by square, EPC QR, SEPA, IBAN, Slovensko, generátor QR kódov, slovenské banky, platobný QR kód, bezplatný, online platba",
+    "description": "Bezplatný generátor QR kódov pre bankové prevody vo formáte PAY by square, EPC (SEPA) a SPAYD. Funguje so všetkými slovenskými a českými bankami bez registrácie.",
+    "ogDescription": "Vytvorte QR kód pre bankový prevod zadarmo. Podpora PAY by square, EPC QR a SPAYD. Vlastné farby, logo a text. Všetky slovenské a české banky.",
+    "twitterDescription": "Bezplatný generátor QR kódov pre bankové prevody. PAY by square, EPC QR a SPAYD pre slovenskú a českú banky.",
+    "keywords": "QR kód, QR platba, bankový prevod, BySquare, PAY by square, EPC QR, SEPA, IBAN, Slovensko, generátor QR kódov, slovenské banky, platobný QR kód, bezplatný, online platba, SPAYD, Česko, české banky",
     "bulkTitle": "Hromadné generovanie QR kódov pre platby",
     "bulkDescription": "Hromadné generovanie QR kódov pre bankové prevody z CSV súboru. Stiahnite ako ZIP alebo PDF.",
     "privacyTitle": "Ochrana osobných údajov",
@@ -15,7 +15,8 @@
     "faqTitle": "Často kladené otázky",
     "faqDescription": "Odpovede na najčastejšie otázky o generátore QR kódov pre platby.",
     "homeH1": "Bezplatný generátor QR kódov pre slovenské bankové platby",
-    "backToHome": "Späť na hlavnú stránku"
+    "backToHome": "Späť na hlavnú stránku",
+    "webApiDescription": "REST API pre generovanie QR kódov pre bankové platby vo formátoch BySquare, EPC a SPAYD. Zadarmo, bez autentifikácie."
   },
   "Nav": {
     "home": "Domov",
@@ -57,7 +58,12 @@
     "ks": "KS",
     "clear": "Vymazať",
     "generate": "Vygenerovať QR",
-    "noHistoryResults": "Žiadne výsledky z histórie"
+    "noHistoryResults": "Žiadne výsledky z histórie",
+    "formatDescription": {
+      "bysquare": "Štandard slovenských bánk",
+      "epc": "Európsky SEPA štandard",
+      "spayd": "Štandard českých bánk (SPAYD)"
+    }
   },
   "Validation": {
     "ibanRequired": "IBAN je povinný",
@@ -118,7 +124,7 @@
     "warning": "Úpravy môžu ovplyvniť čitateľnosť QR kódu. Pred použitím otestujte.",
     "fgColor": "Farba QR kódu",
     "bgColor": "Farba pozadia",
-    "lowContrast": "Nízký kontrast",
+    "lowContrast": "Nízky kontrast",
     "centerText": "Text v strede",
     "centerTextPlaceholder": "Naskenujte\nbankovou\naplikáciou",
     "centerTextDescription": "Každý riadok sa zobrazí samostatne",
@@ -127,7 +133,7 @@
     "logoTooLarge": "Obrázok po kompresii na 64×64px prekročil 10 KB. Skúste jednoduchší alebo menší obrázok.",
     "reset": "Resetovať",
     "done": "Hotovo",
-    "logoUploadError": "Chyba pri nahrávání loga. Skúste znova.",
+    "logoUploadError": "Chyba pri nahratí loga. Skúste znova.",
     "dotStyle": "Štýl bodov",
     "dotStyleSquare": "Štvorce",
     "dotStyleRounded": "Zaoblené",
@@ -146,7 +152,7 @@
     "format": "Formát:",
     "clear": "Vymazať",
     "generating": "Generujem QR kódy...",
-    "generate": "Generovať {count} QR {count, plural, one {kód} other {kódov}}",
+    "generate": "Generovať {count} QR {count, plural, one {kód} few {kódy} other {kódov}}",
     "generated": "Vygenerovaných {count} QR kódov",
     "downloadZip": "Stiahnuť ZIP",
     "downloadPdf": "Stiahnuť PDF",
@@ -164,9 +170,9 @@
     "invalid": "Neplatné:",
     "noteColumn": "Poznámka",
     "errorColumn": "Chyba",
-    "generationErrors": "{count, plural, one {Chyba pri generovaní QR kódu} other {Chyby pri generovaní {count} QR kódov}}",
+    "generationErrors": "{count, plural, one {Chyba pri generovaní QR kódu} few {Chyby pri generovaní {count} QR kódov} other {Chýb pri generovaní {count} QR kódov}}",
     "rowError": "Riadok {row} ({iban}): {error}",
-    "moreErrors": "...a ďalších {count} {count, plural, one {chyba} other {chýb}}",
+    "moreErrors": "...a ďalších {count} {count, plural, one {chyba} few {chyby} other {chýb}}",
     "csvEmpty": "CSV súbor je prázdny",
     "csvTooManyRows": "Maximálny počet riadkov je {max} (nahraných: {count})",
     "csvReadError": "Chyba pri čítaní CSV: {error}",
@@ -235,5 +241,63 @@
     "timeDays": "pred {count} d",
     "ctaTitle": "Pomôžte nám zlepšiť QR Platby",
     "ctaDescription": "Máte nápad na zlepšenie? Dajte nám vedieť."
+  },
+  "PrivacyPolicy": {
+    "title": "Ochrana osobných údajov",
+    "lastUpdated": "Posledná aktualizácia: 11. február 2026",
+    "operator": {
+      "heading": "Prevádzkovateľ",
+      "author": "Nezávislý autor",
+      "contact": "Kontakt:"
+    },
+    "dataCollection": {
+      "heading": "Aké údaje zbierame",
+      "body": "<strong>Žiadne.</strong> Aplikácia QR Platby nezbiera, neukladá ani neprenáša žiadne osobné údaje na server. Všetky platobné údaje (IBAN, suma, symboly) sú spracované výlučne vo vašom prehliadači."
+    },
+    "localStorage": {
+      "heading": "Lokálne úložisko (localStorage)",
+      "body1": "Aplikácia používa localStorage vášho prehliadača na uloženie histórie platieb a nastavení. Tieto údaje nikdy neopustia váš prehliadač a nie sú prístupné nám ani tretím stranám.",
+      "body2": "Údaje môžete kedykoľvek vymazať pomocou tlačidla „Vymazať históriu“ v aplikácii alebo cez nastavenia prehliadača."
+    },
+    "analytics": {
+      "heading": "Analytika",
+      "body": "Používame <link>Vercel Web Analytics</link>, ktoré zbierajú anonymné údaje o návštevnosti (počet zobrazení, krajina). Nepoužívajú cookies a neidentifikujú jednotlivých používateľov."
+    },
+    "cookies": {
+      "heading": "Cookies a sledovanie",
+      "body": "Aplikácia nepoužíva cookies. Nepoužívame žiadne reklamné, sledovacie ani marketingové nástroje tretích strán."
+    },
+    "contact": {
+      "heading": "Kontakt",
+      "body": "V prípade otázok nás kontaktujte:"
+    }
+  },
+  "Terms": {
+    "title": "Podmienky používania",
+    "lastUpdated": "Posledná aktualizácia: 11. február 2026",
+    "about": {
+      "heading": "O službe",
+      "body": "QR Platby je bezplatný online nástroj na generovanie QR kódov pre bankové platby vo formáte BySquare, EPC a SPAYD (QR Platba). Služba je poskytovaná „tak ako je“ (as-is), bez akýchkoľvek záruk."
+    },
+    "responsibility": {
+      "heading": "Zodpovednosť",
+      "body": "Prevádzkovateľ nezodpovedá za chyby v generovaných QR kódoch ani za problémy s platbami. Používateľ je povinný skontrolovať správnosť údajov v QR kóde pred jeho použitím."
+    },
+    "compatibility": {
+      "heading": "Kompatibilita",
+      "body": "QR kódy sú generované podľa štandardov BySquare, EPC a SPAYD, ale nezaručujeme kompatibilitu so všetkými bankovými aplikáciami."
+    },
+    "changes": {
+      "heading": "Zmeny služby",
+      "body": "Vyhradzujeme si právo službu kedykoľvek upraviť, pozastaviť alebo ukončiť bez predchádzajúceho upozornenia."
+    },
+    "sourceCode": {
+      "heading": "Zdrojový kód",
+      "body": "Zdrojový kód aplikácie je verejne dostupný na <link>GitHube</link>."
+    },
+    "contact": {
+      "heading": "Kontakt",
+      "body": "V prípade otázok kontaktujte:"
+    }
   }
 }

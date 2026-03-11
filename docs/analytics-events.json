@@ -3,7 +3,7 @@
     "qr_generated": {
       "description": "User generated a QR code from the payment form",
       "properties": {
-        "format": "bysquare | epc",
+        "format": "bysquare | epc | spayd",
         "currency": "EUR | CZK",
         "has_branding": "true if colors or center text differ from defaults",
         "has_logo": "true if a logo is set",
@@ -12,8 +12,8 @@
       "source": "features/payment/use-payment-generator.ts"
     },
     "format_selected": {
-      "description": "User switched the QR format (BySquare / EPC)",
-      "properties": { "format": "bysquare | epc" },
+      "description": "User switched the QR format (BySquare / EPC / SPAYD)",
+      "properties": { "format": "bysquare | epc | spayd" },
       "source": "features/payment/components/payment-form-card.tsx"
     }
   },
@@ -56,7 +56,7 @@
     "share_page_viewed": {
       "description": "Recipient opened the shared payment page",
       "properties": {
-        "format": "bysquare | epc",
+        "format": "bysquare | epc | spayd",
         "has_amount": "true if amount > 0"
       },
       "source": "app/[locale]/p/share-qr-section.tsx"
@@ -134,21 +134,22 @@
       "description": "User uploaded a CSV file for bulk QR generation",
       "properties": {
         "count": "number of rows",
-        "format": "bysquare | epc",
+        "format": "bysquare | epc | spayd",
         "row_bucket": "1-5 | 6-20 | 21-50 | 51-100"
       },
       "source": "features/bulk/components/bulk-upload-section.tsx"
     },
     "bulk_sample_csv_downloaded": {
       "description": "User downloaded the sample CSV template",
-      "properties": { "format": "bysquare | epc" },
+      "properties": { "format": "bysquare | epc | spayd" },
       "source": "features/bulk/components/bulk-upload-section.tsx"
     },
     "bulk_qr_generated": {
       "description": "Bulk QR codes were generated from uploaded CSV",
       "properties": {
         "count": "number of QR codes",
-        "errorCount": "number of failed rows"
+        "errors": "number of failed rows",
+        "format": "bysquare | epc | spayd"
       },
       "source": "features/bulk/components/bulk-content.tsx"
     },

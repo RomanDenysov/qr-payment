@@ -1,6 +1,7 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
+import { linkVariants } from "@/components/ui/link";
 import { decodeShareData } from "@/features/payment/share-link";
 import { Link } from "@/i18n/navigation";
 import { PaymentDetails } from "./payment-details";
@@ -58,10 +59,7 @@ export default async function SharePage({ params, searchParams }: Props) {
       </Card>
 
       <div className="pt-4 text-center">
-        <Link
-          className="text-foreground text-xs underline underline-offset-4 hover:text-primary"
-          href="/"
-        >
+        <Link className={linkVariants({ size: "sm" })} href="/">
           ← {t("backHome")}
         </Link>
       </div>

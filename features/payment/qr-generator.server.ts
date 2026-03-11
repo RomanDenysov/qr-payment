@@ -5,6 +5,7 @@ import { InvalidIBANError } from "./qr-generator";
 import { buildQrPayload } from "./qr-payload";
 
 interface ServerQrInput {
+  format?: "bysquare" | "epc" | "spayd";
   iban: string;
   amount?: number;
   currency?: CurrencyCode;

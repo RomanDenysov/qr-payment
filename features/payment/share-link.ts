@@ -107,7 +107,9 @@ export function decodeShareData(encoded: string): SharePayload | null {
 
     if (
       typeof compact.f !== "string" ||
-      (compact.f !== "bysquare" && compact.f !== "epc") ||
+      (compact.f !== "bysquare" &&
+        compact.f !== "epc" &&
+        compact.f !== "spayd") ||
       typeof compact.i !== "string" ||
       compact.i.length === 0 ||
       compact.i.length > 34 ||

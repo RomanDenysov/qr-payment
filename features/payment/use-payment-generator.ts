@@ -7,6 +7,7 @@ import { DEFAULT_CONFIG, useBrandingConfig } from "../branding/store";
 import { EpcPayloadTooLargeError } from "./epc-encoder";
 import { generatePaymentQR, InvalidIBANError } from "./qr-generator";
 import type { PaymentFormData, PaymentRecord } from "./schema";
+import { SpaydPayloadTooLargeError } from "./spayd-encoder";
 import { usePaymentActions } from "./store";
 
 function resolveCenter(branding: BrandingConfig, translated: string): string {
@@ -71,7 +72,8 @@ export function usePaymentGenerator() {
         } catch (error) {
           if (
             error instanceof InvalidIBANError ||
-            error instanceof EpcPayloadTooLargeError
+            error instanceof EpcPayloadTooLargeError ||
+            error instanceof SpaydPayloadTooLargeError
           ) {
             toast.error(error.message);
           } else {

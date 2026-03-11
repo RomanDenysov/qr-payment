@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { IconLoader3, IconQrcode, IconTrash } from "@tabler/icons-react";
 import { track } from "@vercel/analytics";
 import dynamic from "next/dynamic";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useMemo } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { CurrencyInput } from "@/components/currency-input";
@@ -143,10 +143,12 @@ function SymbolFields({
   );
 }
 
-const FORMAT_OPTIONS: { value: PaymentFormat; label: string }[] = [
-  { value: "bysquare", label: FORMAT_LABELS.bysquare },
-  { value: "epc", label: FORMAT_LABELS.epc },
-];
+const FORMAT_OPTIONS: { value: PaymentFormat; label: string }[] = (
+  ["bysquare", "epc", "spayd"] as const
+).map((f) => ({
+  value: f,
+  label: FORMAT_LABELS[f],
+}));
 
 const CURRENCY_OPTIONS: { value: "EUR" | "CZK"; label: string }[] = [
   { value: "EUR", label: "EUR" },
@@ -172,6 +174,7 @@ export function PaymentFormCard() {
   const storedFormat = usePreferredFormat();
   const storedCurrency = usePreferredCurrency();
   const { setPreferredFormat, setPreferredCurrency } = usePaymentActions();
+  const locale = useLocale();
   const t = useTranslations("PaymentForm");
   const tv = useTranslations("Validation");
   const schema = useMemo(() => createPaymentFormSchema(tv), [tv]);
@@ -201,6 +204,9 @@ export function PaymentFormCard() {
     setPreferredFormat(newFormat);
     if (newFormat === "epc") {
       setValue("currency", "EUR");
+    } else if (newFormat === "spayd") {
+      setValue("currency", "CZK");
+      setPreferredCurrency("CZK");
     }
     track("format_selected", { format: newFormat });
   };
@@ -224,6 +230,24 @@ export function PaymentFormCard() {
     setPreferredFormat(currentPayment.format ?? "bysquare");
     setPreferredCurrency(currentPayment.currency ?? "EUR");
   }, [currentPayment, reset, setPreferredFormat, setPreferredCurrency]);
+
+  // Set locale defaults for first-time Czech users
+  useEffect(() => {
+    if (locale !== "cs") {
+      return;
+    }
+    try {
+      if (localStorage.getItem("qrPayments.v1")) {
+        return;
+      }
+    } catch {
+      // localStorage access fails in private/incognito mode — proceed with defaults
+    }
+    setValue("format", "spayd");
+    setValue("currency", "CZK");
+    setPreferredFormat("spayd");
+    setPreferredCurrency("CZK");
+  }, [locale, setValue, setPreferredFormat, setPreferredCurrency]);
 
   const handleClear = () => {
     reset({ ...defaultValues, format });
@@ -254,6 +278,9 @@ export function PaymentFormCard() {
             value={format ?? "bysquare"}
           />
         </div>
+        <p className="text-muted-foreground text-xs">
+          {t(`formatDescription.${format ?? "bysquare"}`)}
+        </p>
       </CardHeader>
       <form className="flex h-full flex-col" onSubmit={handleSubmit(generate)}>
         <CardContent className="flex-1 grow">
@@ -296,7 +323,7 @@ export function PaymentFormCard() {
                       )}
                     />
                   </div>
-                  {format === "bysquare" ? (
+                  {format !== "epc" ? (
                     <SegmentedControl
                       className="h-auto"
                       onChange={(val) => {

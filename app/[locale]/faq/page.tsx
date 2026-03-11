@@ -5,6 +5,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { linkVariants } from "@/components/ui/link";
 import { getFaqData } from "@/features/faq/data";
 import { Link } from "@/i18n/navigation";
 import { getAlternates } from "@/lib/seo";
@@ -64,10 +65,7 @@ export default async function FaqPage({ params }: Props) {
           type="application/ld+json"
         />
         <div className="pt-4 text-center">
-          <Link
-            className="text-foreground text-xs underline underline-offset-4 hover:text-primary"
-            href="/"
-          >
+          <Link className={linkVariants({ size: "sm" })} href="/">
             ← {t("backToHome")}
           </Link>
         </div>

@@ -7,6 +7,7 @@ export interface CsvRow {
   rowNumber: number;
   iban: string;
   amount: number;
+  currency?: string;
   variableSymbol?: string;
   specificSymbol?: string;
   constantSymbol?: string;
@@ -51,17 +52,30 @@ function detectFormat(headers: string[]): PaymentFormat {
 }
 
 export function getExpectedHeaders(format: PaymentFormat): string[] {
-  return format === "epc"
-    ? ["iban", "amount", "recipientName", "bic", "paymentNote"]
-    : [
-        "iban",
-        "amount",
-        "variableSymbol",
-        "specificSymbol",
-        "constantSymbol",
-        "recipientName",
-        "paymentNote",
-      ];
+  if (format === "epc") {
+    return ["iban", "amount", "recipientName", "bic", "paymentNote"];
+  }
+  if (format === "spayd") {
+    return [
+      "iban",
+      "amount",
+      "currency",
+      "variableSymbol",
+      "specificSymbol",
+      "constantSymbol",
+      "recipientName",
+      "paymentNote",
+    ];
+  }
+  return [
+    "iban",
+    "amount",
+    "variableSymbol",
+    "specificSymbol",
+    "constantSymbol",
+    "recipientName",
+    "paymentNote",
+  ];
 }
 
 export function parseCsv(
@@ -96,6 +110,7 @@ export function parseCsv(
             rowNumber: index + 1,
             iban: (rawRow.iban ?? "").trim(),
             amount: Number.parseFloat(rawRow.amount ?? "0") || 0,
+            currency: rawRow.currency?.trim() || undefined,
             variableSymbol: rawRow.variableSymbol?.trim() || undefined,
             specificSymbol: rawRow.specificSymbol?.trim() || undefined,
             constantSymbol: rawRow.constantSymbol?.trim() || undefined,

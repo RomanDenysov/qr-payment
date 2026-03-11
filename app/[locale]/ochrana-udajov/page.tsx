@@ -1,4 +1,5 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { linkVariants } from "@/components/ui/link";
 import { Link } from "@/i18n/navigation";
 import { getAlternates } from "@/lib/seo";
 
@@ -21,38 +22,34 @@ export default async function PrivacyPolicyPage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
 
-  const t = await getTranslations({ locale, namespace: "Metadata" });
+  const t = await getTranslations({ locale, namespace: "PrivacyPolicy" });
+  const tMeta = await getTranslations({ locale, namespace: "Metadata" });
 
   return (
     <div className="flex-1 pt-5 sm:pt-8 md:pt-16">
       <article className="prose-sm mx-auto max-w-2xl space-y-6 text-muted-foreground text-sm leading-relaxed">
         <h1 className="font-bold font-pixel text-foreground text-lg tracking-wide sm:text-xl">
-          Ochrana osobných údajov
+          {t("title")}
         </h1>
-        <p className="text-muted-foreground text-xs">
-          Posledná aktualizácia: 11. február 2026
-        </p>
+        <p className="text-muted-foreground text-xs">{t("lastUpdated")}</p>
 
         <section className="space-y-2">
           <h2 className="font-pixel font-semibold text-base text-foreground">
-            Prevádzkovateľ
+            {t("operator.heading")}
           </h2>
           <p>
             <a
-              className="text-foreground underline underline-offset-4 hover:text-primary"
+              className={linkVariants()}
               href="https://buymeacoffee.com/romandenysov"
               rel="noopener noreferrer"
               target="_blank"
             >
-              Nezávislý autor
+              {t("operator.author")}
             </a>
           </p>
           <p>
-            Kontakt:{" "}
-            <a
-              className="text-foreground underline underline-offset-4 hover:text-primary"
-              href="mailto:info@qr-platby.com"
-            >
+            {t("operator.contact")}{" "}
+            <a className={linkVariants()} href="mailto:info@qr-platby.com">
               info@qr-platby.com
             </a>
           </p>
@@ -60,82 +57,67 @@ export default async function PrivacyPolicyPage({ params }: Props) {
 
         <section className="space-y-2">
           <h2 className="font-pixel font-semibold text-base text-foreground">
-            Aké údaje zbierame
+            {t("dataCollection.heading")}
           </h2>
           <p>
-            <strong className="text-foreground">Žiadne.</strong> Aplikácia QR
-            Platby nezbiera, neukladá ani neprenáša žiadne osobné údaje na
-            server. Všetky platobné údaje (IBAN, suma, symboly) sú spracované
-            výlučne vo vašom prehliadači.
+            {t.rich("dataCollection.body", {
+              strong: (chunks) => (
+                <strong className="text-foreground">{chunks}</strong>
+              ),
+            })}
           </p>
         </section>
 
         <section className="space-y-2">
           <h2 className="font-pixel font-semibold text-base text-foreground">
-            Lokálne úložisko (localStorage)
+            {t("localStorage.heading")}
+          </h2>
+          <p>{t("localStorage.body1")}</p>
+          <p>{t("localStorage.body2")}</p>
+        </section>
+
+        <section className="space-y-2">
+          <h2 className="font-pixel font-semibold text-base text-foreground">
+            {t("analytics.heading")}
           </h2>
           <p>
-            Aplikácia používa localStorage vášho prehliadača na uloženie
-            histórie platieb a nastavení. Tieto údaje nikdy neopustia váš
-            prehliadač a nie sú prístupné nám ani tretím stranám.
-          </p>
-          <p>
-            Údaje môžete kedykoľvek vymazať pomocou tlačidla „Vymazať históriu"
-            v aplikácii alebo cez nastavenia prehliadača.
+            {t.rich("analytics.body", {
+              link: (chunks) => (
+                <a
+                  className={linkVariants()}
+                  href="https://vercel.com/docs/analytics/privacy-policy"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  {chunks}
+                </a>
+              ),
+            })}
           </p>
         </section>
 
         <section className="space-y-2">
           <h2 className="font-pixel font-semibold text-base text-foreground">
-            Analytika
+            {t("cookies.heading")}
           </h2>
-          <p>
-            Používame{" "}
-            <a
-              className="text-foreground underline underline-offset-4 hover:text-primary"
-              href="https://vercel.com/docs/analytics/privacy-policy"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              Vercel Web Analytics
-            </a>
-            , ktoré zbierajú anonymné údaje o návštevnosti (počet zobrazení,
-            krajina). Nepoužívajú cookies a neidentifikujú jednotlivých
-            používateľov.
-          </p>
+          <p>{t("cookies.body")}</p>
         </section>
 
         <section className="space-y-2">
           <h2 className="font-pixel font-semibold text-base text-foreground">
-            Cookies a sledovanie
+            {t("contact.heading")}
           </h2>
           <p>
-            Aplikácia nepoužíva cookies. Nepoužívame žiadne reklamné, sledovacie
-            ani marketingové nástroje tretích strán.
-          </p>
-        </section>
-
-        <section className="space-y-2">
-          <h2 className="font-pixel font-semibold text-base text-foreground">
-            Kontakt
-          </h2>
-          <p>
-            V prípade otázok nás kontaktujte:{" "}
-            <a
-              className="text-foreground underline underline-offset-4 hover:text-primary"
-              href="mailto:info@qr-platby.com"
-            >
+            {t("contact.body")}{" "}
+            <a className={linkVariants()} href="mailto:info@qr-platby.com">
               info@qr-platby.com
             </a>
           </p>
         </section>
 
         <div className="pt-4 text-center">
-          <Link
-            className="text-foreground text-xs underline underline-offset-4 hover:text-primary"
-            href="/"
-          >
-            ← {t("backToHome")}
+          <Link className={linkVariants({ size: "sm" })} href="/">
+            ← {tMeta("backToHome")}
           </Link>
         </div>
       </article>

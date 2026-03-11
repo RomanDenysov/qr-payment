@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { Link } from "@/i18n/navigation";
 import { Button } from "./ui/button";
+import { linkVariants } from "./ui/link";
 
 const CONSENT_KEY = "consent-dismissed";
 const PAYMENT_STORE_KEY = "qrPayments.v1";
@@ -49,7 +50,7 @@ export function ConsentBanner() {
         </p>
         <div className="flex shrink-0 items-center gap-2">
           <Link
-            className="text-muted-foreground text-xs underline underline-offset-4 hover:text-foreground"
+            className={linkVariants({ variant: "muted", size: "sm" })}
             href="/ochrana-udajov"
           >
             {t("moreInfo")}

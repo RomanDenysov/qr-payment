@@ -5,6 +5,7 @@ import {
   CardDescription,
   CardHeader,
 } from "@/components/ui/card";
+import { linkVariants } from "@/components/ui/link";
 import { BulkContent } from "@/features/bulk/components/bulk-content";
 import { Link } from "@/i18n/navigation";
 import { getAlternates } from "@/lib/seo";
@@ -50,10 +51,7 @@ export default async function Page({
           </CardContent>
         </Card>
         <div className="pt-4 text-center print:hidden">
-          <Link
-            className="text-foreground text-xs underline underline-offset-4 hover:text-primary"
-            href="/"
-          >
+          <Link className={linkVariants({ size: "sm" })} href="/">
             ← {tMeta("backToHome")}
           </Link>
         </div>

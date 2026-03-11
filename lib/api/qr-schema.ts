@@ -51,6 +51,7 @@ export const qrRequestSchema = z.object({
     .min(100, "Size must be at least 100px")
     .max(1000, "Size must be at most 1000px")
     .default(300),
+  paymentFormat: z.enum(["bysquare", "spayd"]).default("bysquare"),
 });
 
 export type QrRequest = z.infer<typeof qrRequestSchema>;

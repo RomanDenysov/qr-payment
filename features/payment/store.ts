@@ -52,6 +52,20 @@ function getPaymentFingerprint(payment: PaymentRecord): string {
     ].join("|");
   }
 
+  if (format === "spayd") {
+    return [
+      "spayd",
+      iban,
+      payment.amount.toFixed(2),
+      payment.currency ?? "CZK",
+      payment.variableSymbol || "",
+      payment.specificSymbol || "",
+      payment.constantSymbol || "",
+      payment.recipientName || "",
+      payment.paymentNote || "",
+    ].join("|");
+  }
+
   return [
     "bysquare",
     iban,

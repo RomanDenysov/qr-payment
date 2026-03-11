@@ -1,11 +1,11 @@
 {
   "Metadata": {
-    "title": "QR Platby - Free QR Code Generator for Bank Transfers | PAY by square & EPC QR",
+    "title": "QR Platby - Free QR Code Generator for Bank Transfers | PAY by square, EPC QR & SPAYD",
     "titleTemplate": "{title} | QR Platby",
-    "description": "Free QR code generator for bank transfers in PAY by square and EPC (SEPA) formats. Works with all Slovak banks. No registration required.",
-    "ogDescription": "Generate payment QR codes for free. Supports PAY by square and EPC QR formats. Custom colors, logo, and text. All Slovak banks supported.",
-    "twitterDescription": "Free QR code generator for bank transfers. PAY by square & EPC QR for Slovak banks.",
-    "keywords": "QR code, payment, bank transfer, BySquare, PAY by square, EPC QR, SEPA, IBAN, Slovakia, QR code generator, Slovak banks, payment QR code, free, online payment",
+    "description": "Free QR code generator for bank transfers in PAY by square, EPC (SEPA), and SPAYD formats. Works with all Slovak and Czech banks. No registration required.",
+    "ogDescription": "Generate payment QR codes for free. Supports PAY by square, EPC QR, and SPAYD formats. Custom colors, logo, and text. Czech and Slovak banks supported.",
+    "twitterDescription": "Free QR code generator for bank transfers. PAY by square, EPC QR & SPAYD for Slovak and Czech banks.",
+    "keywords": "QR code, payment, bank transfer, BySquare, PAY by square, EPC QR, SEPA, IBAN, Slovakia, Czech, QR code generator, Slovak banks, Czech banks, payment QR code, free, online payment, SPAYD, CZK",
     "bulkTitle": "Bulk QR Code Generation for Payments",
     "bulkDescription": "Bulk QR code generation for bank transfers from a CSV file. Download as ZIP or PDF.",
     "privacyTitle": "Privacy Policy",
@@ -15,7 +15,8 @@
     "faqTitle": "Frequently Asked Questions",
     "faqDescription": "Answers to the most common questions about the QR code payment generator.",
     "homeH1": "Free QR Code Generator for Slovak & Czech Bank Payments",
-    "backToHome": "Back to home page"
+    "backToHome": "Back to home page",
+    "webApiDescription": "REST API for generating QR codes for Slovak and Czech bank payments in BySquare, EPC, and SPAYD formats. Free, no authentication required."
   },
   "Nav": {
     "home": "Home",
@@ -57,7 +58,12 @@
     "ks": "KS",
     "clear": "Clear",
     "generate": "Generate QR",
-    "noHistoryResults": "No results from history"
+    "noHistoryResults": "No results from history",
+    "formatDescription": {
+      "bysquare": "Slovak banking standard",
+      "epc": "European SEPA standard",
+      "spayd": "Czech banking standard (SPAYD)"
+    }
   },
   "Validation": {
     "ibanRequired": "IBAN is required",
@@ -235,5 +241,63 @@
     "timeDays": "{count}d ago",
     "ctaTitle": "Help us improve QR Platby",
     "ctaDescription": "Got an idea for improvement? Let us know."
+  },
+  "PrivacyPolicy": {
+    "title": "Privacy Policy",
+    "lastUpdated": "Last updated: February 11, 2026",
+    "operator": {
+      "heading": "Operator",
+      "author": "Independent author",
+      "contact": "Contact:"
+    },
+    "dataCollection": {
+      "heading": "What data we collect",
+      "body": "<strong>None.</strong> QR Platby does not collect, store, or transmit any personal data to a server. All payment details (IBAN, amount, symbols) are processed exclusively in your browser."
+    },
+    "localStorage": {
+      "heading": "Local storage (localStorage)",
+      "body1": "The application uses your browser's localStorage to save payment history and settings. This data never leaves your browser and is not accessible to us or third parties.",
+      "body2": "You can delete the data at any time using the \"Clear history\" button in the app or through your browser settings."
+    },
+    "analytics": {
+      "heading": "Analytics",
+      "body": "We use <link>Vercel Web Analytics</link>, which collects anonymous traffic data (page views, country). It does not use cookies and does not identify individual users."
+    },
+    "cookies": {
+      "heading": "Cookies and tracking",
+      "body": "The application does not use cookies. We do not use any advertising, tracking, or third-party marketing tools."
+    },
+    "contact": {
+      "heading": "Contact",
+      "body": "For questions, contact us at:"
+    }
+  },
+  "Terms": {
+    "title": "Terms of Use",
+    "lastUpdated": "Last updated: February 11, 2026",
+    "about": {
+      "heading": "About the service",
+      "body": "QR Platby is a free online tool for generating QR codes for bank payments in BySquare, EPC, and SPAYD (QR Platba) formats. The service is provided \"as-is\", without any warranties."
+    },
+    "responsibility": {
+      "heading": "Responsibility",
+      "body": "The operator is not responsible for errors in generated QR codes or for payment issues. Users are required to verify the accuracy of data in the QR code before use."
+    },
+    "compatibility": {
+      "heading": "Compatibility",
+      "body": "QR codes are generated according to BySquare, EPC, and SPAYD standards, but we do not guarantee compatibility with all banking applications."
+    },
+    "changes": {
+      "heading": "Service changes",
+      "body": "We reserve the right to modify, suspend, or discontinue the service at any time without prior notice."
+    },
+    "sourceCode": {
+      "heading": "Source code",
+      "body": "The application's source code is publicly available on <link>GitHub</link>."
+    },
+    "contact": {
+      "heading": "Contact",
+      "body": "For questions, contact:"
+    }
   }
 }

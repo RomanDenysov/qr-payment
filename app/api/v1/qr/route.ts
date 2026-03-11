@@ -3,6 +3,7 @@ import type { CurrencyCode } from "bysquare";
 import { type NextRequest, NextResponse } from "next/server";
 import { InvalidIBANError } from "@/features/payment/qr-generator";
 import { generatePaymentQRServer } from "@/features/payment/qr-generator.server";
+import { SpaydPayloadTooLargeError } from "@/features/payment/spayd-encoder";
 import { apiDocs } from "@/lib/api/qr-docs";
 import {
   type QrErrorResponse,
@@ -97,16 +98,21 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const { format, size, currency, ...paymentData } = parsed.data;
+  const { format, size, currency, paymentFormat, ...paymentData } = parsed.data;
 
   try {
     const data = await generatePaymentQRServer(
-      { ...paymentData, currency: currency as CurrencyCode },
+      {
+        ...paymentData,
+        format: paymentFormat,
+        currency: currency as CurrencyCode,
+      },
       { format, size }
     );
 
     track("api_qr_generated", {
       format,
+      paymentFormat,
       hasAmount: paymentData.amount != null,
     }).catch((err) => {
       console.warn("[api/v1/qr] Analytics tracking failed:", err);
@@ -134,6 +140,19 @@ export async function POST(req: NextRequest) {
     );
   } catch (error) {
     if (error instanceof InvalidIBANError) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: {
+            code: "VALIDATION_ERROR",
+            message: error.message,
+          },
+        } satisfies QrErrorResponse,
+        { status: 400, headers: CORS_HEADERS }
+      );
+    }
+
+    if (error instanceof SpaydPayloadTooLargeError) {
       return NextResponse.json(
         {
           success: false,
