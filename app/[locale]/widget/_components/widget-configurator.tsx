@@ -2,6 +2,13 @@
 
 import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  Field,
+  FieldContent,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
 import { SegmentedControl } from "@/components/ui/segmented-control";
 
 type Format = "paybysquare" | "spayd" | "epc";
@@ -165,11 +172,7 @@ export function WidgetConfigurator() {
     if (!iframe) {
       return;
     }
-    const html = buildPreviewHTML(config, window.location.origin);
-    const blob = new Blob([html], { type: "text/html" });
-    const url = URL.createObjectURL(blob);
-    iframe.src = url;
-    return () => URL.revokeObjectURL(url);
+    iframe.srcdoc = buildPreviewHTML(config, window.location.origin);
   }, [config]);
 
   const embedCode = buildEmbedCode(config);
@@ -183,119 +186,114 @@ export function WidgetConfigurator() {
   return (
     <div className="grid gap-6 lg:grid-cols-2">
       {/* Config form */}
-      <div className="space-y-4">
-        {/* Format */}
-        <div className="space-y-1">
-          <p className="font-medium text-xs">{t("cfgFormat")}</p>
-          <SegmentedControl
-            className="h-9 w-full"
-            onChange={(value) => updateConfig("format", value)}
-            options={FORMAT_OPTIONS}
-            value={config.format}
-          />
-        </div>
-
-        {/* IBAN */}
-        <div className="space-y-1">
-          <label className="font-medium text-xs" htmlFor="cfg-iban">
-            IBAN
-          </label>
-          <input
-            className="w-full border bg-background p-2 font-mono text-sm"
-            id="cfg-iban"
-            onChange={(e) => updateConfig("iban", e.target.value)}
-            value={config.iban}
-          />
-        </div>
-
-        {/* Amount + Currency */}
-        <div className="grid grid-cols-2 gap-2">
-          <div className="space-y-1">
-            <label className="font-medium text-xs" htmlFor="cfg-amount">
-              {t("cfgAmount")}
-            </label>
-            <input
-              className="w-full border bg-background p-2 text-sm"
-              id="cfg-amount"
-              min="0.01"
-              onChange={(e) => updateConfig("amount", e.target.value)}
-              step="0.01"
-              type="number"
-              value={config.amount}
-            />
-          </div>
-          <div className="space-y-1">
-            <p className="font-medium text-xs">{t("cfgCurrency")}</p>
+      <FieldGroup>
+        <Field>
+          <FieldLabel>{t("cfgFormat")}</FieldLabel>
+          <FieldContent>
             <SegmentedControl
-              className="h-9"
-              onChange={(value) => updateConfig("currency", value)}
-              options={
-                config.format === "epc"
-                  ? [{ value: "EUR", label: "EUR" }]
-                  : CURRENCY_OPTIONS
-              }
-              value={config.currency}
+              className="h-8 w-full"
+              onChange={(value) => updateConfig("format", value)}
+              options={FORMAT_OPTIONS}
+              value={config.format}
             />
-          </div>
+          </FieldContent>
+        </Field>
+
+        <Field>
+          <FieldLabel htmlFor="cfg-iban">IBAN</FieldLabel>
+          <FieldContent>
+            <Input
+              className="font-mono"
+              id="cfg-iban"
+              onChange={(e) => updateConfig("iban", e.target.value)}
+              value={config.iban}
+            />
+          </FieldContent>
+        </Field>
+
+        <div className="grid grid-cols-2 gap-4">
+          <Field>
+            <FieldLabel htmlFor="cfg-amount">{t("cfgAmount")}</FieldLabel>
+            <FieldContent>
+              <Input
+                id="cfg-amount"
+                min="0.01"
+                onChange={(e) => updateConfig("amount", e.target.value)}
+                step="0.01"
+                type="number"
+                value={config.amount}
+              />
+            </FieldContent>
+          </Field>
+          <Field>
+            <FieldLabel>{t("cfgCurrency")}</FieldLabel>
+            <FieldContent>
+              <SegmentedControl
+                className="h-8"
+                onChange={(value) => updateConfig("currency", value)}
+                options={
+                  config.format === "epc"
+                    ? [{ value: "EUR", label: "EUR" }]
+                    : CURRENCY_OPTIONS
+                }
+                value={config.currency}
+              />
+            </FieldContent>
+          </Field>
         </div>
 
-        {/* Recipient */}
-        <div className="space-y-1">
-          <label className="font-medium text-xs" htmlFor="cfg-recipient">
-            {t("cfgRecipient")}
-          </label>
-          <input
-            className="w-full border bg-background p-2 text-sm"
-            id="cfg-recipient"
-            onChange={(e) => updateConfig("recipient", e.target.value)}
-            value={config.recipient}
-          />
-        </div>
+        <Field>
+          <FieldLabel htmlFor="cfg-recipient">{t("cfgRecipient")}</FieldLabel>
+          <FieldContent>
+            <Input
+              id="cfg-recipient"
+              onChange={(e) => updateConfig("recipient", e.target.value)}
+              value={config.recipient}
+            />
+          </FieldContent>
+        </Field>
 
-        {/* Variable Symbol */}
         {config.format !== "epc" && (
-          <div className="space-y-1">
-            <label className="font-medium text-xs" htmlFor="cfg-vs">
-              {t("cfgVs")}
-            </label>
-            <input
-              className="w-full border bg-background p-2 text-sm"
-              id="cfg-vs"
-              onChange={(e) => updateConfig("variableSymbol", e.target.value)}
-              value={config.variableSymbol}
-            />
-          </div>
+          <Field>
+            <FieldLabel htmlFor="cfg-vs">{t("cfgVs")}</FieldLabel>
+            <FieldContent>
+              <Input
+                id="cfg-vs"
+                onChange={(e) => updateConfig("variableSymbol", e.target.value)}
+                value={config.variableSymbol}
+              />
+            </FieldContent>
+          </Field>
         )}
 
-        {/* Theme + Size */}
-        <div className="grid grid-cols-2 gap-2">
-          <div className="space-y-1">
-            <p className="font-medium text-xs">{t("cfgTheme")}</p>
-            <SegmentedControl
-              className="h-9"
-              onChange={(value) => updateConfig("theme", value)}
-              options={THEME_OPTIONS}
-              value={config.theme}
-            />
-          </div>
-          <div className="space-y-1">
-            <label className="font-medium text-xs" htmlFor="cfg-size">
-              {t("cfgSize")}
-            </label>
-            <input
-              className="w-full border bg-background p-2 text-sm"
-              id="cfg-size"
-              max="500"
-              min="150"
-              onChange={(e) => updateConfig("size", e.target.value)}
-              type="number"
-              value={config.size}
-            />
-          </div>
+        <div className="grid grid-cols-2 gap-4">
+          <Field>
+            <FieldLabel>{t("cfgTheme")}</FieldLabel>
+            <FieldContent>
+              <SegmentedControl
+                className="h-8"
+                onChange={(value) => updateConfig("theme", value)}
+                options={THEME_OPTIONS}
+                value={config.theme}
+              />
+            </FieldContent>
+          </Field>
+          <Field>
+            <FieldLabel htmlFor="cfg-size">{t("cfgSize")}</FieldLabel>
+            <FieldContent>
+              <Input
+                id="cfg-size"
+                max="500"
+                min="150"
+                onChange={(e) => updateConfig("size", e.target.value)}
+                type="number"
+                value={config.size}
+              />
+            </FieldContent>
+          </Field>
         </div>
 
-        {/* Toggles */}
-        <div className="flex flex-wrap gap-4 text-sm">
+        <div className="flex flex-wrap gap-4 text-xs">
           <label className="flex items-center gap-1.5">
             <input
               checked={config.showDownload}
@@ -323,7 +321,7 @@ export function WidgetConfigurator() {
             {t("cfgBranding")}
           </label>
         </div>
-      </div>
+      </FieldGroup>
 
       {/* Preview + Embed code */}
       <div className="space-y-4">
