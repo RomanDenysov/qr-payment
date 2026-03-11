@@ -107,10 +107,8 @@ export function ApiCard() {
         <div className="flex items-center justify-between">
           <a
             className="inline-flex items-center gap-1 text-muted-foreground text-xs underline-offset-4 transition-colors hover:text-foreground hover:underline"
-            href="/api/v1/qr"
+            href="/docs"
             itemProp="documentation"
-            rel="noopener noreferrer"
-            target="_blank"
           >
             {t("viewDocs")}
             <IconArrowRight className="size-3.5" />

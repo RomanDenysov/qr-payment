@@ -2,7 +2,7 @@ import { routing } from "@/i18n/routing";
 
 const BASE_URL = "https://qr-platby.com";
 
-function localePath(locale: string, path: string) {
+export function localePath(locale: string, path: string) {
   if (locale === routing.defaultLocale) {
     return `${BASE_URL}${path}`;
   }
