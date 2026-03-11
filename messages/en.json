@@ -262,6 +262,7 @@
     "amount": "Amount",
     "advanced": "Advanced Options",
     "send": "Send Request",
+    "requestBody": "Request Body",
     "loading": "Sending...",
     "copied": "Copied!",
     "copyFailed": "Failed to copy",

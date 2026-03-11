@@ -1,13 +1,20 @@
 "use client";
 
+import {
+  IconChevronDown,
+  IconChevronUp,
+  IconLoader2,
+  IconSend,
+} from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { SegmentedControl } from "@/components/ui/segmented-control";
+import { CopyButton } from "./copy-button";
 
 interface FormValues {
   iban: string;
@@ -68,8 +75,12 @@ function buildRequestBody(values: FormValues): Record<string, unknown> {
 
 export function TryItForm() {
   const t = useTranslations("Docs");
-  const [loading, setLoading] = useState(false);
+  const [isPending, startTransition] = useTransition();
   const [result, setResult] = useState<ApiResult | null>(null);
+  const [lastRequestBody, setLastRequestBody] = useState<Record<
+    string,
+    unknown
+  > | null>(null);
   const [showAdvanced, setShowAdvanced] = useState(false);
 
   const {
@@ -92,40 +103,56 @@ export function TryItForm() {
     },
   });
 
-  const onSubmit = async (values: FormValues) => {
-    setLoading(true);
-    setResult(null);
+  const onSubmit = (values: FormValues) => {
+    startTransition(async () => {
+      setResult(null);
 
-    const body = buildRequestBody(values);
+      const body = buildRequestBody(values);
+      setLastRequestBody(body);
 
-    try {
-      const res = await fetch("/api/v1/qr", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
+      try {
+        const res = await fetch("/api/v1/qr", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        });
 
-      const data = await res.json();
-      setResult({
-        status: res.status,
-        body: data,
-        rateLimitRemaining:
-          res.headers.get("X-RateLimit-Remaining") ?? undefined,
-      });
-    } catch (err) {
-      setResult({
-        status: 0,
-        body: {
-          success: false,
-          error: {
-            code: "NETWORK_ERROR",
-            message: err instanceof Error ? err.message : "Network error",
+        let data: Record<string, unknown>;
+        try {
+          data = await res.json();
+        } catch {
+          setResult({
+            status: res.status,
+            body: {
+              success: false,
+              error: {
+                code: "PARSE_ERROR",
+                message: "Invalid JSON response",
+              },
+            },
+          });
+          return;
+        }
+
+        setResult({
+          status: res.status,
+          body: data,
+          rateLimitRemaining:
+            res.headers.get("X-RateLimit-Remaining") ?? undefined,
+        });
+      } catch (err) {
+        setResult({
+          status: 0,
+          body: {
+            success: false,
+            error: {
+              code: "NETWORK_ERROR",
+              message: err instanceof Error ? err.message : "Network error",
+            },
           },
-        },
-      });
-    } finally {
-      setLoading(false);
-    }
+        });
+      }
+    });
   };
 
   return (
@@ -206,13 +233,20 @@ export function TryItForm() {
           />
         </div>
 
-        <button
-          className="text-muted-foreground text-xs underline-offset-4 hover:text-foreground hover:underline"
-          onClick={() => setShowAdvanced(!showAdvanced)}
-          type="button"
-        >
-          {t("advanced")} {showAdvanced ? "▲" : "▼"}
-        </button>
+        <div>
+          <button
+            className="inline-flex items-center gap-1 text-muted-foreground text-xs underline-offset-4 hover:text-foreground hover:underline"
+            onClick={() => setShowAdvanced(!showAdvanced)}
+            type="button"
+          >
+            {t("advanced")}
+            {showAdvanced ? (
+              <IconChevronUp className="size-3.5" />
+            ) : (
+              <IconChevronDown className="size-3.5" />
+            )}
+          </button>
+        </div>
 
         {showAdvanced && (
           <div className="grid gap-4 sm:grid-cols-3">
@@ -304,10 +338,29 @@ export function TryItForm() {
           </div>
         )}
 
-        <Button disabled={loading} type="submit">
-          {loading ? t("loading") : t("send")}
+        <Button disabled={isPending} type="submit">
+          {isPending ? (
+            <IconLoader2 className="size-4 animate-spin" />
+          ) : (
+            <IconSend className="size-4" />
+          )}
+          {isPending ? t("loading") : t("send")}
         </Button>
       </form>
+
+      {lastRequestBody && (
+        <div className="group/code relative space-y-1">
+          <span className="font-medium text-muted-foreground text-xs">
+            {t("requestBody")}
+          </span>
+          <pre className="overflow-x-auto bg-foreground/[0.04] p-3 ring-1 ring-foreground/5 dark:bg-foreground/[0.06]">
+            <code className="text-xs leading-relaxed">
+              {JSON.stringify(lastRequestBody, null, 2)}
+            </code>
+          </pre>
+          <CopyButton text={JSON.stringify(lastRequestBody, null, 2)} />
+        </div>
+      )}
 
       {result && (
         <div className="space-y-3">
@@ -342,9 +395,23 @@ export function TryItForm() {
             </div>
           ) : null}
 
-          <pre className="overflow-x-auto bg-foreground/[0.04] p-3 ring-1 ring-foreground/5 dark:bg-foreground/[0.06]">
-            <code className="text-xs leading-relaxed">
-              {JSON.stringify(
+          <div className="group/code relative">
+            <pre className="overflow-x-auto bg-foreground/[0.04] p-3 ring-1 ring-foreground/5 dark:bg-foreground/[0.06]">
+              <code className="text-xs leading-relaxed">
+                {JSON.stringify(
+                  result.body.success
+                    ? {
+                        ...result.body,
+                        data: `${String(result.body.data).slice(0, 60)}...`,
+                      }
+                    : result.body,
+                  null,
+                  2
+                )}
+              </code>
+            </pre>
+            <CopyButton
+              text={JSON.stringify(
                 result.body.success
                   ? {
                       ...result.body,
@@ -354,8 +421,8 @@ export function TryItForm() {
                 null,
                 2
               )}
-            </code>
-          </pre>
+            />
+          </div>
         </div>
       )}
     </div>

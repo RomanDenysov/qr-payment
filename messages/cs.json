@@ -262,6 +262,7 @@
     "amount": "Částka",
     "advanced": "Rozšířené možnosti",
     "send": "Odeslat požadavek",
+    "requestBody": "Tělo požadavku",
     "loading": "Odesílám...",
     "copied": "Zkopírováno!",
     "copyFailed": "Nepodařilo se zkopírovat",

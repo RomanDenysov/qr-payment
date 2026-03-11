@@ -35,11 +35,18 @@ export function Toc() {
       { rootMargin: "-80px 0px -60% 0px", threshold: 0 }
     );
 
+    const missingIds: string[] = [];
     for (const item of TOC_ITEMS) {
       const el = document.getElementById(item.id);
       if (el) {
         observer.observe(el);
+      } else {
+        missingIds.push(item.id);
       }
+    }
+
+    if (missingIds.length > 0 && process.env.NODE_ENV === "development") {
+      console.warn("[Toc] Missing section IDs:", missingIds);
     }
 
     return () => observer.disconnect();

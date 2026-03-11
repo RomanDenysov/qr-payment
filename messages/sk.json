@@ -262,6 +262,7 @@
     "amount": "Suma",
     "advanced": "Rozšírené možnosti",
     "send": "Odoslať request",
+    "requestBody": "Telo požiadavky",
     "loading": "Odosielam...",
     "copied": "Skopírované!",
     "copyFailed": "Nepodarilo sa skopírovať",
