@@ -230,6 +230,10 @@ if result["success"]:
         f.write(base64.b64decode(b64_data))
 ```
 
+## EPC QR (European SEPA)
+
+EPC QR codes are available only in the web app (client-side generation). They are not supported by the API. Use the web app at https://qr-platby.com to generate EPC QR codes with the EPC tab.
+
 ## Machine-Readable Resources
 
 - **OpenAPI 3.1 spec**: [https://qr-platby.com/openapi.json](https://qr-platby.com/openapi.json)

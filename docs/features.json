@@ -28,6 +28,33 @@
       "description": "OpenAPI 3.1 spec for the QR generation API. Enables semantic discovery by AI agents and developer tools."
     },
     {
+      "name": "OpenAPI JSON Route",
+      "source": "app/api/openapi.json/route.ts",
+      "route": "/api/openapi.json",
+      "category": "core",
+      "i18nNamespace": null,
+      "clientSide": false,
+      "description": "Dynamic route serving the OpenAPI spec with CORS headers and caching. Enables ChatGPT Actions and MCP server discovery."
+    },
+    {
+      "name": "ChatGPT Custom GPT Config",
+      "source": "docs/chatgpt-gpt/gpt-config.md",
+      "route": null,
+      "category": "core",
+      "i18nNamespace": null,
+      "clientSide": false,
+      "description": "Configuration guide for setting up a ChatGPT Custom GPT with system prompt, actions, and conversation starters."
+    },
+    {
+      "name": "Claude MCP Server",
+      "source": "packages/mcp-server/",
+      "route": null,
+      "category": "core",
+      "i18nNamespace": null,
+      "clientSide": false,
+      "description": "Standalone MCP server package for Claude Desktop. Provides generate_qr, get_formats, and validate_iban tools."
+    },
+    {
       "name": "API Documentation Endpoint",
       "source": "lib/api/qr-docs.ts",
       "route": "/api/v1/qr",

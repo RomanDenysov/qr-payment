@@ -8,9 +8,15 @@ The web app lets users create QR codes for Slovak and Czech banking payments. Al
 
 - [Home - Generate QR Code](https://qr-platby.com/sk): Single payment form with IBAN, amount, symbols, recipient, and note
 - [Bulk QR Generation](https://qr-platby.com/sk/bulk): Upload CSV to generate QR codes in batch, export as PDF or ZIP
-- [FAQ](https://qr-platby.com/sk/faq): Frequently asked questions about QR payments
+- [FAQ (SK)](https://qr-platby.com/sk/faq): Frequently asked questions about QR payments
+- [FAQ (EN)](https://qr-platby.com/en/faq): FAQ in English
+- [FAQ (CS)](https://qr-platby.com/cs/faq): FAQ in Czech
 
 Available in Slovak, English, and Czech (`/sk`, `/en`, `/cs` prefixes).
+
+## Privacy
+
+All processing happens in the browser - no personal data collected. Payment history and settings are stored in localStorage only.
 
 ## API
 
@@ -30,6 +36,14 @@ curl -X POST https://qr-platby.com/api/v1/qr \
 
 Returns JSON with `success: true` and a `data` field containing a base64 PNG data URI of the QR code.
 
+### Quick Example (SPAYD - Czech)
+
+```bash
+curl -X POST https://qr-platby.com/api/v1/qr \
+  -H "Content-Type: application/json" \
+  -d '{"iban":"CZ6508000000192000145399","amount":500,"currency":"CZK","paymentFormat":"spayd","variableSymbol":"1234567890"}'
+```
+
 ### Rate Limits
 
 - 10 requests per minute
@@ -43,3 +57,7 @@ Returns JSON with `success: true` and a `data` field containing a base64 PNG dat
 - CORS enabled for all origins
 - Supports Slovak (SK) and Czech (CZ) IBANs
 - Currencies: EUR, CZK
+
+## Source Code
+
+- GitHub: https://github.com/RomanDenysov/qr-payment
