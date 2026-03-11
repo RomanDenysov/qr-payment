@@ -1,4 +1,4 @@
-import { IconApi, IconHelp, IconNotes } from "@tabler/icons-react";
+import { IconApi, IconCode, IconHelp, IconNotes } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
@@ -32,6 +32,13 @@ export function Header() {
           >
             <IconApi />
             {t("apiDocs")}
+          </Link>
+          <Link
+            className={cn(buttonVariants({ variant: "ghost", size: "sm" }))}
+            href="/widget"
+          >
+            <IconCode />
+            {t("widget")}
           </Link>
           <Link
             className={cn(buttonVariants({ variant: "ghost", size: "sm" }))}

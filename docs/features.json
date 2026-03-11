@@ -242,6 +242,15 @@
       "i18nNamespace": "Terms",
       "clientSide": false,
       "description": "Usage terms and conditions for the service."
+    },
+    {
+      "name": "Embeddable Widget",
+      "source": "widget/src/index.ts",
+      "route": "/widget",
+      "category": "integration",
+      "i18nNamespace": "Widget",
+      "clientSide": true,
+      "description": "Self-contained JavaScript widget for embedding payment QR codes on any website. Supports PAY by square, SPAYD, and EPC QR formats with Shadow DOM isolation."
     }
   ]
 }

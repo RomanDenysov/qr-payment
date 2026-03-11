@@ -2,6 +2,7 @@
 
 import {
   IconApi,
+  IconCode,
   IconHelp,
   IconHome,
   IconMenu2,
@@ -80,6 +81,17 @@ export function MobileNav() {
             >
               <IconApi />
               {t("apiDocs")}
+            </Link>
+            <Link
+              className={cn(
+                buttonVariants({ variant: "ghost", size: "default" }),
+                "justify-start text-sm"
+              )}
+              href="/widget"
+              onClick={close}
+            >
+              <IconCode />
+              {t("widget")}
             </Link>
             <Link
               className={cn(

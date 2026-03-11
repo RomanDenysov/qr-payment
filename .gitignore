@@ -43,5 +43,12 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# widget build artifacts
+/public/widget.js
+/public/widget.js.map
+/public/widget-bysquare.js
+/public/widget-bysquare.js.map
+/widget/src/_bysquare-chunk.ts
+
 # claude config
 .claude

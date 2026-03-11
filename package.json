@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "bun --bun next dev",
-    "build": "next build",
+    "build": "bun run build:widget && next build",
+    "build:widget": "bun scripts/build-widget.ts",
     "start": "next start",
     "lint": "ultracite check",
     "format": "ultracite fix"
@@ -31,6 +32,7 @@
     "papaparse": "^5.5.3",
     "qr-code-styling": "^1.9.2",
     "qrcode": "^1.5.4",
+    "qrcode-generator": "^2.0.4",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
     "react-hook-form": "^7.71.1",
