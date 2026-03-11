@@ -188,7 +188,7 @@ export function WidgetConfigurator() {
         <div className="space-y-1">
           <p className="font-medium text-xs">{t("cfgFormat")}</p>
           <SegmentedControl
-            className="w-full"
+            className="h-9 w-full"
             onChange={(value) => updateConfig("format", value)}
             options={FORMAT_OPTIONS}
             value={config.format}
@@ -227,6 +227,7 @@ export function WidgetConfigurator() {
           <div className="space-y-1">
             <p className="font-medium text-xs">{t("cfgCurrency")}</p>
             <SegmentedControl
+              className="h-9"
               onChange={(value) => updateConfig("currency", value)}
               options={
                 config.format === "epc"
@@ -271,6 +272,7 @@ export function WidgetConfigurator() {
           <div className="space-y-1">
             <p className="font-medium text-xs">{t("cfgTheme")}</p>
             <SegmentedControl
+              className="h-9"
               onChange={(value) => updateConfig("theme", value)}
               options={THEME_OPTIONS}
               value={config.theme}
