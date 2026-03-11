@@ -236,8 +236,12 @@ export function PaymentFormCard() {
     if (locale !== "cs") {
       return;
     }
-    if (localStorage.getItem("qrPayments.v1")) {
-      return;
+    try {
+      if (localStorage.getItem("qrPayments.v1")) {
+        return;
+      }
+    } catch {
+      // localStorage access fails in private/incognito mode — proceed with defaults
     }
     setValue("format", "spayd");
     setValue("currency", "CZK");

@@ -3,6 +3,7 @@ import type { CurrencyCode } from "bysquare";
 import { type NextRequest, NextResponse } from "next/server";
 import { InvalidIBANError } from "@/features/payment/qr-generator";
 import { generatePaymentQRServer } from "@/features/payment/qr-generator.server";
+import { SpaydPayloadTooLargeError } from "@/features/payment/spayd-encoder";
 import { apiDocs } from "@/lib/api/qr-docs";
 import {
   type QrErrorResponse,
@@ -139,6 +140,19 @@ export async function POST(req: NextRequest) {
     );
   } catch (error) {
     if (error instanceof InvalidIBANError) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: {
+            code: "VALIDATION_ERROR",
+            message: error.message,
+          },
+        } satisfies QrErrorResponse,
+        { status: 400, headers: CORS_HEADERS }
+      );
+    }
+
+    if (error instanceof SpaydPayloadTooLargeError) {
       return NextResponse.json(
         {
           success: false,

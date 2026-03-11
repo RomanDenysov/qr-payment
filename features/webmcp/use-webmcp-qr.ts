@@ -41,10 +41,15 @@ async function executeGenerateQr(
   const currency = (args.currency as string) || "EUR";
   const currencyCode = deps.currencyMap[currency] ?? deps.defaultCurrency;
 
+  const formatInput = args.format as string | undefined;
+  const format =
+    formatInput === "spayd" || formatInput === "bysquare"
+      ? formatInput
+      : "bysquare";
+
   const { payload, errorCorrectionLevel } = deps.buildQrPayload(
     {
-      format:
-        ((args.format as string) || "bysquare") as "bysquare" | "spayd",
+      format,
       iban: args.iban as string,
       amount: args.amount as number | undefined,
       variableSymbol: args.variableSymbol as string | undefined,
@@ -52,6 +57,7 @@ async function executeGenerateQr(
       constantSymbol: args.constantSymbol as string | undefined,
       recipientName: args.recipientName as string | undefined,
       paymentNote: args.paymentNote as string | undefined,
+      bic: args.bic as string | undefined,
     },
     cleanIban,
     currencyCode
@@ -147,6 +153,10 @@ export function useWebMcpQr() {
             paymentNote: {
               type: "string",
               description: "Payment note / reference (max 140 characters)",
+            },
+            bic: {
+              type: "string",
+              description: "BIC/SWIFT code",
             },
           },
           required: ["iban"],
