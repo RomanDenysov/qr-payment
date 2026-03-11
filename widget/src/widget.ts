@@ -192,6 +192,12 @@ export class QRPaymentWidget implements QRWidget {
     const svgEl = parseSVG(svg);
     if (svgEl) {
       qrContainer.appendChild(svgEl);
+    } else {
+      const errorEl = document.createElement("div");
+      errorEl.className = "qr-error-box";
+      errorEl.textContent = "Failed to render QR code";
+      qrContainer.appendChild(errorEl);
+      return;
     }
 
     // Editable fields
@@ -220,7 +226,11 @@ export class QRPaymentWidget implements QRWidget {
       btn.className = "qr-btn";
       btn.textContent = this.lang.download;
       btn.addEventListener("click", () => {
-        downloadPNG(this.currentSVG, this.config.size ?? 200);
+        downloadPNG(this.currentSVG, this.config.size ?? 200).catch(
+          (err: unknown) => {
+            console.warn("[QR Platby] Download failed:", err);
+          }
+        );
       });
       actions.appendChild(btn);
       wrapper.appendChild(actions);
@@ -344,8 +354,8 @@ export class QRPaymentWidget implements QRWidget {
       } else {
         fetch(url, { mode: "no-cors", keepalive: true });
       }
-    } catch {
-      // Fail silently
+    } catch (err: unknown) {
+      console.warn("[QR Platby] Analytics ping failed:", err);
     }
   }
 

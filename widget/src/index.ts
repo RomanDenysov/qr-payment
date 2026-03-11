@@ -11,12 +11,21 @@ function parseDataAttrs(el: HTMLElement): WidgetConfig {
     return v !== "false";
   };
 
+  const rawFormat = get("format") ?? "paybysquare";
+  // Accept "bysquare" as alias for "paybysquare" (app schema compat)
+  const format =
+    rawFormat === "bysquare" ? "paybysquare" : (rawFormat as PaymentFormat);
+
+  const rawAmount = get("amount");
+  const parsedAmount = rawAmount ? Number.parseFloat(rawAmount) : undefined;
+
   return {
-    format: (get("format") ?? "paybysquare") as PaymentFormat,
+    format,
     iban: get("iban") ?? "",
-    amount: get("amount")
-      ? Number.parseFloat(get("amount") as string)
-      : undefined,
+    amount:
+      parsedAmount !== undefined && Number.isNaN(parsedAmount)
+        ? undefined
+        : parsedAmount,
     currency: get("currency"),
     recipient: get("recipient"),
     message: get("message"),

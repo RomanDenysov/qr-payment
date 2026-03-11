@@ -68,8 +68,7 @@ export async function encodeBysquareQr(
     mod = await loadBysquareChunk();
   } catch {
     return {
-      error:
-        "Failed to load PAY by square encoder. Check your internet connection.",
+      error: "Failed to load PAY by square encoder.",
     };
   }
 
