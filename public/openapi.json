@@ -121,13 +121,19 @@
                   "success": false,
                   "error": {
                     "code": "VALIDATION_ERROR",
-                    "message": "Validation failed",
+                    "message": "Validation failed. Check the issues array for details.",
                     "issues": [
                       {
                         "path": "iban",
                         "message": "Invalid IBAN"
                       }
-                    ]
+                    ],
+                    "hint": "Required: iban (string). Optional: amount (number), currency (EUR|CZK), variableSymbol, specificSymbol, constantSymbol, recipientName, paymentNote, paymentFormat (bysquare|spayd), format (png|svg), size (100-1000).",
+                    "example": {
+                      "iban": "SK3112000000198742637541",
+                      "amount": 25.5,
+                      "variableSymbol": "2024001"
+                    }
                   }
                 }
               }
@@ -144,7 +150,8 @@
                   "success": false,
                   "error": {
                     "code": "RATE_LIMIT",
-                    "message": "Rate limit exceeded. Please try again later."
+                    "message": "Rate limit exceeded. Limit is 20 requests/minute and 100 requests/day. Retry after 45 seconds.",
+                    "hint": "The GET endpoint (API docs) and OPTIONS (CORS preflight) are not rate-limited."
                   }
                 }
               }
@@ -308,6 +315,18 @@
                   }
                 },
                 "description": "Validation issue details (only for VALIDATION_ERROR)"
+              },
+              "field": {
+                "type": "string",
+                "description": "Name of the field that caused the error (when applicable)"
+              },
+              "hint": {
+                "type": "string",
+                "description": "Actionable suggestion to fix the error"
+              },
+              "example": {
+                "type": "object",
+                "description": "Example of a correct request body"
               }
             }
           }

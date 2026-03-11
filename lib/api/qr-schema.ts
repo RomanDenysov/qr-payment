@@ -73,5 +73,8 @@ export interface QrErrorResponse {
     code: QrErrorCode;
     message: string;
     issues?: Array<{ path: string; message: string }>;
+    field?: string;
+    hint?: string;
+    example?: Record<string, unknown>;
   };
 }

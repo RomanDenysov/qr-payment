@@ -5,4 +5,3 @@ export const FORMAT_LABELS: Record<PaymentFormat, string> = {
   epc: "EPC QR",
   spayd: "QR Platba",
 };
-

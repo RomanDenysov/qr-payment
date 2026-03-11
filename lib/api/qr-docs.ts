@@ -80,7 +80,10 @@ export const apiDocs = {
       error: {
         code: "VALIDATION_ERROR | RATE_LIMIT | INTERNAL_ERROR",
         message: "Human-readable error description",
-        issues: "Array of { path, message } for validation errors",
+        issues: "Array of { path, message } for validation errors (optional)",
+        field: "Name of the field that caused the error (optional)",
+        hint: "Actionable suggestion to fix the error (optional)",
+        example: "Example of a correct request body (optional)",
       },
     },
   },

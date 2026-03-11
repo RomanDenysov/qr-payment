@@ -4,14 +4,19 @@ import { type NextRequest, NextResponse } from "next/server";
 import { InvalidIBANError } from "@/features/payment/qr-generator";
 import { generatePaymentQRServer } from "@/features/payment/qr-generator.server";
 import { SpaydPayloadTooLargeError } from "@/features/payment/spayd-encoder";
+import { CORS_HEADERS, corsOptions } from "@/lib/api/cors";
 import { apiDocs } from "@/lib/api/qr-docs";
 import {
   type QrErrorResponse,
   type QrGenerationResponse,
   qrRequestSchema,
 } from "@/lib/api/qr-schema";
-import { CORS_HEADERS, corsOptions } from "@/lib/api/cors";
-import { checkRateLimit, getClientIp } from "@/lib/api/rate-limiter";
+import {
+  checkRateLimit,
+  DAILY_LIMIT,
+  getClientIp,
+  MINUTE_LIMIT,
+} from "@/lib/api/rate-limiter";
 
 export const runtime = "nodejs";
 
@@ -33,7 +38,7 @@ export async function POST(req: NextRequest) {
   const rateLimit = await checkRateLimit(ip);
   if (!rateLimit.success) {
     const retryAfter = rateLimit.resetAt
-      ? Math.ceil((rateLimit.resetAt.getTime() - Date.now()) / 1000)
+      ? Math.max(1, Math.ceil((rateLimit.resetAt.getTime() - Date.now()) / 1000))
       : 60;
 
     return NextResponse.json(
@@ -41,7 +46,8 @@ export async function POST(req: NextRequest) {
         success: false,
         error: {
           code: "RATE_LIMIT",
-          message: "Rate limit exceeded. Please try again later.",
+          message: `Rate limit exceeded. Limit is ${MINUTE_LIMIT} requests/minute and ${DAILY_LIMIT} requests/day. Retry after ${retryAfter} seconds.`,
+          hint: "The GET endpoint (API docs) and OPTIONS (CORS preflight) are not rate-limited.",
         },
       } satisfies QrErrorResponse,
       {
@@ -66,7 +72,12 @@ export async function POST(req: NextRequest) {
         success: false,
         error: {
           code: "VALIDATION_ERROR",
-          message: "Invalid JSON body",
+          message: "Invalid JSON body. Request body must be valid JSON.",
+          hint: "Send a POST request with Content-Type: application/json header and a valid JSON body.",
+          example: {
+            iban: "SK3112000000198742637541",
+            amount: 25.5,
+          },
         },
       } satisfies QrErrorResponse,
       { status: 400, headers: CORS_HEADERS }
@@ -80,11 +91,17 @@ export async function POST(req: NextRequest) {
         success: false,
         error: {
           code: "VALIDATION_ERROR",
-          message: "Validation failed",
+          message: "Validation failed. Check the issues array for details.",
           issues: parsed.error.issues.map((issue) => ({
             path: issue.path.join("."),
             message: issue.message,
           })),
+          hint: "Required: iban (string). Optional: amount (number), currency (EUR|CZK), variableSymbol, specificSymbol, constantSymbol, recipientName, paymentNote, paymentFormat (bysquare|spayd), format (png|svg), size (100-1000).",
+          example: {
+            iban: "SK3112000000198742637541",
+            amount: 25.5,
+            variableSymbol: "2024001",
+          },
         },
       } satisfies QrErrorResponse,
       { status: 400, headers: CORS_HEADERS }
@@ -139,6 +156,9 @@ export async function POST(req: NextRequest) {
           error: {
             code: "VALIDATION_ERROR",
             message: error.message,
+            field: "iban",
+            hint: "IBAN must start with a 2-letter country code followed by 2 check digits and up to 30 alphanumeric characters.",
+            example: { iban: "SK3112000000198742637541" },
           },
         } satisfies QrErrorResponse,
         { status: 400, headers: CORS_HEADERS }
@@ -152,6 +172,7 @@ export async function POST(req: NextRequest) {
           error: {
             code: "VALIDATION_ERROR",
             message: error.message,
+            hint: "Reduce the length of paymentNote or recipientName to fit within SPAYD limits.",
           },
         } satisfies QrErrorResponse,
         { status: 400, headers: CORS_HEADERS }

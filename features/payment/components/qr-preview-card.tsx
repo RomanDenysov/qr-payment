@@ -5,6 +5,7 @@ import { track } from "@vercel/analytics";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
+import { useEffect, useRef } from "react";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -74,6 +75,15 @@ export function QRPreviewCard() {
   const { setCurrent } = usePaymentActions();
   const branding = useBrandingConfig();
   const t = useTranslations("QRPreview");
+  const cardRef = useRef<HTMLDivElement>(null);
+  const prevQrRef = useRef<string | undefined>(undefined);
+
+  useEffect(() => {
+    if (current?.qrDataUrl && current.qrDataUrl !== prevQrRef.current) {
+      cardRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+    prevQrRef.current = current?.qrDataUrl;
+  }, [current?.qrDataUrl]);
 
   const handleApplyBranding = async () => {
     if (!current) {
@@ -152,7 +162,7 @@ export function QRPreviewCard() {
   };
 
   return (
-    <Card>
+    <Card ref={cardRef}>
       <CardHeader>
         <div className="flex items-center justify-between">
           <CardTitle>{t("title")}</CardTitle>
