@@ -20,6 +20,8 @@ import {
 
 export const runtime = "nodejs";
 
+const DOCS_URL = "https://qr-platby.com/en/docs";
+
 export function GET() {
   return new Response(JSON.stringify(apiDocs, null, 2), {
     headers: {
@@ -38,7 +40,10 @@ export async function POST(req: NextRequest) {
   const rateLimit = await checkRateLimit(ip);
   if (!rateLimit.success) {
     const retryAfter = rateLimit.resetAt
-      ? Math.max(1, Math.ceil((rateLimit.resetAt.getTime() - Date.now()) / 1000))
+      ? Math.max(
+          1,
+          Math.ceil((rateLimit.resetAt.getTime() - Date.now()) / 1000)
+        )
       : 60;
 
     return NextResponse.json(
@@ -48,6 +53,7 @@ export async function POST(req: NextRequest) {
           code: "RATE_LIMIT",
           message: `Rate limit exceeded. Limit is ${MINUTE_LIMIT} requests/minute and ${DAILY_LIMIT} requests/day. Retry after ${retryAfter} seconds.`,
           hint: "The GET endpoint (API docs) and OPTIONS (CORS preflight) are not rate-limited.",
+          docs: DOCS_URL,
         },
       } satisfies QrErrorResponse,
       {
@@ -74,6 +80,7 @@ export async function POST(req: NextRequest) {
           code: "VALIDATION_ERROR",
           message: "Invalid JSON body. Request body must be valid JSON.",
           hint: "Send a POST request with Content-Type: application/json header and a valid JSON body.",
+          docs: DOCS_URL,
           example: {
             iban: "SK3112000000198742637541",
             amount: 25.5,
@@ -97,6 +104,7 @@ export async function POST(req: NextRequest) {
             message: issue.message,
           })),
           hint: "Required: iban (string). Optional: amount (number), currency (EUR|CZK), variableSymbol, specificSymbol, constantSymbol, recipientName, paymentNote, paymentFormat (bysquare|spayd), format (png|svg), size (100-1000).",
+          docs: DOCS_URL,
           example: {
             iban: "SK3112000000198742637541",
             amount: 25.5,
@@ -158,6 +166,7 @@ export async function POST(req: NextRequest) {
             message: error.message,
             field: "iban",
             hint: "IBAN must start with a 2-letter country code followed by 2 check digits and up to 30 alphanumeric characters.",
+            docs: DOCS_URL,
             example: { iban: "SK3112000000198742637541" },
           },
         } satisfies QrErrorResponse,
@@ -173,6 +182,7 @@ export async function POST(req: NextRequest) {
             code: "VALIDATION_ERROR",
             message: error.message,
             hint: "Reduce the length of paymentNote or recipientName to fit within SPAYD limits.",
+            docs: DOCS_URL,
           },
         } satisfies QrErrorResponse,
         { status: 400, headers: CORS_HEADERS }
@@ -186,6 +196,7 @@ export async function POST(req: NextRequest) {
         error: {
           code: "INTERNAL_ERROR",
           message: "QR code generation failed",
+          docs: DOCS_URL,
         },
       } satisfies QrErrorResponse,
       { status: 500, headers: CORS_HEADERS }

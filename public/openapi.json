@@ -324,6 +324,11 @@
                 "type": "string",
                 "description": "Actionable suggestion to fix the error"
               },
+              "docs": {
+                "type": "string",
+                "description": "Link to API documentation",
+                "example": "https://qr-platby.com/en/docs"
+              },
               "example": {
                 "type": "object",
                 "description": "Example of a correct request body"

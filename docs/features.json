@@ -64,6 +64,15 @@
       "description": "GET handler returning machine-readable JSON docs for the QR generation API, enabling AI agent discovery."
     },
     {
+      "name": "API Documentation Page",
+      "source": "app/[locale]/docs/page.tsx",
+      "route": "/docs",
+      "category": "core",
+      "i18nNamespace": "Docs",
+      "clientSide": false,
+      "description": "Comprehensive API documentation page with interactive Try It form, code examples in 5 languages, parameter reference table, and error handling guide."
+    },
+    {
       "name": "API Card",
       "source": "features/api/api-card.tsx",
       "route": "/",

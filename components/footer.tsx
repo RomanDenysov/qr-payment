@@ -48,6 +48,10 @@ export function Footer() {
           {t("terms")}
         </Link>
         <span className="text-foreground/15">·</span>
+        <Link className="hover:text-foreground" href="/docs">
+          {t("apiDocs")}
+        </Link>
+        <span className="text-foreground/15">·</span>
         <a
           className="inline-flex items-center gap-1 hover:text-foreground"
           href="https://buymeacoffee.com/romandenysov"

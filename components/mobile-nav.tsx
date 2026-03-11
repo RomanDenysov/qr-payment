@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  IconApi,
   IconHelp,
   IconHome,
   IconMenu2,
@@ -68,6 +69,17 @@ export function MobileNav() {
             >
               <IconNotes />
               {t("bulk")}
+            </Link>
+            <Link
+              className={cn(
+                buttonVariants({ variant: "ghost", size: "default" }),
+                "justify-start text-sm"
+              )}
+              href="/docs"
+              onClick={close}
+            >
+              <IconApi />
+              {t("apiDocs")}
             </Link>
             <Link
               className={cn(

@@ -1,4 +1,5 @@
 import { getLocale, getTranslations } from "next-intl/server";
+import { localePath } from "@/lib/seo";
 
 export async function JsonLd() {
   const locale = await getLocale();
@@ -34,7 +35,7 @@ export async function JsonLd() {
         name: "QR Platby API",
         description: t("webApiDescription"),
         url: "https://qr-platby.com/api/v1/qr",
-        documentation: "https://qr-platby.com/api/v1/qr",
+        documentation: localePath(locale, "/docs"),
         termsOfService: "https://qr-platby.com/podmienky",
         provider: {
           "@type": "Organization",
