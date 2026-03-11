@@ -214,6 +214,9 @@
     "description": "Integrujte generovanie QR kódov do vašej aplikácie, chatbota alebo workflow. Zadarmo, bez API kľúča.",
     "promptHint": "Stačí sa opýtať ChatGPT alebo Clauda:",
     "prompt": "Najprv zavolaj GET https://qr-platby.com/api/v1/qr pre dokumentáciu API, potom vygeneruj PAY by square QR kód na 25€ na IBAN SK3112000000198742637541",
+    "promptAlt": "Vygeneruj český SPAYD QR kód na 500 CZK na IBAN CZ5508000000001234567899 s variabilným symbolom 1234567890",
+    "promptAltLabel": "alebo vyskúšaj český SPAYD:",
+    "mcpNote": "Dostupné aj ako ChatGPT Custom GPT a Claude MCP server.",
     "viewDocs": "Zobraziť API dokumentáciu",
     "copied": "Skopírované!",
     "copyFailed": "Nepodarilo sa skopírovať"

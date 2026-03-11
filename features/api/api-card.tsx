@@ -7,12 +7,13 @@ import { toast } from "sonner";
 
 export function ApiCard() {
   const t = useTranslations("Api");
-  const [copied, setCopied] = useState(false);
+  const [copied, setCopied] = useState<"main" | "alt" | false>(false);
 
-  const handleCopy = async () => {
+  const handleCopy = async (key: "prompt" | "promptAlt") => {
     try {
-      await navigator.clipboard.writeText(t("prompt"));
-      setCopied(true);
+      await navigator.clipboard.writeText(t(key));
+      const source = key === "prompt" ? "main" : "alt";
+      setCopied(source);
       toast.success(t("copied"));
       setTimeout(() => {
         setCopied(false);
@@ -65,7 +66,7 @@ export function ApiCard() {
           </p>
         </div>
 
-        {/* Prompt block */}
+        {/* Main prompt block */}
         <div className="space-y-2">
           <p className="text-muted-foreground text-xs">{t("promptHint")}</p>
           <div className="group/prompt relative">
@@ -89,13 +90,44 @@ export function ApiCard() {
             </pre>
             <button
               className="absolute top-2 right-2 bg-background p-1.5 text-muted-foreground opacity-0 ring-1 ring-foreground/10 transition-all hover:text-foreground group-hover/prompt:opacity-100"
-              onClick={handleCopy}
+              onClick={() => handleCopy("prompt")}
               type="button"
             >
-              {copied ? (
+              {copied === "main" ? (
                 <IconCheck className="size-3.5" />
               ) : (
                 <IconCopy className="size-3.5" />
+              )}
+            </button>
+          </div>
+        </div>
+
+        {/* Alt prompt block */}
+        <div className="space-y-1.5">
+          <p className="text-[11px] text-muted-foreground">
+            {t("promptAltLabel")}
+          </p>
+          <div className="group/alt relative">
+            <pre className="overflow-x-auto bg-foreground/[0.02] p-2.5 ring-1 ring-foreground/5 dark:bg-foreground/[0.04]">
+              <code className="flex gap-2 text-[11px] text-muted-foreground leading-relaxed">
+                <span
+                  aria-hidden="true"
+                  className="shrink-0 select-none text-muted-foreground/40"
+                >
+                  $
+                </span>
+                <span className="whitespace-pre-wrap">{t("promptAlt")}</span>
+              </code>
+            </pre>
+            <button
+              className="absolute top-1.5 right-1.5 bg-background p-1 text-muted-foreground opacity-0 ring-1 ring-foreground/10 transition-all hover:text-foreground group-hover/alt:opacity-100"
+              onClick={() => handleCopy("promptAlt")}
+              type="button"
+            >
+              {copied === "alt" ? (
+                <IconCheck className="size-3" />
+              ) : (
+                <IconCopy className="size-3" />
               )}
             </button>
           </div>
@@ -117,6 +149,9 @@ export function ApiCard() {
             free &middot; no auth &middot; 10 req/min
           </span>
         </div>
+
+        {/* MCP note */}
+        <p className="text-[11px] text-muted-foreground/60">{t("mcpNote")}</p>
       </div>
       <link href="/podmienky" itemProp="termsOfService" />
     </article>
