@@ -8,9 +8,7 @@ import { toast } from "sonner";
 export function CopyButton({ text }: { text: string }) {
   const t = useTranslations("Docs");
   const [copied, setCopied] = useState(false);
-  const timerRef = useRef<ReturnType<typeof setTimeout> | undefined>(
-    undefined,
-  );
+  const timerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   useEffect(() => {
     return () => clearTimeout(timerRef.current);
@@ -24,7 +22,7 @@ export function CopyButton({ text }: { text: string }) {
       clearTimeout(timerRef.current);
       timerRef.current = setTimeout(() => setCopied(false), 2000);
     } catch (error) {
-      console.error("[CopyButton]", error);
+      console.error("[CopyButton] Failed to copy:", error);
       toast.error(t("copyFailed"));
     }
   };
