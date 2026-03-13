@@ -114,13 +114,13 @@ export function ApiCard() {
             {t("viewDocs")}
             <IconArrowRight className="size-3.5" />
           </a>
-          <span className="text-[10px] text-muted-foreground/70">
+          <span className="text-[10px] text-muted-foreground">
             free &middot; no auth &middot; 20 req/min
           </span>
         </div>
 
         {/* MCP note */}
-        <p className="text-[11px] text-muted-foreground/70">{t("mcpNote")}</p>
+        <p className="text-[11px] text-muted-foreground">{t("mcpNote")}</p>
       </div>
       <link href="/podmienky" itemProp="termsOfService" />
     </article>

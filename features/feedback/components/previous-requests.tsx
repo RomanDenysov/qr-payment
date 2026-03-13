@@ -55,7 +55,7 @@ export function PreviousRequests() {
                 ? `${request.message.slice(0, 80)}…`
                 : request.message}
             </p>
-            <p className="mt-1 text-[10px] text-muted-foreground/60">
+            <p className="mt-1 text-[10px] text-muted-foreground">
               {formatRelativeTime(request.timestamp, t)}
             </p>
           </div>

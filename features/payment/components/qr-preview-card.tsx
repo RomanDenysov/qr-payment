@@ -21,7 +21,11 @@ import { maskIban } from "@/lib/utils";
 import { generatePaymentQR, InvalidIBANError } from "../qr-generator";
 import type { PaymentRecord } from "../schema";
 import { useCurrentPayment, usePaymentActions } from "../store";
-import { ShareLinkDialog } from "./share-link-dialog";
+
+const ShareLinkDialog = dynamic(
+  () => import("./share-link-dialog").then((m) => m.ShareLinkDialog),
+  { loading: () => null }
+);
 
 const BrandingDialog = dynamic(
   () =>

@@ -1,7 +1,7 @@
 import { IconBrandGithub, IconBulb, IconCup } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
-import { FeatureRequestDialog } from "@/features/feedback/components/feature-request-dialog";
+import { DynamicFeatureRequestDialog } from "@/features/feedback/components/feature-request-dialog-dynamic";
 import { Link } from "@/i18n/navigation";
 
 export function Footer() {
@@ -18,7 +18,7 @@ export function Footer() {
               {tFeedback("ctaDescription")}
             </p>
           </div>
-          <FeatureRequestDialog
+          <DynamicFeatureRequestDialog
             trigger={
               <Button
                 className="w-full shrink-0 sm:w-auto"
