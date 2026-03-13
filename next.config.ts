@@ -1,3 +1,4 @@
+import withBundleAnalyzer from "@next/bundle-analyzer";
 import type { NextConfig } from "next";
 import createNextIntlPlugin from "next-intl/plugin";
 
@@ -8,7 +9,13 @@ const nextConfig: NextConfig = {
   typedRoutes: true,
   reactCompiler: true,
   experimental: {
-    optimizePackageImports: ["@tabler/icons-react"],
+    optimizeCss: true,
+    optimizePackageImports: [
+      "@tabler/icons-react",
+      "sonner",
+      "react-hook-form",
+      "zod",
+    ],
   },
   async headers() {
     return [
@@ -29,4 +36,6 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default withNextIntl(nextConfig);
+export default withBundleAnalyzer({
+  enabled: process.env.ANALYZE === "true",
+})(withNextIntl(nextConfig));

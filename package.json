@@ -6,6 +6,7 @@
     "dev": "bun --bun next dev",
     "build": "next build",
     "start": "next start",
+    "analyze": "ANALYZE=true bun run build",
     "lint": "ultracite check",
     "format": "ultracite fix"
   },
@@ -43,6 +44,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.3.10",
+    "@next/bundle-analyzer": "^16.1.6",
     "@tailwindcss/postcss": "^4.1.18",
     "@types/node": "^20.19.30",
     "@types/papaparse": "^5.5.2",

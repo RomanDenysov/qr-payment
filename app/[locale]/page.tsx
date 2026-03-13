@@ -1,12 +1,12 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { ApiCard } from "@/features/api/api-card";
+import { DynamicApiCard } from "@/features/api/api-card-dynamic";
 import { PaymentFormCard } from "@/features/payment/components/payment-form-card";
 import { QRPreviewCard } from "@/features/payment/components/qr-preview-card";
 import { getAlternates } from "@/lib/seo";
 
-type Props = {
+interface Props {
   params: Promise<{ locale: string }>;
-};
+}
 
 export async function generateMetadata({ params }: Props) {
   const { locale } = await params;
@@ -29,7 +29,7 @@ export default async function Page({ params }: Props) {
         <QRPreviewCard />
       </section>
       <section className="mt-8">
-        <ApiCard />
+        <DynamicApiCard />
       </section>
     </div>
   );

@@ -9,6 +9,7 @@ export function CopyIbanButton({ iban }: { iban: string }) {
 
   return (
     <button
+      aria-label={t("copyIban")}
       className="inline-flex size-6 items-center justify-center rounded-sm text-muted-foreground hover:text-foreground"
       onClick={async () => {
         try {

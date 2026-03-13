@@ -22,8 +22,8 @@ export function ThemeToggle() {
       size="icon-sm"
       variant="ghost"
     >
-      <IconMoon className="fade-in size-4 animate-in opacity-100 transition-[opacity,transform] duration-300 dark:pointer-events-none dark:hidden dark:opacity-0" />
-      <IconSun className="fade-in pointer-events-auto hidden size-4 animate-in opacity-0 transition-[opacity,transform] duration-300 dark:block dark:opacity-100" />
+      <IconMoon className="size-4 opacity-100 transition-[opacity,transform] duration-300 dark:pointer-events-none dark:hidden dark:opacity-0" />
+      <IconSun className="pointer-events-auto hidden size-4 opacity-0 transition-[opacity,transform] duration-300 dark:block dark:opacity-100" />
     </Button>
   );
 }

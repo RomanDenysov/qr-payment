@@ -39,7 +39,7 @@
   },
   "Consent": {
     "message": "Táto stránka používa localStorage na uloženie vašich nastavení. Žiadne cookies ani osobné údaje nezbierame.",
-    "moreInfo": "Viac info",
+    "privacyPolicy": "Ochrana údajov",
     "accept": "Rozumiem"
   },
   "PaymentForm": {
@@ -209,6 +209,7 @@
   "SharePage": {
     "title": "Platba QR kódom",
     "copied": "IBAN skopírovaný",
+    "copyIban": "Kopírovať IBAN",
     "copyFailed": "Nepodarilo sa skopírovať IBAN",
     "invalidLink": "Neplatný alebo poškodený odkaz na platbu.",
     "backHome": "Späť na hlavnú stránku"

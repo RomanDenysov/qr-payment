@@ -53,7 +53,7 @@ export function ConsentBanner() {
             className={linkVariants({ variant: "muted", size: "sm" })}
             href="/ochrana-udajov"
           >
-            {t("moreInfo")}
+            {t("privacyPolicy")}
           </Link>
           <Button onClick={handleDismiss} size="sm" variant="outline">
             {t("accept")}

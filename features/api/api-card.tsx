@@ -41,7 +41,7 @@ export function ApiCard() {
           </div>
           <span className="text-muted-foreground text-xs">~/api/v1/qr</span>
         </div>
-        <span className="inline-flex items-center gap-1.5 text-[10px] text-green-600 dark:text-green-400">
+        <span className="inline-flex items-center gap-1.5 text-[10px] text-green-700 dark:text-green-400">
           <span className="relative flex size-1.5">
             <span className="absolute inline-flex size-full animate-ping rounded-full bg-green-500 opacity-75" />
             <span className="relative inline-flex size-1.5 rounded-full bg-green-500" />
@@ -53,12 +53,12 @@ export function ApiCard() {
       {/* Card body */}
       <div className="space-y-4 px-4 py-4">
         <div className="space-y-1">
-          <h3
+          <h2
             className="font-bold font-pixel text-xl tracking-wide sm:text-2xl"
             itemProp="name"
           >
             {t("title")}
-          </h3>
+          </h2>
           <p
             className="text-muted-foreground text-sm/relaxed"
             itemProp="description"
@@ -90,6 +90,7 @@ export function ApiCard() {
               </code>
             </pre>
             <button
+              aria-label="Copy to clipboard"
               className="absolute top-2 right-2 bg-background p-1.5 text-muted-foreground opacity-0 ring-1 ring-foreground/10 transition-all hover:text-foreground group-hover/prompt:opacity-100"
               onClick={handleCopy}
               type="button"
@@ -113,13 +114,13 @@ export function ApiCard() {
             {t("viewDocs")}
             <IconArrowRight className="size-3.5" />
           </a>
-          <span className="text-[10px] text-muted-foreground/50">
+          <span className="text-[10px] text-muted-foreground/70">
             free &middot; no auth &middot; 20 req/min
           </span>
         </div>
 
         {/* MCP note */}
-        <p className="text-[11px] text-muted-foreground/60">{t("mcpNote")}</p>
+        <p className="text-[11px] text-muted-foreground/70">{t("mcpNote")}</p>
       </div>
       <link href="/podmienky" itemProp="termsOfService" />
     </article>

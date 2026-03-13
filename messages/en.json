@@ -39,7 +39,7 @@
   },
   "Consent": {
     "message": "This site uses localStorage to save your settings. We don't collect cookies or personal data.",
-    "moreInfo": "More info",
+    "privacyPolicy": "Privacy Policy",
     "accept": "Got it"
   },
   "PaymentForm": {
@@ -209,6 +209,7 @@
   "SharePage": {
     "title": "QR Code Payment",
     "copied": "IBAN copied",
+    "copyIban": "Copy IBAN",
     "copyFailed": "Failed to copy IBAN",
     "invalidLink": "Invalid or corrupted payment link.",
     "backHome": "Back to home page"

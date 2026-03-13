@@ -34,7 +34,7 @@ export function SegmentedControl<T extends string>({
             "px-2.5 font-medium text-xs transition-colors",
             value === option.value
               ? "bg-background text-foreground shadow-xs"
-              : "text-muted-foreground hover:text-foreground"
+              : "text-foreground/70 hover:text-foreground"
           )}
           key={option.value}
           onClick={() => onChange(option.value)}
