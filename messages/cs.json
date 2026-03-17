@@ -265,6 +265,7 @@
     "send": "Odeslat požadavek",
     "requestBody": "Tělo požadavku",
     "loading": "Odesílám...",
+    "copy": "Kopírovat",
     "copied": "Zkopírováno!",
     "copyFailed": "Nepodařilo se zkopírovat",
     "backToHome": "Zpět na hlavní stránku"

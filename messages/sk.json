@@ -265,6 +265,7 @@
     "send": "Odoslať request",
     "requestBody": "Telo požiadavky",
     "loading": "Odosielam...",
+    "copy": "Kopírovať",
     "copied": "Skopírované!",
     "copyFailed": "Nepodarilo sa skopírovať",
     "backToHome": "Späť na hlavnú stránku"

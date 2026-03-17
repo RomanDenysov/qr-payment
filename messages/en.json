@@ -265,6 +265,7 @@
     "send": "Send Request",
     "requestBody": "Request Body",
     "loading": "Sending...",
+    "copy": "Copy",
     "copied": "Copied!",
     "copyFailed": "Failed to copy",
     "backToHome": "Back to home page"
