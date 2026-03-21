@@ -39,6 +39,8 @@ export default async function DocsPage({ params }: Props) {
 
   const t = await getTranslations({ locale, namespace: "Docs" });
 
+  const t_nav = await getTranslations({ locale, namespace: "Nav" });
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "TechArticle",
@@ -56,6 +58,25 @@ export default async function DocsPage({ params }: Props) {
       name: "QR Platby API",
       url: "https://qr-platby.com/api/v1/qr",
     },
+  };
+
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: t_nav("home"),
+        item: localePath(locale, "/"),
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: t("title"),
+        item: localePath(locale, "/docs"),
+      },
+    ],
   };
 
   return (
@@ -322,6 +343,11 @@ Retry-After: 45  (only on 429)`}
       <script
         // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD structured data from hardcoded content
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        type="application/ld+json"
+      />
+      <script
+        // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD structured data from hardcoded content
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
         type="application/ld+json"
       />
     </div>

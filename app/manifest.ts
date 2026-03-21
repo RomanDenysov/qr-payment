@@ -9,6 +9,7 @@ export default function manifest(): MetadataRoute.Manifest {
     description:
       "Bezplatný generátor QR kódov pre bankové prevody vo formáte PAY by square a EPC QR. Funguje so všetkými slovenskými bankami.",
     start_url: "/",
+    scope: "/",
     display: "standalone",
     theme_color: "#000000",
     background_color: "#000000",

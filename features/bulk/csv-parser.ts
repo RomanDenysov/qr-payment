@@ -1,4 +1,3 @@
-import Papa from "papaparse";
 import type z from "zod";
 import type { PaymentFormat } from "@/features/payment/format";
 import type { PaymentFormData } from "@/features/payment/schema";
@@ -78,12 +77,14 @@ export function getExpectedHeaders(format: PaymentFormat): string[] {
   ];
 }
 
-export function parseCsv(
+export async function parseCsv(
   file: File,
   schema: z.ZodType<PaymentFormData>
 ): Promise<ParsedRow[]> {
+  const Papa = await import("papaparse");
+
   return new Promise((resolve, reject) => {
-    Papa.parse<Record<string, string>>(file, {
+    Papa.default.parse<Record<string, string>>(file, {
       header: true,
       skipEmptyLines: true,
       complete: (results) => {
