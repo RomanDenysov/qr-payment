@@ -8,7 +8,7 @@ import {
 import { linkVariants } from "@/components/ui/link";
 import { BulkContent } from "@/features/bulk/components/bulk-content";
 import { Link } from "@/i18n/navigation";
-import { getAlternates } from "@/lib/seo";
+import { getAlternates, getOgLocale, localePath } from "@/lib/seo";
 
 export async function generateMetadata({
   params,
@@ -22,6 +22,13 @@ export async function generateMetadata({
     title: t("bulkTitle"),
     description: t("bulkDescription"),
     alternates: getAlternates(locale, "/bulk"),
+    openGraph: {
+      title: t("bulkTitle"),
+      description: t("bulkDescription"),
+      url: localePath(locale, "/bulk"),
+      locale: getOgLocale(locale),
+      type: "website" as const,
+    },
   };
 }
 

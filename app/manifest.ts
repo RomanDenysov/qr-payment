@@ -1,6 +1,8 @@
 import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
+  // Note: manifest.ts doesn't receive locale context in Next.js App Router.
+  // Content is kept in Slovak (default locale). short_name "QR Platby" works across all locales.
   return {
     name: "QR Platby - Bezplatný generátor QR kódov pre bankové prevody",
     short_name: "QR Platby",

@@ -19,20 +19,29 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
 
   const localePages = pages.flatMap((page) =>
-    routing.locales.map((locale) => ({
-      url: `${BASE}/${locale}${page.path}`,
-      lastModified: now,
-      changeFrequency: page.changeFrequency,
-      priority: page.priority,
-      alternates: {
-        languages: {
-          ...Object.fromEntries(
-            routing.locales.map((l) => [l, `${BASE}/${l}${page.path}`])
-          ),
-          "x-default": `${BASE}/${routing.defaultLocale}${page.path}`,
+    routing.locales.map((locale) => {
+      const isDefaultLocale = locale === routing.defaultLocale;
+      const urlPath = isDefaultLocale ? page.path : `/${locale}${page.path}`;
+      const languageUrls = Object.fromEntries(
+        routing.locales.map((l) => {
+          const isDefault = l === routing.defaultLocale;
+          return [l, `${BASE}${isDefault ? "" : `/${l}`}${page.path}`];
+        })
+      );
+
+      return {
+        url: `${BASE}${urlPath}`,
+        lastModified: now,
+        changeFrequency: page.changeFrequency,
+        priority: page.priority,
+        alternates: {
+          languages: {
+            ...languageUrls,
+            "x-default": `${BASE}${page.path}`,
+          },
         },
-      },
-    }))
+      };
+    })
   );
 
   const staticFiles: MetadataRoute.Sitemap = [

@@ -10,7 +10,7 @@ import { Toc } from "@/features/docs/components/toc";
 import { TryItForm } from "@/features/docs/components/try-it-form";
 import { Link } from "@/i18n/navigation";
 import { DAILY_LIMIT, MINUTE_LIMIT } from "@/lib/api/rate-limiter";
-import { getAlternates, localePath } from "@/lib/seo";
+import { getAlternates, getOgLocale, localePath } from "@/lib/seo";
 
 interface Props {
   params: Promise<{ locale: string }>;
@@ -24,6 +24,13 @@ export async function generateMetadata({ params }: Props) {
     title: t("apiDocsTitle"),
     description: t("apiDocsDescription"),
     alternates: getAlternates(locale, "/docs"),
+    openGraph: {
+      title: t("apiDocsTitle"),
+      description: t("apiDocsDescription"),
+      url: localePath(locale, "/docs"),
+      locale: getOgLocale(locale),
+      type: "website" as const,
+    },
   };
 }
 
@@ -181,7 +188,7 @@ export default async function DocsPage({ params }: Props) {
       { "path": "iban", "message": "Invalid IBAN" }
     ],
     "hint": "Required: iban (string). Optional: amount, currency, ...",
-    "docs": "https://qr-platby.com/en/docs",
+    "docs": "${localePath(locale, "/docs")}",
     "example": {
       "iban": "SK3112000000198742637541",
       "amount": 25.5

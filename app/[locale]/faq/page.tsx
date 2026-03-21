@@ -8,11 +8,11 @@ import {
 import { linkVariants } from "@/components/ui/link";
 import { getFaqData } from "@/features/faq/data";
 import { Link } from "@/i18n/navigation";
-import { getAlternates } from "@/lib/seo";
+import { getAlternates, getOgLocale, localePath } from "@/lib/seo";
 
-type Props = {
+interface Props {
   params: Promise<{ locale: string }>;
-};
+}
 
 export async function generateMetadata({ params }: Props) {
   const { locale } = await params;
@@ -22,6 +22,13 @@ export async function generateMetadata({ params }: Props) {
     title: t("faqTitle"),
     description: t("faqDescription"),
     alternates: getAlternates(locale, "/faq"),
+    openGraph: {
+      title: t("faqTitle"),
+      description: t("faqDescription"),
+      url: localePath(locale, "/faq"),
+      locale: getOgLocale(locale),
+      type: "website" as const,
+    },
   };
 }
 

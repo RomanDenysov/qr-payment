@@ -10,18 +10,12 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { WebMcpProvider } from "@/features/webmcp/webmcp-provider";
 import { routing } from "@/i18n/routing";
-import { getAlternates } from "@/lib/seo";
+import {
+  getAlternateOgLocales,
+  getAlternates,
+  getOgLocale,
+} from "@/lib/seo";
 import { JsonLd } from "./json-ld";
-
-const OG_LOCALES: Record<string, string> = {
-  sk: "sk_SK",
-  cs: "cs_CZ",
-  en: "en_US",
-};
-
-function getOgLocale(locale: string) {
-  return OG_LOCALES[locale] ?? "sk_SK";
-}
 
 interface Props {
   children: React.ReactNode;
@@ -75,9 +69,11 @@ export async function generateMetadata({
           alt: t("title"),
         },
       ],
+      alternateLocales: getAlternateOgLocales(locale),
     },
     twitter: {
       card: "summary_large_image" as const,
+      site: "@qr_platby",
       title: t("title"),
       description: t("twitterDescription"),
       images: ["/og-qr-payments.png"],
