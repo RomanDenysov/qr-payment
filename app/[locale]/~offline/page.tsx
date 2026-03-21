@@ -1,6 +1,15 @@
 import { IconWifiOff } from "@tabler/icons-react";
+import type { Metadata } from "next";
 import { useTranslations } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
+
+export const metadata: Metadata = {
+  title: "Offline",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default async function OfflinePage({
   params,

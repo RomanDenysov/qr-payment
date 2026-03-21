@@ -37,41 +37,43 @@ export function Footer() {
         {t("privacy")}
       </p>
 
-      <div className="mt-2 flex flex-wrap items-center justify-center gap-x-1.5 gap-y-1 text-muted-foreground text-xs">
-        <span>{t("copyright")}</span>
-        <span className="text-foreground/15">·</span>
-        <Link className="hover:text-foreground" href="/ochrana-udajov">
-          {t("privacyPolicy")}
-        </Link>
-        <span className="text-foreground/15">·</span>
-        <Link className="hover:text-foreground" href="/podmienky">
-          {t("terms")}
-        </Link>
-        <span className="text-foreground/15">·</span>
-        <Link className="hover:text-foreground" href="/docs">
-          {t("apiDocs")}
-        </Link>
-        <span className="text-foreground/15">·</span>
-        <a
-          className="inline-flex items-center gap-1 hover:text-foreground"
-          href="https://buymeacoffee.com/romandenysov"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          <IconCup className="size-4" />
-          Buy me a coffee
-        </a>
-        <span className="text-foreground/15">·</span>
-        <a
-          className="inline-flex items-center gap-1 hover:text-foreground"
-          href="https://github.com/RomanDenysov/qr-payment"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          <IconBrandGithub className="size-4" />
-          GitHub
-        </a>
-      </div>
+      <nav aria-label="Footer">
+        <div className="mt-2 flex flex-wrap items-center justify-center gap-x-1.5 gap-y-1 text-muted-foreground text-xs">
+          <span>{t("copyright")}</span>
+          <span className="text-foreground/15">·</span>
+          <Link className="hover:text-foreground" href="/ochrana-udajov">
+            {t("privacyPolicy")}
+          </Link>
+          <span className="text-foreground/15">·</span>
+          <Link className="hover:text-foreground" href="/podmienky">
+            {t("terms")}
+          </Link>
+          <span className="text-foreground/15">·</span>
+          <Link className="hover:text-foreground" href="/docs">
+            {t("apiDocs")}
+          </Link>
+          <span className="text-foreground/15">·</span>
+          <a
+            className="inline-flex items-center gap-1 hover:text-foreground"
+            href="https://buymeacoffee.com/romandenysov"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <IconCup className="size-4" />
+            Buy me a coffee
+          </a>
+          <span className="text-foreground/15">·</span>
+          <a
+            className="inline-flex items-center gap-1 hover:text-foreground"
+            href="https://github.com/RomanDenysov/qr-payment"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <IconBrandGithub className="size-4" />
+            GitHub
+          </a>
+        </div>
+      </nav>
     </footer>
   );
 }

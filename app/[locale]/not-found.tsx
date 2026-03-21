@@ -1,8 +1,17 @@
 import { IconArrowLeft, IconMoodSad } from "@tabler/icons-react";
+import type { Metadata } from "next";
 import { useTranslations } from "next-intl";
 import { buttonVariants } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
+
+export const metadata: Metadata = {
+  title: "404",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default function NotFoundPage() {
   const t = useTranslations("NotFound");

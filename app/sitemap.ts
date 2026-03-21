@@ -1,7 +1,6 @@
 import type { MetadataRoute } from "next";
 import { routing } from "@/i18n/routing";
-
-const BASE = "https://qr-platby.com";
+import { localePath } from "@/lib/seo";
 
 const pages = [
   { path: "", changeFrequency: "monthly" as const, priority: 1 },
@@ -20,16 +19,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const localePages = pages.flatMap((page) =>
     routing.locales.map((locale) => ({
-      url: `${BASE}/${locale}${page.path}`,
+      url: localePath(locale, page.path),
       lastModified: now,
       changeFrequency: page.changeFrequency,
       priority: page.priority,
       alternates: {
         languages: {
           ...Object.fromEntries(
-            routing.locales.map((l) => [l, `${BASE}/${l}${page.path}`])
+            routing.locales.map((l) => [l, localePath(l, page.path)])
           ),
-          "x-default": `${BASE}/${routing.defaultLocale}${page.path}`,
+          "x-default": localePath(routing.defaultLocale, page.path),
         },
       },
     }))
@@ -37,19 +36,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const staticFiles: MetadataRoute.Sitemap = [
     {
-      url: `${BASE}/openapi.json`,
+      url: localePath(routing.defaultLocale, "/openapi.json"),
       lastModified: now,
       changeFrequency: "yearly",
       priority: 0.3,
     },
     {
-      url: `${BASE}/llms.txt`,
+      url: localePath(routing.defaultLocale, "/llms.txt"),
       lastModified: now,
       changeFrequency: "monthly",
       priority: 0.5,
     },
     {
-      url: `${BASE}/llms-full.txt`,
+      url: localePath(routing.defaultLocale, "/llms-full.txt"),
       lastModified: now,
       changeFrequency: "monthly",
       priority: 0.3,

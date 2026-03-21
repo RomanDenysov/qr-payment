@@ -17,6 +17,9 @@ export default async function RootLayout({
       lang={locale}
       suppressHydrationWarning
     >
+      <head>
+        <link href="https://va.vercel-scripts.com" rel="dns-prefetch" />
+      </head>
       <body className="container relative mx-auto flex min-h-screen max-w-5xl flex-col px-2 tracking-tight md:px-4">
         <SkipLink />
         {children}

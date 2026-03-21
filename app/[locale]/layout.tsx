@@ -10,18 +10,13 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { WebMcpProvider } from "@/features/webmcp/webmcp-provider";
 import { routing } from "@/i18n/routing";
-import { getAlternates } from "@/lib/seo";
+import {
+  getAlternateOgLocales,
+  getAlternates,
+  getOgLocale,
+  localePath,
+} from "@/lib/seo";
 import { JsonLd } from "./json-ld";
-
-const OG_LOCALES: Record<string, string> = {
-  sk: "sk_SK",
-  cs: "cs_CZ",
-  en: "en_US",
-};
-
-function getOgLocale(locale: string) {
-  return OG_LOCALES[locale] ?? "sk_SK";
-}
 
 interface Props {
   children: React.ReactNode;
@@ -60,10 +55,7 @@ export async function generateMetadata({
     openGraph: {
       type: "website" as const,
       locale: getOgLocale(locale),
-      url:
-        locale === "sk"
-          ? "https://qr-platby.com"
-          : `https://qr-platby.com/${locale}`,
+      url: localePath(locale, ""),
       siteName: "QR Platby",
       title: t("title"),
       description: t("ogDescription"),
@@ -75,9 +67,11 @@ export async function generateMetadata({
           alt: t("title"),
         },
       ],
+      alternateLocales: getAlternateOgLocales(locale),
     },
     twitter: {
       card: "summary_large_image" as const,
+      site: "@qr_platby",
       title: t("title"),
       description: t("twitterDescription"),
       images: ["/og-qr-payments.png"],
@@ -86,6 +80,8 @@ export async function generateMetadata({
       icon: [
         { url: "/favicon.ico", sizes: "any" },
         { url: "/favicon.svg", type: "image/svg+xml" },
+        { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+        { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
         { url: "/favicon-96x96.png", sizes: "96x96", type: "image/png" },
       ],
       apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
