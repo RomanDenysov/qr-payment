@@ -29,7 +29,6 @@ export async function generateMetadata({ params }: Props) {
       description: t("apiDocsDescription"),
       url: localePath(locale, "/docs"),
       locale: getOgLocale(locale),
-      type: "website" as const,
     },
   };
 }

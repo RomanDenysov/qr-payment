@@ -27,7 +27,6 @@ export async function generateMetadata({
       description: t("bulkDescription"),
       url: localePath(locale, "/bulk"),
       locale: getOgLocale(locale),
-      type: "website" as const,
     },
   };
 }

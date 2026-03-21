@@ -27,7 +27,6 @@ export async function generateMetadata({ params }: Props) {
       description: t("faqDescription"),
       url: localePath(locale, "/faq"),
       locale: getOgLocale(locale),
-      type: "website" as const,
     },
   };
 }

@@ -1,7 +1,6 @@
 import type { MetadataRoute } from "next";
 import { routing } from "@/i18n/routing";
-
-const BASE = "https://qr-platby.com";
+import { localePath } from "@/lib/seo";
 
 const pages = [
   { path: "", changeFrequency: "monthly" as const, priority: 1 },
@@ -19,46 +18,37 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
 
   const localePages = pages.flatMap((page) =>
-    routing.locales.map((locale) => {
-      const isDefaultLocale = locale === routing.defaultLocale;
-      const urlPath = isDefaultLocale ? page.path : `/${locale}${page.path}`;
-      const languageUrls = Object.fromEntries(
-        routing.locales.map((l) => {
-          const isDefault = l === routing.defaultLocale;
-          return [l, `${BASE}${isDefault ? "" : `/${l}`}${page.path}`];
-        })
-      );
-
-      return {
-        url: `${BASE}${urlPath}`,
-        lastModified: now,
-        changeFrequency: page.changeFrequency,
-        priority: page.priority,
-        alternates: {
-          languages: {
-            ...languageUrls,
-            "x-default": `${BASE}${page.path}`,
-          },
+    routing.locales.map((locale) => ({
+      url: localePath(locale, page.path),
+      lastModified: now,
+      changeFrequency: page.changeFrequency,
+      priority: page.priority,
+      alternates: {
+        languages: {
+          ...Object.fromEntries(
+            routing.locales.map((l) => [l, localePath(l, page.path)])
+          ),
+          "x-default": localePath(routing.defaultLocale, page.path),
         },
-      };
-    })
+      },
+    }))
   );
 
   const staticFiles: MetadataRoute.Sitemap = [
     {
-      url: `${BASE}/openapi.json`,
+      url: localePath(routing.defaultLocale, "/openapi.json"),
       lastModified: now,
       changeFrequency: "yearly",
       priority: 0.3,
     },
     {
-      url: `${BASE}/llms.txt`,
+      url: localePath(routing.defaultLocale, "/llms.txt"),
       lastModified: now,
       changeFrequency: "monthly",
       priority: 0.5,
     },
     {
-      url: `${BASE}/llms-full.txt`,
+      url: localePath(routing.defaultLocale, "/llms-full.txt"),
       lastModified: now,
       changeFrequency: "monthly",
       priority: 0.3,
