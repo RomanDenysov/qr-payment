@@ -1,11 +1,11 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { linkVariants } from "@/components/ui/link";
 import { Link } from "@/i18n/navigation";
-import { getAlternates } from "@/lib/seo";
+import { getAlternates, getOgLocale, localePath } from "@/lib/seo";
 
-type Props = {
+interface Props {
   params: Promise<{ locale: string }>;
-};
+}
 
 export async function generateMetadata({ params }: Props) {
   const { locale } = await params;
@@ -15,6 +15,12 @@ export async function generateMetadata({ params }: Props) {
     title: t("termsTitle"),
     description: t("termsDescription"),
     alternates: getAlternates(locale, "/podmienky"),
+    openGraph: {
+      title: t("termsTitle"),
+      description: t("termsDescription"),
+      url: localePath(locale, "/podmienky"),
+      locale: getOgLocale(locale),
+    },
   };
 }
 
@@ -24,6 +30,26 @@ export default async function TermsPage({ params }: Props) {
 
   const t = await getTranslations({ locale, namespace: "Terms" });
   const tMeta = await getTranslations({ locale, namespace: "Metadata" });
+  const t_nav = await getTranslations({ locale, namespace: "Nav" });
+
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: t_nav("home"),
+        item: localePath(locale, "/"),
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: tMeta("termsTitle"),
+        item: localePath(locale, "/podmienky"),
+      },
+    ],
+  };
 
   return (
     <div className="flex-1 pt-5 sm:pt-8 md:pt-16">
@@ -99,6 +125,13 @@ export default async function TermsPage({ params }: Props) {
           </Link>
         </div>
       </article>
+
+      {/* JSON-LD structured data - hardcoded content, safe to inject */}
+      <script
+        // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD structured data from hardcoded content
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
+        type="application/ld+json"
+      />
     </div>
   );
 }

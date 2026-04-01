@@ -6,9 +6,9 @@
 
 The web app lets users create QR codes for Slovak and Czech banking payments. All data stays in the browser (localStorage).
 
-- [Home - Generate QR Code](https://qr-platby.com/sk): Single payment form with IBAN, amount, symbols, recipient, and note
-- [Bulk QR Generation](https://qr-platby.com/sk/bulk): Upload CSV to generate QR codes in batch, export as PDF or ZIP
-- [FAQ (SK)](https://qr-platby.com/sk/faq): Frequently asked questions about QR payments
+- [Home - Generate QR Code](https://qr-platby.com): Single payment form with IBAN, amount, symbols, recipient, and note
+- [Bulk QR Generation](https://qr-platby.com/bulk): Upload CSV to generate QR codes in batch, export as PDF or ZIP
+- [FAQ (SK)](https://qr-platby.com/faq): Frequently asked questions about QR payments
 - [FAQ (EN)](https://qr-platby.com/en/faq): FAQ in English
 - [FAQ (CS)](https://qr-platby.com/cs/faq): FAQ in Czech
 

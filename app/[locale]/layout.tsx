@@ -74,7 +74,7 @@ export async function generateMetadata({
       site: "@qr_platby",
       title: t("title"),
       description: t("twitterDescription"),
-      images: ["/og-qr-payments.png"],
+      images: [{ url: "/og-qr-payments.png", alt: t("title") }],
     },
     icons: {
       icon: [
