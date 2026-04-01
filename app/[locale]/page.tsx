@@ -24,11 +24,20 @@ export default async function Page({ params }: Props) {
       <h1 className="font-bold font-pixel text-2xl text-foreground tracking-wide sm:text-3xl">
         {t("homeH1")}
       </h1>
+      <p className="mt-4 text-muted-foreground">
+        {t("homeDescription")}
+      </p>
+      <h2 className="font-bold font-pixel text-lg text-foreground tracking-wide sm:text-xl mt-8">
+        {t("sectionPayment")}
+      </h2>
       <section className="mt-6 grid gap-8 *:rounded-none sm:grid-cols-2">
         <PaymentFormCard />
         <QRPreviewCard />
       </section>
-      <section className="mt-8">
+      <h2 className="font-bold font-pixel text-lg text-foreground tracking-wide sm:text-xl mt-12">
+        {t("sectionApi")}
+      </h2>
+      <section className="mt-6">
         <DynamicApiCard />
       </section>
     </div>

@@ -41,6 +41,26 @@ export default async function Page({
 
   const t = await getTranslations({ locale, namespace: "Bulk" });
   const tMeta = await getTranslations({ locale, namespace: "Metadata" });
+  const t_nav = await getTranslations({ locale, namespace: "Nav" });
+
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: t_nav("home"),
+        item: localePath(locale, "/"),
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: tMeta("bulkTitle"),
+        item: localePath(locale, "/bulk"),
+      },
+    ],
+  };
 
   return (
     <div className="flex-1 pt-5 sm:pt-8 md:pt-16">
@@ -62,6 +82,13 @@ export default async function Page({
           </Link>
         </div>
       </div>
+
+      {/* JSON-LD structured data - hardcoded content, safe to inject */}
+      <script
+        // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD structured data from hardcoded content
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
+        type="application/ld+json"
+      />
     </div>
   );
 }
