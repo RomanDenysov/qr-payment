@@ -40,6 +40,10 @@
     "terms": "Podmínky",
     "apiDocs": "API dokumentace"
   },
+  "Announcement": {
+    "message": "Novinka: QR kod lze nyn\u00ed vytvorit i bez pevne castky - platce zada castku sam v bankovni aplikaci.",
+    "close": "Zavrit"
+  },
   "Consent": {
     "message": "Tato stránka používá localStorage k uložení vašeho nastavení. Žádné cookies ani osobní údaje neshromažďujeme.",
     "privacyPolicy": "Ochrana osobních údajů",
@@ -49,7 +53,7 @@
     "title": "Platební údaje",
     "iban": "IBAN",
     "ibanRequired": "IBAN *",
-    "amount": "Částka *",
+    "amount": "Částka",
     "amountPlaceholder": "0,00",
     "recipientName": "Jméno příjemce",
     "recipientNameRequired": "Jméno příjemce *",

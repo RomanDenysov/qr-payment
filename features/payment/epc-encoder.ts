@@ -12,7 +12,7 @@ const EPC_MAX_BYTES = 331;
 
 interface EpcInput {
   iban: string;
-  amount: number;
+  amount?: number;
   beneficiaryName: string;
   bic?: string;
   remittanceText?: string;
@@ -25,7 +25,7 @@ interface EpcInput {
 export function encodeEpcQr(input: EpcInput): string {
   const iban = electronicFormatIBAN(input.iban) ?? input.iban;
   const name = sanitizeForEpc(input.beneficiaryName).sanitized;
-  const amount = `EUR${input.amount.toFixed(2)}`;
+  const amount = input.amount ? `EUR${input.amount.toFixed(2)}` : "";
   const remittance = input.remittanceText
     ? sanitizeForEpc(input.remittanceText).sanitized
     : "";

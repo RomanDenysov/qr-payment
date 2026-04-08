@@ -19,9 +19,7 @@ export function createPaymentFormSchema(t: (key: string) => string) {
           },
           { message: t("ibanInvalid") }
         ),
-      amount: z
-        .number({ message: t("amountRequired") })
-        .min(0.01, t("amountMin")),
+      amount: z.number().min(0),
       variableSymbol: z
         .string()
         .max(10, t("max10chars"))

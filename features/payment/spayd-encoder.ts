@@ -10,7 +10,7 @@ export class SpaydPayloadTooLargeError extends Error {
 
 interface SpaydInput {
   iban: string;
-  amount: number;
+  amount?: number;
   currency?: string;
   variableSymbol?: string;
   specificSymbol?: string;
@@ -26,7 +26,7 @@ export function encodeSpaydQr(input: SpaydInput): string {
 
   const payload = createShortPaymentDescriptor({
     acc,
-    am: input.amount.toFixed(2),
+    ...(input.amount && { am: input.amount.toFixed(2) }),
     cc: input.currency ?? "CZK",
     ...(input.recipientName && { rn: input.recipientName.slice(0, 35) }),
     ...(input.paymentNote && { msg: input.paymentNote.slice(0, 60) }),

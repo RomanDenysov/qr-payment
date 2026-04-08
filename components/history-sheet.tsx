@@ -201,7 +201,9 @@ export function HistorySheet({ onOpen }: { onOpen?: () => void } = {}) {
                         {maskIban(entry.iban)}
                       </TableCell>
                       <TableCell className="align-middle text-xs">
-                        {entry.amount.toFixed(2)} {entry.currency ?? "EUR"}
+                        {entry.amount
+                          ? `${entry.amount.toFixed(2)} ${entry.currency ?? "EUR"}`
+                          : "-"}
                       </TableCell>
                       <TableCell className="text-right align-middle">
                         {namingId === entry.id ? (

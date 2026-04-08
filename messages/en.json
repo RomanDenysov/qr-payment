@@ -40,6 +40,10 @@
     "terms": "Terms",
     "apiDocs": "API Docs"
   },
+  "Announcement": {
+    "message": "New: You can now generate QR codes without a fixed amount - the payer enters the amount in their banking app.",
+    "close": "Close"
+  },
   "Consent": {
     "message": "This site uses localStorage to save your settings. We don't collect cookies or personal data.",
     "privacyPolicy": "Privacy Policy",
@@ -49,7 +53,7 @@
     "title": "Payment Details",
     "iban": "IBAN",
     "ibanRequired": "IBAN *",
-    "amount": "Amount *",
+    "amount": "Amount",
     "amountPlaceholder": "0.00",
     "recipientName": "Recipient Name",
     "recipientNameRequired": "Recipient Name *",

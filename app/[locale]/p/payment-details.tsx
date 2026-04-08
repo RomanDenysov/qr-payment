@@ -31,10 +31,12 @@ export async function PaymentDetails({ payment, format }: Props) {
           <CopyIbanButton iban={payment.iban} />
         </span>
       </div>
-      <PaymentField
-        label={tForm("amount")}
-        value={`${payment.amount.toFixed(2)} ${payment.currency ?? "EUR"}`}
-      />
+      {payment.amount ? (
+        <PaymentField
+          label={tForm("amount")}
+          value={`${payment.amount.toFixed(2)} ${payment.currency ?? "EUR"}`}
+        />
+      ) : null}
       {payment.recipientName ? (
         <PaymentField
           label={tForm("recipientName")}

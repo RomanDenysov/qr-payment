@@ -45,7 +45,7 @@ function getPaymentFingerprint(payment: PaymentRecord): string {
     return [
       "epc",
       iban,
-      payment.amount.toFixed(2),
+      (payment.amount || 0).toFixed(2),
       payment.bic || "",
       payment.recipientName || "",
       payment.paymentNote || "",
@@ -56,7 +56,7 @@ function getPaymentFingerprint(payment: PaymentRecord): string {
     return [
       "spayd",
       iban,
-      payment.amount.toFixed(2),
+      (payment.amount || 0).toFixed(2),
       payment.currency ?? "CZK",
       payment.variableSymbol || "",
       payment.specificSymbol || "",
@@ -69,7 +69,7 @@ function getPaymentFingerprint(payment: PaymentRecord): string {
   return [
     "bysquare",
     iban,
-    payment.amount.toFixed(2),
+    (payment.amount || 0).toFixed(2),
     payment.currency ?? "EUR",
     payment.variableSymbol || "",
     payment.specificSymbol || "",

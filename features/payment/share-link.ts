@@ -14,7 +14,7 @@ export interface SharePayload {
 interface CompactPayload {
   f: string;
   i: string;
-  a: number;
+  a?: number;
   vs?: string;
   ss?: string;
   ks?: string;
@@ -57,7 +57,7 @@ export function encodeShareData(
   const compact: CompactPayload = {
     f: payment.format,
     i: payment.iban,
-    a: payment.amount,
+    ...(payment.amount && { a: payment.amount }),
   };
 
   if (payment.variableSymbol) {
@@ -113,9 +113,10 @@ export function decodeShareData(encoded: string): SharePayload | null {
       typeof compact.i !== "string" ||
       compact.i.length === 0 ||
       compact.i.length > 34 ||
-      typeof compact.a !== "number" ||
-      compact.a < 0 ||
-      compact.a > 999_999_999.99 ||
+      (compact.a != null &&
+        (typeof compact.a !== "number" ||
+          compact.a < 0 ||
+          compact.a > 999_999_999.99)) ||
       (compact.c != null && compact.c !== "EUR" && compact.c !== "CZK")
     ) {
       return null;
@@ -125,7 +126,7 @@ export function decodeShareData(encoded: string): SharePayload | null {
       payment: {
         format: compact.f,
         iban: compact.i,
-        amount: compact.a,
+        amount: compact.a ?? 0,
         currency: compact.c ?? "EUR",
         variableSymbol: compact.vs,
         specificSymbol: compact.ss,
