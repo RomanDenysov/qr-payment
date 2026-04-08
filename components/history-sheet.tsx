@@ -42,7 +42,7 @@ import {
 } from "@/components/ui/table";
 import type { PaymentRecord } from "@/features/payment/schema";
 import { usePaymentActions, usePaymentHistory } from "@/features/payment/store";
-import { cn, maskIban } from "@/lib/utils";
+import { cn, formatAmount, maskIban } from "@/lib/utils";
 
 export function HistorySheet({ onOpen }: { onOpen?: () => void } = {}) {
   const [open, setOpen] = useState(false);
@@ -201,9 +201,7 @@ export function HistorySheet({ onOpen }: { onOpen?: () => void } = {}) {
                         {maskIban(entry.iban)}
                       </TableCell>
                       <TableCell className="align-middle text-xs">
-                        {entry.amount
-                          ? `${entry.amount.toFixed(2)} ${entry.currency ?? "EUR"}`
-                          : "-"}
+                        {formatAmount(entry.amount, entry.currency ?? "EUR")}
                       </TableCell>
                       <TableCell className="text-right align-middle">
                         {namingId === entry.id ? (

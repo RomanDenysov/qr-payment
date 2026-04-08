@@ -1,7 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import { Badge } from "@/components/ui/badge";
 import type { PaymentFormData } from "@/features/payment/schema";
-import { maskIban } from "@/lib/utils";
+import { formatAmount, maskIban } from "@/lib/utils";
 import { CopyIbanButton } from "./copy-iban-button";
 
 function PaymentField({ label, value }: { label: string; value: string }) {
@@ -34,7 +34,7 @@ export async function PaymentDetails({ payment, format }: Props) {
       {payment.amount ? (
         <PaymentField
           label={tForm("amount")}
-          value={`${payment.amount.toFixed(2)} ${payment.currency ?? "EUR"}`}
+          value={formatAmount(payment.amount, payment.currency ?? "EUR")}
         />
       ) : null}
       {payment.recipientName ? (

@@ -17,7 +17,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { useBrandingConfig } from "@/features/branding/store";
-import { maskIban } from "@/lib/utils";
+import { formatAmount, maskIban } from "@/lib/utils";
 import { generatePaymentQR, InvalidIBANError } from "../qr-generator";
 import type { PaymentRecord } from "../schema";
 import { useCurrentPayment, usePaymentActions } from "../store";
@@ -68,7 +68,7 @@ function PaymentDetails({ paymentDetails }: { paymentDetails: PaymentRecord }) {
       <Badge variant="secondary">{maskIban(paymentDetails.iban)}</Badge>
       {paymentDetails.amount ? (
         <Badge variant="secondary">
-          {paymentDetails.amount.toFixed(2)} {paymentDetails.currency ?? "EUR"}
+          {formatAmount(paymentDetails.amount, paymentDetails.currency ?? "EUR")}
         </Badge>
       ) : null}
       <FormatBadges payment={paymentDetails} />
