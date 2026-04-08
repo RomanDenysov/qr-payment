@@ -17,7 +17,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { useBrandingConfig } from "@/features/branding/store";
-import { maskIban } from "@/lib/utils";
+import { formatAmount, maskIban } from "@/lib/utils";
 import { generatePaymentQR, InvalidIBANError } from "../qr-generator";
 import type { PaymentRecord } from "../schema";
 import { useCurrentPayment, usePaymentActions } from "../store";
@@ -66,9 +66,14 @@ function PaymentDetails({ paymentDetails }: { paymentDetails: PaymentRecord }) {
     <div className="flex flex-wrap justify-center gap-1">
       {format === "epc" && <Badge variant="outline">EPC</Badge>}
       <Badge variant="secondary">{maskIban(paymentDetails.iban)}</Badge>
-      <Badge variant="secondary">
-        {paymentDetails.amount.toFixed(2)} {paymentDetails.currency ?? "EUR"}
-      </Badge>
+      {paymentDetails.amount ? (
+        <Badge variant="secondary">
+          {formatAmount(
+            paymentDetails.amount,
+            paymentDetails.currency ?? "EUR"
+          )}
+        </Badge>
+      ) : null}
       <FormatBadges payment={paymentDetails} />
     </div>
   );

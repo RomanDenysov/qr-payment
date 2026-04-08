@@ -12,11 +12,9 @@ interface FeedbackState {
 
 interface FeedbackActions {
   addRequest: (message: string) => void;
-  canSubmit: () => boolean;
 }
 
 const STORAGE_KEY = "qrFeedback.v1";
-const MAX_REQUESTS = 3;
 
 type FeedbackStore = FeedbackState & {
   actions: FeedbackActions;
@@ -35,7 +33,6 @@ const feedbackStore = create<FeedbackStore>()(
             ],
           }));
         },
-        canSubmit: () => get().requests.length < MAX_REQUESTS,
       },
     }),
     {

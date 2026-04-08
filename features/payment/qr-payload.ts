@@ -26,7 +26,7 @@ export function buildQrPayload(
     return {
       payload: encodeEpcQr({
         iban: cleanIban,
-        amount: data.amount ?? 0,
+        amount: data.amount || undefined,
         beneficiaryName: data.recipientName ?? "",
         bic: data.bic || undefined,
         remittanceText: data.paymentNote || undefined,
@@ -40,7 +40,7 @@ export function buildQrPayload(
     return {
       payload: encodeSpaydQr({
         iban: cleanIban,
-        amount: data.amount ?? 0,
+        amount: data.amount || undefined,
         currency,
         variableSymbol: data.variableSymbol || undefined,
         specificSymbol: data.specificSymbol || undefined,
@@ -55,7 +55,7 @@ export function buildQrPayload(
 
   const payment: Parameters<typeof encode>[0]["payments"][0] = {
     type: PaymentOptions.PaymentOrder,
-    amount: data.amount ?? 0,
+    ...(data.amount && { amount: data.amount }),
     currencyCode,
     bankAccounts: [{ iban: cleanIban }],
     ...(data.variableSymbol && { variableSymbol: data.variableSymbol }),

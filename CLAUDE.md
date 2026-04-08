@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-QR Platby - A free online QR code generator for Slovak banking payments using the BySquare format. Users enter payment details (IBAN, amount, symbols) and generate QR codes scannable by any Slovak bank's app. All data is stored locally in the browser.
+QR Platby - A free online QR code generator for bank payments supporting PAY bySquare (Slovak), SPAYD (Czech), and EPC QR (EU SEPA). Users enter payment details (IBAN, amount, symbols) and generate QR codes scannable by banking apps. Amount is optional. All data is stored locally in the browser.
 
 ## Commands
 
@@ -44,9 +44,14 @@ components/               # Reusable UI components
 features/api/             # API card component (homepage)
 features/payment/         # Payment feature module
   components/             # Payment-specific components
+  format.ts               # Payment format types & labels (bysquare, epc, spayd)
   schema.ts               # Zod validation schema
   store.ts                # Zustand store (history, deduplication)
   qr-generator.ts         # QR code generation with canvas overlay
+  qr-payload.ts           # QR payload builder (dispatches to format encoders)
+  epc-encoder.ts          # EPC QR payload encoder (EU SEPA)
+  spayd-encoder.ts        # SPAYD payload encoder (Czech standard)
+  share-link.ts           # Compact base64url share link encode/decode
   use-payment-generator.ts # Form submission hook
 features/bulk/            # Bulk QR generation from CSV
   bulk-generator.ts       # Batch QR generation with progress
@@ -59,6 +64,8 @@ features/branding/        # QR code customization
   compress-logo.ts        # Logo compression for QR overlay
 features/feedback/        # Feature request / feedback module
 features/faq/             # FAQ data (translated)
+features/docs/            # API docs page components
+features/webmcp/          # Web MCP server provider
 i18n/                     # next-intl config (routing, navigation, request)
 lib/api/                  # API utilities
   rate-limiter.ts         # Upstash Redis rate limiting (sliding window)
@@ -86,6 +93,7 @@ public/openapi.json       # OpenAPI 3.1 spec - keep in sync with qr-schema.ts an
   - Pure styled wrappers (e.g. table, label) without hooks must not have `"use client"`
   - `next/dynamic` with `ssr: false` requires a `"use client"` wrapper — cannot be used in server components
 - **Dynamic imports with SSR disabled** for Base UI components (prevents hydration mismatches)
+- **Client loader pattern** - Components using localStorage on mount use a `*-loader.tsx` wrapper with `dynamic(() => import(...), { ssr: false })`. See `consent-banner-loader.tsx`, `announcement-banner-loader.tsx`.
 - **Feature-based organization** - Domain logic grouped in `features/` directory
 - **Zustand store hooks** - Each feature has its own store with granular selectors:
   - Payment: `useCurrentPayment()`, `usePaymentHistory()`, `usePaymentActions()`
@@ -127,6 +135,7 @@ This project uses Ultracite (Biome preset) for formatting and linting. Key rules
 - **JSX ternary branches**: Must return a single expression — wrap multiple siblings in `<>...</>` fragment
 - **No `client-zip`**: ZIP export uses a zero-dependency manual implementation (STORE method) because Turbopack can't chunk the ESM-only `client-zip` package. Don't re-add it.
 - **`ultracite fix` touches unrelated files**: Auto-fix may reformat files you didn't change (trailing newlines, commas). This is normal - include them in the commit.
+- **Announcement banner**: Change `ANNOUNCEMENT_ID` in `components/announcement-banner.tsx` and update `Announcement.message` in translation files. Old dismissed banners won't block new ones.
 
 ## API Changes
 

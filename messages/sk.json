@@ -40,6 +40,10 @@
     "terms": "Podmienky",
     "apiDocs": "API dokumentácia"
   },
+  "Announcement": {
+    "message": "Novinka: QR kod je teraz mozne vytvorit aj bez pevnej sumy - platcu zadava sumu sam v bankovej aplikacii.",
+    "close": "Zavriet"
+  },
   "Consent": {
     "message": "Táto stránka používa localStorage na uloženie vašich nastavení. Žiadne cookies ani osobné údaje nezbierame.",
     "privacyPolicy": "Ochrana údajov",
@@ -49,7 +53,7 @@
     "title": "Platobné údaje",
     "iban": "IBAN",
     "ibanRequired": "IBAN *",
-    "amount": "Suma *",
+    "amount": "Suma",
     "amountPlaceholder": "0,00",
     "recipientName": "Meno príjemcu",
     "recipientNameRequired": "Meno príjemcu *",

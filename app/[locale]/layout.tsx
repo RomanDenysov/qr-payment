@@ -2,6 +2,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { AnnouncementBannerLoader } from "@/components/announcement-banner-loader";
 import { Background } from "@/components/background";
 import { ConsentBannerLoader } from "@/components/consent-banner-loader";
 import { Footer } from "@/components/footer";
@@ -126,6 +127,7 @@ export default async function LocaleLayout({ children, params }: Props) {
         enableSystem
       >
         <Header />
+        <AnnouncementBannerLoader />
         <main id="main-content">{children}</main>
         <JsonLd />
         <Footer />

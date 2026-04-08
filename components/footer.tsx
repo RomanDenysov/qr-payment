@@ -9,7 +9,7 @@ export function Footer() {
   const tFeedback = useTranslations("Feedback");
 
   return (
-    <footer className="mt-auto pt-8 pb-4">
+    <footer className="mt-auto pt-16 pb-4">
       <div className="border border-foreground/10 border-dashed px-4 py-3">
         <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div className="min-w-0">

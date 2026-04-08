@@ -1,11 +1,10 @@
 "use client";
 
-import { IconBulb, IconInfoCircle, IconSend } from "@tabler/icons-react";
+import { IconBulb, IconSend } from "@tabler/icons-react";
 import { track } from "@vercel/analytics";
 import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -33,7 +32,7 @@ export function FeatureRequestDialog({
   const [message, setMessage] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [state, setState] = useState<DialogState>("idle");
-  const { addRequest, canSubmit } = useFeedbackActions();
+  const { addRequest } = useFeedbackActions();
   const closeRef = useRef<HTMLButtonElement>(null);
   const t = useTranslations("Feedback");
 
@@ -100,7 +99,6 @@ export function FeatureRequestDialog({
     return () => clearTimeout(timer);
   }, [state]);
 
-  const allowed = canSubmit();
   const charCount = message.length;
 
   return (
@@ -126,70 +124,55 @@ export function FeatureRequestDialog({
           </div>
         ) : (
           <div className="flex flex-col gap-3">
-            {allowed ? (
-              <>
-                <div className="flex flex-col gap-1.5">
-                  <textarea
-                    className={cn(
-                      "min-h-28 w-full resize-none rounded-none border bg-transparent px-3 py-2 font-mono text-sm outline-none ring-1 ring-foreground/10 placeholder:text-muted-foreground focus:ring-foreground/30",
-                      error && "ring-destructive"
-                    )}
-                    disabled={state === "submitting"}
-                    maxLength={500}
-                    onChange={(e) => {
-                      setMessage(e.target.value);
-                      if (error) {
-                        setError(null);
-                      }
-                    }}
-                    placeholder={t("placeholder")}
-                    value={message}
-                  />
-                  <div className="flex items-center justify-between">
-                    {error ? (
-                      <p className="text-destructive text-xs">{error}</p>
-                    ) : (
-                      <span />
-                    )}
-                    <span
-                      className={cn(
-                        "text-muted-foreground text-xs",
-                        charCount > 450 && "text-amber-500",
-                        charCount >= 500 && "text-destructive"
-                      )}
-                    >
-                      {charCount}/500
-                    </span>
-                  </div>
-                </div>
-                <PreviousRequests />
-              </>
-            ) : (
-              <>
-                <Alert>
-                  <IconInfoCircle />
-                  <AlertTitle>{t("maxReachedTitle")}</AlertTitle>
-                  <AlertDescription>{t("maxReached")}</AlertDescription>
-                </Alert>
-                <PreviousRequests />
-              </>
-            )}
+            <div className="flex flex-col gap-1.5">
+              <textarea
+                className={cn(
+                  "min-h-28 w-full resize-none rounded-none border bg-transparent px-3 py-2 font-mono text-sm outline-none ring-1 ring-foreground/10 placeholder:text-muted-foreground focus:ring-foreground/30",
+                  error && "ring-destructive"
+                )}
+                disabled={state === "submitting"}
+                maxLength={500}
+                onChange={(e) => {
+                  setMessage(e.target.value);
+                  if (error) {
+                    setError(null);
+                  }
+                }}
+                placeholder={t("placeholder")}
+                value={message}
+              />
+              <div className="flex items-center justify-between">
+                {error ? (
+                  <p className="text-destructive text-xs">{error}</p>
+                ) : (
+                  <span />
+                )}
+                <span
+                  className={cn(
+                    "text-muted-foreground text-xs",
+                    charCount > 450 && "text-amber-500",
+                    charCount >= 500 && "text-destructive"
+                  )}
+                >
+                  {charCount}/500
+                </span>
+              </div>
+            </div>
+            <PreviousRequests />
 
             <div className="flex gap-2 pt-2">
               <DialogClose render={<Button size="sm" variant="outline" />}>
                 {t("close")}
               </DialogClose>
-              {allowed && (
-                <Button
-                  className="flex-1"
-                  disabled={state === "submitting" || charCount < 10}
-                  onClick={handleSubmit}
-                  size="sm"
-                >
-                  <IconSend />
-                  {state === "submitting" ? t("submitting") : t("submit")}
-                </Button>
-              )}
+              <Button
+                className="flex-1"
+                disabled={state === "submitting" || charCount < 10}
+                onClick={handleSubmit}
+                size="sm"
+              >
+                <IconSend />
+                {state === "submitting" ? t("submitting") : t("submit")}
+              </Button>
             </div>
           </div>
         )}
