@@ -68,7 +68,10 @@ function PaymentDetails({ paymentDetails }: { paymentDetails: PaymentRecord }) {
       <Badge variant="secondary">{maskIban(paymentDetails.iban)}</Badge>
       {paymentDetails.amount ? (
         <Badge variant="secondary">
-          {formatAmount(paymentDetails.amount, paymentDetails.currency ?? "EUR")}
+          {formatAmount(
+            paymentDetails.amount,
+            paymentDetails.currency ?? "EUR"
+          )}
         </Badge>
       ) : null}
       <FormatBadges payment={paymentDetails} />

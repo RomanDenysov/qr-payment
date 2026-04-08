@@ -13,8 +13,12 @@ export function AnnouncementBanner() {
   const t = useTranslations("Announcement");
 
   useEffect(() => {
-    if (localStorage.getItem(`${STORAGE_PREFIX}${ANNOUNCEMENT_ID}`)) {
-      return;
+    try {
+      if (localStorage.getItem(`${STORAGE_PREFIX}${ANNOUNCEMENT_ID}`)) {
+        return;
+      }
+    } catch {
+      // localStorage unavailable (private browsing) - show banner anyway
     }
     setVisible(true);
   }, []);
@@ -24,7 +28,11 @@ export function AnnouncementBanner() {
   }
 
   const handleDismiss = () => {
-    localStorage.setItem(`${STORAGE_PREFIX}${ANNOUNCEMENT_ID}`, "1");
+    try {
+      localStorage.setItem(`${STORAGE_PREFIX}${ANNOUNCEMENT_ID}`, "1");
+    } catch {
+      // localStorage unavailable - dismiss visually anyway
+    }
     track("announcement_dismissed", { id: ANNOUNCEMENT_ID });
     setVisible(false);
   };
