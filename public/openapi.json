@@ -3,7 +3,7 @@
   "info": {
     "title": "QR Platby API",
     "version": "1.0.0",
-    "description": "Generate PAY by square and SPAYD QR codes for Slovak and Czech bank payments. Free, no authentication required.",
+    "description": "Generate PAY by square, SPAYD, and EPC (EU SEPA) QR codes for bank payments. Free, no authentication required.",
     "contact": {
       "name": "QR Platby",
       "url": "https://qr-platby.com"
@@ -40,8 +40,8 @@
       },
       "post": {
         "operationId": "generateQr",
-        "summary": "Generate a PAY by square or SPAYD QR code",
-        "description": "Generates a QR code in BySquare or SPAYD format for Slovak/Czech bank payments. Returns base64 PNG data URI or SVG markup.",
+        "summary": "Generate a PAY by square, SPAYD, or EPC QR code",
+        "description": "Generates a QR code in BySquare, SPAYD, or EPC format for bank payments. Returns base64 PNG data URI or SVG markup.",
         "requestBody": {
           "required": true,
           "content": {
@@ -73,6 +73,15 @@
                     "currency": "CZK",
                     "paymentFormat": "spayd",
                     "variableSymbol": "1234567890"
+                  }
+                },
+                "epcPayment": {
+                  "summary": "EU SEPA EPC QR code",
+                  "value": {
+                    "iban": "DE89370400440532013000",
+                    "amount": 100,
+                    "paymentFormat": "epc",
+                    "recipientName": "Max Mustermann"
                   }
                 },
                 "czechSvg": {
@@ -128,7 +137,7 @@
                         "message": "Invalid IBAN"
                       }
                     ],
-                    "hint": "Required: iban (string). Optional: amount (number), currency (EUR|CZK), variableSymbol, specificSymbol, constantSymbol, recipientName, paymentNote, paymentFormat (bysquare|spayd), format (png|svg), size (100-1000).",
+                    "hint": "Required: iban (string). Optional: amount (number), currency (EUR|CZK), variableSymbol, specificSymbol, constantSymbol, recipientName, paymentNote, paymentFormat (bysquare|spayd|epc), format (png|svg), size (100-1000).",
                     "example": {
                       "iban": "SK3112000000198742637541",
                       "amount": 25.5,
@@ -236,9 +245,9 @@
           },
           "paymentFormat": {
             "type": "string",
-            "enum": ["bysquare", "spayd"],
+            "enum": ["bysquare", "spayd", "epc"],
             "default": "bysquare",
-            "description": "Payment QR standard. Use 'bysquare' for Slovak banks (PAY by square) or 'spayd' for Czech banks (QR Platba/SPD)."
+            "description": "Payment QR standard. Use 'bysquare' for Slovak banks (PAY by square), 'spayd' for Czech banks (QR Platba/SPD), or 'epc' for EU SEPA payments (EPC QR). Note: EPC does not support variableSymbol, specificSymbol, or constantSymbol."
           },
           "format": {
             "type": "string",

@@ -3,7 +3,7 @@ import { DAILY_LIMIT, MINUTE_LIMIT } from "@/lib/api/rate-limiter";
 export const apiDocs = {
   name: "QR Platby API",
   description:
-    "Generate PAY by square and SPAYD (Czech) QR codes for Slovak and Czech bank payments. Returns base64 PNG or SVG string.",
+    "Generate PAY by square, SPAYD (Czech), and EPC (EU SEPA) QR codes for bank payments. Returns base64 PNG or SVG string.",
   endpoint: "https://qr-platby.com/api/v1/qr",
   method: "POST",
   headers: {
@@ -48,10 +48,10 @@ export const apiDocs = {
       },
       paymentFormat: {
         type: "string",
-        enum: ["bysquare", "spayd"],
+        enum: ["bysquare", "spayd", "epc"],
         default: "bysquare",
         description:
-          "Payment QR format. bysquare for Slovak banks, spayd for Czech banks.",
+          "Payment QR format. bysquare for Slovak banks, spayd for Czech banks, epc for EU SEPA payments. Note: EPC does not support variableSymbol, specificSymbol, or constantSymbol.",
       },
       format: {
         type: "string",
@@ -98,5 +98,8 @@ export const apiDocs = {
     curlSpayd: `curl -X POST https://qr-platby.com/api/v1/qr \\
   -H "Content-Type: application/json" \\
   -d '{"iban":"CZ6508000000192000145399","amount":480.50,"currency":"CZK","paymentFormat":"spayd","variableSymbol":"1234567890"}'`,
+    curlEpc: `curl -X POST https://qr-platby.com/api/v1/qr \\
+  -H "Content-Type: application/json" \\
+  -d '{"iban":"DE89370400440532013000","amount":100,"paymentFormat":"epc","recipientName":"Max Mustermann"}'`,
   },
 };

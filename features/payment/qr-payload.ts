@@ -26,10 +26,10 @@ export function buildQrPayload(
     return {
       payload: encodeEpcQr({
         iban: cleanIban,
-        amount: data.amount || undefined,
+        amount: data.amount ?? undefined,
         beneficiaryName: data.recipientName ?? "",
-        bic: data.bic || undefined,
-        remittanceText: data.paymentNote || undefined,
+        bic: data.bic ?? undefined,
+        remittanceText: data.paymentNote ?? undefined,
       }),
       errorCorrectionLevel: "M",
     };
@@ -40,14 +40,14 @@ export function buildQrPayload(
     return {
       payload: encodeSpaydQr({
         iban: cleanIban,
-        amount: data.amount || undefined,
+        amount: data.amount ?? undefined,
         currency,
         variableSymbol: data.variableSymbol || undefined,
         specificSymbol: data.specificSymbol || undefined,
         constantSymbol: data.constantSymbol || undefined,
         recipientName: data.recipientName || undefined,
         paymentNote: data.paymentNote || undefined,
-        bic: data.bic || undefined,
+        bic: data.bic ?? undefined,
       }),
       errorCorrectionLevel: "M",
     };

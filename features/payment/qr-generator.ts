@@ -5,7 +5,7 @@ import type { PaymentFormData } from "./schema";
 
 export class InvalidIBANError extends Error {
   constructor(iban: string) {
-    super(`Neplatný IBAN: ${iban}`);
+    super(`Invalid IBAN: ${iban}`);
     this.name = "InvalidIBANError";
   }
 }
