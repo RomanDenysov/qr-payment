@@ -95,9 +95,9 @@ async function executeGenerateQr(
     amount: args.amount ?? null,
     currency,
     format:
-      (args.format as string) === "spayd"
+      format === "spayd"
         ? "SPAYD"
-        : (args.format as string) === "epc"
+        : format === "epc"
           ? "EPC QR"
           : "PAY by square",
   });
