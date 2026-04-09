@@ -103,7 +103,7 @@ export default async function DocsPage({ params }: Props) {
         <div className="lg:grid lg:grid-cols-[200px_1fr] lg:gap-8">
           <Toc />
 
-          <div className="space-y-10">
+          <div className="min-w-0 space-y-10">
             {/* Quick Start */}
             <section className="space-y-4">
               <SectionHeading id="quick-start">
