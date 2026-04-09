@@ -41,7 +41,7 @@
     "apiDocs": "API Docs"
   },
   "Announcement": {
-    "message": "New: You can now generate QR codes without a fixed amount - the payer enters the amount in their banking app.",
+    "message": "New: You can now generate QR codes without a fixed amount. API now supports EPC (EU SEPA) format.",
     "close": "Close"
   },
   "Consent": {

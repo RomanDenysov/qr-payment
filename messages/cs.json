@@ -41,7 +41,7 @@
     "apiDocs": "API dokumentace"
   },
   "Announcement": {
-    "message": "Novinka: QR kod lze nyn\u00ed vytvorit i bez pevne castky - platce zada castku sam v bankovni aplikaci.",
+    "message": "Novinka: QR kod lze nyni vytvorit i bez pevne castky. API nyni podporuje take format EPC (EU SEPA).",
     "close": "Zavrit"
   },
   "Consent": {

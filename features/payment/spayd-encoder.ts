@@ -26,7 +26,7 @@ export function encodeSpaydQr(input: SpaydInput): string {
 
   const payload = createShortPaymentDescriptor({
     acc,
-    ...(input.amount && { am: input.amount.toFixed(2) }),
+    ...(input.amount != null && { am: input.amount.toFixed(2) }),
     cc: input.currency ?? "CZK",
     ...(input.recipientName && { rn: input.recipientName.slice(0, 35) }),
     ...(input.paymentNote && { msg: input.paymentNote.slice(0, 60) }),

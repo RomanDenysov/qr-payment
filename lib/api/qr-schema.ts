@@ -51,8 +51,40 @@ export const qrRequestSchema = z.object({
     .min(100, "Size must be at least 100px")
     .max(1000, "Size must be at most 1000px")
     .default(300),
-  paymentFormat: z.enum(["bysquare", "spayd"]).default("bysquare"),
-});
+  paymentFormat: z.enum(["bysquare", "spayd", "epc"]).default("bysquare"),
+})
+  .superRefine((data, ctx) => {
+    if (data.paymentFormat !== "epc") {
+      return;
+    }
+    if (data.currency !== "EUR") {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "EPC format only supports EUR currency",
+        path: ["currency"],
+      });
+    }
+    if (!data.recipientName?.trim()) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "EPC format requires recipient name",
+        path: ["recipientName"],
+      });
+    }
+    for (const field of [
+      "variableSymbol",
+      "specificSymbol",
+      "constantSymbol",
+    ] as const) {
+      if (data[field]) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: `EPC format does not support ${field}`,
+          path: [field],
+        });
+      }
+    }
+  });
 
 export type QrRequest = z.infer<typeof qrRequestSchema>;
 
@@ -62,7 +94,7 @@ export interface QrGenerationResponse {
   format: "png" | "svg";
   iban: string;
   amount?: number;
-  currency: string;
+  currency: "EUR" | "CZK";
 }
 
 export type QrErrorCode = "VALIDATION_ERROR" | "RATE_LIMIT" | "INTERNAL_ERROR";

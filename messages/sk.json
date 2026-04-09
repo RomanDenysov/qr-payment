@@ -41,7 +41,7 @@
     "apiDocs": "API dokumentácia"
   },
   "Announcement": {
-    "message": "Novinka: QR kod je teraz mozne vytvorit aj bez pevnej sumy - platcu zadava sumu sam v bankovej aplikacii.",
+    "message": "Novinka: QR kod je teraz mozne vytvorit aj bez pevnej sumy. API teraz podporuje aj EPC (EU SEPA) format.",
     "close": "Zavriet"
   },
   "Consent": {

@@ -68,16 +68,6 @@ export async function checkRateLimit(ip: string): Promise<RateLimitResult> {
   }
 
   try {
-    const minuteResult = await minuteLimiter.limit(ip);
-    if (!minuteResult.success) {
-      return {
-        success: false,
-        remaining: 0,
-        limit: MINUTE_LIMIT,
-        resetAt: new Date(minuteResult.reset),
-      };
-    }
-
     const dailyResult = await dailyLimiter.limit(ip);
     if (!dailyResult.success) {
       return {
@@ -85,6 +75,16 @@ export async function checkRateLimit(ip: string): Promise<RateLimitResult> {
         remaining: 0,
         limit: DAILY_LIMIT,
         resetAt: new Date(dailyResult.reset),
+      };
+    }
+
+    const minuteResult = await minuteLimiter.limit(ip);
+    if (!minuteResult.success) {
+      return {
+        success: false,
+        remaining: 0,
+        limit: MINUTE_LIMIT,
+        resetAt: new Date(minuteResult.reset),
       };
     }
 

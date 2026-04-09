@@ -1,6 +1,7 @@
 import { track } from "@vercel/analytics/server";
 import type { CurrencyCode } from "bysquare";
 import { type NextRequest, NextResponse } from "next/server";
+import { EpcPayloadTooLargeError } from "@/features/payment/epc-encoder";
 import { InvalidIBANError } from "@/features/payment/qr-generator";
 import { generatePaymentQRServer } from "@/features/payment/qr-generator.server";
 import { SpaydPayloadTooLargeError } from "@/features/payment/spayd-encoder";
@@ -72,7 +73,7 @@ export async function POST(req: NextRequest) {
   try {
     body = await req.json();
   } catch (parseError) {
-    console.warn("[api/v1/qr] JSON parse error:", parseError);
+    console.debug("[api/v1/qr] JSON parse error:", parseError);
     return NextResponse.json(
       {
         success: false,
@@ -103,7 +104,7 @@ export async function POST(req: NextRequest) {
             path: issue.path.join("."),
             message: issue.message,
           })),
-          hint: "Required: iban (string). Optional: amount (number), currency (EUR|CZK), variableSymbol, specificSymbol, constantSymbol, recipientName, paymentNote, paymentFormat (bysquare|spayd), format (png|svg), size (100-1000).",
+          hint: "Required: iban (string). Optional: amount (number), currency (EUR|CZK), variableSymbol, specificSymbol, constantSymbol, recipientName, paymentNote, paymentFormat (bysquare|spayd|epc), format (png|svg), size (100-1000).",
           docs: DOCS_URL,
           example: {
             iban: "SK3112000000198742637541",
@@ -182,6 +183,21 @@ export async function POST(req: NextRequest) {
             code: "VALIDATION_ERROR",
             message: error.message,
             hint: "Reduce the length of paymentNote or recipientName to fit within SPAYD limits.",
+            docs: DOCS_URL,
+          },
+        } satisfies QrErrorResponse,
+        { status: 400, headers: CORS_HEADERS }
+      );
+    }
+
+    if (error instanceof EpcPayloadTooLargeError) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: {
+            code: "VALIDATION_ERROR",
+            message: error.message,
+            hint: "Reduce the length of beneficiaryName or remittanceText to fit within EPC limits (331 bytes max).",
             docs: DOCS_URL,
           },
         } satisfies QrErrorResponse,
