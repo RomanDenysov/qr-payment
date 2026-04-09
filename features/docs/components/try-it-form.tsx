@@ -53,6 +53,7 @@ const CURRENCY_OPTIONS = [
 const FORMAT_OPTIONS = [
   { value: "bysquare", label: "PAY by square" },
   { value: "spayd", label: "SPAYD" },
+  { value: "epc", label: "EPC (SEPA)" },
 ];
 
 const OUTPUT_OPTIONS = [

@@ -49,6 +49,24 @@ async function executeGenerateQr(
       ? formatInput
       : "bysquare";
 
+  if (format === "epc") {
+    if (currency !== "EUR") {
+      return mcpError("EPC format only supports EUR currency");
+    }
+    if (!(args.recipientName as string)?.trim()) {
+      return mcpError("EPC format requires recipientName");
+    }
+    for (const field of [
+      "variableSymbol",
+      "specificSymbol",
+      "constantSymbol",
+    ]) {
+      if (args[field]) {
+        return mcpError(`EPC format does not support ${field}`);
+      }
+    }
+  }
+
   const { payload, errorCorrectionLevel } = deps.buildQrPayload(
     {
       format,

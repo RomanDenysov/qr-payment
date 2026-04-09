@@ -70,9 +70,9 @@ export const parameters: Parameter[] = [
     type: "string",
     required: false,
     default: "bysquare",
-    validation: "bysquare | spayd",
+    validation: "bysquare | spayd | epc",
     description:
-      "QR standard. bysquare for Slovak banks (PAY by square), spayd for Czech banks (QR Platba)",
+      "QR standard. bysquare for Slovak banks (PAY by square), spayd for Czech banks (QR Platba), epc for EU SEPA (requires recipientName, EUR only)",
   },
   {
     name: "format",

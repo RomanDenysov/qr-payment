@@ -60,7 +60,7 @@ const faqData: Record<string, FaqItem[]> = {
     {
       question: "Je dostupné API?",
       answer:
-        "Áno. QR Platby ponúka bezplatné REST API bez nutnosti API kľúča. Môžete ho integrovať do vlastnej aplikácie, chatbota alebo workflow. API podporuje všetky tri formáty - BySquare, EPC QR aj SPAYD. Limit je 10 požiadaviek za minútu.",
+        "Áno. QR Platby ponúka bezplatné REST API bez nutnosti API kľúča. Môžete ho integrovať do vlastnej aplikácie, chatbota alebo workflow. API podporuje všetky tri formáty - BySquare, EPC QR aj SPAYD. Limit je 20 požiadaviek za minútu.",
       links: [{ label: "Zobrazit API dokumentáciu", href: "/docs" }],
     },
     {
@@ -188,7 +188,7 @@ const faqData: Record<string, FaqItem[]> = {
     {
       question: "Je k dispozici API?",
       answer:
-        "Ano. QR Platby nabízí bezplatné REST API bez nutnosti API klíče. Můžete ho integrovat do vlastní aplikace, chatbota nebo workflow. API podporuje všechny tři formáty - BySquare, EPC QR i SPAYD. Limit je 10 požadavků za minutu.",
+        "Ano. QR Platby nabízí bezplatné REST API bez nutnosti API klíče. Můžete ho integrovat do vlastní aplikace, chatbota nebo workflow. API podporuje všechny tři formáty - BySquare, EPC QR i SPAYD. Limit je 20 požadavků za minutu.",
       links: [{ label: "Zobrazit API dokumentaci", href: "/docs" }],
     },
     {
