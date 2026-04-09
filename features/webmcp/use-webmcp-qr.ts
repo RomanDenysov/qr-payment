@@ -43,7 +43,9 @@ async function executeGenerateQr(
 
   const formatInput = args.format as string | undefined;
   const format =
-    formatInput === "spayd" || formatInput === "bysquare"
+    formatInput === "spayd" ||
+    formatInput === "bysquare" ||
+    formatInput === "epc"
       ? formatInput
       : "bysquare";
 
@@ -74,7 +76,12 @@ async function executeGenerateQr(
     iban: cleanIban,
     amount: args.amount ?? null,
     currency,
-    format: (args.format as string) === "spayd" ? "SPAYD" : "PAY by square",
+    format:
+      (args.format as string) === "spayd"
+        ? "SPAYD"
+        : (args.format as string) === "epc"
+          ? "EPC QR"
+          : "PAY by square",
   });
 }
 
@@ -110,7 +117,7 @@ export function useWebMcpQr() {
       const result = navigator.modelContext.registerTool({
         name: TOOL_NAME,
         description:
-          "Generate a PAY by square or SPAYD QR code for Slovak/Czech bank payments. Returns a PNG data URL scannable by any Slovak or Czech banking app.",
+          "Generate a PAY by square, SPAYD, or EPC QR code for bank payments. Returns a PNG data URL scannable by banking apps.",
         inputSchema: {
           type: "object",
           properties: {
@@ -130,9 +137,9 @@ export function useWebMcpQr() {
             },
             format: {
               type: "string",
-              enum: ["bysquare", "spayd"],
+              enum: ["bysquare", "spayd", "epc"],
               description:
-                "Payment format. 'bysquare' for Slovak banks, 'spayd' for Czech banks (QR Platba). Default: bysquare",
+                "Payment format. 'bysquare' for Slovak banks, 'spayd' for Czech banks, 'epc' for EU SEPA. Default: bysquare",
             },
             variableSymbol: {
               type: "string",

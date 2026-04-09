@@ -24,7 +24,7 @@ CORS is enabled for all origins. An `OPTIONS` preflight returns `204` with appro
 | `constantSymbol` | string | No | — | Constant symbol, up to 4 digits (digits only) |
 | `recipientName` | string | No | — | Recipient name, up to 70 characters |
 | `paymentNote` | string | No | — | Payment note / message, up to 140 characters |
-| `paymentFormat` | string | No | `"bysquare"` | Payment format: `"bysquare"` (Slovak PAY by square) or `"spayd"` (Czech QR Platba) |
+| `paymentFormat` | string | No | `"bysquare"` | Payment format: `"bysquare"` (Slovak PAY by square), `"spayd"` (Czech QR Platba), or `"epc"` (EU SEPA). EPC requires EUR currency and recipientName; does not support symbol fields. |
 | `format` | string | No | `"png"` | Output format: `"png"` (base64 data URI) or `"svg"` (SVG markup) |
 | `size` | integer | No | `300` | QR code size in pixels, range `100` – `1000` (PNG only, ignored for SVG) |
 
@@ -106,7 +106,7 @@ Returned when per-IP rate limits are exceeded.
 
 ### Rate Limits
 
-- **10 requests per minute** per IP address
+- **20 requests per minute** per IP address
 - **100 requests per day** per IP address
 - No authentication or API key required
 
@@ -127,7 +127,7 @@ Returned when per-IP rate limits are exceeded.
 | Code | HTTP Status | When |
 |---|---|---|
 | `VALIDATION_ERROR` | 400 | Invalid request parameters (bad IBAN, amount out of range, etc.) |
-| `RATE_LIMIT` | 429 | Per-IP rate limit exceeded (10/min or 100/day) |
+| `RATE_LIMIT` | 429 | Per-IP rate limit exceeded (20/min or 100/day) |
 | `INTERNAL_ERROR` | 500 | Unexpected server error |
 
 ## Examples
@@ -232,7 +232,18 @@ if result["success"]:
 
 ## EPC QR (European SEPA)
 
-EPC QR codes are available only in the web app (client-side generation). They are not supported by the API. Use the web app at https://qr-platby.com to generate EPC QR codes with the EPC tab.
+EPC QR codes are available via the API using `"paymentFormat": "epc"`. Requirements:
+- Currency must be `"EUR"` (EPC only supports EUR)
+- `recipientName` is required
+- `variableSymbol`, `specificSymbol`, and `constantSymbol` are NOT supported (will return validation error)
+
+### curl - EPC QR (EU SEPA)
+
+```bash
+curl -X POST https://qr-platby.com/api/v1/qr \
+  -H "Content-Type: application/json" \
+  -d '{"iban":"DE89370400440532013000","amount":100,"paymentFormat":"epc","recipientName":"Max Mustermann"}'
+```
 
 ## Machine-Readable Resources
 

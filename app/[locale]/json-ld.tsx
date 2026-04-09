@@ -47,7 +47,7 @@ export async function JsonLd() {
           "@type": "Offer",
           price: "0",
           priceCurrency: "EUR",
-          description: "Free tier: 10 requests/minute, 100 requests/day",
+          description: "Free tier: 20 requests/minute, 100 requests/day",
         },
       },
     ],

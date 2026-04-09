@@ -44,9 +44,17 @@ curl -X POST https://qr-platby.com/api/v1/qr \
   -d '{"iban":"CZ6508000000192000145399","amount":500,"currency":"CZK","paymentFormat":"spayd","variableSymbol":"1234567890"}'
 ```
 
+### Quick Example (EPC - EU SEPA)
+
+```bash
+curl -X POST https://qr-platby.com/api/v1/qr \
+  -H "Content-Type: application/json" \
+  -d '{"iban":"DE89370400440532013000","amount":100,"paymentFormat":"epc","recipientName":"Max Mustermann"}'
+```
+
 ### Rate Limits
 
-- 10 requests per minute
+- 20 requests per minute
 - 100 requests per day
 - Per IP address, no authentication
 
@@ -55,8 +63,9 @@ curl -X POST https://qr-platby.com/api/v1/qr \
 - QR formats: PAY by square (BySquare) - Slovak banking standard, EPC QR - SEPA standard, SPAYD (QR Platba) - Czech banking standard
 - Output formats: PNG (base64 data URI) or SVG markup
 - CORS enabled for all origins
-- Supports Slovak (SK) and Czech (CZ) IBANs
+- Supports Slovak (SK), Czech (CZ), and other EU IBANs
 - Currencies: EUR, CZK
+- Payment formats: bysquare (Slovak), spayd (Czech), epc (EU SEPA)
 
 ## Source Code
 

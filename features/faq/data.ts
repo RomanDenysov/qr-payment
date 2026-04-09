@@ -124,7 +124,7 @@ const faqData: Record<string, FaqItem[]> = {
     {
       question: "Is there an API available?",
       answer:
-        "Yes. QR Platby offers a free REST API with no API key required. You can integrate it into your own app, chatbot, or workflow. The API supports all three formats - BySquare, EPC QR, and SPAYD. The rate limit is 10 requests per minute.",
+        "Yes. QR Platby offers a free REST API with no API key required. You can integrate it into your own app, chatbot, or workflow. The API supports all three formats - BySquare, EPC QR, and SPAYD. The rate limit is 20 requests per minute.",
       links: [{ label: "View API documentation", href: "/docs" }],
     },
     {

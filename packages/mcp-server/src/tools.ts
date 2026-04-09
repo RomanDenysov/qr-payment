@@ -36,13 +36,13 @@ const FORMATS_INFO = `## Supported QR Payment Formats
 - **Country**: All EU/SEPA countries
 - **Currency**: EUR only
 - **Features**: BIC/SWIFT, recipient name (required), payment reference
-- **Availability**: Web app only (https://qr-platby.com) - NOT available via API
-- **Note**: Requires recipient name and supports BIC code
+- **API parameter**: \`"paymentFormat": "epc"\`
+- **Note**: Requires recipient name, EUR currency. Does NOT support variable/specific/constant symbols.
 
 ## Format Selection Guide
 - Slovak IBAN (SK...) -> Use bysquare with EUR
 - Czech IBAN (CZ...) -> Use spayd with CZK
-- Other EU IBAN -> EPC QR via web app only`;
+- Other EU IBAN -> Use epc with EUR`;
 
 function buildRequestBody(
   params: Record<string, unknown>
@@ -78,14 +78,14 @@ function getSuggestion(country: string): string {
     case "CZ":
       return "Country: Czech Republic\nRecommended format: spayd (QR Platba)\nRecommended currency: CZK\nAPI available: Yes";
     default:
-      return `Country code: ${country}\nRecommended format: EPC QR (European SEPA)\nRecommended currency: EUR\nAPI available: No - use the web app at https://qr-platby.com`;
+      return `Country code: ${country}\nRecommended format: epc (EPC QR - European SEPA)\nRecommended currency: EUR\nAPI available: Yes - use paymentFormat: "epc" with recipientName (required)`;
   }
 }
 
 export function registerTools(server: McpServer) {
   server.tool(
     "generate_qr",
-    "Generate a payment QR code. Use bysquare for Slovak IBANs (EUR), spayd for Czech IBANs (CZK). Returns a base64 PNG data URI.",
+    "Generate a payment QR code. Use bysquare for Slovak IBANs (EUR), spayd for Czech IBANs (CZK), epc for other EU IBANs (EUR). Returns a base64 PNG data URI.",
     {
       iban: z
         .string()
@@ -118,9 +118,11 @@ export function registerTools(server: McpServer) {
       recipientName: z.string().max(70).optional().describe("Recipient name"),
       paymentNote: z.string().max(140).optional().describe("Payment note"),
       paymentFormat: z
-        .enum(["bysquare", "spayd"])
+        .enum(["bysquare", "spayd", "epc"])
         .optional()
-        .describe("QR format: bysquare (Slovak) or spayd (Czech)"),
+        .describe(
+          "QR format: bysquare (Slovak), spayd (Czech), or epc (EU SEPA)"
+        ),
       format: z
         .enum(["png", "svg"])
         .optional()
