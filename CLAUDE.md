@@ -146,6 +146,16 @@ When modifying the `/api/v1/qr` endpoint, keep these files in sync:
 - `public/openapi.json` - OpenAPI spec (served at `/api/openapi.json`)
 - `features/api/api-card.tsx` - homepage API card (rate limit display is hardcoded)
 
+When changing formats, rate limits, or parameters, also update:
+- `packages/mcp-server/src/tools.ts` - MCP server tool schemas, FORMATS_INFO, getSuggestion
+- `features/webmcp/use-webmcp-qr.ts` - browser WebMCP tool schema + format validation
+- `public/llms.txt` and `public/llms-full.txt` - LLM-optimized documentation
+- `docs/chatgpt-gpt/gpt-config.md` - ChatGPT Custom GPT system prompt
+- `features/docs/data/parameters.ts` - docs page parameter table
+- `features/docs/components/try-it-form.tsx` - docs try-it form format options
+- `features/faq/data.ts` - FAQ answers (all 3 locales: sk, en, cs)
+- `app/[locale]/json-ld.tsx` - JSON-LD structured data (rate limits)
+
 ## Documentation JSONs
 
 `docs/features.json` and `docs/analytics-events.json` are the source of truth for features and tracked events.
