@@ -3,7 +3,7 @@ import { sanitizeForEpc } from "@/lib/sanitize";
 
 export class EpcPayloadTooLargeError extends Error {
   constructor(byteLength: number) {
-    super(`EPC QR payload príliš veľký: ${byteLength} bajtov (max 331)`);
+    super(`EPC QR payload too large: ${byteLength} bytes (max 331)`);
     this.name = "EpcPayloadTooLargeError";
   }
 }

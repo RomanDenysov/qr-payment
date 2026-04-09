@@ -72,7 +72,8 @@ export async function POST(req: NextRequest) {
   let body: unknown;
   try {
     body = await req.json();
-  } catch {
+  } catch (parseError) {
+    console.debug("[api/v1/qr] JSON parse error:", parseError);
     return NextResponse.json(
       {
         success: false,
