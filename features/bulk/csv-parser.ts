@@ -47,6 +47,9 @@ function detectFormat(headers: string[]): PaymentFormat {
   if (lower.includes("bic")) {
     return "epc";
   }
+  if (lower.includes("currency")) {
+    return "spayd";
+  }
   return "bysquare";
 }
 
