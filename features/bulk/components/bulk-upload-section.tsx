@@ -81,6 +81,17 @@ export function BulkUploadSection() {
         <button
           className="underline underline-offset-2 hover:text-foreground"
           onClick={() => {
+            downloadSampleCsv("spayd");
+            track("bulk_sample_csv_downloaded", { format: "spayd" });
+          }}
+          type="button"
+        >
+          SPAYD
+        </button>
+        <span>/</span>
+        <button
+          className="underline underline-offset-2 hover:text-foreground"
+          onClick={() => {
             downloadSampleCsv("epc");
             track("bulk_sample_csv_downloaded", { format: "epc" });
           }}
