@@ -89,6 +89,6 @@ export const parameters: Parameter[] = [
     required: false,
     default: "300",
     validation: "100 - 1000",
-    description: "QR code size in pixels (png only)",
+    description: "QR code size in pixels (applies to png and svg)",
   },
 ];
