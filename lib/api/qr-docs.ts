@@ -60,9 +60,10 @@ export const apiDocs = {
         description: "png returns base64 data URI, svg returns SVG markup",
       },
       size: {
-        type: "number",
+        type: "integer",
         default: 300,
-        description: "QR code size in pixels (100–1000, png only)",
+        description:
+          "QR code size in pixels (100–1000). Applies to png width/height and svg intrinsic width/height.",
       },
     },
   },
@@ -83,6 +84,7 @@ export const apiDocs = {
         issues: "Array of { path, message } for validation errors (optional)",
         field: "Name of the field that caused the error (optional)",
         hint: "Actionable suggestion to fix the error (optional)",
+        docs: "Link to API documentation (optional)",
         example: "Example of a correct request body (optional)",
       },
     },

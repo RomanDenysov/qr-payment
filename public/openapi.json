@@ -260,7 +260,7 @@
             "minimum": 100,
             "maximum": 1000,
             "default": 300,
-            "description": "QR code size in pixels (png only)"
+            "description": "QR code size in pixels. Applies to png width/height and svg intrinsic width/height."
           }
         }
       },

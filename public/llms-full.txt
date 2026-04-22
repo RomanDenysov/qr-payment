@@ -26,7 +26,7 @@ CORS is enabled for all origins. An `OPTIONS` preflight returns `204` with appro
 | `paymentNote` | string | No | — | Payment note / message, up to 140 characters |
 | `paymentFormat` | string | No | `"bysquare"` | Payment format: `"bysquare"` (Slovak PAY by square), `"spayd"` (Czech QR Platba), or `"epc"` (EU SEPA). EPC requires EUR currency and recipientName; does not support symbol fields. |
 | `format` | string | No | `"png"` | Output format: `"png"` (base64 data URI) or `"svg"` (SVG markup) |
-| `size` | integer | No | `300` | QR code size in pixels, range `100` – `1000` (PNG only, ignored for SVG) |
+| `size` | integer | No | `300` | QR code size in pixels, range `100` – `1000`. Applies to PNG width/height and SVG intrinsic width/height. |
 
 ## Response — Success (200)
 
