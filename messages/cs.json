@@ -16,7 +16,6 @@
     "faqDescription": "Odpovědi na nejčastější otázky o generátoru QR kódů pro platby.",
     "homeH1": "Generátor QR kódů pro platby - české a slovenské banky zdarma",
     "homeDescription": "Vytvořte QR kód na platbu zdarma - stačí zadat IBAN, částku a symboly. Podporujeme SPAYD (QR Platba) pro české banky, PAY by square pro slovenské banky a EPC QR pro mezinárodní SEPA převody.",
-    "sectionPayment": "Generátor QR kódů pro bankovní platby",
     "sectionApi": "REST API pro generování QR kódů",
     "backToHome": "Zpět na hlavní stránku",
     "webApiDescription": "REST API pro generování QR kódů pro bankovní platby ve formátech BySquare, EPC a SPAYD. Zdarma, bez autentizace.",
