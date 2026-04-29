@@ -61,7 +61,7 @@ export function StudioPaymentInput({ value, onChange }: Props) {
               value={value.amount}
             />
             <SegmentedControl<"EUR" | "CZK">
-              className="flex h-9 w-full [&>button]:flex-1"
+              className="flex h-8 w-full p-0 [&>button]:flex-1"
               onChange={(currency) => update("currency", currency)}
               options={[
                 { value: "EUR", label: "EUR" },
