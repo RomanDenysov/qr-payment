@@ -37,7 +37,7 @@ import { StudioTemplateSelector } from "./studio-template-selector";
 
 const DEFAULT_PAYMENT: StudioPaymentState = {
   iban: "SK3112000000198742637541",
-  amount: "25",
+  amount: 25,
   currency: "EUR",
   format: "bysquare",
   recipientName: "",
@@ -50,8 +50,7 @@ function toPaymentData(p: StudioPaymentState): PaymentFormData | null {
   if (!(cleanIban && isValidIBAN(cleanIban))) {
     return null;
   }
-  const amountNum = Number(p.amount.replace(",", "."));
-  if (Number.isNaN(amountNum) || amountNum < 0) {
+  if (p.amount < 0 || p.amount > 999_999_999.99) {
     return null;
   }
   if (p.format === "epc" && !p.recipientName.trim()) {
@@ -61,7 +60,7 @@ function toPaymentData(p: StudioPaymentState): PaymentFormData | null {
     format: p.format,
     currency: p.currency,
     iban: p.iban,
-    amount: amountNum,
+    amount: p.amount,
     recipientName: p.recipientName || undefined,
   } as PaymentFormData;
 }
@@ -270,11 +269,17 @@ function Swatch({ color }: { color: string }) {
   );
 }
 
+const AMOUNT_FMT = new Intl.NumberFormat("sk-SK", {
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2,
+});
+
 function paymentChip(p: StudioPaymentState, valid: boolean): React.ReactNode {
   const last = p.iban.replace(/\s/g, "").slice(-4);
   return (
     <span className={cn("font-mono", !valid && "text-destructive")}>
-      {p.format.toUpperCase()} · ...{last} · {p.amount || "0"} {p.currency}
+      {p.format.toUpperCase()} · ...{last} · {AMOUNT_FMT.format(p.amount)}{" "}
+      {p.currency}
     </span>
   );
 }
