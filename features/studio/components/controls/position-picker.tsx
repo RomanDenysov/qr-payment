@@ -29,8 +29,8 @@ export function PositionPicker({
 }: PositionPickerProps) {
   const t = useTranslations("Studio.position");
   return (
-    <div className="flex flex-col gap-1.5">
-      <span className="font-medium text-sm">{label}</span>
+    <fieldset className="flex flex-col gap-1.5 border-0 p-0">
+      <legend className="mb-1.5 font-medium text-sm">{label}</legend>
       <div className="grid w-fit grid-cols-3 gap-1 border border-border bg-muted p-1">
         {OVERLAY_POSITIONS.map((pos) => (
           <button
@@ -51,6 +51,6 @@ export function PositionPicker({
           </button>
         ))}
       </div>
-    </div>
+    </fieldset>
   );
 }
