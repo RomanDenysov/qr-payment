@@ -50,10 +50,6 @@ export function BrandingSheet({ onApply }: BrandingSheetProps) {
         </SheetHeader>
 
         <div className="flex flex-1 flex-col gap-3 overflow-auto px-4 pb-4">
-          <Alert>
-            <IconAlertTriangle className="size-5" />
-            <AlertDescription>{t("warning")}</AlertDescription>
-          </Alert>
           <ColorPicker
             contrastWith={config.bgColor}
             label={t("fgColor")}
@@ -99,31 +95,39 @@ export function BrandingSheet({ onApply }: BrandingSheetProps) {
           <TemplateSelector />
         </div>
 
-        <SheetFooter className="flex-row gap-2">
-          <Button
-            className="flex-1"
-            onClick={() => {
-              actions.reset();
-              track("branding_reset");
-            }}
-            size="sm"
-            type="button"
-            variant="outline"
-          >
-            <IconRefresh />
-            {t("reset")}
-          </Button>
-          <Button
-            className="flex-1"
-            onClick={() => {
-              onApply();
-              setOpen(false);
-            }}
-            size="sm"
-            type="button"
-          >
-            {t("done")}
-          </Button>
+        <SheetFooter className="gap-3 border-border border-t">
+          <Alert className="px-4 py-3 text-sm">
+            <IconAlertTriangle className="size-6" />
+            <AlertDescription className="text-sm/relaxed">
+              {t("warning")}
+            </AlertDescription>
+          </Alert>
+          <div className="flex flex-row gap-2">
+            <Button
+              className="flex-1"
+              onClick={() => {
+                actions.reset();
+                track("branding_reset");
+              }}
+              size="sm"
+              type="button"
+              variant="outline"
+            >
+              <IconRefresh />
+              {t("reset")}
+            </Button>
+            <Button
+              className="flex-1"
+              onClick={() => {
+                onApply();
+                setOpen(false);
+              }}
+              size="sm"
+              type="button"
+            >
+              {t("done")}
+            </Button>
+          </div>
         </SheetFooter>
       </SheetContent>
     </Sheet>
