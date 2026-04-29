@@ -215,7 +215,9 @@
     "empty": "prázdne",
     "off": "vypnuté",
     "centerShort": "stred",
-    "templatesCount": "{count, plural, =0 {žiadne} one {1 šablóna} few {{count} šablóny} other {{count} šablón}}"
+    "templatesCount": "{count, plural, =0 {žiadne} one {1 šablóna} few {{count} šablóny} other {{count} šablón}}",
+    "templateSaveFailed": "Nepodarilo sa uložiť šablónu",
+    "templateLoadFailed": "Nepodarilo sa načítať šablónu"
   },
   "Bulk": {
     "title": "Hromadné generovanie QR kódov",

@@ -27,8 +27,8 @@ interface StudioState {
     update: (partial: Partial<StudioConfig>) => void;
     replace: (config: StudioConfig) => void;
     reset: () => void;
-    saveTemplate: (name: string) => void;
-    loadTemplate: (id: string) => void;
+    saveTemplate: (name: string) => boolean;
+    loadTemplate: (id: string) => boolean;
     deleteTemplate: (id: string) => void;
     renameTemplate: (id: string, name: string) => void;
   };
@@ -49,19 +49,32 @@ const studioStore = create<StudioState>()(
         reset: () => set({ config: structuredClone(DEFAULT_STUDIO_CONFIG) }),
         saveTemplate: (name) => {
           const { config, templates } = get();
-          const template: StudioTemplate = {
-            id: crypto.randomUUID(),
-            name,
-            config: structuredClone(config),
-          };
-          set({
-            templates: [template, ...templates].slice(0, MAX_TEMPLATES),
-          });
+          try {
+            const template: StudioTemplate = {
+              id: crypto.randomUUID(),
+              name,
+              config: structuredClone(config),
+            };
+            set({
+              templates: [template, ...templates].slice(0, MAX_TEMPLATES),
+            });
+            return true;
+          } catch (error) {
+            console.error("[StudioStore] Failed to save template:", error);
+            return false;
+          }
         },
         loadTemplate: (id) => {
           const template = get().templates.find((t) => t.id === id);
-          if (template) {
+          if (!template) {
+            return false;
+          }
+          try {
             set({ config: structuredClone(template.config) });
+            return true;
+          } catch (error) {
+            console.error("[StudioStore] Failed to load template:", error);
+            return false;
           }
         },
         deleteTemplate: (id) =>

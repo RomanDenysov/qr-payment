@@ -4,6 +4,7 @@ import { IconDeviceFloppy, IconTrash } from "@tabler/icons-react";
 import { track } from "@vercel/analytics";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useStudioActions, useStudioTemplates } from "../store";
@@ -21,9 +22,12 @@ export function StudioTemplateSelector() {
     if (!name) {
       return;
     }
-    saveTemplate(name);
-    setNewName("");
-    track("studio_template_saved");
+    if (saveTemplate(name)) {
+      setNewName("");
+      track("studio_template_saved");
+    } else {
+      toast.error(t("templateSaveFailed"));
+    }
   };
 
   return (
@@ -40,8 +44,11 @@ export function StudioTemplateSelector() {
               <button
                 className="flex flex-1 items-center gap-2 truncate text-left text-xs"
                 onClick={() => {
-                  loadTemplate(template.id);
-                  track("studio_template_loaded");
+                  if (loadTemplate(template.id)) {
+                    track("studio_template_loaded");
+                  } else {
+                    toast.error(t("templateLoadFailed"));
+                  }
                 }}
                 type="button"
               >
