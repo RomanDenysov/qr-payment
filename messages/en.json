@@ -220,7 +220,15 @@
     "centerShort": "center",
     "templatesCount": "{count, plural, =0 {none} one {1 template} other {{count} templates}}",
     "templateSaveFailed": "Failed to save template",
-    "templateLoadFailed": "Failed to load template"
+    "templateLoadFailed": "Failed to load template",
+    "scanBadge": {
+      "ok": "Scannable",
+      "atRisk": "At risk",
+      "checking": "Checking...",
+      "tooltipOk": "Decoded text matches the source payload",
+      "tooltipMismatch": "Decoded text doesn't match. Reduce logo size, raise contrast, or simplify gradients.",
+      "tooltipDecodeFailed": "Couldn't decode the QR. Reduce logo size or raise contrast."
+    }
   },
   "Bulk": {
     "title": "Bulk QR Code Generation",

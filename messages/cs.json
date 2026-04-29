@@ -220,7 +220,15 @@
     "centerShort": "střed",
     "templatesCount": "{count, plural, =0 {žádné} one {1 šablona} few {{count} šablony} other {{count} šablon}}",
     "templateSaveFailed": "Nepodařilo se uložit šablonu",
-    "templateLoadFailed": "Nepodařilo se načíst šablonu"
+    "templateLoadFailed": "Nepodařilo se načíst šablonu",
+    "scanBadge": {
+      "ok": "Skenovatelné",
+      "atRisk": "Riziko",
+      "checking": "Ověřuje se...",
+      "tooltipOk": "Dekódovaný obsah odpovídá zdrojové platbě",
+      "tooltipMismatch": "Dekódovaný obsah se neshoduje. Zmenšete logo, zvyšte kontrast nebo zjednodušte gradient.",
+      "tooltipDecodeFailed": "QR nelze dekódovat. Zmenšete logo nebo zvyšte kontrast."
+    }
   },
   "Bulk": {
     "title": "Hromadné generování QR kódů",

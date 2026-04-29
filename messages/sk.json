@@ -220,7 +220,15 @@
     "centerShort": "stred",
     "templatesCount": "{count, plural, =0 {žiadne} one {1 šablóna} few {{count} šablóny} other {{count} šablón}}",
     "templateSaveFailed": "Nepodarilo sa uložiť šablónu",
-    "templateLoadFailed": "Nepodarilo sa načítať šablónu"
+    "templateLoadFailed": "Nepodarilo sa načítať šablónu",
+    "scanBadge": {
+      "ok": "Naskenovateľné",
+      "atRisk": "Riziko",
+      "checking": "Overuje sa...",
+      "tooltipOk": "Dekódovaný obsah sa zhoduje so zdrojovou platbou",
+      "tooltipMismatch": "Dekódovaný obsah sa nezhoduje. Zmenšite logo, zvýšte kontrast alebo zjednodušte gradient.",
+      "tooltipDecodeFailed": "QR sa nepodarilo dekódovať. Zmenšite logo alebo zvýšte kontrast."
+    }
   },
   "Bulk": {
     "title": "Hromadné generovanie QR kódov",

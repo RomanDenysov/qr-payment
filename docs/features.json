@@ -251,6 +251,15 @@
       "i18nNamespace": "Terms",
       "clientSide": false,
       "description": "Usage terms and conditions for the service."
+    },
+    {
+      "name": "QR Scannability Validation",
+      "source": "features/customizer/scannability.ts",
+      "route": "/studio",
+      "category": "core",
+      "i18nNamespace": "Studio",
+      "clientSide": true,
+      "description": "Decodes the rendered QR with jsQR and confirms it round-trips to the source payment payload. Surfaces a Scannable / At risk badge in the studio preview header."
     }
   ]
 }
