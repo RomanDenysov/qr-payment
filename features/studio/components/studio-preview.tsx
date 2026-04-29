@@ -4,6 +4,7 @@ import { IconAlertTriangle, IconDownload } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
 import { useDeferredValue, useEffect, useState } from "react";
 import { toast } from "sonner";
+import { PageSpinner } from "@/components/page-spinner";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import type { PaymentFormData } from "@/features/payment/schema";
@@ -78,7 +79,7 @@ export function StudioPreview({ config, payment }: Props) {
       </div>
 
       <div className="flex aspect-square w-full items-center justify-center border border-border bg-muted">
-        {dataUrl ? (
+        {dataUrl && (
           // biome-ignore lint/performance/noImgElement: data URI from in-memory canvas
           // biome-ignore lint/correctness/useImageSize: size set via className
           <img
@@ -86,9 +87,13 @@ export function StudioPreview({ config, payment }: Props) {
             className="h-full w-full object-contain"
             src={dataUrl}
           />
-        ) : (
+        )}
+        {!dataUrl && payment && (
+          <PageSpinner cellClassName="size-3" className="min-h-0" />
+        )}
+        {!(dataUrl || payment) && (
           <span className="text-muted-foreground text-xs">
-            {payment ? "..." : t("previewEmpty")}
+            {t("previewEmpty")}
           </span>
         )}
       </div>
