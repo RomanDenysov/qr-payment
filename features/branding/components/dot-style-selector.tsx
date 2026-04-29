@@ -13,7 +13,7 @@ interface DotStyleSelectorProps {
 
 const DOT_STYLES: DotStyle[] = ["square", "rounded", "dots", "classy-rounded"];
 
-const LABEL_KEYS: Record<DotStyle, string> = {
+export const DOT_STYLE_LABEL_KEYS: Record<DotStyle, string> = {
   square: "dotStyleSquare",
   rounded: "dotStyleRounded",
   dots: "dotStyleDots",
@@ -124,7 +124,7 @@ export function DotStyleSelector({
             type="button"
           >
             <DotPreview style={style} />
-            <span className="text-xs">{t(LABEL_KEYS[style])}</span>
+            <span className="text-xs">{t(DOT_STYLE_LABEL_KEYS[style])}</span>
           </button>
         ))}
       </div>

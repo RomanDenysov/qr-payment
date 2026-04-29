@@ -2,11 +2,16 @@ import { CurrencyCode } from "bysquare";
 import { electronicFormatIBAN, isValidIBAN } from "ibantools";
 import { InvalidIBANError } from "@/features/payment/qr-generator";
 import { buildQrPayload } from "@/features/payment/qr-payload";
+import {
+  FONT_SIZE_MAP,
+  FONT_STACKS,
+  getEyeStyles,
+  getLogoSrc,
+} from "@/features/payment/qr-shared";
 import type { PaymentFormData } from "@/features/payment/schema";
 import {
   type CenterTextFont,
   type CenterTextSize,
-  type DotStyle,
   type Fill,
   type FrameConfig,
   fillPrimaryColor,
@@ -19,55 +24,18 @@ const FRAME_SIDE_PADDING = 24;
 const FRAME_TEXT_GAP = 14;
 const MAX_OUTPUT_WIDTH = 1024;
 
-const FONT_STACKS: Record<CenterTextFont, string> = {
-  mono: 'ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace',
-  sans: 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
-  serif: 'ui-serif, Georgia, Cambria, "Times New Roman", Times, serif',
-};
-
-const FONT_SIZE_MAP: Record<CenterTextSize, number> = {
-  small: 22,
-  medium: 30,
-  large: 38,
-};
-
-type CornerStyle = "square" | "extra-rounded" | "dot";
-type CornerDot = "square" | "dot";
-
-function getEyeStyles(dotStyle: DotStyle): {
-  square: CornerStyle;
-  dot: CornerDot;
-} {
-  switch (dotStyle) {
-    case "rounded":
-    case "classy-rounded":
-      return { square: "extra-rounded", dot: "dot" };
-    case "dots":
-      return { square: "dot", dot: "dot" };
-    default:
-      return { square: "square", dot: "square" };
-  }
-}
-
 function toGradient(fill: Fill) {
   if (fill.kind === "solid") {
     return;
   }
   return {
     type: fill.kind,
-    rotation: ((fill.rotation ?? 0) * Math.PI) / 180,
+    rotation: (fill.rotation * Math.PI) / 180,
     colorStops: [
       { offset: 0, color: fill.from },
       { offset: 1, color: fill.to },
     ],
   };
-}
-
-function getLogoSrc(logoData: string): string {
-  if (logoData.startsWith("<")) {
-    return `data:image/svg+xml;utf8,${encodeURIComponent(logoData)}`;
-  }
-  return logoData;
 }
 
 function loadImage(src: string): Promise<HTMLImageElement> {
@@ -78,6 +46,17 @@ function loadImage(src: string): Promise<HTMLImageElement> {
     img.onerror = () => reject(new Error("Failed to load image"));
     img.src = src;
   });
+}
+
+const logoCache = new Map<string, Promise<HTMLImageElement>>();
+
+function loadLogoCached(src: string): Promise<HTMLImageElement> {
+  let cached = logoCache.get(src);
+  if (!cached) {
+    cached = loadImage(src);
+    logoCache.set(src, cached);
+  }
+  return cached;
 }
 
 function blobToImage(blob: Blob): Promise<HTMLImageElement> {
@@ -233,7 +212,7 @@ async function renderLogo(
   data: string,
   sizePct: number
 ): Promise<HTMLImageElement & { drawWidth: number; drawHeight: number }> {
-  const img = await loadImage(getLogoSrc(data));
+  const img = await loadLogoCached(getLogoSrc(data));
   const target = (QR_SIZE * sizePct) / 100;
   const ratio = img.width / img.height;
   const drawWidth = ratio >= 1 ? target : target * ratio;

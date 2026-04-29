@@ -13,13 +13,15 @@ import {
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { CenterTextEditor } from "@/features/branding/components/center-text-editor";
-import { DotStyleSelector } from "@/features/branding/components/dot-style-selector";
+import {
+  DOT_STYLE_LABEL_KEYS,
+  DotStyleSelector,
+} from "@/features/branding/components/dot-style-selector";
 import { LogoUploader } from "@/features/branding/components/logo-uploader";
 import type { PaymentFormData } from "@/features/payment/schema";
 import { cn } from "@/lib/utils";
 import { useStudioActions, useStudioConfig } from "../store";
 import {
-  type DotStyle,
   fillPrimaryColor,
   type OverlayPosition,
   type StudioConfig,
@@ -118,7 +120,9 @@ export function StudioClient() {
           </CardItem>
 
           <CardItem
-            chip={<span>{tBranding(dotStyleKey(config.dotStyle))}</span>}
+            chip={
+              <span>{tBranding(DOT_STYLE_LABEL_KEYS[config.dotStyle])}</span>
+            }
             title={t("section.dots")}
             value="dots"
           >
@@ -330,19 +334,6 @@ function frameChip(
   }
   parts.push(`${config.frame.borderWidth}px`);
   return <span>{parts.join(" · ")}</span>;
-}
-
-function dotStyleKey(s: DotStyle): string {
-  switch (s) {
-    case "rounded":
-      return "dotStyleRounded";
-    case "dots":
-      return "dotStyleDots";
-    case "classy-rounded":
-      return "dotStyleClassyRounded";
-    default:
-      return "dotStyleSquare";
-  }
 }
 
 function posLabel(p: OverlayPosition, t: (key: string) => string): string {
