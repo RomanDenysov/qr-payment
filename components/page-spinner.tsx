@@ -65,7 +65,7 @@ export function PageSpinner({
   className,
   cellClassName,
 }: PageSpinnerProps = {}) {
-  const [grid, setGrid] = useState<boolean[][]>(emptyGrid);
+  const [grid, setGrid] = useState<boolean[][]>(() => emptyGrid());
   const staleCountRef = useRef(0);
 
   useEffect(() => {
