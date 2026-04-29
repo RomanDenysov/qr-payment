@@ -140,6 +140,8 @@ This project uses Ultracite (Biome preset) for formatting and linting. Key rules
 - **No `client-zip`**: ZIP export uses a zero-dependency manual implementation (STORE method) because Turbopack can't chunk the ESM-only `client-zip` package. Don't re-add it.
 - **`ultracite fix` touches unrelated files**: Auto-fix may reformat files you didn't change (trailing newlines, commas). This is normal - include them in the commit.
 - **Announcement banner**: Change `ANNOUNCEMENT_ID` in `components/announcement-banner.tsx` and update `Announcement.message` in translation files. Old dismissed banners won't block new ones.
+- **No analytics on navigation Links**: Don't add `track()` to `onClick` of `<Link>` for route navigation. Track real interactions (form submits, dialog actions, downloads) instead.
+- **Zustand `onRehydrateStorage` does not auto-persist**: Mutating state inside the callback only updates in-memory state. If you also remove legacy localStorage keys there, a user closing the tab before any setState loses everything. Either keep migration idempotent (don't remove old keys) or trigger a setState after migration.
 
 ## API Changes
 
