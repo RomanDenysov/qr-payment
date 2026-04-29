@@ -6,6 +6,7 @@ import {
   IconHome,
   IconMenu2,
   IconNotes,
+  IconPalette,
   IconX,
 } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
@@ -58,6 +59,17 @@ export function MobileNav() {
             >
               <IconHome />
               {t("home")}
+            </Link>
+            <Link
+              className={cn(
+                buttonVariants({ variant: "ghost", size: "default" }),
+                "justify-start text-sm"
+              )}
+              href="/studio"
+              onClick={close}
+            >
+              <IconPalette />
+              {t("studio")}
             </Link>
             <Link
               className={cn(

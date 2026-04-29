@@ -100,6 +100,15 @@
       "description": "Customize QR code colors, dot style (square, rounded, circles, classy), add center text overlay, upload a logo, and save/load branding templates."
     },
     {
+      "name": "QR Studio",
+      "source": "features/studio/",
+      "route": "/studio",
+      "category": "core",
+      "i18nNamespace": "Studio",
+      "clientSide": true,
+      "description": "Advanced standalone QR customizer page with linear/radial gradients, logo size slider, 9-position overlay picker for logo and text, decorative frame with title and caption, and a separate per-app template store."
+    },
+    {
       "name": "Payment History",
       "source": "features/payment/store.ts",
       "route": null,
