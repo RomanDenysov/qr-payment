@@ -29,7 +29,6 @@
     "bulk": "Bulk Generation",
     "apiDocs": "API",
     "faq": "FAQ",
-    "studio": "Studio",
     "closeMenu": "Close menu",
     "openMenu": "Open menu",
     "toggleTheme": "Toggle theme",
@@ -151,7 +150,8 @@
     "dotStyleSquare": "Square",
     "dotStyleRounded": "Rounded",
     "dotStyleDots": "Circles",
-    "dotStyleClassyRounded": "Classy"
+    "dotStyleClassyRounded": "Classy",
+    "openInStudio": "Open in Studio"
   },
   "Templates": {
     "title": "Templates",

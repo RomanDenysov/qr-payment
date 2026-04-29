@@ -4,7 +4,7 @@ import { IconBold } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
 import { Field, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { ColorPicker } from "@/features/branding/components/color-picker";
+import { ColorPicker } from "@/features/customizer/components/color-picker";
 import { cn } from "@/lib/utils";
 import type { FrameConfig, FrameTextFont } from "../../types";
 

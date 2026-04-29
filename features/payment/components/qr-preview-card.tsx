@@ -16,9 +16,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { useBrandingConfig } from "@/features/branding/store";
+import { renderCustomizerQR } from "@/features/customizer/renderer";
+import { useCustomizerConfig } from "@/features/customizer/store";
 import { formatAmount, maskIban } from "@/lib/utils";
-import { generatePaymentQR, InvalidIBANError } from "../qr-generator";
+import { InvalidIBANError } from "../qr-generator";
 import type { PaymentRecord } from "../schema";
 import { useCurrentPayment, usePaymentActions } from "../store";
 
@@ -27,10 +28,10 @@ const ShareLinkDialog = dynamic(
   { loading: () => null }
 );
 
-const BrandingSheet = dynamic(
+const CustomizerSheet = dynamic(
   () =>
-    import("@/features/branding/components/branding-sheet").then(
-      (m) => m.BrandingSheet
+    import("@/features/customizer/components/customizer-sheet").then(
+      (m) => m.CustomizerSheet
     ),
   { loading: () => null }
 );
@@ -82,7 +83,7 @@ function PaymentDetails({ paymentDetails }: { paymentDetails: PaymentRecord }) {
 export function QRPreviewCard() {
   const current = useCurrentPayment();
   const { setCurrent } = usePaymentActions();
-  const branding = useBrandingConfig();
+  const customizer = useCustomizerConfig();
   const t = useTranslations("QRPreview");
   const cardRef = useRef<HTMLDivElement>(null);
   const prevQrRef = useRef<string | undefined>(undefined);
@@ -99,9 +100,9 @@ export function QRPreviewCard() {
       return;
     }
     try {
-      const qrDataUrl = await generatePaymentQR(current, branding);
+      const qrDataUrl = await renderCustomizerQR(current, customizer);
       setCurrent({ ...current, qrDataUrl });
-      track("qr_branding_applied");
+      track("qr_customizer_applied");
     } catch (error) {
       const message =
         error instanceof InvalidIBANError
@@ -176,7 +177,7 @@ export function QRPreviewCard() {
         <div className="flex items-center justify-between">
           <CardTitle>{t("title")}</CardTitle>
           {current?.qrDataUrl ? (
-            <BrandingSheet onApply={handleApplyBranding} />
+            <CustomizerSheet onApply={handleApplyBranding} />
           ) : null}
         </div>
       </CardHeader>

@@ -2,6 +2,7 @@
 
 import {
   IconAlertTriangle,
+  IconArrowRight,
   IconPalette,
   IconRefresh,
 } from "@tabler/icons-react";
@@ -18,24 +19,21 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { useBrandingActions, useBrandingConfig } from "../store";
-import { CenterTextEditor } from "./center-text-editor";
-import { ColorPicker } from "./color-picker";
-import { DotStyleSelector } from "./dot-style-selector";
-import { LogoUploader } from "./logo-uploader";
+import { Link } from "@/i18n/navigation";
+import { useCustomizerActions } from "../store";
+import { CustomizerControls } from "./customizer-controls";
 import { TemplateSelector } from "./template-selector";
 
-interface BrandingSheetProps {
+interface CustomizerSheetProps {
   onApply: () => void;
 }
 
 const FOOTER_BUTTON_CLASS =
   "flex-1 sm:h-10 sm:px-4 sm:text-sm sm:[&_svg:not([class*='size-'])]:size-4";
 
-export function BrandingSheet({ onApply }: BrandingSheetProps) {
+export function CustomizerSheet({ onApply }: CustomizerSheetProps) {
   const [open, setOpen] = useState(false);
-  const config = useBrandingConfig();
-  const actions = useBrandingActions();
+  const actions = useCustomizerActions();
   const t = useTranslations("Branding");
 
   return (
@@ -53,49 +51,10 @@ export function BrandingSheet({ onApply }: BrandingSheetProps) {
         </SheetHeader>
 
         <div className="flex flex-1 flex-col gap-3 overflow-auto px-4 pb-4">
-          <ColorPicker
-            contrastWith={config.bgColor}
-            label={t("fgColor")}
-            onChange={(fgColor) => actions.update({ fgColor })}
-            value={config.fgColor}
-          />
-          <ColorPicker
-            contrastWith={config.fgColor}
-            label={t("bgColor")}
-            onChange={(bgColor) => actions.update({ bgColor })}
-            value={config.bgColor}
-          />
-          <DotStyleSelector
-            onChange={(dotStyle) => actions.update({ dotStyle })}
-            value={config.dotStyle}
-          />
-          <CenterTextEditor
-            onChange={(centerText) => actions.update({ centerText })}
-            onTextBoldChange={(centerTextBold) =>
-              actions.update({ centerTextBold })
-            }
-            onTextFontChange={(centerTextFont) =>
-              actions.update({ centerTextFont })
-            }
-            onTextSizeChange={(centerTextSize) =>
-              actions.update({ centerTextSize })
-            }
-            textBold={config.centerTextBold}
-            textFont={config.centerTextFont}
-            textSize={config.centerTextSize}
-            value={config.centerText}
-          />
-          <div className="flex flex-col gap-1.5">
-            <LogoUploader
-              onChange={(logo) => {
-                actions.update({ logo });
-                track("logo_uploaded");
-              }}
-              value={config.logo}
-            />
-            <p className="text-muted-foreground text-xs">{t("logoHelp")}</p>
+          <CustomizerControls />
+          <div className="border border-border bg-card p-4">
+            <TemplateSelector />
           </div>
-          <TemplateSelector />
         </div>
 
         <SheetFooter className="gap-3 border-border border-t">
@@ -110,7 +69,7 @@ export function BrandingSheet({ onApply }: BrandingSheetProps) {
               className={FOOTER_BUTTON_CLASS}
               onClick={() => {
                 actions.reset();
-                track("branding_reset");
+                track("customizer_reset");
               }}
               size="sm"
               type="button"
@@ -131,6 +90,13 @@ export function BrandingSheet({ onApply }: BrandingSheetProps) {
               {t("done")}
             </Button>
           </div>
+          <Link
+            className="inline-flex items-center justify-center gap-1 text-center text-muted-foreground text-xs underline-offset-2 hover:text-foreground hover:underline"
+            href="/studio"
+          >
+            {t("openInStudio")}
+            <IconArrowRight className="size-3.5" />
+          </Link>
         </SheetFooter>
       </SheetContent>
     </Sheet>

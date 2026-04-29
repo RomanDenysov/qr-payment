@@ -5,7 +5,8 @@ import { track } from "@vercel/analytics";
 import { useTranslations } from "next-intl";
 import { useCallback, useMemo } from "react";
 import { Button } from "@/components/ui/button";
-import { useBrandingConfig } from "@/features/branding/store";
+import { customizerToBranding } from "@/features/customizer/branding-bridge";
+import { useCustomizerConfig } from "@/features/customizer/store";
 import { FORMAT_LABELS } from "@/features/payment/format";
 import { generateBulkQR } from "../bulk-generator";
 import {
@@ -23,7 +24,7 @@ import { BulkUploadSection } from "./bulk-upload-section";
 import { PreviewTable } from "./preview-table";
 
 export function BulkContent() {
-  const branding = useBrandingConfig();
+  const customizer = useCustomizerConfig();
   const rows = useBulkRows();
   const detectedFormat = useBulkDetectedFormat();
   const generating = useBulkGenerating();
@@ -54,7 +55,7 @@ export function BulkContent() {
     try {
       const { results: qrs, errors: qrErrors } = await generateBulkQR(
         validRows.map((r) => r.row),
-        branding,
+        customizerToBranding(customizer),
         (p) => updateProgress(p.current)
       );
       setResults(qrs);
@@ -73,7 +74,7 @@ export function BulkContent() {
     }
   }, [
     validRows,
-    branding,
+    customizer,
     detectedFormat,
     startGenerating,
     updateProgress,

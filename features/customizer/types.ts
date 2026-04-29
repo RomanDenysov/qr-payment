@@ -63,7 +63,7 @@ export interface FrameConfig {
   font: FrameTextFont;
 }
 
-export interface StudioConfig {
+export interface CustomizerConfig {
   fgFill: Fill;
   bgFill: Fill;
   dotStyle: DotStyle;
@@ -81,13 +81,13 @@ export interface StudioConfig {
   frame: FrameConfig;
 }
 
-export interface StudioTemplate {
+export interface CustomizerTemplate {
   id: string;
   name: string;
-  config: StudioConfig;
+  config: CustomizerConfig;
 }
 
-export const DEFAULT_STUDIO_CONFIG: Readonly<StudioConfig> = {
+export const DEFAULT_CUSTOMIZER_CONFIG: Readonly<CustomizerConfig> = {
   fgFill: { kind: "solid", color: "#000000" },
   bgFill: { kind: "solid", color: "#ffffff" },
   dotStyle: "square",

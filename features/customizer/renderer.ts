@@ -12,11 +12,11 @@ import type { PaymentFormData } from "@/features/payment/schema";
 import {
   type CenterTextFont,
   type CenterTextSize,
+  type CustomizerConfig,
   type Fill,
   type FrameConfig,
   fillPrimaryColor,
   type OverlayPosition,
-  type StudioConfig,
 } from "./types";
 
 const QR_SIZE = 480;
@@ -171,7 +171,7 @@ function renderTextOverlay(
 async function renderBaseQR(
   payload: string,
   errorCorrectionLevel: "H" | "M",
-  cfg: StudioConfig
+  cfg: CustomizerConfig
 ): Promise<HTMLImageElement> {
   const fgColor = fillPrimaryColor(cfg.fgFill);
   const bgColor = fillPrimaryColor(cfg.bgFill);
@@ -222,7 +222,7 @@ async function renderLogo(
 
 function drawFrame(
   qrCanvas: HTMLCanvasElement,
-  cfg: StudioConfig,
+  cfg: CustomizerConfig,
   bgColor: string
 ): HTMLCanvasElement {
   const frame: FrameConfig = cfg.frame;
@@ -293,9 +293,9 @@ function clampOutput(canvas: HTMLCanvasElement): HTMLCanvasElement {
   return out;
 }
 
-export async function renderStudioQR(
+export async function renderCustomizerQR(
   data: PaymentFormData,
-  cfg: StudioConfig
+  cfg: CustomizerConfig
 ): Promise<string> {
   const cleanIban = electronicFormatIBAN(data.iban);
   if (!(cleanIban && isValidIBAN(cleanIban))) {

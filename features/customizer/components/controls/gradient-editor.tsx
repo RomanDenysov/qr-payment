@@ -3,7 +3,7 @@
 import { useTranslations } from "next-intl";
 import { Field, FieldLabel } from "@/components/ui/field";
 import { SegmentedControl } from "@/components/ui/segmented-control";
-import { ColorPicker } from "@/features/branding/components/color-picker";
+import { ColorPicker } from "@/features/customizer/components/color-picker";
 import type { Fill } from "../../types";
 
 interface GradientEditorProps {

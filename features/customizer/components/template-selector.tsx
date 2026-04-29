@@ -7,12 +7,12 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useStudioActions, useStudioTemplates } from "../store";
+import { useCustomizerActions, useCustomizerTemplates } from "../store";
 import { fillPrimaryColor } from "../types";
 
-export function StudioTemplateSelector() {
-  const templates = useStudioTemplates();
-  const { saveTemplate, loadTemplate, deleteTemplate } = useStudioActions();
+export function TemplateSelector() {
+  const templates = useCustomizerTemplates();
+  const { saveTemplate, loadTemplate, deleteTemplate } = useCustomizerActions();
   const [newName, setNewName] = useState("");
   const t = useTranslations("Studio");
   const tTpl = useTranslations("Templates");
@@ -24,7 +24,7 @@ export function StudioTemplateSelector() {
     }
     if (saveTemplate(name)) {
       setNewName("");
-      track("studio_template_saved");
+      track("customizer_template_saved");
     } else {
       toast.error(t("templateSaveFailed"));
     }
@@ -45,7 +45,7 @@ export function StudioTemplateSelector() {
                 className="flex flex-1 items-center gap-2 truncate text-left text-xs"
                 onClick={() => {
                   if (loadTemplate(template.id)) {
-                    track("studio_template_loaded");
+                    track("customizer_template_loaded");
                   } else {
                     toast.error(t("templateLoadFailed"));
                   }
@@ -65,7 +65,7 @@ export function StudioTemplateSelector() {
                 className="size-6 p-0"
                 onClick={() => {
                   deleteTemplate(template.id);
-                  track("studio_template_deleted");
+                  track("customizer_template_deleted");
                 }}
                 size="sm"
                 variant="ghost"

@@ -7,12 +7,12 @@ import { toast } from "sonner";
 import { PageSpinner } from "@/components/page-spinner";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
+import { renderCustomizerQR } from "@/features/customizer/renderer";
+import type { CustomizerConfig } from "@/features/customizer/types";
 import type { PaymentFormData } from "@/features/payment/schema";
-import { renderStudioQR } from "../qr-renderer";
-import type { StudioConfig } from "../types";
 
 interface Props {
-  config: StudioConfig;
+  config: CustomizerConfig;
   payment: PaymentFormData | null;
 }
 
@@ -31,7 +31,7 @@ export function StudioPreview({ config, payment }: Props) {
     }
 
     let cancelled = false;
-    renderStudioQR(deferredPayment, deferredConfig)
+    renderCustomizerQR(deferredPayment, deferredConfig)
       .then((url) => {
         if (!cancelled) {
           setDataUrl(url);

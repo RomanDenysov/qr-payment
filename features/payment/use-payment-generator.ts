@@ -2,25 +2,31 @@ import { track } from "@vercel/analytics";
 import { useTranslations } from "next-intl";
 import { useCallback, useTransition } from "react";
 import { toast } from "sonner";
-import type { BrandingConfig } from "../branding/store";
-import { DEFAULT_CONFIG, useBrandingConfig } from "../branding/store";
+import { renderCustomizerQR } from "@/features/customizer/renderer";
+import { useCustomizerConfig } from "@/features/customizer/store";
+import type { CustomizerConfig } from "@/features/customizer/types";
+import {
+  DEFAULT_CUSTOMIZER_CONFIG,
+  fillPrimaryColor,
+} from "@/features/customizer/types";
 import { EpcPayloadTooLargeError } from "./epc-encoder";
-import { generatePaymentQR, InvalidIBANError } from "./qr-generator";
+import { InvalidIBANError } from "./qr-generator";
 import type { PaymentFormData, PaymentRecord } from "./schema";
 import { SpaydPayloadTooLargeError } from "./spayd-encoder";
 import { usePaymentActions } from "./store";
 
-function resolveCenter(branding: BrandingConfig, translated: string): string {
-  return branding.centerText === DEFAULT_CONFIG.centerText
-    ? translated
-    : branding.centerText;
-}
-
-function trackQrGenerated(formData: PaymentFormData, branding: BrandingConfig) {
+function trackQrGenerated(
+  formData: PaymentFormData,
+  cfg: CustomizerConfig
+): void {
+  const defaults = DEFAULT_CUSTOMIZER_CONFIG;
   const hasBranding =
-    branding.fgColor !== DEFAULT_CONFIG.fgColor ||
-    branding.bgColor !== DEFAULT_CONFIG.bgColor ||
-    branding.centerText !== DEFAULT_CONFIG.centerText;
+    fillPrimaryColor(cfg.fgFill) !== fillPrimaryColor(defaults.fgFill) ||
+    fillPrimaryColor(cfg.bgFill) !== fillPrimaryColor(defaults.bgFill) ||
+    cfg.fgFill.kind !== "solid" ||
+    cfg.bgFill.kind !== "solid" ||
+    cfg.centerText !== defaults.centerText ||
+    cfg.frame.enabled;
 
   const fieldsFilled = [
     formData.variableSymbol,
@@ -35,7 +41,7 @@ function trackQrGenerated(formData: PaymentFormData, branding: BrandingConfig) {
     format: formData.format ?? "bysquare",
     currency: formData.currency ?? "EUR",
     has_branding: hasBranding,
-    has_logo: branding.logo !== null,
+    has_logo: cfg.logo !== null,
     fields_filled: fieldsFilled,
   });
 }
@@ -43,21 +49,14 @@ function trackQrGenerated(formData: PaymentFormData, branding: BrandingConfig) {
 export function usePaymentGenerator() {
   const [isPending, startTransition] = useTransition();
   const { setCurrent } = usePaymentActions();
-  const branding = useBrandingConfig();
+  const customizer = useCustomizerConfig();
   const t = useTranslations("QRPreview");
-  const tBranding = useTranslations("Branding");
 
   const generate = useCallback(
     (formData: PaymentFormData) => {
       startTransition(async () => {
         try {
-          const qrDataUrl = await generatePaymentQR(formData, {
-            ...branding,
-            centerText: resolveCenter(
-              branding,
-              tBranding("centerTextPlaceholder")
-            ),
-          });
+          const qrDataUrl = await renderCustomizerQR(formData, customizer);
 
           const record: PaymentRecord = {
             ...formData,
@@ -67,7 +66,7 @@ export function usePaymentGenerator() {
           };
 
           setCurrent(record);
-          trackQrGenerated(formData, branding);
+          trackQrGenerated(formData, customizer);
           toast.success(t("generated"));
         } catch (error) {
           if (
@@ -83,7 +82,7 @@ export function usePaymentGenerator() {
         }
       });
     },
-    [setCurrent, branding, t, tBranding]
+    [setCurrent, customizer, t]
   );
 
   return { generate, isPending };

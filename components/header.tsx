@@ -1,4 +1,4 @@
-import { IconApi, IconHelp, IconNotes, IconPalette } from "@tabler/icons-react";
+import { IconApi, IconHelp, IconNotes } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
@@ -19,13 +19,6 @@ export function Header() {
           <AppLogo />
         </Link>
         <div className="hidden items-center gap-1 md:flex">
-          <Link
-            className={cn(buttonVariants({ variant: "ghost", size: "sm" }))}
-            href="/studio"
-          >
-            <IconPalette />
-            {t("studio")}
-          </Link>
           <Link
             className={cn(buttonVariants({ variant: "ghost", size: "sm" }))}
             href="/bulk"

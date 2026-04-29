@@ -1,6 +1,7 @@
 "use client";
 
 import { IconPhoto, IconX } from "@tabler/icons-react";
+import { track } from "@vercel/analytics";
 import { useTranslations } from "next-intl";
 import { useRef } from "react";
 import { toast } from "sonner";
@@ -26,6 +27,7 @@ export function LogoUploader({ value, onChange }: LogoUploaderProps) {
         return;
       }
       onChange(result.data);
+      track("logo_uploaded");
     } catch (error) {
       console.error("[LogoUploader] Failed to compress logo:", error);
       toast.error(t("logoUploadError"));

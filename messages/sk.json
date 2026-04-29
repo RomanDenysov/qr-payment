@@ -29,7 +29,6 @@
     "bulk": "Hromadné generovanie",
     "apiDocs": "API",
     "faq": "Otázky",
-    "studio": "Studio",
     "closeMenu": "Zavrieť menu",
     "openMenu": "Otvoriť menu",
     "toggleTheme": "Prepnúť tému",
@@ -151,7 +150,8 @@
     "dotStyleSquare": "Štvorce",
     "dotStyleRounded": "Zaoblené",
     "dotStyleDots": "Kruhy",
-    "dotStyleClassyRounded": "Elegantné"
+    "dotStyleClassyRounded": "Elegantné",
+    "openInStudio": "Otvoriť v štúdiu"
   },
   "Templates": {
     "title": "Šablóny",
