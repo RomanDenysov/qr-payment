@@ -42,7 +42,7 @@
     "apiDocs": "API Docs"
   },
   "Announcement": {
-    "message": "New: You can now generate QR codes without a fixed amount. API now supports EPC (EU SEPA) format.",
+    "message": "New: More QR customization options - gradients, logo, frame, position picker, and more.",
     "close": "Close"
   },
   "Consent": {

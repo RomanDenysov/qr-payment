@@ -1,5 +1,7 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { linkVariants } from "@/components/ui/link";
 import { StudioClient } from "@/features/studio/components/studio-client";
+import { Link } from "@/i18n/navigation";
 import { getAlternates, getOgLocale, localePath } from "@/lib/seo";
 import { JsonLd } from "./json-ld";
 
@@ -45,6 +47,12 @@ export default async function StudioPage({ params }: Props) {
         </header>
 
         <StudioClient />
+
+        <div className="pt-4 text-center">
+          <Link className={linkVariants({ size: "sm" })} href="/">
+            ← {tMeta("backToHome")}
+          </Link>
+        </div>
 
         <JsonLd
           homeName={tNav("home")}
