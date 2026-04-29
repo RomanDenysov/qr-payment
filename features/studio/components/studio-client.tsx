@@ -124,6 +124,7 @@ export function StudioClient() {
             value="dots"
           >
             <DotStyleSelector
+              hideHeading
               onChange={(dotStyle) => update({ dotStyle })}
               value={config.dotStyle}
             />
@@ -135,6 +136,7 @@ export function StudioClient() {
             value="text"
           >
             <CenterTextEditor
+              hideHeading
               onChange={(centerText) => update({ centerText })}
               onTextBoldChange={(centerTextBold) => update({ centerTextBold })}
               onTextFontChange={(centerTextFont) => update({ centerTextFont })}

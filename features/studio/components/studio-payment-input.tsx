@@ -21,7 +21,6 @@ interface Props {
 
 export function StudioPaymentInput({ value, onChange }: Props) {
   const t = useTranslations("PaymentForm");
-  const tStudio = useTranslations("Studio");
 
   const update = <K extends keyof StudioPaymentState>(
     key: K,
@@ -29,11 +28,8 @@ export function StudioPaymentInput({ value, onChange }: Props) {
   ) => onChange({ ...value, [key]: v });
 
   return (
-    <div className="grid grid-cols-1 gap-3 border border-border bg-card/40 p-3 sm:grid-cols-2">
-      <div className="flex flex-wrap items-center gap-2 sm:col-span-2">
-        <span className="font-medium text-sm">
-          {tStudio("section.payment")}
-        </span>
+    <div className="flex flex-col gap-3">
+      <div className="flex justify-end">
         <SegmentedControl<PaymentFormat>
           onChange={(format) => update("format", format)}
           options={[
@@ -43,15 +39,8 @@ export function StudioPaymentInput({ value, onChange }: Props) {
           ]}
           value={value.format}
         />
-        <SegmentedControl<"EUR" | "CZK">
-          onChange={(currency) => update("currency", currency)}
-          options={[
-            { value: "EUR", label: "EUR" },
-            { value: "CZK", label: "CZK" },
-          ]}
-          value={value.currency}
-        />
       </div>
+
       <Field>
         <FieldLabel>{t("iban")}</FieldLabel>
         <Input
@@ -60,17 +49,30 @@ export function StudioPaymentInput({ value, onChange }: Props) {
           value={value.iban}
         />
       </Field>
+
       <Field>
         <FieldLabel>{t("amount")}</FieldLabel>
-        <Input
-          inputMode="decimal"
-          onChange={(e) => update("amount", e.target.value)}
-          placeholder={t("amountPlaceholder")}
-          value={value.amount}
-        />
+        <div className="flex gap-2">
+          <Input
+            className="flex-1"
+            inputMode="decimal"
+            onChange={(e) => update("amount", e.target.value)}
+            placeholder={t("amountPlaceholder")}
+            value={value.amount}
+          />
+          <SegmentedControl<"EUR" | "CZK">
+            onChange={(currency) => update("currency", currency)}
+            options={[
+              { value: "EUR", label: "EUR" },
+              { value: "CZK", label: "CZK" },
+            ]}
+            value={value.currency}
+          />
+        </div>
       </Field>
+
       {value.format === "epc" && (
-        <Field className="sm:col-span-2">
+        <Field>
           <FieldLabel>{t("recipientNameRequired")}</FieldLabel>
           <Input
             maxLength={70}

@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 interface DotStyleSelectorProps {
   value: DotStyle;
   onChange: (style: DotStyle) => void;
+  hideHeading?: boolean;
 }
 
 const DOT_STYLES: DotStyle[] = ["square", "rounded", "dots", "classy-rounded"];
@@ -94,12 +95,18 @@ function DotPreview({ style }: { style: DotStyle }) {
   );
 }
 
-export function DotStyleSelector({ value, onChange }: DotStyleSelectorProps) {
+export function DotStyleSelector({
+  value,
+  onChange,
+  hideHeading = false,
+}: DotStyleSelectorProps) {
   const t = useTranslations("Branding");
 
   return (
     <div className="flex flex-col gap-1.5">
-      <span className="font-medium text-sm">{t("dotStyle")}</span>
+      {!hideHeading && (
+        <span className="font-medium text-sm">{t("dotStyle")}</span>
+      )}
       <div className="grid grid-cols-4 gap-2">
         {DOT_STYLES.map((style) => (
           <button
