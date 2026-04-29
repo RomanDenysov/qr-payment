@@ -189,13 +189,6 @@ export function StudioClient() {
           </CardItem>
         </Accordion>
 
-        {offCenter && (
-          <Alert>
-            <IconAlertTriangle className="size-5" />
-            <AlertDescription>{t("offCenterWarning")}</AlertDescription>
-          </Alert>
-        )}
-
         <div className="flex justify-end">
           <Button onClick={reset} size="sm" variant="outline">
             <IconRefresh />
@@ -205,6 +198,12 @@ export function StudioClient() {
       </div>
 
       <div className="sticky top-20 flex flex-col gap-3">
+        {offCenter && (
+          <Alert>
+            <IconAlertTriangle className="size-5" />
+            <AlertDescription>{t("offCenterWarning")}</AlertDescription>
+          </Alert>
+        )}
         <StudioPreview config={config} payment={paymentData} />
         <div className="border border-border bg-card p-4">
           <StudioTemplateSelector />
