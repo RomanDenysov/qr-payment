@@ -87,7 +87,7 @@ export interface StudioTemplate {
   config: StudioConfig;
 }
 
-export const DEFAULT_STUDIO_CONFIG: StudioConfig = {
+export const DEFAULT_STUDIO_CONFIG: Readonly<StudioConfig> = {
   fgFill: { kind: "solid", color: "#000000" },
   bgFill: { kind: "solid", color: "#ffffff" },
   dotStyle: "square",

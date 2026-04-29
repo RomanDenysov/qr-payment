@@ -40,13 +40,13 @@ const MAX_TEMPLATES = 30;
 const studioStore = create<StudioState>()(
   persist(
     (set, get) => ({
-      config: { ...DEFAULT_STUDIO_CONFIG },
+      config: structuredClone(DEFAULT_STUDIO_CONFIG),
       templates: [],
       actions: {
         update: (partial) =>
           set((state) => ({ config: { ...state.config, ...partial } })),
         replace: (config) => set({ config }),
-        reset: () => set({ config: { ...DEFAULT_STUDIO_CONFIG } }),
+        reset: () => set({ config: structuredClone(DEFAULT_STUDIO_CONFIG) }),
         saveTemplate: (name) => {
           const { config, templates } = get();
           const template: StudioTemplate = {
