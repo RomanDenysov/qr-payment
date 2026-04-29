@@ -211,7 +211,11 @@
     "downloaded": "QR kód stiahnutý",
     "templateNamePlaceholder": "Pomenovanie šablóny...",
     "reset": "Resetovať nastavenia",
-    "offCenterWarning": "Posunutie loga alebo textu mimo stredu môže ovplyvniť čitateľnosť. Pred použitím vždy otestujte."
+    "offCenterWarning": "Posunutie loga alebo textu mimo stredu môže ovplyvniť čitateľnosť. Pred použitím vždy otestujte.",
+    "empty": "prázdne",
+    "off": "vypnuté",
+    "centerShort": "stred",
+    "templatesCount": "{count, plural, =0 {žiadne} one {1 šablóna} few {{count} šablóny} other {{count} šablón}}"
   },
   "Bulk": {
     "title": "Hromadné generovanie QR kódov",

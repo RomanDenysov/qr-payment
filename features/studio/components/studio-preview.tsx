@@ -63,7 +63,7 @@ export function StudioPreview({ config, payment }: Props) {
   };
 
   return (
-    <div className="sticky top-20 flex flex-col gap-3 border border-border bg-card p-4">
+    <div className="flex flex-col gap-3 border border-border bg-card p-4">
       <div className="flex items-center justify-between">
         <h2 className="font-medium text-sm">{t("preview")}</h2>
         <Button

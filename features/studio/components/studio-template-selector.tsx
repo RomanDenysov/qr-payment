@@ -6,7 +6,6 @@ import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
 import { useStudioActions, useStudioTemplates } from "../store";
 import { fillPrimaryColor } from "../types";
 
@@ -29,8 +28,7 @@ export function StudioTemplateSelector() {
 
   return (
     <div className="flex flex-col gap-2">
-      <Separator />
-      <p className="font-medium text-xs">{t("section.templates")}</p>
+      <h2 className="font-medium text-sm">{t("section.templates")}</h2>
 
       {templates.length > 0 && (
         <div className="flex max-h-40 flex-col gap-1 overflow-auto">
