@@ -104,7 +104,7 @@ export function BrandingSheet({ onApply }: BrandingSheetProps) {
           </Alert>
           <div className="flex flex-row gap-2">
             <Button
-              className="flex-1"
+              className="flex-1 sm:h-10 sm:px-4 sm:text-sm sm:[&_svg:not([class*='size-'])]:size-4"
               onClick={() => {
                 actions.reset();
                 track("branding_reset");
@@ -117,7 +117,7 @@ export function BrandingSheet({ onApply }: BrandingSheetProps) {
               {t("reset")}
             </Button>
             <Button
-              className="flex-1"
+              className="flex-1 sm:h-10 sm:px-4 sm:text-sm sm:[&_svg:not([class*='size-'])]:size-4"
               onClick={() => {
                 onApply();
                 setOpen(false);
