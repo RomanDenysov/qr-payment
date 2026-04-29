@@ -17,8 +17,6 @@ import {
 const QR_SIZE = 480;
 const FRAME_SIDE_PADDING = 24;
 const FRAME_TEXT_GAP = 14;
-const TITLE_FONT_SIZE = 22;
-const CAPTION_FONT_SIZE = 18;
 const MAX_OUTPUT_WIDTH = 1024;
 
 const FONT_STACKS: Record<CenterTextFont, string> = {
@@ -249,8 +247,9 @@ function drawFrame(
   bgColor: string
 ): HTMLCanvasElement {
   const frame: FrameConfig = cfg.frame;
-  const titleH = frame.title ? TITLE_FONT_SIZE + FRAME_TEXT_GAP : 0;
-  const captionH = frame.caption ? CAPTION_FONT_SIZE + FRAME_TEXT_GAP : 0;
+  const stack = FONT_STACKS[frame.font];
+  const titleH = frame.title ? frame.titleSize + FRAME_TEXT_GAP : 0;
+  const captionH = frame.caption ? frame.captionSize + FRAME_TEXT_GAP : 0;
   const border = Math.max(0, frame.borderWidth);
   const padding = FRAME_SIDE_PADDING;
 
@@ -279,18 +278,20 @@ function drawFrame(
   ctx.textBaseline = "middle";
 
   if (frame.title) {
-    ctx.font = `600 ${TITLE_FONT_SIZE}px ${FONT_STACKS.sans}`;
-    ctx.fillText(frame.title, w / 2, border + padding + TITLE_FONT_SIZE / 2);
+    const weight = frame.titleBold ? 600 : 400;
+    ctx.font = `${weight} ${frame.titleSize}px ${stack}`;
+    ctx.fillText(frame.title, w / 2, border + padding + frame.titleSize / 2);
   }
 
   ctx.drawImage(qrCanvas, border + padding, border + padding + titleH);
 
   if (frame.caption) {
-    ctx.font = `400 ${CAPTION_FONT_SIZE}px ${FONT_STACKS.sans}`;
+    const weight = frame.captionBold ? 600 : 400;
+    ctx.font = `${weight} ${frame.captionSize}px ${stack}`;
     ctx.fillText(
       frame.caption,
       w / 2,
-      h - border - padding - CAPTION_FONT_SIZE / 2
+      h - border - padding - frame.captionSize / 2
     );
   }
 

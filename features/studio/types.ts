@@ -47,6 +47,8 @@ export interface GradientFill {
 
 export type Fill = SolidFill | GradientFill;
 
+export type FrameTextFont = "sans" | "serif" | "mono";
+
 export interface FrameConfig {
   enabled: boolean;
   borderColor: string;
@@ -54,6 +56,11 @@ export interface FrameConfig {
   title: string;
   caption: string;
   textColor: string;
+  titleSize: number;
+  captionSize: number;
+  titleBold: boolean;
+  captionBold: boolean;
+  font: FrameTextFont;
 }
 
 export interface StudioConfig {
@@ -99,6 +106,11 @@ export const DEFAULT_STUDIO_CONFIG: StudioConfig = {
     title: "",
     caption: "",
     textColor: "#000000",
+    titleSize: 22,
+    captionSize: 22,
+    titleBold: true,
+    captionBold: false,
+    font: "sans",
   },
 };
 

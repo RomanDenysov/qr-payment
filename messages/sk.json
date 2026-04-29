@@ -189,6 +189,9 @@
     "frameTitle": "Titulok nad QR kódom",
     "frameCaption": "Popis pod QR kódom",
     "frameTextColor": "Farba textu",
+    "frameFont": "Písmo rámu",
+    "frameTitleSize": "Veľkosť titulku",
+    "frameCaptionSize": "Veľkosť popisu",
     "positionLogo": "Poloha loga",
     "positionText": "Poloha textu",
     "position": {

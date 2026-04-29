@@ -189,6 +189,9 @@
     "frameTitle": "Title above QR",
     "frameCaption": "Caption below QR",
     "frameTextColor": "Text color",
+    "frameFont": "Frame font",
+    "frameTitleSize": "Title size",
+    "frameCaptionSize": "Caption size",
     "positionLogo": "Logo position",
     "positionText": "Text position",
     "position": {

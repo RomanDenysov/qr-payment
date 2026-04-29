@@ -6,6 +6,16 @@ import {
   type StudioTemplate,
 } from "./types";
 
+function migrateFrame(config: StudioConfig): void {
+  const f = config.frame;
+  const d = DEFAULT_STUDIO_CONFIG.frame;
+  f.titleSize ??= d.titleSize;
+  f.captionSize ??= d.captionSize;
+  f.titleBold ??= d.titleBold;
+  f.captionBold ??= d.captionBold;
+  f.font ??= d.font;
+}
+
 interface StudioState {
   config: StudioConfig;
   templates: StudioTemplate[];
@@ -68,6 +78,15 @@ const studioStore = create<StudioState>()(
         config: state.config,
         templates: state.templates,
       }),
+      onRehydrateStorage: () => (state, error) => {
+        if (error || !state) {
+          return;
+        }
+        migrateFrame(state.config);
+        for (const tpl of state.templates) {
+          migrateFrame(tpl.config);
+        }
+      },
     }
   )
 );
