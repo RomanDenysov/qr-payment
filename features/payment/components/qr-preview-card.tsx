@@ -27,10 +27,10 @@ const ShareLinkDialog = dynamic(
   { loading: () => null }
 );
 
-const BrandingDialog = dynamic(
+const BrandingSheet = dynamic(
   () =>
-    import("@/features/branding/components/branding-dialog").then(
-      (m) => m.BrandingDialog
+    import("@/features/branding/components/branding-sheet").then(
+      (m) => m.BrandingSheet
     ),
   { loading: () => null }
 );
@@ -176,7 +176,7 @@ export function QRPreviewCard() {
         <div className="flex items-center justify-between">
           <CardTitle>{t("title")}</CardTitle>
           {current?.qrDataUrl ? (
-            <BrandingDialog onApply={handleApplyBranding} />
+            <BrandingSheet onApply={handleApplyBranding} />
           ) : null}
         </div>
       </CardHeader>

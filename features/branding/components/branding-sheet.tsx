@@ -7,15 +7,17 @@ import {
 } from "@tabler/icons-react";
 import { track } from "@vercel/analytics";
 import { useTranslations } from "next-intl";
+import { useState } from "react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+  Sheet,
+  SheetContent,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { useBrandingActions, useBrandingConfig } from "../store";
 import { CenterTextEditor } from "./center-text-editor";
 import { ColorPicker } from "./color-picker";
@@ -23,28 +25,34 @@ import { DotStyleSelector } from "./dot-style-selector";
 import { LogoUploader } from "./logo-uploader";
 import { TemplateSelector } from "./template-selector";
 
-interface BrandingDialogProps {
+interface BrandingSheetProps {
   onApply: () => void;
 }
 
-export function BrandingDialog({ onApply }: BrandingDialogProps) {
+const FOOTER_BUTTON_CLASS =
+  "flex-1 sm:h-10 sm:px-4 sm:text-sm sm:[&_svg:not([class*='size-'])]:size-4";
+
+export function BrandingSheet({ onApply }: BrandingSheetProps) {
+  const [open, setOpen] = useState(false);
   const config = useBrandingConfig();
   const actions = useBrandingActions();
   const t = useTranslations("Branding");
 
   return (
-    <Dialog>
-      <DialogTrigger render={<Button size="sm" variant="ghost" />}>
+    <Sheet onOpenChange={setOpen} open={open}>
+      <SheetTrigger render={<Button size="sm" variant="ghost" />}>
         <IconPalette />
         {t("edit")}
-      </DialogTrigger>
-      <DialogContent>
-        <DialogTitle>{t("dialogTitle")}</DialogTitle>
-        <Alert>
-          <IconAlertTriangle className="size-5" />
-          <AlertDescription>{t("warning")}</AlertDescription>
-        </Alert>
-        <div className="flex flex-col gap-3">
+      </SheetTrigger>
+      <SheetContent
+        className="w-full data-[side=left]:w-full data-[side=left]:sm:max-w-lg"
+        side="left"
+      >
+        <SheetHeader>
+          <SheetTitle>{t("dialogTitle")}</SheetTitle>
+        </SheetHeader>
+
+        <div className="flex flex-1 flex-col gap-3 overflow-auto px-4 pb-4">
           <ColorPicker
             contrastWith={config.bgColor}
             label={t("fgColor")}
@@ -88,9 +96,18 @@ export function BrandingDialog({ onApply }: BrandingDialogProps) {
             <p className="text-muted-foreground text-xs">{t("logoHelp")}</p>
           </div>
           <TemplateSelector />
-          <div className="flex gap-2 pt-2">
+        </div>
+
+        <SheetFooter className="gap-3 border-border border-t">
+          <Alert className="items-center px-2 py-1.5 sm:px-3 sm:py-2 sm:text-sm">
+            <IconAlertTriangle className="size-5 self-center" />
+            <AlertDescription className="sm:text-sm/relaxed">
+              {t("warning")}
+            </AlertDescription>
+          </Alert>
+          <div className="flex flex-row gap-2">
             <Button
-              className="flex-1"
+              className={FOOTER_BUTTON_CLASS}
               onClick={() => {
                 actions.reset();
                 track("branding_reset");
@@ -102,16 +119,20 @@ export function BrandingDialog({ onApply }: BrandingDialogProps) {
               <IconRefresh />
               {t("reset")}
             </Button>
-            <DialogClose
-              className="flex-1"
-              onClick={onApply}
-              render={<Button size="sm" type="button" />}
+            <Button
+              className={FOOTER_BUTTON_CLASS}
+              onClick={() => {
+                onApply();
+                setOpen(false);
+              }}
+              size="sm"
+              type="button"
             >
               {t("done")}
-            </DialogClose>
+            </Button>
           </div>
-        </div>
-      </DialogContent>
-    </Dialog>
+        </SheetFooter>
+      </SheetContent>
+    </Sheet>
   );
 }
