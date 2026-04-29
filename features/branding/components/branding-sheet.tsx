@@ -41,7 +41,10 @@ export function BrandingSheet({ onApply }: BrandingSheetProps) {
         <IconPalette />
         {t("edit")}
       </SheetTrigger>
-      <SheetContent className="w-full data-[side=right]:w-full data-[side=right]:sm:max-w-lg">
+      <SheetContent
+        className="w-full data-[side=left]:w-full data-[side=left]:sm:max-w-lg"
+        side="left"
+      >
         <SheetHeader>
           <SheetTitle>{t("dialogTitle")}</SheetTitle>
         </SheetHeader>
