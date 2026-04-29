@@ -152,7 +152,14 @@
     "dotStyleRounded": "Zaoblené",
     "dotStyleDots": "Kruhy",
     "dotStyleClassyRounded": "Elegantné",
-    "openInStudio": "Otvoriť v štúdiu"
+    "openInStudio": "Otvoriť v štúdiu",
+    "guardrail": {
+      "logoOversized": "Logo zaberá {size} % plochy QR. Bezpečné maximum pri korekcii {ecc} je {max} %. Zmenšite logo, aby ostal kód naskenovateľný.",
+      "lowContrast": "Kontrast medzi popredím a pozadím je {ratio}:1. Pre spoľahlivé skenovanie odporúčame aspoň 4,5:1.",
+      "veryLowContrast": "Kontrast {ratio}:1 je príliš nízky - QR sa nemusí naskenovať. Zvýšte kontrast alebo zvoľte iné farby.",
+      "weakGradientFg": "Body gradientu popredia sú príliš blízko a vykreslia sa takmer rovnako. Vyberte farby s väčším rozdielom.",
+      "weakGradientBg": "Body gradientu pozadia sú príliš blízko a vykreslia sa takmer rovnako. Vyberte farby s väčším rozdielom."
+    }
   },
   "Templates": {
     "title": "Šablóny",

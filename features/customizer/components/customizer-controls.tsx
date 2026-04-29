@@ -1,12 +1,16 @@
 "use client";
 
+import { IconAlertTriangle, IconInfoCircle } from "@tabler/icons-react";
+import { track } from "@vercel/analytics";
 import { useTranslations } from "next-intl";
+import { useEffect, useMemo, useRef } from "react";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { CenterTextEditor } from "@/features/customizer/components/center-text-editor";
 import {
   DOT_STYLE_LABEL_KEYS,
@@ -14,6 +18,11 @@ import {
 } from "@/features/customizer/components/dot-style-selector";
 import { LogoUploader } from "@/features/customizer/components/logo-uploader";
 import { cn } from "@/lib/utils";
+import {
+  checkGuardrails,
+  type Guardrail,
+  getResolvedMaxLogoSizePct,
+} from "../guardrails";
 import { useCustomizerActions, useCustomizerConfig } from "../store";
 import {
   type CustomizerConfig,
@@ -42,12 +51,20 @@ export function CustomizerControls({
   const t = useTranslations("Studio");
   const tBranding = useTranslations("Branding");
 
+  const guardrails = useMemo(() => checkGuardrails(config), [config]);
+  const maxLogoSize = useMemo(
+    () => getResolvedMaxLogoSizePct(config),
+    [config]
+  );
+
   return (
     <Accordion
       className={cn("flex flex-col gap-3", className)}
       defaultValue={defaultOpen}
       multiple
     >
+      <GuardrailWarnings guardrails={guardrails} />
+
       <Section
         chip={
           <ColorChips
@@ -143,6 +160,7 @@ export function CustomizerControls({
         {config.logo && (
           <>
             <LogoSizeSlider
+              max={maxLogoSize}
               onChange={(logoSizePct) => update({ logoSizePct })}
               value={config.logoSizePct}
             />
@@ -282,4 +300,51 @@ function posLabel(p: OverlayPosition, t: (key: string) => string): string {
     return t("centerShort");
   }
   return OVERLAY_POSITION_SHORT[p];
+}
+
+function GuardrailWarnings({ guardrails }: { guardrails: Guardrail[] }) {
+  const tBranding = useTranslations();
+  const trackedKeys = useRef<Set<string>>(new Set());
+
+  useEffect(() => {
+    for (const g of guardrails) {
+      if (trackedKeys.current.has(g.key)) {
+        continue;
+      }
+      trackedKeys.current.add(g.key);
+      track("guardrail_warning_shown", {
+        key: g.key,
+        severity: g.severity,
+      });
+    }
+  }, [guardrails]);
+
+  if (guardrails.length === 0) {
+    return null;
+  }
+
+  return (
+    <div className="flex flex-col gap-2">
+      {guardrails.map((g) => (
+        <Alert
+          className={cn(
+            "items-start px-3 py-2",
+            g.severity === "warning"
+              ? "border-destructive/50 bg-destructive/5 text-destructive"
+              : "border-amber-500/40 bg-amber-500/5 text-amber-700 dark:text-amber-400"
+          )}
+          key={g.key}
+        >
+          {g.severity === "warning" ? (
+            <IconAlertTriangle className="size-4" />
+          ) : (
+            <IconInfoCircle className="size-4" />
+          )}
+          <AlertDescription className="text-xs leading-relaxed">
+            {tBranding(g.i18nKey, g.values)}
+          </AlertDescription>
+        </Alert>
+      ))}
+    </div>
+  );
 }
