@@ -96,7 +96,14 @@ const studioStore = create<StudioState>()(
         templates: state.templates,
       }),
       onRehydrateStorage: () => (state, error) => {
-        if (error || !state) {
+        if (error) {
+          console.error(
+            "[StudioStore] Failed to rehydrate from localStorage:",
+            error
+          );
+          return;
+        }
+        if (!state) {
           return;
         }
         migrateFrame(state.config);
