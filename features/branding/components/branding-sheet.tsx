@@ -97,7 +97,7 @@ export function BrandingSheet({ onApply }: BrandingSheetProps) {
 
         <SheetFooter className="gap-3 border-border border-t">
           <Alert className="items-center px-2 py-1.5 sm:px-3 sm:py-2 sm:text-sm">
-            <IconAlertTriangle className="size-4 self-center sm:size-6" />
+            <IconAlertTriangle className="size-5 self-center" />
             <AlertDescription className="sm:text-sm/relaxed">
               {t("warning")}
             </AlertDescription>
