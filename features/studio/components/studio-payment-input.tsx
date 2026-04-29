@@ -29,7 +29,7 @@ export function StudioPaymentInput({ value, onChange }: Props) {
 
   return (
     <div className="flex flex-col gap-3">
-      <div className="flex justify-end">
+      <div className="flex justify-start">
         <SegmentedControl<PaymentFormat>
           onChange={(format) => update("format", format)}
           options={[
@@ -41,35 +41,37 @@ export function StudioPaymentInput({ value, onChange }: Props) {
         />
       </div>
 
-      <Field>
-        <FieldLabel>{t("iban")}</FieldLabel>
-        <Input
-          onChange={(e) => update("iban", e.target.value.toUpperCase())}
-          placeholder="SK..."
-          value={value.iban}
-        />
-      </Field>
-
-      <Field>
-        <FieldLabel>{t("amount")}</FieldLabel>
-        <div className="flex gap-2">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+        <Field>
+          <FieldLabel>{t("iban")}</FieldLabel>
           <Input
-            className="flex-1"
-            inputMode="decimal"
-            onChange={(e) => update("amount", e.target.value)}
-            placeholder={t("amountPlaceholder")}
-            value={value.amount}
+            onChange={(e) => update("iban", e.target.value.toUpperCase())}
+            placeholder="SK..."
+            value={value.iban}
           />
-          <SegmentedControl<"EUR" | "CZK">
-            onChange={(currency) => update("currency", currency)}
-            options={[
-              { value: "EUR", label: "EUR" },
-              { value: "CZK", label: "CZK" },
-            ]}
-            value={value.currency}
-          />
-        </div>
-      </Field>
+        </Field>
+
+        <Field>
+          <FieldLabel>{t("amount")}</FieldLabel>
+          <div className="grid grid-cols-2 gap-2">
+            <Input
+              inputMode="decimal"
+              onChange={(e) => update("amount", e.target.value)}
+              placeholder={t("amountPlaceholder")}
+              value={value.amount}
+            />
+            <SegmentedControl<"EUR" | "CZK">
+              className="flex h-9 w-full [&>button]:flex-1"
+              onChange={(currency) => update("currency", currency)}
+              options={[
+                { value: "EUR", label: "EUR" },
+                { value: "CZK", label: "CZK" },
+              ]}
+              value={value.currency}
+            />
+          </div>
+        </Field>
+      </div>
 
       {value.format === "epc" && (
         <Field>
