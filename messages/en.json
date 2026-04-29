@@ -16,7 +16,6 @@
     "faqDescription": "Answers to the most common questions about the QR code payment generator.",
     "homeH1": "Free QR Code Generator for Slovak & Czech Bank Payments",
     "homeDescription": "Create a payment QR code for free - just enter the IBAN, amount, and symbols. We support PAY by square for Slovak banks, SPAYD for Czech banks, and EPC QR for international SEPA transfers.",
-    "sectionPayment": "QR Code Generator for Bank Payments",
     "sectionApi": "REST API for QR Code Generation",
     "backToHome": "Back to home page",
     "webApiDescription": "REST API for generating QR codes for Slovak and Czech bank payments in BySquare, EPC, and SPAYD formats. Free, no authentication required.",
