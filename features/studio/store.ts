@@ -7,6 +7,10 @@ import {
 } from "./types";
 
 function migrateFrame(config: StudioConfig): void {
+  if (!config.frame) {
+    config.frame = structuredClone(DEFAULT_STUDIO_CONFIG.frame);
+    return;
+  }
   const f = config.frame;
   const d = DEFAULT_STUDIO_CONFIG.frame;
   f.titleSize ??= d.titleSize;
