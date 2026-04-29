@@ -4,6 +4,7 @@ import { useTranslations } from "next-intl";
 import { Field, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import { getContrastRatio } from "../contrast";
 
 interface ColorPickerProps {
   label: string;
@@ -12,42 +13,7 @@ interface ColorPickerProps {
   contrastWith?: string;
 }
 
-const HEX_COLOR_REGEX = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i;
 const HEX_VALIDATION_REGEX = /^#[0-9A-Fa-f]{6}$/;
-
-// Calculate relative luminance according to WCAG 2.0
-function getLuminance(hex: string): number {
-  const rgb = hexToRgb(hex);
-  if (!rgb) {
-    return 0;
-  }
-
-  const [r, g, b] = rgb.map((channel) => {
-    const sRGB = channel / 255;
-    return sRGB <= 0.039_28 ? sRGB / 12.92 : ((sRGB + 0.055) / 1.055) ** 2.4;
-  });
-
-  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
-}
-
-function hexToRgb(hex: string): [number, number, number] | null {
-  const result = HEX_COLOR_REGEX.exec(hex);
-  return result
-    ? [
-        Number.parseInt(result[1], 16),
-        Number.parseInt(result[2], 16),
-        Number.parseInt(result[3], 16),
-      ]
-    : null;
-}
-
-function getContrastRatio(color1: string, color2: string): number {
-  const lum1 = getLuminance(color1);
-  const lum2 = getLuminance(color2);
-  const lighter = Math.max(lum1, lum2);
-  const darker = Math.min(lum1, lum2);
-  return (lighter + 0.05) / (darker + 0.05);
-}
 
 export function ColorPicker({
   label,

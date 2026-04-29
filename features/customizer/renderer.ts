@@ -9,6 +9,7 @@ import {
   getLogoSrc,
 } from "@/features/payment/qr-shared";
 import type { PaymentFormData } from "@/features/payment/schema";
+import { resolveErrorCorrectionLevel } from "./ecc";
 import {
   type CenterTextFont,
   type CenterTextSize,
@@ -314,9 +315,7 @@ export async function renderCustomizerQR(
     currency
   );
 
-  const offCenter =
-    cfg.logoPosition !== "center" || cfg.centerTextPosition !== "center";
-  const ecc: "H" | "M" = offCenter ? "H" : errorCorrectionLevel;
+  const ecc = resolveErrorCorrectionLevel(errorCorrectionLevel, cfg);
 
   const baseImg = await renderBaseQR(payload, ecc, cfg);
 
