@@ -1,19 +1,27 @@
 "use client";
 
-import { IconDeviceFloppy, IconTrash } from "@tabler/icons-react";
+import {
+  IconChevronDown,
+  IconDeviceFloppy,
+  IconTrash,
+} from "@tabler/icons-react";
 import { track } from "@vercel/analytics";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
 import { useCustomizerActions, useCustomizerTemplates } from "../store";
 import { fillPrimaryColor } from "../types";
+
+const COLLAPSED_COUNT = 3;
 
 export function TemplateSelector() {
   const templates = useCustomizerTemplates();
   const { saveTemplate, loadTemplate, deleteTemplate } = useCustomizerActions();
   const [newName, setNewName] = useState("");
+  const [expanded, setExpanded] = useState(false);
   const t = useTranslations("Studio");
   const tTpl = useTranslations("Templates");
 
@@ -30,13 +38,21 @@ export function TemplateSelector() {
     }
   };
 
+  const visible = expanded ? templates : templates.slice(0, COLLAPSED_COUNT);
+  const overflow = templates.length - COLLAPSED_COUNT;
+
   return (
     <div className="flex flex-col gap-2">
       <h2 className="font-medium text-sm">{t("section.templates")}</h2>
 
       {templates.length > 0 && (
-        <div className="flex max-h-40 flex-col gap-1 overflow-auto">
-          {templates.map((template) => (
+        <div
+          className={cn(
+            "flex flex-col gap-1",
+            expanded && "max-h-40 overflow-auto"
+          )}
+        >
+          {visible.map((template) => (
             <div
               className="flex items-center gap-1.5 px-1 py-0.5 hover:bg-accent"
               key={template.id}
@@ -75,6 +91,23 @@ export function TemplateSelector() {
             </div>
           ))}
         </div>
+      )}
+
+      {overflow > 0 && (
+        <button
+          aria-expanded={expanded}
+          className="inline-flex items-center justify-center gap-1 text-muted-foreground text-xs hover:text-foreground"
+          onClick={() => setExpanded((v) => !v)}
+          type="button"
+        >
+          {expanded ? tTpl("showLess") : tTpl("showMore", { count: overflow })}
+          <IconChevronDown
+            className={cn(
+              "size-3 transition-transform",
+              expanded && "rotate-180"
+            )}
+          />
+        </button>
       )}
 
       <div className="flex gap-1.5">

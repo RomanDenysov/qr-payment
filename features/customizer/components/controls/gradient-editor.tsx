@@ -40,7 +40,7 @@ export function GradientEditor({
   };
 
   return (
-    <div className="flex flex-col gap-2 border border-border bg-card/40 p-3">
+    <div className="flex flex-col gap-2">
       <div className="flex items-center justify-between gap-2">
         <span className="font-medium text-sm">{label}</span>
         <SegmentedControl<Kind>

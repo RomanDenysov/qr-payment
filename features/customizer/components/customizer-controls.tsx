@@ -89,22 +89,53 @@ export function CustomizerControls({
         title={t("section.text")}
         value="text"
       >
-        <CenterTextEditor
-          hideHeading
-          onChange={(centerText) => update({ centerText })}
-          onTextBoldChange={(centerTextBold) => update({ centerTextBold })}
-          onTextFontChange={(centerTextFont) => update({ centerTextFont })}
-          onTextSizeChange={(centerTextSize) => update({ centerTextSize })}
-          textBold={config.centerTextBold}
-          textFont={config.centerTextFont}
-          textSize={config.centerTextSize}
-          value={config.centerText}
-        />
-        <PositionPicker
-          label={t("positionText")}
-          onChange={(centerTextPosition) => update({ centerTextPosition })}
-          value={config.centerTextPosition}
-        />
+        <label className="flex items-center gap-2 text-sm">
+          <input
+            checked={config.centerTextEnabled}
+            className="size-4 accent-primary"
+            onChange={(e) => {
+              const enabled = e.target.checked;
+              if (enabled && !config.centerText.trim()) {
+                update({
+                  centerTextEnabled: true,
+                  centerText: tBranding("centerTextPlaceholder"),
+                });
+                return;
+              }
+              update({ centerTextEnabled: enabled });
+            }}
+            type="checkbox"
+          />
+          <span className="font-medium">{t("textEnabled")}</span>
+        </label>
+        {config.centerTextEnabled && (
+          <>
+            <CenterTextEditor
+              hideHeading
+              onChange={(centerText) => update({ centerText })}
+              onTextBoldChange={(centerTextBold) =>
+                update({ centerTextBold })
+              }
+              onTextFontChange={(centerTextFont) =>
+                update({ centerTextFont })
+              }
+              onTextSizeChange={(centerTextSize) =>
+                update({ centerTextSize })
+              }
+              textBold={config.centerTextBold}
+              textFont={config.centerTextFont}
+              textSize={config.centerTextSize}
+              value={config.centerText}
+            />
+            <PositionPicker
+              label={t("positionText")}
+              onChange={(centerTextPosition) =>
+                update({ centerTextPosition })
+              }
+              value={config.centerTextPosition}
+            />
+          </>
+        )}
       </Section>
 
       <Section
@@ -206,6 +237,9 @@ function textChip(
   config: CustomizerConfig,
   t: (key: string) => string
 ): React.ReactNode {
+  if (!config.centerTextEnabled) {
+    return <span>{t("off")}</span>;
+  }
   const text = config.centerText.split("\n").join(" ");
   if (!text.trim()) {
     return <span>{t("empty")}</span>;

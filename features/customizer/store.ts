@@ -26,7 +26,8 @@ interface LegacyBrandingTemplate {
   };
 }
 
-function migrateFrame(config: CustomizerConfig): void {
+function migrateConfig(config: CustomizerConfig): void {
+  config.centerTextEnabled ??= DEFAULT_CUSTOMIZER_CONFIG.centerTextEnabled;
   if (!config.frame) {
     config.frame = structuredClone(DEFAULT_CUSTOMIZER_CONFIG.frame);
     return;
@@ -171,9 +172,9 @@ function onRehydrate(state: CustomizerState | undefined, error: unknown): void {
     return;
   }
   applyLegacyImport(state);
-  migrateFrame(state.config);
+  migrateConfig(state.config);
   for (const tpl of state.templates) {
-    migrateFrame(tpl.config);
+    migrateConfig(tpl.config);
   }
 }
 

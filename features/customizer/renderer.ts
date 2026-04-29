@@ -345,7 +345,7 @@ export async function renderCustomizerQR(
       logo.drawHeight + pad * 2
     );
     ctx.drawImage(logo, x, y, logo.drawWidth, logo.drawHeight);
-  } else if (cfg.centerText) {
+  } else if (cfg.centerTextEnabled && cfg.centerText) {
     const text = renderTextOverlay(
       cfg.centerText,
       fgColor,

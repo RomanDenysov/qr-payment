@@ -11,7 +11,7 @@ export function customizerToBranding(c: CustomizerConfig): QRBranding {
   return {
     fgColor: fillPrimaryColor(c.fgFill),
     bgColor: fillPrimaryColor(c.bgFill),
-    centerText: c.centerText,
+    centerText: c.centerTextEnabled ? c.centerText : "",
     logo: c.logo,
     dotStyle: c.dotStyle,
     centerTextSize: c.centerTextSize,

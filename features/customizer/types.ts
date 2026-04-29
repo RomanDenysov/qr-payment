@@ -69,6 +69,7 @@ export interface CustomizerConfig {
   dotStyle: DotStyle;
 
   centerText: string;
+  centerTextEnabled: boolean;
   centerTextSize: CenterTextSize;
   centerTextFont: CenterTextFont;
   centerTextBold: boolean;
@@ -92,6 +93,7 @@ export const DEFAULT_CUSTOMIZER_CONFIG: Readonly<CustomizerConfig> = {
   bgFill: { kind: "solid", color: "#ffffff" },
   dotStyle: "square",
   centerText: "",
+  centerTextEnabled: true,
   centerTextSize: "medium",
   centerTextFont: "mono",
   centerTextBold: true,

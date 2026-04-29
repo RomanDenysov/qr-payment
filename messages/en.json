@@ -142,6 +142,7 @@
     "centerTextDescription": "Each line is displayed separately",
     "logoHelp": "Logo replaces the center text of the QR code",
     "addLogo": "Add logo",
+    "removeLogo": "Remove logo",
     "logoTooLarge": "Image after compression to 64×64px exceeded 10 KB. Try a simpler or smaller image.",
     "reset": "Reset",
     "done": "Done",
@@ -157,7 +158,9 @@
     "title": "Templates",
     "deleteTemplate": "Delete template",
     "namePlaceholder": "Template name...",
-    "save": "Save"
+    "save": "Save",
+    "showMore": "Show more ({count})",
+    "showLess": "Show less"
   },
   "Studio": {
     "title": "QR Studio",
@@ -183,6 +186,7 @@
     "logoSize": "Logo size",
     "logoSizeHelp": "10 - 50 % of QR width",
     "frameEnabled": "Add a frame around the QR code",
+    "textEnabled": "Show center text",
     "frameBorderColor": "Frame color",
     "frameBorderWidth": "Frame width",
     "frameTitle": "Title above QR",

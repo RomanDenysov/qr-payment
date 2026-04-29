@@ -142,6 +142,7 @@
     "centerTextDescription": "Každý řádek se zobrazí samostatně",
     "logoHelp": "Logo nahradí text uprostřed QR kódu",
     "addLogo": "Přidat logo",
+    "removeLogo": "Odstranit logo",
     "logoTooLarge": "Obrázek po kompresi na 64×64px překročil 10 KB. Zkuste jednodušší nebo menší obrázek.",
     "reset": "Resetovat",
     "done": "Hotovo",
@@ -157,7 +158,9 @@
     "title": "Šablony",
     "deleteTemplate": "Vymazat šablonu",
     "namePlaceholder": "Název šablony...",
-    "save": "Uložit"
+    "save": "Uložit",
+    "showMore": "Zobrazit více ({count})",
+    "showLess": "Zobrazit méně"
   },
   "Studio": {
     "title": "QR Studio",
@@ -183,6 +186,7 @@
     "logoSize": "Velikost loga",
     "logoSizeHelp": "10 - 50 % šířky QR kódu",
     "frameEnabled": "Přidat rám okolo QR kódu",
+    "textEnabled": "Zobrazit text uprostřed",
     "frameBorderColor": "Barva rámu",
     "frameBorderWidth": "Tloušťka rámu",
     "frameTitle": "Titulek nad QR kódem",
