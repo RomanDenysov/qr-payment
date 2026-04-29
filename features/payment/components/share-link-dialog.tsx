@@ -21,7 +21,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { useBrandingConfig } from "@/features/branding/store";
+import { useCustomizerConfig } from "@/features/customizer/store";
+import { fillPrimaryColor } from "@/features/customizer/types";
 import { maskIban } from "@/lib/utils";
 import type { PaymentRecord } from "../schema";
 import { encodeShareData } from "../share-link";
@@ -33,17 +34,20 @@ interface Props {
 export function ShareLinkDialog({ payment }: Props) {
   const [copied, setCopied] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout>>(null);
-  const branding = useBrandingConfig();
+  const customizer = useCustomizerConfig();
   const locale = useLocale();
   const t = useTranslations("ShareLink");
 
+  const fgColor = fillPrimaryColor(customizer.fgFill);
+  const bgColor = fillPrimaryColor(customizer.bgFill);
+
   const encoded = useMemo(() => {
     return encodeShareData(payment, {
-      fgColor: branding.fgColor,
-      bgColor: branding.bgColor,
-      centerText: branding.centerText,
+      fgColor,
+      bgColor,
+      centerText: customizer.centerText,
     });
-  }, [payment, branding.fgColor, branding.bgColor, branding.centerText]);
+  }, [payment, fgColor, bgColor, customizer.centerText]);
 
   const handleCopy = async () => {
     try {
@@ -90,10 +94,7 @@ export function ShareLinkDialog({ payment }: Props) {
 
         <div className="flex flex-col items-center gap-4">
           {payment.qrDataUrl ? (
-            <div
-              className="w-full p-1.5"
-              style={{ backgroundColor: branding.bgColor }}
-            >
+            <div className="w-full p-1.5" style={{ backgroundColor: bgColor }}>
               <Image
                 alt="QR payment code"
                 className="w-full rounded-none"
@@ -135,7 +136,7 @@ export function ShareLinkDialog({ payment }: Props) {
           </p>
         </div>
 
-        {branding.logo ? (
+        {customizer.logo ? (
           <Alert>
             <IconInfoCircle />
             <AlertDescription>{t("logoNotice")}</AlertDescription>

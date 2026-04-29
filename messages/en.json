@@ -20,7 +20,9 @@
     "backToHome": "Back to home page",
     "webApiDescription": "REST API for generating QR codes for Slovak and Czech bank payments in BySquare, EPC, and SPAYD formats. Free, no authentication required.",
     "apiDocsTitle": "API Documentation",
-    "apiDocsDescription": "Complete REST API documentation for generating PAY by square and SPAYD QR codes for Slovak and Czech bank payments. Free, no authentication required."
+    "apiDocsDescription": "Complete REST API documentation for generating PAY by square and SPAYD QR codes for Slovak and Czech bank payments. Free, no authentication required.",
+    "studioTitle": "QR Studio - Advanced QR Code Editor",
+    "studioDescription": "Design a QR code with gradients, custom logo, frame, caption, and overlay positioning. Fully offline, no signup."
   },
   "Nav": {
     "home": "Home",
@@ -40,7 +42,7 @@
     "apiDocs": "API Docs"
   },
   "Announcement": {
-    "message": "New: You can now generate QR codes without a fixed amount. API now supports EPC (EU SEPA) format.",
+    "message": "New: More QR customization options - gradients, logo, frame, position picker, and more.",
     "close": "Close"
   },
   "Consent": {
@@ -140,6 +142,7 @@
     "centerTextDescription": "Each line is displayed separately",
     "logoHelp": "Logo replaces the center text of the QR code",
     "addLogo": "Add logo",
+    "removeLogo": "Remove logo",
     "logoTooLarge": "Image after compression to 64×64px exceeded 10 KB. Try a simpler or smaller image.",
     "reset": "Reset",
     "done": "Done",
@@ -148,13 +151,76 @@
     "dotStyleSquare": "Square",
     "dotStyleRounded": "Rounded",
     "dotStyleDots": "Circles",
-    "dotStyleClassyRounded": "Classy"
+    "dotStyleClassyRounded": "Classy",
+    "openInStudio": "Open in Studio"
   },
   "Templates": {
     "title": "Templates",
     "deleteTemplate": "Delete template",
     "namePlaceholder": "Template name...",
-    "save": "Save"
+    "save": "Save",
+    "showMore": "Show more ({count})",
+    "showLess": "Show less"
+  },
+  "Studio": {
+    "title": "QR Studio",
+    "intro": "Advanced editor for designing QR codes with gradients, logo, frame, and precise overlay positioning. Everything runs in your browser.",
+    "section": {
+      "payment": "Payment",
+      "colors": "Colors and gradients",
+      "dots": "Dot style",
+      "text": "Center text",
+      "logo": "Logo",
+      "frame": "Frame and caption",
+      "position": "Position",
+      "templates": "Templates"
+    },
+    "fgColor": "QR color",
+    "bgColor": "Background",
+    "fillSolid": "Solid",
+    "fillLinear": "Linear",
+    "fillRadial": "Radial",
+    "gradientFrom": "From",
+    "gradientTo": "To",
+    "gradientRotation": "Rotation",
+    "logoSize": "Logo size",
+    "logoSizeHelp": "10 - 50 % of QR width",
+    "frameEnabled": "Add a frame around the QR code",
+    "textEnabled": "Show center text",
+    "frameBorderColor": "Frame color",
+    "frameBorderWidth": "Frame width",
+    "frameTitle": "Title above QR",
+    "frameCaption": "Caption below QR",
+    "frameTextColor": "Text color",
+    "frameFont": "Frame font",
+    "frameTitleSize": "Title size",
+    "frameCaptionSize": "Caption size",
+    "positionLogo": "Logo position",
+    "positionText": "Text position",
+    "position": {
+      "topLeft": "Top left",
+      "top": "Top",
+      "topRight": "Top right",
+      "left": "Left",
+      "center": "Center",
+      "right": "Right",
+      "bottomLeft": "Bottom left",
+      "bottom": "Bottom",
+      "bottomRight": "Bottom right"
+    },
+    "preview": "Preview",
+    "previewEmpty": "Enter a valid IBAN",
+    "downloadPng": "Download PNG",
+    "downloaded": "QR code downloaded",
+    "templateNamePlaceholder": "Template name...",
+    "reset": "Reset settings",
+    "offCenterWarning": "Off-center logo or text may affect scanability. Always test before sharing.",
+    "empty": "empty",
+    "off": "off",
+    "centerShort": "center",
+    "templatesCount": "{count, plural, =0 {none} one {1 template} other {{count} templates}}",
+    "templateSaveFailed": "Failed to save template",
+    "templateLoadFailed": "Failed to load template"
   },
   "Bulk": {
     "title": "Bulk QR Code Generation",

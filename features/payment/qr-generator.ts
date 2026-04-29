@@ -1,6 +1,12 @@
 import { CurrencyCode } from "bysquare";
 import { electronicFormatIBAN, isValidIBAN } from "ibantools";
 import { buildQrPayload } from "./qr-payload";
+import {
+  FONT_SIZE_MAP,
+  FONT_STACKS,
+  getEyeStyles,
+  getLogoSrc,
+} from "./qr-shared";
 import type { PaymentFormData } from "./schema";
 
 export class InvalidIBANError extends Error {
@@ -26,18 +32,6 @@ export interface QRBranding {
 }
 
 const QR_SIZE = 400;
-
-const FONT_STACKS: Record<CenterTextFont, string> = {
-  mono: 'ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace',
-  sans: 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
-  serif: 'ui-serif, Georgia, Cambria, "Times New Roman", Times, serif',
-};
-
-const FONT_SIZE_MAP: Record<CenterTextSize, number> = {
-  small: 22,
-  medium: 30,
-  large: 38,
-};
 
 const IMAGE_SIZE_MAP: Record<CenterTextSize, number> = {
   small: 0.32,
@@ -100,13 +94,6 @@ function renderCenterTextImage(
   return canvas.toDataURL("image/png");
 }
 
-function getLogoSrc(logoData: string): string {
-  if (logoData.startsWith("<")) {
-    return `data:image/svg+xml;utf8,${encodeURIComponent(logoData)}`;
-  }
-  return logoData;
-}
-
 function blobToDataURL(blob: Blob): Promise<string> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -114,21 +101,6 @@ function blobToDataURL(blob: Blob): Promise<string> {
     reader.onerror = reject;
     reader.readAsDataURL(blob);
   });
-}
-
-function getEyeStyles(dotStyle: DotStyle) {
-  switch (dotStyle) {
-    case "square":
-      return { square: "square" as const, dot: "square" as const };
-    case "rounded":
-      return { square: "extra-rounded" as const, dot: "dot" as const };
-    case "dots":
-      return { square: "dot" as const, dot: "dot" as const };
-    case "classy-rounded":
-      return { square: "extra-rounded" as const, dot: "dot" as const };
-    default:
-      return { square: "square" as const, dot: "square" as const };
-  }
 }
 
 export async function generatePaymentQR(

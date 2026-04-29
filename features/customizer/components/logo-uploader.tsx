@@ -1,6 +1,7 @@
 "use client";
 
-import { IconPhoto, IconX } from "@tabler/icons-react";
+import { IconPhoto, IconTrash } from "@tabler/icons-react";
+import { track } from "@vercel/analytics";
 import { useTranslations } from "next-intl";
 import { useRef } from "react";
 import { toast } from "sonner";
@@ -26,6 +27,7 @@ export function LogoUploader({ value, onChange }: LogoUploaderProps) {
         return;
       }
       onChange(result.data);
+      track("logo_uploaded");
     } catch (error) {
       console.error("[LogoUploader] Failed to compress logo:", error);
       toast.error(t("logoUploadError"));
@@ -52,16 +54,18 @@ export function LogoUploader({ value, onChange }: LogoUploaderProps) {
         {/* biome-ignore lint/correctness/useImageSize: size set via className */}
         <img
           alt="Logo"
-          className="size-10 rounded border border-border object-contain"
+          className="size-10 border border-border object-contain"
           src={src}
         />
         <Button
+          className="text-destructive hover:bg-destructive/10 hover:text-destructive"
           onClick={() => onChange(null)}
-          size="icon-xs"
+          size="sm"
           type="button"
-          variant="ghost"
+          variant="outline"
         >
-          <IconX />
+          <IconTrash />
+          {t("removeLogo")}
         </Button>
       </div>
     );

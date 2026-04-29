@@ -19,6 +19,7 @@ interface CenterTextEditorProps {
   onTextBoldChange: (bold: boolean) => void;
   textFont: CenterTextFont;
   onTextFontChange: (font: CenterTextFont) => void;
+  hideHeading?: boolean;
 }
 
 const MAX_CHARS = 50;
@@ -46,6 +47,7 @@ export function CenterTextEditor({
   onTextBoldChange,
   textFont,
   onTextFontChange,
+  hideHeading = false,
 }: CenterTextEditorProps) {
   const charCount = value.length;
   const isNearLimit = charCount >= MAX_CHARS - 5;
@@ -60,17 +62,28 @@ export function CenterTextEditor({
 
   return (
     <Field>
-      <FieldLabel className="flex items-center justify-between">
-        <span>{t("centerText")}</span>
+      {hideHeading ? (
         <span
           className={cn(
-            "font-normal text-muted-foreground text-xs",
+            "self-end font-normal text-muted-foreground text-xs",
             isNearLimit && "text-foreground"
           )}
         >
           {charCount}/{MAX_CHARS}
         </span>
-      </FieldLabel>
+      ) : (
+        <FieldLabel className="flex items-center justify-between">
+          <span>{t("centerText")}</span>
+          <span
+            className={cn(
+              "font-normal text-muted-foreground text-xs",
+              isNearLimit && "text-foreground"
+            )}
+          >
+            {charCount}/{MAX_CHARS}
+          </span>
+        </FieldLabel>
+      )}
       <Textarea
         maxLength={MAX_CHARS}
         onChange={handleChange}

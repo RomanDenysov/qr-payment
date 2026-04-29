@@ -91,13 +91,22 @@
       "description": "Registers tools via the W3C Web Model Context API, allowing in-browser AI agents to generate BySquare and SPAYD QR codes directly without API calls."
     },
     {
-      "name": "QR Code Branding",
-      "source": "features/branding/",
+      "name": "QR Customizer",
+      "source": "features/customizer/",
       "route": null,
       "category": "core",
       "i18nNamespace": "Branding",
       "clientSide": true,
-      "description": "Customize QR code colors, dot style (square, rounded, circles, classy), add center text overlay, upload a logo, and save/load branding templates."
+      "description": "Unified customizer (home page sheet + /studio page) with solid/linear/radial gradients, dot style, center text with 9-position picker, logo upload with size slider and 9-position picker, decorative frame with title and caption, and a shared template store synced across both surfaces."
+    },
+    {
+      "name": "QR Studio",
+      "source": "features/studio/",
+      "route": "/studio",
+      "category": "core",
+      "i18nNamespace": "Studio",
+      "clientSide": true,
+      "description": "Standalone QR designer page with live payment input + sticky preview. Reuses the unified customizer controls and template store from features/customizer/."
     },
     {
       "name": "Payment History",

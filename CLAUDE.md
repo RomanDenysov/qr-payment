@@ -59,9 +59,13 @@ features/bulk/            # Bulk QR generation from CSV
   export-pdf.ts           # A4 PDF export (jsPDF, 2x3 grid)
   export-zip.ts           # ZIP export (zero-dep STORE method)
   store.ts                # Zustand store for bulk state
-features/branding/        # QR code customization
-  store.ts                # Branding config (colors, logo, overlay text)
+features/customizer/      # Unified QR customizer (home sheet + /studio page)
+  store.ts                # Zustand config + templates store (qrCustomizer.v1, max 30 templates)
+  types.ts                # CustomizerConfig, Fill, FrameConfig, OverlayPosition
+  renderer.ts             # renderCustomizerQR (gradients, position overlays, frame compositor)
   compress-logo.ts        # Logo compression for QR overlay
+  branding-bridge.ts      # customizerToBranding helper for bulk/share/api callsites
+  components/             # Shared customizer UI (color/dot/text/logo/frame controls + sheet + templates)
 features/feedback/        # Feature request / feedback module
 features/faq/             # FAQ data (translated)
 features/docs/            # API docs page components
@@ -98,7 +102,7 @@ public/openapi.json       # OpenAPI 3.1 spec - keep in sync with qr-schema.ts an
 - **Zustand store hooks** - Each feature has its own store with granular selectors:
   - Payment: `useCurrentPayment()`, `usePaymentHistory()`, `usePaymentActions()`
   - Bulk: `useBulkRows()`, `useBulkResults()`, `useBulkActions()`, etc.
-  - Branding: `useBrandingConfig()`, `useBrandingActions()`
+  - Customizer: `useCustomizerConfig()`, `useCustomizerActions()`, `useCustomizerTemplates()` (shared by home sheet + /studio page)
 - **Form validation** - Zod schemas with react-hook-form Controller pattern
 - **Translated Zod validation** - Use schema factory functions (e.g. `createSchema(messages)`) since hooks can't be called in schemas
 - **Base UI Dialog** - Inline wrapper components (DialogPortal, DialogOverlay, DialogContent), not shadcn re-exports
@@ -136,6 +140,8 @@ This project uses Ultracite (Biome preset) for formatting and linting. Key rules
 - **No `client-zip`**: ZIP export uses a zero-dependency manual implementation (STORE method) because Turbopack can't chunk the ESM-only `client-zip` package. Don't re-add it.
 - **`ultracite fix` touches unrelated files**: Auto-fix may reformat files you didn't change (trailing newlines, commas). This is normal - include them in the commit.
 - **Announcement banner**: Change `ANNOUNCEMENT_ID` in `components/announcement-banner.tsx` and update `Announcement.message` in translation files. Old dismissed banners won't block new ones.
+- **No analytics on navigation Links**: Don't add `track()` to `onClick` of `<Link>` for route navigation. Track real interactions (form submits, dialog actions, downloads) instead.
+- **Zustand `onRehydrateStorage` does not auto-persist**: Mutating state inside the callback only updates in-memory state. If you also remove legacy localStorage keys there, a user closing the tab before any setState loses everything. Either keep migration idempotent (don't remove old keys) or trigger a setState after migration.
 
 ## API Changes
 

@@ -5,7 +5,7 @@ import { track } from "@vercel/analytics";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 
-const ANNOUNCEMENT_ID = "optional-amount";
+const ANNOUNCEMENT_ID = "advanced-customizer";
 const STORAGE_PREFIX = "announcement-dismissed-";
 
 export function AnnouncementBanner() {

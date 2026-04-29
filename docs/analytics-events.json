@@ -82,32 +82,37 @@
     "logo_uploaded": {
       "description": "User uploaded a custom logo for the QR code center",
       "properties": null,
-      "source": "features/branding/components/branding-dialog.tsx"
+      "source": "features/customizer/components/logo-uploader.tsx"
     },
-    "branding_reset": {
-      "description": "User reset branding settings to defaults",
+    "qr_customizer_applied": {
+      "description": "User applied customizer changes from the home sheet",
       "properties": null,
-      "source": "features/branding/components/branding-dialog.tsx"
+      "source": "features/payment/components/qr-preview-card.tsx"
     },
-    "branding_template_saved": {
-      "description": "User saved current branding config as a reusable template",
+    "customizer_reset": {
+      "description": "User reset customizer settings to defaults",
       "properties": null,
-      "source": "features/branding/components/template-selector.tsx"
+      "source": "features/customizer/components/customizer-sheet.tsx"
     },
-    "branding_template_loaded": {
-      "description": "User loaded a previously saved branding template",
+    "customizer_template_saved": {
+      "description": "User saved current customizer config as a reusable template",
       "properties": null,
-      "source": "features/branding/components/template-selector.tsx"
+      "source": "features/customizer/components/template-selector.tsx"
     },
-    "branding_template_deleted": {
-      "description": "User deleted a saved branding template",
+    "customizer_template_loaded": {
+      "description": "User loaded a previously saved customizer template",
       "properties": null,
-      "source": "features/branding/components/template-selector.tsx"
+      "source": "features/customizer/components/template-selector.tsx"
+    },
+    "customizer_template_deleted": {
+      "description": "User deleted a saved customizer template",
+      "properties": null,
+      "source": "features/customizer/components/template-selector.tsx"
     },
     "qr_dot_style_changed": {
       "description": "User changed the QR code dot style",
       "properties": { "style": "square | rounded | dots | classy-rounded" },
-      "source": "features/branding/components/dot-style-selector.tsx"
+      "source": "features/customizer/components/dot-style-selector.tsx"
     }
   },
 

@@ -20,7 +20,9 @@
     "backToHome": "Späť na hlavnú stránku",
     "webApiDescription": "REST API pre generovanie QR kódov pre bankové platby vo formátoch BySquare, EPC a SPAYD. Zadarmo, bez autentifikácie.",
     "apiDocsTitle": "API dokumentácia",
-    "apiDocsDescription": "Kompletná REST API dokumentácia pre generovanie PAY by square a SPAYD QR kódov pre slovenské a české bankové platby. Zadarmo, bez autentifikácie."
+    "apiDocsDescription": "Kompletná REST API dokumentácia pre generovanie PAY by square a SPAYD QR kódov pre slovenské a české bankové platby. Zadarmo, bez autentifikácie.",
+    "studioTitle": "QR Studio - Pokročilý editor QR kódov",
+    "studioDescription": "Navrhnite QR kód s gradientmi, vlastným logom, rámom, titulkom a polohou prvkov. Plne offline, bez registrácie."
   },
   "Nav": {
     "home": "Domov",
@@ -40,7 +42,7 @@
     "apiDocs": "API dokumentácia"
   },
   "Announcement": {
-    "message": "Novinka: QR kod je teraz mozne vytvorit aj bez pevnej sumy. API teraz podporuje aj EPC (EU SEPA) format.",
+    "message": "Novinka: Viac možností prispôsobenia QR kódu - gradienty, logo, rám, výber polohy a ďalšie.",
     "close": "Zavriet"
   },
   "Consent": {
@@ -140,6 +142,7 @@
     "centerTextDescription": "Každý riadok sa zobrazí samostatne",
     "logoHelp": "Logo nahradí text v strede QR kódu",
     "addLogo": "Pridať logo",
+    "removeLogo": "Odstrániť logo",
     "logoTooLarge": "Obrázok po kompresii na 64×64px prekročil 10 KB. Skúste jednoduchší alebo menší obrázok.",
     "reset": "Resetovať",
     "done": "Hotovo",
@@ -148,13 +151,76 @@
     "dotStyleSquare": "Štvorce",
     "dotStyleRounded": "Zaoblené",
     "dotStyleDots": "Kruhy",
-    "dotStyleClassyRounded": "Elegantné"
+    "dotStyleClassyRounded": "Elegantné",
+    "openInStudio": "Otvoriť v štúdiu"
   },
   "Templates": {
     "title": "Šablóny",
     "deleteTemplate": "Vymazať šablónu",
     "namePlaceholder": "Názov šablóny...",
-    "save": "Uložiť"
+    "save": "Uložiť",
+    "showMore": "Zobraziť viac ({count})",
+    "showLess": "Zobraziť menej"
+  },
+  "Studio": {
+    "title": "QR Studio",
+    "intro": "Pokročilý editor pre vytvorenie QR kódu s gradientmi, logom, rámom a presným umiestnením prvkov. Všetko vo vašom prehliadači.",
+    "section": {
+      "payment": "Platba",
+      "colors": "Farby a gradienty",
+      "dots": "Štýl bodov",
+      "text": "Text v strede",
+      "logo": "Logo",
+      "frame": "Rám a titulok",
+      "position": "Poloha",
+      "templates": "Šablóny"
+    },
+    "fgColor": "Farba QR kódu",
+    "bgColor": "Farba pozadia",
+    "fillSolid": "Plná",
+    "fillLinear": "Lineárny",
+    "fillRadial": "Radiálny",
+    "gradientFrom": "Začiatok",
+    "gradientTo": "Koniec",
+    "gradientRotation": "Rotácia",
+    "logoSize": "Veľkosť loga",
+    "logoSizeHelp": "10 - 50 % šírky QR kódu",
+    "frameEnabled": "Pridať rám okolo QR kódu",
+    "textEnabled": "Zobraziť text v strede",
+    "frameBorderColor": "Farba rámu",
+    "frameBorderWidth": "Hrúbka rámu",
+    "frameTitle": "Titulok nad QR kódom",
+    "frameCaption": "Popis pod QR kódom",
+    "frameTextColor": "Farba textu",
+    "frameFont": "Písmo rámu",
+    "frameTitleSize": "Veľkosť titulku",
+    "frameCaptionSize": "Veľkosť popisu",
+    "positionLogo": "Poloha loga",
+    "positionText": "Poloha textu",
+    "position": {
+      "topLeft": "Vľavo hore",
+      "top": "Hore",
+      "topRight": "Vpravo hore",
+      "left": "Vľavo",
+      "center": "Stred",
+      "right": "Vpravo",
+      "bottomLeft": "Vľavo dole",
+      "bottom": "Dole",
+      "bottomRight": "Vpravo dole"
+    },
+    "preview": "Ukážka",
+    "previewEmpty": "Zadajte platný IBAN",
+    "downloadPng": "Stiahnuť PNG",
+    "downloaded": "QR kód stiahnutý",
+    "templateNamePlaceholder": "Pomenovanie šablóny...",
+    "reset": "Resetovať nastavenia",
+    "offCenterWarning": "Posunutie loga alebo textu mimo stredu môže ovplyvniť čitateľnosť. Pred použitím vždy otestujte.",
+    "empty": "prázdne",
+    "off": "vypnuté",
+    "centerShort": "stred",
+    "templatesCount": "{count, plural, =0 {žiadne} one {1 šablóna} few {{count} šablóny} other {{count} šablón}}",
+    "templateSaveFailed": "Nepodarilo sa uložiť šablónu",
+    "templateLoadFailed": "Nepodarilo sa načítať šablónu"
   },
   "Bulk": {
     "title": "Hromadné generovanie QR kódov",

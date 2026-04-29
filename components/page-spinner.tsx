@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { cn } from "@/lib/utils";
 
 const SIZE = 16;
 const TICK_MS = 150;
@@ -9,6 +10,12 @@ const ALIVE_RATIO = 0.35;
 function createGrid(): boolean[][] {
   return Array.from({ length: SIZE }, () =>
     Array.from({ length: SIZE }, () => Math.random() < ALIVE_RATIO)
+  );
+}
+
+function emptyGrid(): boolean[][] {
+  return Array.from({ length: SIZE }, () =>
+    Array.from({ length: SIZE }, () => false)
   );
 }
 
@@ -49,11 +56,20 @@ function nextGeneration(grid: boolean[][]): {
   return { next, changed };
 }
 
-export function PageSpinner() {
-  const [grid, setGrid] = useState(createGrid);
+interface PageSpinnerProps {
+  className?: string;
+  cellClassName?: string;
+}
+
+export function PageSpinner({
+  className,
+  cellClassName,
+}: PageSpinnerProps = {}) {
+  const [grid, setGrid] = useState<boolean[][]>(() => emptyGrid());
   const staleCountRef = useRef(0);
 
   useEffect(() => {
+    setGrid(createGrid());
     const interval = setInterval(() => {
       setGrid((prev) => {
         const { next, changed } = nextGeneration(prev);
@@ -78,7 +94,9 @@ export function PageSpinner() {
   }, []);
 
   return (
-    <div className="flex min-h-[50vh] items-center justify-center">
+    <div
+      className={cn("flex min-h-[50vh] items-center justify-center", className)}
+    >
       <div
         className="grid gap-px"
         style={{
@@ -87,8 +105,12 @@ export function PageSpinner() {
       >
         {grid.flat().map((alive, i) => (
           <div
+            className={cn(
+              "transition-colors duration-150",
+              alive ? "bg-foreground" : "bg-transparent",
+              cellClassName ?? "size-2"
+            )}
             // biome-ignore lint/suspicious/noArrayIndexKey: static grid
-            className={`size-2 transition-colors duration-150 ${alive ? "bg-foreground" : "bg-transparent"}`}
             key={i}
           />
         ))}

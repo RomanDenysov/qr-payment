@@ -4,6 +4,7 @@ import { localePath } from "@/lib/seo";
 
 const pages = [
   { path: "", changeFrequency: "monthly" as const, priority: 1 },
+  { path: "/studio", changeFrequency: "monthly" as const, priority: 0.7 },
   { path: "/bulk", changeFrequency: "monthly" as const, priority: 0.8 },
   {
     path: "/ochrana-udajov",
