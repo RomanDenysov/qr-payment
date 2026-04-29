@@ -33,6 +33,30 @@ export const OVERLAY_POSITIONS: OverlayPosition[] = [
   "bottom-right",
 ];
 
+export const OVERLAY_POSITION_I18N_KEYS: Record<OverlayPosition, string> = {
+  "top-left": "topLeft",
+  top: "top",
+  "top-right": "topRight",
+  left: "left",
+  center: "center",
+  right: "right",
+  "bottom-left": "bottomLeft",
+  bottom: "bottom",
+  "bottom-right": "bottomRight",
+};
+
+export const OVERLAY_POSITION_SHORT: Record<OverlayPosition, string> = {
+  "top-left": "TL",
+  top: "T",
+  "top-right": "TR",
+  left: "L",
+  center: "·",
+  right: "R",
+  "bottom-left": "BL",
+  bottom: "B",
+  "bottom-right": "BR",
+};
+
 export interface SolidFill {
   kind: "solid";
   color: string;

@@ -148,6 +148,12 @@ function applyLegacyImport(state: CustomizerState): void {
   if (window.localStorage.getItem(STORAGE_KEY) !== null) {
     return;
   }
+  if (
+    window.localStorage.getItem(LEGACY_STUDIO_KEY) === null &&
+    window.localStorage.getItem(LEGACY_BRANDING_KEY) === null
+  ) {
+    return;
+  }
   const studio = readLegacyStudio();
   const branding = readLegacyBrandingTemplates();
   if (studio.config) {
@@ -156,8 +162,6 @@ function applyLegacyImport(state: CustomizerState): void {
   if (studio.templates.length || branding.length) {
     state.templates = mergeTemplates(studio.templates, branding);
   }
-  window.localStorage.removeItem(LEGACY_STUDIO_KEY);
-  window.localStorage.removeItem(LEGACY_BRANDING_KEY);
 }
 
 function onRehydrate(state: CustomizerState | undefined, error: unknown): void {

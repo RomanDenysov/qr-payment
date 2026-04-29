@@ -51,12 +51,16 @@ function loadImage(src: string): Promise<HTMLImageElement> {
 const logoCache = new Map<string, Promise<HTMLImageElement>>();
 
 function loadLogoCached(src: string): Promise<HTMLImageElement> {
-  let cached = logoCache.get(src);
-  if (!cached) {
-    cached = loadImage(src);
-    logoCache.set(src, cached);
+  const cached = logoCache.get(src);
+  if (cached) {
+    return cached;
   }
-  return cached;
+  const pending = loadImage(src).catch((err) => {
+    logoCache.delete(src);
+    throw err;
+  });
+  logoCache.set(src, pending);
+  return pending;
 }
 
 function blobToImage(blob: Blob): Promise<HTMLImageElement> {

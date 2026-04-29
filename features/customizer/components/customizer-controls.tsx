@@ -18,6 +18,7 @@ import { useCustomizerActions, useCustomizerConfig } from "../store";
 import {
   type CustomizerConfig,
   fillPrimaryColor,
+  OVERLAY_POSITION_SHORT,
   type OverlayPosition,
 } from "../types";
 import { FrameEditor } from "./controls/frame-editor";
@@ -113,15 +114,9 @@ export function CustomizerControls({
             <CenterTextEditor
               hideHeading
               onChange={(centerText) => update({ centerText })}
-              onTextBoldChange={(centerTextBold) =>
-                update({ centerTextBold })
-              }
-              onTextFontChange={(centerTextFont) =>
-                update({ centerTextFont })
-              }
-              onTextSizeChange={(centerTextSize) =>
-                update({ centerTextSize })
-              }
+              onTextBoldChange={(centerTextBold) => update({ centerTextBold })}
+              onTextFontChange={(centerTextFont) => update({ centerTextFont })}
+              onTextSizeChange={(centerTextSize) => update({ centerTextSize })}
               textBold={config.centerTextBold}
               textFont={config.centerTextFont}
               textSize={config.centerTextSize}
@@ -129,9 +124,7 @@ export function CustomizerControls({
             />
             <PositionPicker
               label={t("positionText")}
-              onChange={(centerTextPosition) =>
-                update({ centerTextPosition })
-              }
+              onChange={(centerTextPosition) => update({ centerTextPosition })}
               value={config.centerTextPosition}
             />
           </>
@@ -284,21 +277,9 @@ function frameChip(
   return <span>{parts.join(" · ")}</span>;
 }
 
-const POS_SHORT: Record<OverlayPosition, string> = {
-  "top-left": "TL",
-  top: "T",
-  "top-right": "TR",
-  left: "L",
-  center: "·",
-  right: "R",
-  "bottom-left": "BL",
-  bottom: "B",
-  "bottom-right": "BR",
-};
-
 function posLabel(p: OverlayPosition, t: (key: string) => string): string {
   if (p === "center") {
     return t("centerShort");
   }
-  return POS_SHORT[p];
+  return OVERLAY_POSITION_SHORT[p];
 }

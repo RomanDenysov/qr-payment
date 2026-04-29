@@ -2,25 +2,17 @@
 
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
-import { OVERLAY_POSITIONS, type OverlayPosition } from "../../types";
+import {
+  OVERLAY_POSITION_I18N_KEYS,
+  OVERLAY_POSITIONS,
+  type OverlayPosition,
+} from "../../types";
 
 interface PositionPickerProps {
   label: string;
   value: OverlayPosition;
   onChange: (pos: OverlayPosition) => void;
 }
-
-const POS_KEYS: Record<OverlayPosition, string> = {
-  "top-left": "topLeft",
-  top: "top",
-  "top-right": "topRight",
-  left: "left",
-  center: "center",
-  right: "right",
-  "bottom-left": "bottomLeft",
-  bottom: "bottom",
-  "bottom-right": "bottomRight",
-};
 
 export function PositionPicker({
   label,
@@ -34,7 +26,7 @@ export function PositionPicker({
       <div className="grid w-fit grid-cols-3 gap-1 border border-border bg-muted p-1">
         {OVERLAY_POSITIONS.map((pos) => (
           <button
-            aria-label={t(POS_KEYS[pos])}
+            aria-label={t(OVERLAY_POSITION_I18N_KEYS[pos])}
             aria-pressed={value === pos}
             className={cn(
               "size-7 border border-transparent transition-colors",
@@ -44,7 +36,7 @@ export function PositionPicker({
             )}
             key={pos}
             onClick={() => onChange(pos)}
-            title={t(POS_KEYS[pos])}
+            title={t(OVERLAY_POSITION_I18N_KEYS[pos])}
             type="button"
           >
             <span aria-hidden="true" className="block size-full" />
