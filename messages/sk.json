@@ -42,7 +42,7 @@
     "apiDocs": "API dokumentácia"
   },
   "Announcement": {
-    "message": "Novinka: V editore QR kódu si teraz môžete vybrať veľkosť obrázka - od 128 px na obrazovku po 1024 px pre tlač.",
+    "message": "Novinky: gradienty, logo, rám, výber polohy a ďalšie možnosti prispôsobenia QR kódu - a teraz aj výber veľkosti obrázka od 128 px na obrazovku po 1024 px pre tlač.",
     "close": "Zavriet"
   },
   "Consent": {

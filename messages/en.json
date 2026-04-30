@@ -42,7 +42,7 @@
     "apiDocs": "API Docs"
   },
   "Announcement": {
-    "message": "New: pick the image size in the QR editor - from 128 px for screens up to 1024 px for print.",
+    "message": "What's new: gradients, logo, frame, position picker and more QR customization - plus pick the image size from 128 px for screens up to 1024 px for print.",
     "close": "Close"
   },
   "Consent": {
