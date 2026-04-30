@@ -1,5 +1,3 @@
-import jsQR from "jsqr";
-
 export type ScanResult =
   | { ok: true; decoded: string }
   | { ok: false; reason: "decode_failed" | "payload_mismatch" };
@@ -30,29 +28,20 @@ async function dataUrlToImageData(src: string): Promise<ImageData | null> {
   return ctx.getImageData(0, 0, SCAN_SIZE, SCAN_SIZE);
 }
 
-function canvasToImageData(canvas: HTMLCanvasElement): ImageData | null {
-  const ctx = canvas.getContext("2d");
-  if (!ctx) {
-    return null;
-  }
-  return ctx.getImageData(0, 0, canvas.width, canvas.height);
-}
-
 export async function validateScannability(
-  source: HTMLCanvasElement | string,
+  src: string,
   expectedPayload: string
 ): Promise<ScanResult> {
-  const imageData =
-    typeof source === "string"
-      ? await dataUrlToImageData(source)
-      : canvasToImageData(source);
+  const imageData = await dataUrlToImageData(src);
 
   if (!imageData) {
     return { ok: false, reason: "decode_failed" };
   }
 
+  const { default: jsQR } = await import("jsqr");
+
   const decoded = jsQR(imageData.data, imageData.width, imageData.height, {
-    inversionAttempts: "dontInvert",
+    inversionAttempts: "attemptBoth",
   });
 
   if (!decoded) {
