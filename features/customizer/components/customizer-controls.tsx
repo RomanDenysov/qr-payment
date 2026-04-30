@@ -18,11 +18,7 @@ import {
 } from "@/features/customizer/components/dot-style-selector";
 import { LogoUploader } from "@/features/customizer/components/logo-uploader";
 import { cn } from "@/lib/utils";
-import {
-  checkGuardrails,
-  type Guardrail,
-  getResolvedMaxLogoSizePct,
-} from "../guardrails";
+import { type Guardrail, getResolvedMaxLogoSizePct } from "../guardrails";
 import { useCustomizerActions, useCustomizerConfig } from "../store";
 import {
   type CustomizerConfig,
@@ -30,6 +26,7 @@ import {
   OVERLAY_POSITION_SHORT,
   type OverlayPosition,
 } from "../types";
+import { useGuardrails } from "../use-guardrails";
 import { FrameEditor } from "./controls/frame-editor";
 import { GradientEditor } from "./controls/gradient-editor";
 import { LogoSizeSlider } from "./controls/logo-size-slider";
@@ -51,7 +48,7 @@ export function CustomizerControls({
   const t = useTranslations("Studio");
   const tBranding = useTranslations("Branding");
 
-  const guardrails = useMemo(() => checkGuardrails(config), [config]);
+  const guardrails = useGuardrails();
   const maxLogoSize = useMemo(
     () => getResolvedMaxLogoSizePct(config),
     [config]

@@ -1,4 +1,4 @@
-import { FONT_SIZE_MAP, FONT_STACKS } from "@/features/payment/qr-shared";
+import { measureTextOverlayBounds } from "@/features/payment/qr-shared";
 import { getContrastRatio } from "./contrast";
 import {
   ECC_CONTRAST_THRESHOLD,
@@ -29,27 +29,19 @@ const VERY_LOW_CONTRAST_THRESHOLD = 3;
 const WEAK_GRADIENT_THRESHOLD = 1.2;
 
 function measureCenterTextCoveragePct(cfg: CustomizerConfig): number | null {
-  if (typeof document === "undefined") {
-    return null;
-  }
   if (!(cfg.centerTextEnabled && cfg.centerText.trim())) {
     return null;
   }
-  const ctx = document.createElement("canvas").getContext("2d");
-  if (!ctx) {
+  const bounds = measureTextOverlayBounds(
+    cfg.centerText,
+    cfg.centerTextSize,
+    cfg.centerTextBold,
+    cfg.centerTextFont
+  );
+  if (!bounds) {
     return null;
   }
-  const lines = cfg.centerText.split("\n");
-  const fontSize = FONT_SIZE_MAP[cfg.centerTextSize];
-  const weight = cfg.centerTextBold ? 600 : 400;
-  const stack = FONT_STACKS[cfg.centerTextFont];
-  ctx.font = `${weight} ${fontSize}px ${stack}`;
-  const maxWidth = Math.max(...lines.map((l) => ctx.measureText(l).width));
-  const lineHeight = fontSize * 1.15;
-  const padding = fontSize * 0.5;
-  const w = maxWidth + padding * 2;
-  const h = lines.length * lineHeight + padding * 1.5;
-  return (Math.max(w, h) / QR_SIZE) * 100;
+  return (Math.max(bounds.w, bounds.h) / QR_SIZE) * 100;
 }
 
 function isGradient(fill: Fill): boolean {

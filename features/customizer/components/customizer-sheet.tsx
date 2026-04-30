@@ -8,7 +8,7 @@ import {
 } from "@tabler/icons-react";
 import { track } from "@vercel/analytics";
 import { useTranslations } from "next-intl";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import {
@@ -20,8 +20,8 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Link } from "@/i18n/navigation";
-import { checkGuardrails } from "../guardrails";
-import { useCustomizerActions, useCustomizerConfig } from "../store";
+import { useCustomizerActions } from "../store";
+import { useGuardrails } from "../use-guardrails";
 import { CustomizerControls } from "./customizer-controls";
 import { TemplateSelector } from "./template-selector";
 
@@ -35,12 +35,9 @@ const FOOTER_BUTTON_CLASS =
 export function CustomizerSheet({ onApply }: CustomizerSheetProps) {
   const [open, setOpen] = useState(false);
   const actions = useCustomizerActions();
-  const config = useCustomizerConfig();
   const t = useTranslations("Branding");
-  const hasBlockingIssue = useMemo(
-    () => checkGuardrails(config).some((g) => g.severity === "warning"),
-    [config]
-  );
+  const guardrails = useGuardrails();
+  const hasBlockingIssue = guardrails.some((g) => g.severity === "warning");
 
   return (
     <Sheet onOpenChange={setOpen} open={open}>

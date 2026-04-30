@@ -7,6 +7,7 @@ import {
   FONT_STACKS,
   getEyeStyles,
   getLogoSrc,
+  measureTextOverlayBounds,
 } from "@/features/payment/qr-shared";
 import type { PaymentFormData } from "@/features/payment/schema";
 import { resolveErrorCorrectionLevel } from "./ecc";
@@ -136,22 +137,18 @@ function renderTextOverlay(
   bold: boolean,
   font: CenterTextFont
 ): HTMLCanvasElement {
+  const bounds = measureTextOverlayBounds(text, size, bold, font);
+  if (!bounds) {
+    throw new Error("Canvas not supported");
+  }
+  const w = Math.ceil(bounds.w);
+  const h = Math.ceil(bounds.h);
+
   const lines = text.split("\n");
   const fontSize = FONT_SIZE_MAP[size];
   const weight = bold ? 600 : 400;
   const stack = FONT_STACKS[font];
   const lineHeight = fontSize * 1.15;
-  const padding = fontSize * 0.5;
-
-  const measure = document.createElement("canvas").getContext("2d");
-  if (!measure) {
-    throw new Error("Canvas not supported");
-  }
-  measure.font = `${weight} ${fontSize}px ${stack}`;
-  const maxWidth = Math.max(...lines.map((l) => measure.measureText(l).width));
-
-  const w = Math.ceil(maxWidth + padding * 2);
-  const h = Math.ceil(lines.length * lineHeight + padding * 1.5);
 
   const canvas = document.createElement("canvas");
   canvas.width = w;
