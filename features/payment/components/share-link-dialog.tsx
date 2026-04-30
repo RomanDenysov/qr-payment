@@ -9,7 +9,7 @@ import {
 import { track } from "@vercel/analytics";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo } from "react";
 import { toast } from "sonner";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/dialog";
 import { useCustomizerConfig } from "@/features/customizer/store";
 import { fillPrimaryColor } from "@/features/customizer/types";
+import { useCopyState } from "@/lib/hooks/use-copy-state";
 import { maskIban } from "@/lib/utils";
 import type { PaymentRecord } from "../schema";
 import { encodeShareData } from "../share-link";
@@ -32,8 +33,7 @@ interface Props {
 }
 
 export function ShareLinkDialog({ payment }: Props) {
-  const [copied, setCopied] = useState(false);
-  const timerRef = useRef<ReturnType<typeof setTimeout>>(null);
+  const { copied, trigger } = useCopyState();
   const customizer = useCustomizerConfig();
   const locale = useLocale();
   const t = useTranslations("ShareLink");
@@ -54,13 +54,9 @@ export function ShareLinkDialog({ payment }: Props) {
       const prefix = locale === "sk" ? "" : `/${locale}`;
       const shareUrl = `${window.location.origin}${prefix}/p?d=${encoded}`;
       await navigator.clipboard.writeText(shareUrl);
-      setCopied(true);
+      trigger();
       track("share_link_copied");
       toast.success(t("copied"));
-      if (timerRef.current) {
-        clearTimeout(timerRef.current);
-      }
-      timerRef.current = setTimeout(() => setCopied(false), 2000);
     } catch (error) {
       console.error("[ShareLinkDialog] Failed to copy share link", error, {
         locale,
@@ -69,14 +65,6 @@ export function ShareLinkDialog({ payment }: Props) {
       toast.error(t("copyFailed"));
     }
   };
-
-  useEffect(() => {
-    return () => {
-      if (timerRef.current) {
-        clearTimeout(timerRef.current);
-      }
-    };
-  }, []);
 
   const format = payment.format ?? "bysquare";
 

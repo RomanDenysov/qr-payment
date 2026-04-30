@@ -178,10 +178,16 @@ export function HistorySheet({ onOpen }: { onOpen?: () => void } = {}) {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {sorted.map((entry) => (
+                  {sorted.map((entry, index) => (
                     <TableRow
-                      className={entry.name ? "bg-accent/50" : undefined}
+                      className={cn(
+                        "fade-in-0 slide-in-from-top-1 animate-in fill-mode-both duration-200 ease-out",
+                        entry.name && "bg-accent/50"
+                      )}
                       key={entry.id}
+                      style={{
+                        animationDelay: `${Math.min(index, 6) * 40}ms`,
+                      }}
                     >
                       <TableCell className="align-middle text-xs tracking-tighter">
                         <div className="flex flex-col gap-0.5">

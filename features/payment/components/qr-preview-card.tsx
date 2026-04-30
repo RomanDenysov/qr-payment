@@ -5,7 +5,7 @@ import { track } from "@vercel/analytics";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useTransition } from "react";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -87,6 +87,9 @@ export function QRPreviewCard() {
   const t = useTranslations("QRPreview");
   const cardRef = useRef<HTMLDivElement>(null);
   const prevQrRef = useRef<string | undefined>(undefined);
+  const [downloadPending, startDownload] = useTransition();
+  const [copyPending, startCopy] = useTransition();
+  const [sharePending, startShare] = useTransition();
 
   useEffect(() => {
     if (current?.qrDataUrl && current.qrDataUrl !== prevQrRef.current) {
@@ -113,62 +116,73 @@ export function QRPreviewCard() {
   };
 
   const handleDownload = () => {
-    if (!current?.qrDataUrl) {
+    const qrDataUrl = current?.qrDataUrl;
+    if (!qrDataUrl) {
       return;
     }
-
-    const link = document.createElement("a");
-    link.href = current.qrDataUrl;
-    link.download = `qr-payment-${Date.now()}.png`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    track("qr_downloaded");
-    toast.success(t("downloaded"));
+    startDownload(() => {
+      try {
+        const link = document.createElement("a");
+        link.href = qrDataUrl;
+        link.download = `qr-payment-${Date.now()}.png`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        track("qr_downloaded");
+        toast.success(t("downloaded"));
+      } catch (error) {
+        console.error("[QRPreviewCard] Failed to download QR image:", error);
+        toast.error(t("downloadFailed"));
+      }
+    });
   };
 
-  const handleCopy = async () => {
-    if (!current?.qrDataUrl) {
+  const handleCopy = () => {
+    const qrDataUrl = current?.qrDataUrl;
+    if (!qrDataUrl) {
       return;
     }
-
-    try {
-      const response = await fetch(current.qrDataUrl);
-      const blob = await response.blob();
-      await navigator.clipboard.write([
-        new ClipboardItem({ "image/png": blob }),
-      ]);
-      track("qr_copied");
-      toast.success(t("copied"));
-    } catch (error) {
-      console.error("[QRPreviewCard] Failed to copy QR image:", error);
-      toast.error(t("copyFailed"));
-    }
+    startCopy(async () => {
+      try {
+        const response = await fetch(qrDataUrl);
+        const blob = await response.blob();
+        await navigator.clipboard.write([
+          new ClipboardItem({ "image/png": blob }),
+        ]);
+        track("qr_copied");
+        toast.success(t("copied"));
+      } catch (error) {
+        console.error("[QRPreviewCard] Failed to copy QR image:", error);
+        toast.error(t("copyFailed"));
+      }
+    });
   };
 
-  const handleShare = async () => {
-    if (!(current?.qrDataUrl && navigator.share)) {
+  const handleShare = () => {
+    const qrDataUrl = current?.qrDataUrl;
+    if (!(qrDataUrl && navigator.share)) {
       handleCopy();
       return;
     }
-
-    try {
-      const response = await fetch(current.qrDataUrl);
-      const blob = await response.blob();
-      const file = new File([blob], "qr-payment.png", {
-        type: "image/png",
-      });
-      await navigator.share({
-        files: [file],
-        title: t("shareTitle"),
-      });
-      track("qr_shared");
-      toast.success(t("shared"));
-    } catch (error) {
-      if ((error as Error).name !== "AbortError") {
-        handleCopy();
+    startShare(async () => {
+      try {
+        const response = await fetch(qrDataUrl);
+        const blob = await response.blob();
+        const file = new File([blob], "qr-payment.png", {
+          type: "image/png",
+        });
+        await navigator.share({
+          files: [file],
+          title: t("shareTitle"),
+        });
+        track("qr_shared");
+        toast.success(t("shared"));
+      } catch (error) {
+        if ((error as Error).name !== "AbortError") {
+          handleCopy();
+        }
       }
-    }
+    });
   };
 
   return (
@@ -184,13 +198,18 @@ export function QRPreviewCard() {
       <CardContent className="flex h-full grow flex-col items-center justify-center">
         {current?.qrDataUrl ? (
           <>
-            <Image
-              alt="QR payment code"
-              className="mb-4 w-full max-w-96 rounded-none"
-              height={384}
-              src={current.qrDataUrl}
-              width={384}
-            />
+            <div
+              className="mb-4 w-full max-w-96 motion-safe:animate-qr-reveal"
+              key={current.qrDataUrl}
+            >
+              <Image
+                alt="QR payment code"
+                className="w-full rounded-none"
+                height={384}
+                src={current.qrDataUrl}
+                width={384}
+              />
+            </div>
             <PaymentDetails paymentDetails={current} />
           </>
         ) : (
@@ -204,18 +223,29 @@ export function QRPreviewCard() {
           <ShareLinkDialog payment={current} />
           <Button
             className="col-span-2 sm:col-span-1 sm:flex-1"
+            isPending={downloadPending}
             onClick={handleDownload}
             variant="outline"
           >
-            <IconDownload />
+            {downloadPending ? null : <IconDownload />}
             {t("download")}
           </Button>
-          <Button className="sm:flex-1" onClick={handleShare} variant="outline">
-            <IconShare />
+          <Button
+            className="sm:flex-1"
+            isPending={sharePending}
+            onClick={handleShare}
+            variant="outline"
+          >
+            {sharePending ? null : <IconShare />}
             {t("share")}
           </Button>
-          <Button className="sm:flex-1" onClick={handleCopy} variant="outline">
-            <IconCopy />
+          <Button
+            className="sm:flex-1"
+            isPending={copyPending}
+            onClick={handleCopy}
+            variant="outline"
+          >
+            {copyPending ? null : <IconCopy />}
             {t("copy")}
           </Button>
         </CardFooter>

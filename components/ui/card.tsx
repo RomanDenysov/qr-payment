@@ -4,17 +4,22 @@ import { cn } from "@/lib/utils";
 function Card({
   className,
   size = "default",
+  interactive = false,
   ...props
-}: ComponentProps<"div"> & { size?: "default" | "sm" }) {
+}: ComponentProps<"div"> & {
+  size?: "default" | "sm";
+  interactive?: boolean;
+}) {
   return (
     <div
       className={cn(
-        "group/card flex flex-col gap-4 overflow-hidden rounded-none bg-card py-4 text-card-foreground text-sm/relaxed ring-1 ring-foreground/10 has-[>img:first-child]:pt-0 has-data-[slot=card-footer]:pb-0 data-[size=sm]:gap-2 data-[size=sm]:py-3 data-[size=sm]:has-data-[slot=card-footer]:pb-0 *:[img:first-child]:rounded-none *:[img:last-child]:rounded-none",
+        "group/card flex flex-col gap-4 overflow-hidden rounded-none bg-card py-4 text-card-foreground text-sm/relaxed ring-1 ring-foreground/10 transition-[transform,box-shadow] duration-150 ease-out has-[>img:first-child]:pt-0 has-data-[slot=card-footer]:pb-0 data-[interactive=true]:cursor-pointer data-[size=sm]:gap-2 data-[size=sm]:py-3 data-[size=sm]:has-data-[slot=card-footer]:pb-0 data-[interactive=true]:active:translate-y-px data-[interactive=true]:hover:ring-foreground/30 *:[img:first-child]:rounded-none *:[img:last-child]:rounded-none",
         className
       )}
+      {...props}
+      data-interactive={interactive ? "true" : undefined}
       data-size={size}
       data-slot="card"
-      {...props}
     />
   );
 }

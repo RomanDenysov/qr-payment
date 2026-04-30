@@ -31,7 +31,7 @@ export function SegmentedControl<T extends string>({
         <button
           aria-pressed={value === option.value}
           className={cn(
-            "whitespace-nowrap px-2.5 font-medium text-xs transition-colors",
+            "whitespace-nowrap px-2.5 font-medium text-xs outline-none transition-[background-color,color,transform] duration-150 ease-out focus-visible:ring-1 focus-visible:ring-ring/50 active:translate-y-px",
             value === option.value
               ? "bg-background text-foreground shadow-xs"
               : "text-foreground/70 hover:text-foreground"

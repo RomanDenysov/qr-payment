@@ -103,6 +103,7 @@
     "downloaded": "QR kód stiahnutý",
     "copied": "QR kód skopírovaný",
     "copyFailed": "Nepodarilo sa skopírovať QR kód",
+    "downloadFailed": "Nepodarilo sa stiahnuť QR kód",
     "shared": "QR kód zdieľaný",
     "generated": "QR kód vygenerovaný",
     "generateFailed": "Nepodarilo sa vygenerovať QR kód",
