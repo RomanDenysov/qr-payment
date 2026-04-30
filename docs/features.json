@@ -260,6 +260,15 @@
       "i18nNamespace": "Studio",
       "clientSide": true,
       "description": "Decodes the rendered QR with jsQR and confirms it round-trips to the source payment payload. Surfaces a Scannable / At risk badge in the studio preview header."
+    },
+    {
+      "name": "Changelog",
+      "source": "app/[locale]/changelog/page.tsx",
+      "route": "/changelog",
+      "category": "ui",
+      "i18nNamespace": "Changelog",
+      "clientSide": false,
+      "description": "Chronological log of features, API changes, and improvements with locale-aware dates and BreadcrumbList + ItemList JSON-LD. Linked only from the announcement banner; entries are stored in features/changelog/data.ts."
     }
   ]
 }

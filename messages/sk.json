@@ -22,13 +22,16 @@
     "apiDocsTitle": "API dokumentácia",
     "apiDocsDescription": "Kompletná REST API dokumentácia pre generovanie PAY by square a SPAYD QR kódov pre slovenské a české bankové platby. Zadarmo, bez autentifikácie.",
     "studioTitle": "QR Studio - Pokročilý editor QR kódov",
-    "studioDescription": "Navrhnite QR kód s gradientmi, vlastným logom, rámom, titulkom a polohou prvkov. Plne offline, bez registrácie."
+    "studioDescription": "Navrhnite QR kód s gradientmi, vlastným logom, rámom, titulkom a polohou prvkov. Plne offline, bez registrácie.",
+    "changelogTitle": "Zmeny a novinky",
+    "changelogDescription": "Chronologický prehľad noviniek, vylepšení a zmien API v aplikácii QR Platby. Sledujte, čo je nové."
   },
   "Nav": {
     "home": "Domov",
     "bulk": "Hromadné generovanie",
     "apiDocs": "API",
     "faq": "Otázky",
+    "changelog": "Zmeny",
     "closeMenu": "Zavrieť menu",
     "openMenu": "Otvoriť menu",
     "toggleTheme": "Prepnúť tému",
@@ -43,7 +46,15 @@
   },
   "Announcement": {
     "message": "Novinky: gradienty, logo, rám, výber polohy a veľkosti obrázka (128-1024 px) - a REST API teraz tiež podporuje vlastné farby, okraj a úroveň korekcie chýb.",
-    "close": "Zavriet"
+    "close": "Zavriet",
+    "readMore": "Pozrieť zmeny"
+  },
+  "Changelog": {
+    "subtitle": "Čo je nové, vylepšené a zmenené v QR Platby - od najnovšieho.",
+    "categoryFeature": "Novinka",
+    "categoryApi": "API",
+    "categoryFix": "Oprava",
+    "categoryImprovement": "Vylepšenie"
   },
   "Consent": {
     "message": "Táto stránka používa localStorage na uloženie vašich nastavení. Žiadne cookies ani osobné údaje nezbierame.",

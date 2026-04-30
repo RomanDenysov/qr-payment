@@ -4,6 +4,9 @@ import { IconX } from "@tabler/icons-react";
 import { track } from "@vercel/analytics";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
+import { linkVariants } from "@/components/ui/link";
+import { Link } from "@/i18n/navigation";
+import { cn } from "@/lib/utils";
 
 const ANNOUNCEMENT_ID = "api-styling-params";
 const STORAGE_PREFIX = "announcement-dismissed-";
@@ -37,10 +40,26 @@ export function AnnouncementBanner() {
     setVisible(false);
   };
 
+  const handleChangelogClick = () => {
+    track("announcement_changelog_clicked", { id: ANNOUNCEMENT_ID });
+  };
+
   return (
     <div className="fade-in-0 slide-in-from-top-2 sticky top-16 z-30 animate-in bg-card px-4 py-2 ring-1 ring-foreground/10 duration-200 ease-out">
       <div className="container mx-auto flex max-w-5xl items-center justify-between gap-3">
-        <p className="text-foreground/80 text-xs">{t("message")}</p>
+        <p className="text-foreground/80 text-xs">
+          {t("message")}{" "}
+          <Link
+            className={cn(
+              linkVariants({ variant: "muted", size: "sm" }),
+              "whitespace-nowrap"
+            )}
+            href="/changelog"
+            onClick={handleChangelogClick}
+          >
+            {t("readMore")} →
+          </Link>
+        </p>
         <button
           aria-label={t("close")}
           className="shrink-0 text-muted-foreground transition-colors hover:text-foreground"

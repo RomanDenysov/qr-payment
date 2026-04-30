@@ -22,13 +22,16 @@
     "apiDocsTitle": "API Documentation",
     "apiDocsDescription": "Complete REST API documentation for generating PAY by square and SPAYD QR codes for Slovak and Czech bank payments. Free, no authentication required.",
     "studioTitle": "QR Studio - Advanced QR Code Editor",
-    "studioDescription": "Design a QR code with gradients, custom logo, frame, caption, and overlay positioning. Fully offline, no signup."
+    "studioDescription": "Design a QR code with gradients, custom logo, frame, caption, and overlay positioning. Fully offline, no signup.",
+    "changelogTitle": "Changelog",
+    "changelogDescription": "Chronological log of new features, improvements, and API changes in QR Platby. Stay up to date with the latest releases."
   },
   "Nav": {
     "home": "Home",
     "bulk": "Bulk Generation",
     "apiDocs": "API",
     "faq": "FAQ",
+    "changelog": "Changelog",
     "closeMenu": "Close menu",
     "openMenu": "Open menu",
     "toggleTheme": "Toggle theme",
@@ -43,7 +46,15 @@
   },
   "Announcement": {
     "message": "What's new: gradients, logo, frame, position picker, image size from 128 to 1024 px - and the REST API now supports custom colors, margin, and error correction level.",
-    "close": "Close"
+    "close": "Close",
+    "readMore": "Read changelog"
+  },
+  "Changelog": {
+    "subtitle": "What's new, improved, and changed in QR Platby - newest first.",
+    "categoryFeature": "Feature",
+    "categoryApi": "API",
+    "categoryFix": "Fix",
+    "categoryImprovement": "Improvement"
   },
   "Consent": {
     "message": "This site uses localStorage to save your settings. We don't collect cookies or personal data.",
