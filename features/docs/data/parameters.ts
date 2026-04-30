@@ -91,4 +91,38 @@ export const parameters: Parameter[] = [
     validation: "100 - 1000",
     description: "QR code size in pixels (applies to png and svg)",
   },
+  {
+    name: "darkColor",
+    type: "string",
+    required: false,
+    default: "#000000",
+    validation: "#RRGGBB or #RRGGBBAA",
+    description: "Foreground (module) color as hex",
+  },
+  {
+    name: "lightColor",
+    type: "string",
+    required: false,
+    default: "#ffffff",
+    validation: "#RRGGBB or #RRGGBBAA",
+    description:
+      "Background color as hex. Use #FFFFFF00 for a transparent background",
+  },
+  {
+    name: "margin",
+    type: "integer",
+    required: false,
+    default: "2",
+    validation: "0 - 10",
+    description:
+      "Quiet zone width in QR modules. Lowering may hurt scanner reliability",
+  },
+  {
+    name: "errorCorrectionLevel",
+    type: "string",
+    required: false,
+    validation: "L | M | Q | H",
+    description:
+      "Override auto-derived recovery level (L=7%, M=15%, Q=25%, H=30%)",
+  },
 ];

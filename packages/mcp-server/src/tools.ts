@@ -4,6 +4,7 @@ import { z } from "zod";
 const API_BASE = "https://qr-platby.com";
 const DATA_URI_PREFIX = /^data:image\/png;base64,/;
 const IBAN_FORMAT = /^[A-Z]{2}\d{2}[A-Z0-9]{4,30}$/;
+const HEX_COLOR_RE = /^#(?:[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/;
 
 const OPTIONAL_FIELDS = [
   "currency",
@@ -14,6 +15,9 @@ const OPTIONAL_FIELDS = [
   "paymentNote",
   "paymentFormat",
   "format",
+  "darkColor",
+  "lightColor",
+  "errorCorrectionLevel",
 ] as const;
 
 const FORMATS_INFO = `## Supported QR Payment Formats
@@ -60,6 +64,9 @@ function buildRequestBody(
   }
   if (params.size !== undefined) {
     body.size = params.size;
+  }
+  if (params.margin !== undefined) {
+    body.margin = params.margin;
   }
 
   return body;
@@ -134,6 +141,31 @@ export function registerTools(server: McpServer) {
         .max(1000)
         .optional()
         .describe("QR size in pixels (default: 300)"),
+      darkColor: z
+        .string()
+        .regex(HEX_COLOR_RE)
+        .optional()
+        .describe(
+          "Foreground hex color #RRGGBB or #RRGGBBAA (default #000000)"
+        ),
+      lightColor: z
+        .string()
+        .regex(HEX_COLOR_RE)
+        .optional()
+        .describe(
+          "Background hex color #RRGGBB or #RRGGBBAA (default #ffffff; use #FFFFFF00 for transparent)"
+        ),
+      margin: z
+        .number()
+        .int()
+        .min(0)
+        .max(10)
+        .optional()
+        .describe("Quiet zone width in QR modules, 0-10 (default: 2)"),
+      errorCorrectionLevel: z
+        .enum(["L", "M", "Q", "H"])
+        .optional()
+        .describe("Override auto-derived ECC: L=7%, M=15%, Q=25%, H=30%"),
     },
     async (params) => {
       const body = buildRequestBody(params);

@@ -28,6 +28,10 @@ interface FormValues {
   constantSymbol: string;
   recipientName: string;
   paymentNote: string;
+  darkColor: string;
+  lightColor: string;
+  margin: string;
+  errorCorrectionLevel: string;
 }
 
 interface ApiResult {
@@ -41,9 +45,20 @@ const DEFAULTS: Record<string, string> = {
   paymentFormat: "bysquare",
   format: "png",
   size: "300",
+  darkColor: "#000000",
+  lightColor: "#ffffff",
+  margin: "2",
 };
 
-const NUMERIC_FIELDS = new Set(["amount", "size"]);
+const NUMERIC_FIELDS = new Set(["amount", "size", "margin"]);
+
+const ECC_OPTIONS = [
+  { value: "", label: "auto" },
+  { value: "L", label: "L" },
+  { value: "M", label: "M" },
+  { value: "Q", label: "Q" },
+  { value: "H", label: "H" },
+];
 
 const CURRENCY_OPTIONS = [
   { value: "EUR", label: "EUR" },
@@ -138,6 +153,10 @@ export function TryItForm() {
       constantSymbol: "",
       recipientName: "",
       paymentNote: "",
+      darkColor: "#000000",
+      lightColor: "#ffffff",
+      margin: "2",
+      errorCorrectionLevel: "",
     },
   });
 
@@ -371,6 +390,75 @@ export function TryItForm() {
                     placeholder="300"
                     type="number"
                     {...field}
+                  />
+                )}
+              />
+            </Field>
+            <Field>
+              <FieldLabel htmlFor="try-dark">
+                <Label>darkColor</Label>
+              </FieldLabel>
+              <Controller
+                control={control}
+                name="darkColor"
+                render={({ field }) => (
+                  <Input
+                    className="h-9 p-1"
+                    id="try-dark"
+                    type="color"
+                    {...field}
+                  />
+                )}
+              />
+            </Field>
+            <Field>
+              <FieldLabel htmlFor="try-light">
+                <Label>lightColor</Label>
+              </FieldLabel>
+              <Controller
+                control={control}
+                name="lightColor"
+                render={({ field }) => (
+                  <Input
+                    className="h-9 p-1"
+                    id="try-light"
+                    type="color"
+                    {...field}
+                  />
+                )}
+              />
+            </Field>
+            <Field>
+              <FieldLabel htmlFor="try-margin">
+                <Label>margin</Label>
+              </FieldLabel>
+              <Controller
+                control={control}
+                name="margin"
+                render={({ field }) => (
+                  <Input
+                    id="try-margin"
+                    max={10}
+                    min={0}
+                    placeholder="2"
+                    type="number"
+                    {...field}
+                  />
+                )}
+              />
+            </Field>
+            <Field>
+              <FieldLabel>
+                <Label>errorCorrectionLevel</Label>
+              </FieldLabel>
+              <Controller
+                control={control}
+                name="errorCorrectionLevel"
+                render={({ field }) => (
+                  <SegmentedControl
+                    onChange={field.onChange}
+                    options={ECC_OPTIONS}
+                    value={field.value}
                   />
                 )}
               />

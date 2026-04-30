@@ -65,6 +65,28 @@ export const apiDocs = {
         description:
           "QR code size in pixels (100–1000). Applies to png width/height and svg intrinsic width/height.",
       },
+      darkColor: {
+        type: "string",
+        description:
+          "Foreground color as hex (#RRGGBB or #RRGGBBAA). Default #000000.",
+      },
+      lightColor: {
+        type: "string",
+        description:
+          "Background color as hex (#RRGGBB or #RRGGBBAA). Default #ffffff. Use #FFFFFF00 for transparent background.",
+      },
+      margin: {
+        type: "integer",
+        default: 2,
+        description:
+          "Quiet zone width in QR modules (0–10). Reducing below 2 may hurt scanner reliability.",
+      },
+      errorCorrectionLevel: {
+        type: "string",
+        enum: ["L", "M", "Q", "H"],
+        description:
+          "Override the auto-derived error correction level (L=7%, M=15%, Q=25%, H=30% recovery). Only set this if you know what you're doing — payload may not fit at lower levels.",
+      },
     },
   },
   response: {

@@ -39,6 +39,10 @@ Content-Type: `application/json`
 - `paymentFormat` (string, optional) - "bysquare" (default), "spayd", or "epc"
 - `format` (string, optional) - "png" (default) or "svg"
 - `size` (integer, optional) - 100-1000px (default: 300)
+- `darkColor` (string, optional) - Foreground hex color `#RRGGBB` or `#RRGGBBAA` (default: "#000000")
+- `lightColor` (string, optional) - Background hex color `#RRGGBB` or `#RRGGBBAA` (default: "#ffffff"). Use "#FFFFFF00" for transparent.
+- `margin` (integer, optional) - Quiet zone in QR modules, 0-10 (default: 2)
+- `errorCorrectionLevel` (string, optional) - "L", "M", "Q", or "H" - overrides the auto-derived level
 
 ### Response
 Success returns `{ "success": true, "data": "<base64 PNG data URI>", ... }`.

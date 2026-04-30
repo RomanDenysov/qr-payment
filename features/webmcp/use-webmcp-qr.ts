@@ -67,7 +67,7 @@ async function executeGenerateQr(
     }
   }
 
-  const { payload, errorCorrectionLevel } = deps.buildQrPayload(
+  const { payload, errorCorrectionLevel: derivedEcc } = deps.buildQrPayload(
     {
       format,
       iban: args.iban as string,
@@ -83,10 +83,28 @@ async function executeGenerateQr(
     currencyCode
   );
 
+  const eccOverride = args.errorCorrectionLevel as
+    | "L"
+    | "M"
+    | "Q"
+    | "H"
+    | undefined;
+  const margin = (args.margin as number | undefined) ?? 2;
+  const darkColor = args.darkColor as string | undefined;
+  const lightColor = args.lightColor as string | undefined;
+  const color =
+    darkColor || lightColor
+      ? {
+          ...(darkColor && { dark: darkColor }),
+          ...(lightColor && { light: lightColor }),
+        }
+      : undefined;
+
   const dataUrl = await deps.QRCode.toDataURL(payload, {
     width: 400,
-    margin: 2,
-    errorCorrectionLevel,
+    margin,
+    errorCorrectionLevel: eccOverride ?? derivedEcc,
+    ...(color && { color }),
   });
 
   return mcpResult({
@@ -182,6 +200,26 @@ export function useWebMcpQr() {
             bic: {
               type: "string",
               description: "BIC/SWIFT code",
+            },
+            darkColor: {
+              type: "string",
+              description:
+                "Foreground hex color #RRGGBB or #RRGGBBAA (default: #000000)",
+            },
+            lightColor: {
+              type: "string",
+              description:
+                "Background hex color #RRGGBB or #RRGGBBAA (default: #ffffff; use #FFFFFF00 for transparent)",
+            },
+            margin: {
+              type: "number",
+              description: "Quiet zone width in QR modules, 0-10 (default: 2)",
+            },
+            errorCorrectionLevel: {
+              type: "string",
+              enum: ["L", "M", "Q", "H"],
+              description:
+                "Override auto-derived ECC: L=7%, M=15%, Q=25%, H=30% recovery",
             },
           },
           required: ["iban"],
