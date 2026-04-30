@@ -199,5 +199,16 @@
       "properties": null,
       "source": "components/consent-banner.tsx"
     }
+  },
+
+  "qr_validation": {
+    "qr_scannability_checked": {
+      "description": "Studio preview decoded the rendered QR via jsQR and reported the result; fires on transition between states (ok / at-risk), not every render",
+      "properties": {
+        "ok": "boolean",
+        "reason": "decode_failed | payload_mismatch | null"
+      },
+      "source": "features/studio/components/studio-preview.tsx"
+    }
   }
 }
