@@ -189,9 +189,11 @@ export function QRPreviewCard() {
         track("qr_shared", { size });
         toast.success(t("shared"));
       } catch (error) {
-        if ((error as Error).name !== "AbortError") {
-          handleCopy();
+        if ((error as Error).name === "AbortError") {
+          return;
         }
+        console.error("[QRPreviewCard] Failed to share QR image:", error);
+        toast.error(t("shareFailed"));
       }
     });
   };

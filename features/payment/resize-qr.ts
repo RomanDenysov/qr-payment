@@ -25,8 +25,8 @@ export async function resizePngDataUrl(
     throw new Error("Canvas not supported");
   }
 
-  // Sharp upscale (nearest-neighbor) for QR pixel fidelity;
-  // anti-aliased downscale for smoother screen viewing.
+  // Disable smoothing on upscale so QR module edges stay scannable;
+  // enable high-quality smoothing on downscale to avoid moire.
   const isUpscale = targetWidth > img.width;
   ctx.imageSmoothingEnabled = !isUpscale;
   if (!isUpscale) {

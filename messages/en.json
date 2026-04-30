@@ -105,6 +105,7 @@
     "copyFailed": "Failed to copy QR code",
     "downloadFailed": "Failed to download QR code",
     "shared": "QR code shared",
+    "shareFailed": "Failed to share QR code",
     "generated": "QR code generated",
     "generateFailed": "Failed to generate QR code",
     "regenerateFailed": "Failed to regenerate QR code. Try changing the settings.",

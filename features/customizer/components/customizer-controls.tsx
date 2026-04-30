@@ -197,7 +197,7 @@ export function CustomizerControls({
           {DOWNLOAD_SIZES.map((value) => (
             <button
               className={cn(
-                "flex flex-col items-center gap-0.5 border p-2 transition-colors",
+                "flex flex-col items-center gap-0.5 rounded-none border p-2 transition-colors",
                 value === config.downloadSize
                   ? "border-primary bg-primary/5"
                   : "border-border hover:border-primary/50"

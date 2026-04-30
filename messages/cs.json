@@ -42,7 +42,7 @@
     "apiDocs": "API dokumentace"
   },
   "Announcement": {
-    "message": "Novinky: gradienty, logo, rám, výběr pozice a další možnosti přizpůsobení QR kódu - a nyní i výběr velikosti obrázku od 128 px na obrazovku až po 1024 px pro tisk.",
+    "message": "Novinky: gradienty, logo, rám, výběr pozice a další možnosti přizpůsobení QR kódu - a nyní i výběr velikosti obrázku od 128 px pro obrazovku až po 1024 px pro tisk.",
     "close": "Zavrit"
   },
   "Consent": {
@@ -105,6 +105,7 @@
     "copyFailed": "Nepodařilo se zkopírovat QR kód",
     "downloadFailed": "Nepodařilo se stáhnout QR kód",
     "shared": "QR kód sdílen",
+    "shareFailed": "Nepodařilo se sdílet QR kód",
     "generated": "QR kód vygenerován",
     "generateFailed": "Nepodařilo se vygenerovat QR kód",
     "regenerateFailed": "Nepodařilo se přegenerovat QR kód. Zkuste změnit nastavení.",
