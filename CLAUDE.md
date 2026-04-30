@@ -53,6 +53,8 @@ features/payment/         # Payment feature module
   spayd-encoder.ts        # SPAYD payload encoder (Czech standard)
   share-link.ts           # Compact base64url share link encode/decode
   use-payment-generator.ts # Form submission hook
+  resize-qr.ts            # `resizePngDataUrl` (download path) + `resizePngToBlob` (copy/share path) - canvas resize honoring customizer.downloadSize
+  qr-shared.ts            # Shared QR primitives - `loadImage`, `getEyeStyles`, `getLogoSrc`, font/size maps
 features/bulk/            # Bulk QR generation from CSV
   bulk-generator.ts       # Batch QR generation with progress
   csv-parser.ts           # CSV parsing and validation (PapaParse)
@@ -130,6 +132,7 @@ This project uses Ultracite (Biome preset) for formatting and linting. Key rules
 - Always run `bun x ultracite fix` before committing
 - Block statements required for all if/else (no `if (x) return y`)
 - Regex literals must be top-level constants, not inline
+- `bun x ultracite check` (no args) reports pre-existing complexity errors in `features/payment/qr-payload.ts`, `features/payment/store.ts`, `features/webmcp/use-webmcp-qr.ts`, `packages/mcp-server/src/tools.ts`. Don't try to fix them in a feature PR - scope your check to touched files: `bun x ultracite check <file1> <file2>`
 
 ## Path Alias
 
@@ -149,9 +152,11 @@ This project uses Ultracite (Biome preset) for formatting and linting. Key rules
 - **Announcement banner**: Change `ANNOUNCEMENT_ID` in `components/announcement-banner.tsx` and update `Announcement.message` in translation files. Old dismissed banners won't block new ones.
 - **No analytics on navigation Links**: Don't add `track()` to `onClick` of `<Link>` for route navigation. Track real interactions (form submits, dialog actions, downloads) instead.
 - **Zustand `onRehydrateStorage` does not auto-persist**: Mutating state inside the callback only updates in-memory state. If you also remove legacy localStorage keys there, a user closing the tab before any setState loses everything. Either keep migration idempotent (don't remove old keys) or trigger a setState after migration.
+- **Persisted union fields need `.includes()` validation in migration, not `??=`**: `??=` only fills `undefined`. A stale value from a previous release (`downloadSize: "huge"`) survives and crashes downstream lookups (`DOWNLOAD_SIZE_PX[value]`). Pattern: `if (!ALLOWED_VALUES.includes(config.field)) { config.field = DEFAULT.field; }` - see `migrateConfig` in `features/customizer/store.ts`.
 - **Customizer renderer scope**: `renderCustomizerQR` (`features/customizer/renderer.ts`) only powers `/studio` preview and the home customizer sheet. Bulk export and `/api/v1/qr` use `generatePaymentQRServer` (no gradients/logos/frames) — don't pipe customizer config into those paths.
 - **`useTransition` swallows thrown errors** — async callbacks inside `startTransition(async () => ...)` silently drop rejections. Always wrap the body in `try/catch` with `console.error` + `toast.error`. React does not surface the failure anywhere otherwise.
 - **Data URL downloads — use `<a href={dataUrl}>` directly**. Don't `fetch(dataUrl)` → `blob` → `createObjectURL`; data URLs are already in-memory and the round-trip adds latency with zero benefit. Pattern: `link.href = dataUrl; link.download = name; link.click()`.
+- **Clipboard / Web Share from a canvas — use `canvas.toBlob()` directly**. Don't go via `canvas.toDataURL` then `fetch(dataUrl).blob()`; that's a full PNG encode + decode + re-encode for nothing. `features/payment/resize-qr.ts` exposes `resizePngToBlob` for this; mirror the split if you add another export path.
 
 ## Customizer Guardrails
 
