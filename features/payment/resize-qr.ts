@@ -1,19 +1,12 @@
-function loadDataUrlImage(dataUrl: string): Promise<HTMLImageElement> {
-  return new Promise((resolve, reject) => {
-    const img = new Image();
-    img.onload = () => resolve(img);
-    img.onerror = () => reject(new Error("Failed to load QR image"));
-    img.src = dataUrl;
-  });
-}
+import { loadImage } from "./qr-shared";
 
-export async function resizePngDataUrl(
+async function resizeOntoCanvas(
   dataUrl: string,
   targetWidth: number
-): Promise<string> {
-  const img = await loadDataUrlImage(dataUrl);
+): Promise<HTMLCanvasElement | null> {
+  const img = await loadImage(dataUrl);
   if (img.width === targetWidth) {
-    return dataUrl;
+    return null;
   }
 
   const aspect = img.height / img.width;
@@ -33,5 +26,31 @@ export async function resizePngDataUrl(
     ctx.imageSmoothingQuality = "high";
   }
   ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-  return canvas.toDataURL("image/png");
+  return canvas;
+}
+
+export async function resizePngDataUrl(
+  dataUrl: string,
+  targetWidth: number
+): Promise<string> {
+  const canvas = await resizeOntoCanvas(dataUrl, targetWidth);
+  return canvas ? canvas.toDataURL("image/png") : dataUrl;
+}
+
+export async function resizePngToBlob(
+  dataUrl: string,
+  targetWidth: number
+): Promise<Blob> {
+  const canvas = await resizeOntoCanvas(dataUrl, targetWidth);
+  if (canvas) {
+    return new Promise((resolve, reject) => {
+      canvas.toBlob(
+        (blob) =>
+          blob ? resolve(blob) : reject(new Error("Failed to encode QR PNG")),
+        "image/png"
+      );
+    });
+  }
+  const response = await fetch(dataUrl);
+  return response.blob();
 }

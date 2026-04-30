@@ -21,7 +21,7 @@ import { useCustomizerConfig } from "@/features/customizer/store";
 import { DOWNLOAD_SIZE_PX } from "@/features/customizer/types";
 import { formatAmount, maskIban } from "@/lib/utils";
 import { InvalidIBANError } from "../qr-generator";
-import { resizePngDataUrl } from "../resize-qr";
+import { resizePngDataUrl, resizePngToBlob } from "../resize-qr";
 import type { PaymentRecord } from "../schema";
 import { useCurrentPayment, usePaymentActions } from "../store";
 
@@ -151,9 +151,7 @@ export function QRPreviewCard() {
     const targetPx = DOWNLOAD_SIZE_PX[size];
     startCopy(async () => {
       try {
-        const resized = await resizePngDataUrl(qrDataUrl, targetPx);
-        const response = await fetch(resized);
-        const blob = await response.blob();
+        const blob = await resizePngToBlob(qrDataUrl, targetPx);
         await navigator.clipboard.write([
           new ClipboardItem({ "image/png": blob }),
         ]);
@@ -176,9 +174,7 @@ export function QRPreviewCard() {
     const targetPx = DOWNLOAD_SIZE_PX[size];
     startShare(async () => {
       try {
-        const resized = await resizePngDataUrl(qrDataUrl, targetPx);
-        const response = await fetch(resized);
-        const blob = await response.blob();
+        const blob = await resizePngToBlob(qrDataUrl, targetPx);
         const file = new File([blob], `qr-payment-${targetPx}.png`, {
           type: "image/png",
         });
