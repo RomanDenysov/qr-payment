@@ -20,6 +20,13 @@ const BADGE_VARIANT: Record<
   fix: "destructive",
 };
 
+const CATEGORY_LABEL_KEY: Record<ChangelogCategory, string> = {
+  feature: "categoryFeature",
+  api: "categoryApi",
+  fix: "categoryFix",
+  improvement: "categoryImprovement",
+};
+
 interface Props {
   params: Promise<{ locale: string }>;
 }
@@ -116,11 +123,11 @@ export default async function ChangelogPage({ params }: Props) {
         <ol className="list-none space-y-8 pl-0">
           {entries.map((entry, index) => (
             <ChangelogItem
+              categoryLabel={t(CATEGORY_LABEL_KEY[entry.category])}
               dateLabel={dateFormatter.format(new Date(entry.date))}
               entry={entry}
               key={`${entry.date}-${entry.title}`}
               showSeparator={index < entries.length - 1}
-              t={(key) => t(key)}
             />
           ))}
         </ol>
@@ -149,16 +156,14 @@ export default async function ChangelogPage({ params }: Props) {
 function ChangelogItem({
   entry,
   dateLabel,
+  categoryLabel,
   showSeparator,
-  t,
 }: {
   entry: ChangelogEntry;
   dateLabel: string;
+  categoryLabel: string;
   showSeparator: boolean;
-  t: (key: string) => string;
 }) {
-  const categoryLabelKey = `category${capitalize(entry.category)}`;
-
   return (
     <li>
       <article
@@ -168,9 +173,7 @@ function ChangelogItem({
         <div className="flex items-center gap-2 text-muted-foreground text-xs">
           <time dateTime={entry.date}>{dateLabel}</time>
           <span aria-hidden="true">·</span>
-          <Badge variant={BADGE_VARIANT[entry.category]}>
-            {t(categoryLabelKey)}
-          </Badge>
+          <Badge variant={BADGE_VARIANT[entry.category]}>{categoryLabel}</Badge>
         </div>
         <h2 className="font-medium text-base text-foreground">{entry.title}</h2>
         <p className="text-muted-foreground text-sm">{entry.summary}</p>
@@ -185,10 +188,6 @@ function ChangelogItem({
       {showSeparator && <Separator className="mt-8" />}
     </li>
   );
-}
-
-function capitalize(value: string) {
-  return value.charAt(0).toUpperCase() + value.slice(1);
 }
 
 const DIACRITICS_RE = /[̀-ͯ]/g;

@@ -4,7 +4,9 @@ import { IconX } from "@tabler/icons-react";
 import { track } from "@vercel/analytics";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
+import { linkVariants } from "@/components/ui/link";
 import { Link } from "@/i18n/navigation";
+import { cn } from "@/lib/utils";
 
 const ANNOUNCEMENT_ID = "api-styling-params";
 const STORAGE_PREFIX = "announcement-dismissed-";
@@ -48,7 +50,10 @@ export function AnnouncementBanner() {
         <p className="text-foreground/80 text-xs">
           {t("message")}{" "}
           <Link
-            className="whitespace-nowrap underline underline-offset-2 hover:text-foreground"
+            className={cn(
+              linkVariants({ variant: "muted", size: "sm" }),
+              "whitespace-nowrap"
+            )}
             href="/changelog"
             onClick={handleChangelogClick}
           >
