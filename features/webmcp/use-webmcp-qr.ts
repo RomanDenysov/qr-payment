@@ -1,9 +1,11 @@
 "use client";
 
+import type { JsonSchemaObject } from "@mcp-b/webmcp-types";
 import type { CurrencyCode } from "bysquare";
 import { useEffect } from "react";
 
 const TOOL_NAME = "generate_pay_by_square_qr";
+const HEX_COLOR_PATTERN = "^#(?:[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$";
 
 function mcpError(message: string) {
   return {
@@ -131,8 +133,6 @@ async function executeGenerateQr(
 
 export function useWebMcpQr() {
   useEffect(() => {
-    let unregister: (() => void) | undefined;
-
     async function register() {
       if (!navigator.modelContext) {
         return;
@@ -158,80 +158,86 @@ export function useWebMcpQr() {
         QRCode,
       };
 
-      const result = navigator.modelContext.registerTool({
+      const inputSchema = {
+        type: "object",
+        properties: {
+          iban: {
+            type: "string",
+            description:
+              "IBAN bank account number (e.g. SK3112000000198742637541)",
+          },
+          amount: {
+            type: "number",
+            description: "Payment amount (0.01 - 999999999.99)",
+          },
+          currency: {
+            type: "string",
+            enum: ["EUR", "CZK"],
+            description: "Currency code. Default: EUR",
+          },
+          format: {
+            type: "string",
+            enum: ["bysquare", "spayd", "epc"],
+            description:
+              "Payment format. 'bysquare' for Slovak banks, 'spayd' for Czech banks, 'epc' for EU SEPA. Default: bysquare",
+          },
+          variableSymbol: {
+            type: "string",
+            description: "Variable symbol (up to 10 digits)",
+          },
+          specificSymbol: {
+            type: "string",
+            description: "Specific symbol (up to 10 digits)",
+          },
+          constantSymbol: {
+            type: "string",
+            description: "Constant symbol (up to 4 digits)",
+          },
+          recipientName: {
+            type: "string",
+            description: "Recipient name (max 70 characters)",
+          },
+          paymentNote: {
+            type: "string",
+            description: "Payment note / reference (max 140 characters)",
+          },
+          bic: {
+            type: "string",
+            description: "BIC/SWIFT code",
+          },
+          darkColor: {
+            type: "string",
+            pattern: HEX_COLOR_PATTERN,
+            description:
+              "Foreground hex color #RRGGBB or #RRGGBBAA (default: #000000)",
+          },
+          lightColor: {
+            type: "string",
+            pattern: HEX_COLOR_PATTERN,
+            description:
+              "Background hex color #RRGGBB or #RRGGBBAA (default: #ffffff; use #FFFFFF00 for transparent)",
+          },
+          margin: {
+            type: "integer",
+            minimum: 0,
+            maximum: 10,
+            description: "Quiet zone width in QR modules, 0-10 (default: 2)",
+          },
+          errorCorrectionLevel: {
+            type: "string",
+            enum: ["L", "M", "Q", "H"],
+            description:
+              "Override auto-derived ECC: L=7%, M=15%, Q=25%, H=30% recovery",
+          },
+        },
+        required: ["iban"],
+      } as const satisfies JsonSchemaObject;
+
+      navigator.modelContext.registerTool({
         name: TOOL_NAME,
         description:
           "Generate a PAY by square, SPAYD, or EPC QR code for bank payments. Returns a PNG data URL scannable by banking apps.",
-        inputSchema: {
-          type: "object",
-          properties: {
-            iban: {
-              type: "string",
-              description:
-                "IBAN bank account number (e.g. SK3112000000198742637541)",
-            },
-            amount: {
-              type: "number",
-              description: "Payment amount (0.01 - 999999999.99)",
-            },
-            currency: {
-              type: "string",
-              enum: ["EUR", "CZK"],
-              description: "Currency code. Default: EUR",
-            },
-            format: {
-              type: "string",
-              enum: ["bysquare", "spayd", "epc"],
-              description:
-                "Payment format. 'bysquare' for Slovak banks, 'spayd' for Czech banks, 'epc' for EU SEPA. Default: bysquare",
-            },
-            variableSymbol: {
-              type: "string",
-              description: "Variable symbol (up to 10 digits)",
-            },
-            specificSymbol: {
-              type: "string",
-              description: "Specific symbol (up to 10 digits)",
-            },
-            constantSymbol: {
-              type: "string",
-              description: "Constant symbol (up to 4 digits)",
-            },
-            recipientName: {
-              type: "string",
-              description: "Recipient name (max 70 characters)",
-            },
-            paymentNote: {
-              type: "string",
-              description: "Payment note / reference (max 140 characters)",
-            },
-            bic: {
-              type: "string",
-              description: "BIC/SWIFT code",
-            },
-            darkColor: {
-              type: "string",
-              description:
-                "Foreground hex color #RRGGBB or #RRGGBBAA (default: #000000)",
-            },
-            lightColor: {
-              type: "string",
-              description:
-                "Background hex color #RRGGBB or #RRGGBBAA (default: #ffffff; use #FFFFFF00 for transparent)",
-            },
-            margin: {
-              type: "number",
-              description: "Quiet zone width in QR modules, 0-10 (default: 2)",
-            },
-            errorCorrectionLevel: {
-              type: "string",
-              enum: ["L", "M", "Q", "H"],
-              description:
-                "Override auto-derived ECC: L=7%, M=15%, Q=25%, H=30% recovery",
-            },
-          },
-          required: ["iban"],
-        } as const,
+        inputSchema,
         execute: async (args) => {
           try {
             return await executeGenerateQr(args, deps);
@@ -242,24 +248,13 @@ export function useWebMcpQr() {
           }
         },
       });
-
-      const handle = result as unknown as
-        | { unregister: () => void }
-        | undefined;
-      if (handle?.unregister) {
-        unregister = handle.unregister;
-      }
     }
 
     // WebMCP not available in most browsers — ignore silently
     register().catch(() => undefined);
 
     return () => {
-      if (unregister) {
-        unregister();
-      } else {
-        navigator.modelContext?.unregisterTool(TOOL_NAME);
-      }
+      navigator.modelContext?.unregisterTool(TOOL_NAME);
     };
   }, []);
 }
