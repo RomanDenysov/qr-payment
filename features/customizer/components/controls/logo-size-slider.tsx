@@ -6,12 +6,17 @@ import { Field, FieldDescription, FieldLabel } from "@/components/ui/field";
 interface LogoSizeSliderProps {
   value: number;
   onChange: (size: number) => void;
+  max?: number;
 }
 
 const MIN = 10;
-const MAX = 50;
+const DEFAULT_MAX = 50;
 
-export function LogoSizeSlider({ value, onChange }: LogoSizeSliderProps) {
+export function LogoSizeSlider({
+  value,
+  onChange,
+  max = DEFAULT_MAX,
+}: LogoSizeSliderProps) {
   const t = useTranslations("Studio");
 
   return (
@@ -24,7 +29,7 @@ export function LogoSizeSlider({ value, onChange }: LogoSizeSliderProps) {
       </FieldLabel>
       <input
         className="w-full accent-primary"
-        max={MAX}
+        max={max}
         min={MIN}
         onChange={(e) => onChange(Number(e.target.value))}
         step={1}
