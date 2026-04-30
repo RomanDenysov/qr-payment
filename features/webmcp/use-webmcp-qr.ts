@@ -20,6 +20,19 @@ function mcpResult(data: Record<string, unknown>) {
   };
 }
 
+function buildColorOption(
+  dark: string | undefined,
+  light: string | undefined
+): { dark?: string; light?: string } | undefined {
+  if (!(dark || light)) {
+    return;
+  }
+  return {
+    ...(dark && { dark }),
+    ...(light && { light }),
+  };
+}
+
 interface ToolDeps {
   electronicFormatIBAN: (iban: string) => string | null;
   isValidIBAN: (iban: string) => boolean;
@@ -90,15 +103,10 @@ async function executeGenerateQr(
     | "H"
     | undefined;
   const margin = (args.margin as number | undefined) ?? 2;
-  const darkColor = args.darkColor as string | undefined;
-  const lightColor = args.lightColor as string | undefined;
-  const color =
-    darkColor || lightColor
-      ? {
-          ...(darkColor && { dark: darkColor }),
-          ...(lightColor && { light: lightColor }),
-        }
-      : undefined;
+  const color = buildColorOption(
+    args.darkColor as string | undefined,
+    args.lightColor as string | undefined
+  );
 
   const dataUrl = await deps.QRCode.toDataURL(payload, {
     width: 400,
