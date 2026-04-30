@@ -38,7 +38,7 @@ export function AnnouncementBanner() {
   };
 
   return (
-    <div className="sticky top-16 z-30 bg-card px-4 py-2 ring-1 ring-foreground/10">
+    <div className="fade-in-0 slide-in-from-top-2 sticky top-16 z-30 animate-in bg-card px-4 py-2 ring-1 ring-foreground/10 duration-200 ease-out">
       <div className="container mx-auto flex max-w-5xl items-center justify-between gap-3">
         <p className="text-foreground/80 text-xs">{t("message")}</p>
         <button

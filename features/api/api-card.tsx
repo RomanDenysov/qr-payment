@@ -2,23 +2,18 @@
 
 import { IconArrowRight, IconCheck, IconCopy } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
-import { useRef, useState } from "react";
 import { toast } from "sonner";
+import { useCopyState } from "@/lib/hooks/use-copy-state";
 
 export function ApiCard() {
   const t = useTranslations("Api");
-  const [copied, setCopied] = useState(false);
-  const timerRef = useRef<ReturnType<typeof setTimeout>>(null);
+  const { copied, trigger } = useCopyState();
 
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(t("prompt"));
-      setCopied(true);
+      trigger();
       toast.success(t("copied"));
-      if (timerRef.current) {
-        clearTimeout(timerRef.current);
-      }
-      timerRef.current = setTimeout(() => setCopied(false), 2000);
     } catch {
       toast.error(t("copyFailed"));
     }

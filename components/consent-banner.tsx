@@ -15,16 +15,18 @@ export function ConsentBanner() {
   const t = useTranslations("Consent");
 
   useEffect(() => {
-    if (localStorage.getItem(CONSENT_KEY)) {
-      return;
+    try {
+      if (localStorage.getItem(CONSENT_KEY)) {
+        return;
+      }
+      // Existing users with payment data have implied consent
+      if (localStorage.getItem(PAYMENT_STORE_KEY)) {
+        localStorage.setItem(CONSENT_KEY, "1");
+        return;
+      }
+    } catch {
+      // localStorage unavailable (private browsing) - show banner anyway
     }
-
-    // Existing users with payment data have implied consent
-    if (localStorage.getItem(PAYMENT_STORE_KEY)) {
-      localStorage.setItem(CONSENT_KEY, "1");
-      return;
-    }
-
     setVisible(true);
   }, []);
 
@@ -33,7 +35,11 @@ export function ConsentBanner() {
   }
 
   const handleDismiss = () => {
-    localStorage.setItem(CONSENT_KEY, "1");
+    try {
+      localStorage.setItem(CONSENT_KEY, "1");
+    } catch {
+      // localStorage unavailable - dismiss visually anyway
+    }
     track("consent_banner_dismissed");
     setVisible(false);
   };
@@ -41,7 +47,7 @@ export function ConsentBanner() {
   return (
     <div
       aria-live="polite"
-      className="fixed inset-x-0 bottom-0 z-50 border-border border-t bg-background/95 px-4 py-3 backdrop-blur-sm"
+      className="fade-in-0 slide-in-from-bottom-4 fixed inset-x-0 bottom-0 z-50 animate-in border-border border-t bg-background/95 px-4 py-3 backdrop-blur-sm duration-200 ease-out"
       role="alert"
     >
       <div className="container mx-auto flex max-w-5xl flex-col items-center justify-between gap-2 sm:flex-row">

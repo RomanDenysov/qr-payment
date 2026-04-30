@@ -101,7 +101,7 @@ public/openapi.json       # OpenAPI 3.1 spec - keep in sync with qr-schema.ts an
   - Pure styled wrappers (e.g. table, label) without hooks must not have `"use client"`
   - `next/dynamic` with `ssr: false` requires a `"use client"` wrapper — cannot be used in server components
 - **Dynamic imports with SSR disabled** for Base UI components (prevents hydration mismatches)
-- **Client loader pattern** - Components using localStorage on mount use a `*-loader.tsx` wrapper with `dynamic(() => import(...), { ssr: false })`. See `consent-banner-loader.tsx`, `announcement-banner-loader.tsx`.
+- **localStorage-driven UI** - Components that read `localStorage` on mount must initialize state to a stable SSR value (e.g. `useState(false)`) and update inside `useEffect`. Avoids `dynamic({ ssr: false })` wrappers, which were retired (the previous `*-loader.tsx` pattern caused Next 16 hydration races).
 - **Feature-based organization** - Domain logic grouped in `features/` directory
 - **Zustand store hooks** - Each feature has its own store with granular selectors:
   - Payment: `useCurrentPayment()`, `usePaymentHistory()`, `usePaymentActions()`
@@ -110,11 +110,14 @@ public/openapi.json       # OpenAPI 3.1 spec - keep in sync with qr-schema.ts an
 - **Form validation** - Zod schemas with react-hook-form Controller pattern
 - **Translated Zod validation** - Use schema factory functions (e.g. `createSchema(messages)`) since hooks can't be called in schemas
 - **Base UI Dialog** - Inline wrapper components (DialogPortal, DialogOverlay, DialogContent), not shadcn re-exports
+- **`useCopyState` hook** (`lib/hooks/use-copy-state.ts`) - shared copy-to-clipboard icon-swap: returns `{ copied, trigger }` with auto-reset (default 2s). Used in `api-card.tsx`, `share-link-dialog.tsx`, `features/docs/components/copy-button.tsx`. Reuse instead of reimplementing setCopied/setTimeout.
 
 ## Design System
 
 - **No border radius** — All UI components use `rounded-none`. Buttons, cards, inputs, dialogs, badges, alerts — everything is sharp-cornered. When creating new UI elements, always use `rounded-none` or omit border-radius entirely. Never use `rounded-md`, `rounded-lg`, etc.
 - **Match existing patterns** — Always check existing shadcn/Base UI components before creating custom UI. New interactive elements must visually match the established design (borders, spacing, colors, typography).
+- **Motion system** — `app/globals.css` registers `animate-{qr-reveal,shimmer,shake}` and `ease-{out-quad,out-cubic,in-out-quad}` via Tailwind v4 `@theme`. Use 150-250ms ease-out for feedback. Prefer opacity + 1-2px translate over scale/zoom (sharp-corner aesthetic). A global `@media (prefers-reduced-motion: reduce)` zeros all custom animations — no per-element guard required.
+- **Animation utilities come from `tw-animate-css`** — `animate-in`, `fade-in-0`, `slide-in-from-{top,bottom,left,right}-{n}`, `data-[starting-style]:` etc. Combine with Base UI `data-open` / `data-closed` for enter/exit transitions.
 
 ## Code Standards
 
@@ -147,6 +150,17 @@ This project uses Ultracite (Biome preset) for formatting and linting. Key rules
 - **No analytics on navigation Links**: Don't add `track()` to `onClick` of `<Link>` for route navigation. Track real interactions (form submits, dialog actions, downloads) instead.
 - **Zustand `onRehydrateStorage` does not auto-persist**: Mutating state inside the callback only updates in-memory state. If you also remove legacy localStorage keys there, a user closing the tab before any setState loses everything. Either keep migration idempotent (don't remove old keys) or trigger a setState after migration.
 - **Customizer renderer scope**: `renderCustomizerQR` (`features/customizer/renderer.ts`) only powers `/studio` preview and the home customizer sheet. Bulk export and `/api/v1/qr` use `generatePaymentQRServer` (no gradients/logos/frames) — don't pipe customizer config into those paths.
+- **`useTransition` swallows thrown errors** — async callbacks inside `startTransition(async () => ...)` silently drop rejections. Always wrap the body in `try/catch` with `console.error` + `toast.error`. React does not surface the failure anywhere otherwise.
+- **Data URL downloads — use `<a href={dataUrl}>` directly**. Don't `fetch(dataUrl)` → `blob` → `createObjectURL`; data URLs are already in-memory and the round-trip adds latency with zero benefit. Pattern: `link.href = dataUrl; link.download = name; link.click()`.
+
+## Customizer Guardrails
+
+Guardrails surface scannability risks live in the customizer (`features/customizer/guardrails.ts`). Adding one requires keeping these in sync:
+- `features/customizer/guardrails.ts` - add the key to the `GuardrailKey` union and a check in `checkGuardrails`
+- `messages/{sk,en,cs}.json` - translate `Branding.guardrail.<name>`
+- `docs/analytics-events.json` - append the key to `guardrail_warning_shown.properties.key`
+
+Severity `"warning"` disables the home customizer Done button (via `useGuardrails`); `"info"` is non-blocking guidance. Don't surface raw technical metrics (contrast ratios, thresholds) in the message text - keep copy actionable.
 
 ## API Changes
 

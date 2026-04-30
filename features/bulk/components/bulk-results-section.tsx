@@ -3,7 +3,7 @@
 import { IconFileTypePdf, IconFileZip, IconPrinter } from "@tabler/icons-react";
 import { track } from "@vercel/analytics";
 import { useTranslations } from "next-intl";
-import { useCallback } from "react";
+import { useCallback, useTransition } from "react";
 import { Button } from "@/components/ui/button";
 import { maskIban } from "@/lib/utils";
 import { exportPdf } from "../export-pdf";
@@ -14,30 +14,37 @@ export function BulkResultsSection() {
   const results = useBulkResults();
   const { setError } = useBulkActions();
   const t = useTranslations("Bulk");
+  const [zipPending, startZip] = useTransition();
+  const [pdfPending, startPdf] = useTransition();
 
   const handleExportZip = useCallback(() => {
     if (!results) {
       return;
     }
-    try {
-      exportZip(results);
-      track("bulk_exported_zip", { count: results.length });
-    } catch (err) {
-      console.error("[BulkExport] ZIP failed:", err);
-      setError(t("zipError"));
-    }
+    startZip(() => {
+      try {
+        exportZip(results);
+        track("bulk_exported_zip", { count: results.length });
+      } catch (err) {
+        console.error("[BulkExport] ZIP failed:", err);
+        setError(t("zipError"));
+      }
+    });
   }, [results, setError, t]);
 
-  const handleExportPdf = useCallback(async () => {
+  const handleExportPdf = useCallback(() => {
     if (!results) {
       return;
     }
-    try {
-      await exportPdf(results);
-      track("bulk_exported_pdf", { count: results.length });
-    } catch {
-      setError(t("pdfError"));
-    }
+    startPdf(async () => {
+      try {
+        await exportPdf(results);
+        track("bulk_exported_pdf", { count: results.length });
+      } catch (err) {
+        console.error("[BulkExport] PDF failed:", err);
+        setError(t("pdfError"));
+      }
+    });
   }, [results, setError, t]);
 
   const handlePrint = useCallback(() => {
@@ -60,18 +67,20 @@ export function BulkResultsSection() {
       <div className="flex flex-col gap-2 sm:flex-row print:hidden">
         <Button
           className="w-full sm:w-auto"
+          isPending={zipPending}
           onClick={handleExportZip}
           variant="outline"
         >
-          <IconFileZip className="size-4" />
+          {zipPending ? null : <IconFileZip className="size-4" />}
           {t("downloadZip")}
         </Button>
         <Button
           className="w-full sm:w-auto"
+          isPending={pdfPending}
           onClick={handleExportPdf}
           variant="outline"
         >
-          <IconFileTypePdf className="size-4" />
+          {pdfPending ? null : <IconFileTypePdf className="size-4" />}
           {t("downloadPdf")}
         </Button>
         <Button

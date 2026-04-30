@@ -103,6 +103,7 @@
     "downloaded": "QR code downloaded",
     "copied": "QR code copied",
     "copyFailed": "Failed to copy QR code",
+    "downloadFailed": "Failed to download QR code",
     "shared": "QR code shared",
     "generated": "QR code generated",
     "generateFailed": "Failed to generate QR code",

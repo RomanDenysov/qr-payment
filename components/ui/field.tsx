@@ -211,7 +211,10 @@ function FieldError({
 
   return (
     <div
-      className={cn("font-normal text-destructive text-xs", className)}
+      className={cn(
+        "fade-in-0 slide-in-from-top-1 animate-in font-normal text-destructive text-xs duration-150 ease-out",
+        className
+      )}
       data-slot="field-error"
       role="alert"
       {...props}

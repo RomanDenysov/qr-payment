@@ -2,25 +2,18 @@
 
 import { IconCheck, IconCopy } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
-import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
+import { useCopyState } from "@/lib/hooks/use-copy-state";
 
 export function CopyButton({ text }: { text: string }) {
   const t = useTranslations("Docs");
-  const [copied, setCopied] = useState(false);
-  const timerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
-
-  useEffect(() => {
-    return () => clearTimeout(timerRef.current);
-  }, []);
+  const { copied, trigger } = useCopyState();
 
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(text);
-      setCopied(true);
+      trigger();
       toast.success(t("copied"));
-      clearTimeout(timerRef.current);
-      timerRef.current = setTimeout(() => setCopied(false), 2000);
     } catch (error) {
       console.error("[CopyButton] Failed to copy:", error);
       toast.error(t("copyFailed"));
