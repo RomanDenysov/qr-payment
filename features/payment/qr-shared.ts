@@ -12,6 +12,37 @@ export const FONT_SIZE_MAP: Record<CenterTextSize, number> = {
   large: 38,
 };
 
+export interface TextOverlayBounds {
+  w: number;
+  h: number;
+}
+
+export function measureTextOverlayBounds(
+  text: string,
+  size: CenterTextSize,
+  bold: boolean,
+  font: CenterTextFont
+): TextOverlayBounds | null {
+  if (typeof document === "undefined") {
+    return null;
+  }
+  const ctx = document.createElement("canvas").getContext("2d");
+  if (!ctx) {
+    return null;
+  }
+  const lines = text.split("\n");
+  const fontSize = FONT_SIZE_MAP[size];
+  const weight = bold ? 600 : 400;
+  ctx.font = `${weight} ${fontSize}px ${FONT_STACKS[font]}`;
+  const maxWidth = Math.max(...lines.map((l) => ctx.measureText(l).width));
+  const lineHeight = fontSize * 1.15;
+  const padding = fontSize * 0.5;
+  return {
+    w: maxWidth + padding * 2,
+    h: lines.length * lineHeight + padding * 1.5,
+  };
+}
+
 type CornerStyle = "square" | "extra-rounded" | "dot";
 type CornerDot = "square" | "dot";
 

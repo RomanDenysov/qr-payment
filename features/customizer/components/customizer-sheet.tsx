@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/sheet";
 import { Link } from "@/i18n/navigation";
 import { useCustomizerActions } from "../store";
+import { useGuardrails } from "../use-guardrails";
 import { CustomizerControls } from "./customizer-controls";
 import { TemplateSelector } from "./template-selector";
 
@@ -35,6 +36,8 @@ export function CustomizerSheet({ onApply }: CustomizerSheetProps) {
   const [open, setOpen] = useState(false);
   const actions = useCustomizerActions();
   const t = useTranslations("Branding");
+  const guardrails = useGuardrails();
+  const hasBlockingIssue = guardrails.some((g) => g.severity === "warning");
 
   return (
     <Sheet onOpenChange={setOpen} open={open}>
@@ -80,6 +83,7 @@ export function CustomizerSheet({ onApply }: CustomizerSheetProps) {
             </Button>
             <Button
               className={FOOTER_BUTTON_CLASS}
+              disabled={hasBlockingIssue}
               onClick={() => {
                 onApply();
                 setOpen(false);

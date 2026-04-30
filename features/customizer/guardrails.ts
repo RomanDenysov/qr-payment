@@ -1,13 +1,16 @@
+import { measureTextOverlayBounds } from "@/features/payment/qr-shared";
 import { getContrastRatio } from "./contrast";
 import {
   ECC_CONTRAST_THRESHOLD,
   getMaxLogoSizePct,
   resolveErrorCorrectionLevel,
 } from "./ecc";
+import { QR_SIZE } from "./renderer";
 import { type CustomizerConfig, type Fill, fillPrimaryColor } from "./types";
 
 export type GuardrailKey =
   | "logo_oversized"
+  | "text_oversized"
   | "low_contrast"
   | "very_low_contrast"
   | "weak_gradient_fg"
@@ -25,6 +28,22 @@ export interface Guardrail {
 const VERY_LOW_CONTRAST_THRESHOLD = 3;
 const WEAK_GRADIENT_THRESHOLD = 1.2;
 
+function measureCenterTextCoveragePct(cfg: CustomizerConfig): number | null {
+  if (!(cfg.centerTextEnabled && cfg.centerText.trim())) {
+    return null;
+  }
+  const bounds = measureTextOverlayBounds(
+    cfg.centerText,
+    cfg.centerTextSize,
+    cfg.centerTextBold,
+    cfg.centerTextFont
+  );
+  if (!bounds) {
+    return null;
+  }
+  return (Math.max(bounds.w, bounds.h) / QR_SIZE) * 100;
+}
+
 function isGradient(fill: Fill): boolean {
   return fill.kind !== "solid";
 }
@@ -34,10 +53,6 @@ function gradientStopRatio(fill: Fill): number | null {
     return null;
   }
   return getContrastRatio(fill.from, fill.to);
-}
-
-function roundRatio(ratio: number): string {
-  return ratio.toFixed(1);
 }
 
 export function checkGuardrails(cfg: CustomizerConfig): Guardrail[] {
@@ -55,6 +70,16 @@ export function checkGuardrails(cfg: CustomizerConfig): Guardrail[] {
     });
   }
 
+  const textCoverage = measureCenterTextCoveragePct(cfg);
+  if (textCoverage !== null && textCoverage > maxLogo) {
+    out.push({
+      key: "text_oversized",
+      severity: "warning",
+      i18nKey: "Branding.guardrail.textOversized",
+      values: { max: maxLogo, ecc },
+    });
+  }
+
   const fg = fillPrimaryColor(cfg.fgFill);
   const bg = fillPrimaryColor(cfg.bgFill);
   const contrast = getContrastRatio(fg, bg);
@@ -64,14 +89,12 @@ export function checkGuardrails(cfg: CustomizerConfig): Guardrail[] {
       key: "very_low_contrast",
       severity: "warning",
       i18nKey: "Branding.guardrail.veryLowContrast",
-      values: { ratio: roundRatio(contrast) },
     });
   } else if (contrast < ECC_CONTRAST_THRESHOLD) {
     out.push({
       key: "low_contrast",
       severity: "info",
       i18nKey: "Branding.guardrail.lowContrast",
-      values: { ratio: roundRatio(contrast) },
     });
   }
 
