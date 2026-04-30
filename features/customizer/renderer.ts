@@ -20,7 +20,7 @@ import {
   type OverlayPosition,
 } from "./types";
 
-const QR_SIZE = 480;
+export const QR_SIZE = 480;
 const FRAME_SIDE_PADDING = 24;
 const FRAME_TEXT_GAP = 14;
 const MAX_OUTPUT_WIDTH = 1024;

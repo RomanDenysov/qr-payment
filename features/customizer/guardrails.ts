@@ -5,6 +5,7 @@ import {
   getMaxLogoSizePct,
   resolveErrorCorrectionLevel,
 } from "./ecc";
+import { QR_SIZE } from "./renderer";
 import { type CustomizerConfig, type Fill, fillPrimaryColor } from "./types";
 
 export type GuardrailKey =
@@ -26,7 +27,6 @@ export interface Guardrail {
 
 const VERY_LOW_CONTRAST_THRESHOLD = 3;
 const WEAK_GRADIENT_THRESHOLD = 1.2;
-const GUARDRAIL_QR_SIZE = 480;
 
 function measureCenterTextCoveragePct(cfg: CustomizerConfig): number | null {
   if (typeof document === "undefined") {
@@ -49,7 +49,7 @@ function measureCenterTextCoveragePct(cfg: CustomizerConfig): number | null {
   const padding = fontSize * 0.5;
   const w = maxWidth + padding * 2;
   const h = lines.length * lineHeight + padding * 1.5;
-  return (Math.max(w, h) / GUARDRAIL_QR_SIZE) * 100;
+  return (Math.max(w, h) / QR_SIZE) * 100;
 }
 
 function isGradient(fill: Fill): boolean {
