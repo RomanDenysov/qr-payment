@@ -73,6 +73,22 @@ export type Fill = SolidFill | GradientFill;
 
 export type FrameTextFont = "sans" | "serif" | "mono";
 
+export type DownloadSize = "small" | "standard" | "document" | "print";
+
+export const DOWNLOAD_SIZE_PX: Record<DownloadSize, number> = {
+  small: 128,
+  standard: 256,
+  document: 512,
+  print: 1024,
+};
+
+export const DOWNLOAD_SIZES: DownloadSize[] = [
+  "small",
+  "standard",
+  "document",
+  "print",
+];
+
 export interface FrameConfig {
   enabled: boolean;
   borderColor: string;
@@ -104,6 +120,8 @@ export interface CustomizerConfig {
   logoPosition: OverlayPosition;
 
   frame: FrameConfig;
+
+  downloadSize: DownloadSize;
 }
 
 export interface CustomizerTemplate {
@@ -138,6 +156,7 @@ export const DEFAULT_CUSTOMIZER_CONFIG: Readonly<CustomizerConfig> = {
     captionBold: false,
     font: "sans",
   },
+  downloadSize: "standard",
 };
 
 export type ContrastFn = (a: string, b: string) => number;

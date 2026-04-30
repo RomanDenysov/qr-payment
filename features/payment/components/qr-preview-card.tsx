@@ -18,8 +18,10 @@ import {
 } from "@/components/ui/card";
 import { renderCustomizerQR } from "@/features/customizer/renderer";
 import { useCustomizerConfig } from "@/features/customizer/store";
+import { DOWNLOAD_SIZE_PX } from "@/features/customizer/types";
 import { formatAmount, maskIban } from "@/lib/utils";
 import { InvalidIBANError } from "../qr-generator";
+import { resizePngDataUrl } from "../resize-qr";
 import type { PaymentRecord } from "../schema";
 import { useCurrentPayment, usePaymentActions } from "../store";
 
@@ -120,15 +122,18 @@ export function QRPreviewCard() {
     if (!qrDataUrl) {
       return;
     }
-    startDownload(() => {
+    const size = customizer.downloadSize;
+    const targetPx = DOWNLOAD_SIZE_PX[size];
+    startDownload(async () => {
       try {
+        const resized = await resizePngDataUrl(qrDataUrl, targetPx);
         const link = document.createElement("a");
-        link.href = qrDataUrl;
-        link.download = `qr-payment-${Date.now()}.png`;
+        link.href = resized;
+        link.download = `qr-payment-${targetPx}-${Date.now()}.png`;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-        track("qr_downloaded");
+        track("qr_downloaded", { size });
         toast.success(t("downloaded"));
       } catch (error) {
         console.error("[QRPreviewCard] Failed to download QR image:", error);
@@ -142,14 +147,17 @@ export function QRPreviewCard() {
     if (!qrDataUrl) {
       return;
     }
+    const size = customizer.downloadSize;
+    const targetPx = DOWNLOAD_SIZE_PX[size];
     startCopy(async () => {
       try {
-        const response = await fetch(qrDataUrl);
+        const resized = await resizePngDataUrl(qrDataUrl, targetPx);
+        const response = await fetch(resized);
         const blob = await response.blob();
         await navigator.clipboard.write([
           new ClipboardItem({ "image/png": blob }),
         ]);
-        track("qr_copied");
+        track("qr_copied", { size });
         toast.success(t("copied"));
       } catch (error) {
         console.error("[QRPreviewCard] Failed to copy QR image:", error);
@@ -164,18 +172,21 @@ export function QRPreviewCard() {
       handleCopy();
       return;
     }
+    const size = customizer.downloadSize;
+    const targetPx = DOWNLOAD_SIZE_PX[size];
     startShare(async () => {
       try {
-        const response = await fetch(qrDataUrl);
+        const resized = await resizePngDataUrl(qrDataUrl, targetPx);
+        const response = await fetch(resized);
         const blob = await response.blob();
-        const file = new File([blob], "qr-payment.png", {
+        const file = new File([blob], `qr-payment-${targetPx}.png`, {
           type: "image/png",
         });
         await navigator.share({
           files: [file],
           title: t("shareTitle"),
         });
-        track("qr_shared");
+        track("qr_shared", { size });
         toast.success(t("shared"));
       } catch (error) {
         if ((error as Error).name !== "AbortError") {

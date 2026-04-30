@@ -42,7 +42,7 @@
     "apiDocs": "API dokumentace"
   },
   "Announcement": {
-    "message": "Novinka: Více možností přizpůsobení QR kódu - gradienty, logo, rám, výběr pozice a další.",
+    "message": "Novinka: V editoru QR kódu si nyní můžete vybrat velikost obrázku - od 128 px na obrazovku až po 1024 px pro tisk.",
     "close": "Zavrit"
   },
   "Consent": {
@@ -108,7 +108,15 @@
     "generated": "QR kód vygenerován",
     "generateFailed": "Nepodařilo se vygenerovat QR kód",
     "regenerateFailed": "Nepodařilo se přegenerovat QR kód. Zkuste změnit nastavení.",
-    "shareTitle": "QR platba"
+    "shareTitle": "QR platba",
+    "downloadSize": {
+      "label": "Velikost",
+      "small": "Malé",
+      "standard": "Standard",
+      "document": "Dokument",
+      "print": "Tisk",
+      "help": "Malé (128px) na obrazovku, Standard (256px) běžné použití, Dokument (512px) do faktur, Tisk (1024px) pro fyzické tiskoviny."
+    }
   },
   "History": {
     "title": "Historie",

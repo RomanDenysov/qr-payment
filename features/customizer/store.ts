@@ -28,6 +28,7 @@ interface LegacyBrandingTemplate {
 
 function migrateConfig(config: CustomizerConfig): void {
   config.centerTextEnabled ??= DEFAULT_CUSTOMIZER_CONFIG.centerTextEnabled;
+  config.downloadSize ??= DEFAULT_CUSTOMIZER_CONFIG.downloadSize;
   if (!config.frame) {
     config.frame = structuredClone(DEFAULT_CUSTOMIZER_CONFIG.frame);
     return;

@@ -22,6 +22,8 @@ import { type Guardrail, getResolvedMaxLogoSizePct } from "../guardrails";
 import { useCustomizerActions, useCustomizerConfig } from "../store";
 import {
   type CustomizerConfig,
+  DOWNLOAD_SIZE_PX,
+  DOWNLOAD_SIZES,
   fillPrimaryColor,
   OVERLAY_POSITION_SHORT,
   type OverlayPosition,
@@ -47,6 +49,7 @@ export function CustomizerControls({
   const { update } = useCustomizerActions();
   const t = useTranslations("Studio");
   const tBranding = useTranslations("Branding");
+  const tQr = useTranslations("QRPreview");
 
   const guardrails = useGuardrails();
   const maxLogoSize = useMemo(
@@ -179,6 +182,42 @@ export function CustomizerControls({
           onChange={(frame) => update({ frame })}
           value={config.frame}
         />
+      </Section>
+
+      <Section
+        chip={
+          <span className="tabular-nums">
+            {DOWNLOAD_SIZE_PX[config.downloadSize]}px
+          </span>
+        }
+        title={tQr("downloadSize.label")}
+        value="downloadSize"
+      >
+        <div className="grid grid-cols-4 gap-2">
+          {DOWNLOAD_SIZES.map((value) => (
+            <button
+              className={cn(
+                "flex flex-col items-center gap-0.5 border p-2 transition-colors",
+                value === config.downloadSize
+                  ? "border-primary bg-primary/5"
+                  : "border-border hover:border-primary/50"
+              )}
+              key={value}
+              onClick={() => update({ downloadSize: value })}
+              type="button"
+            >
+              <span className="font-medium text-xs">
+                {tQr(`downloadSize.${value}`)}
+              </span>
+              <span className="text-[10px] text-muted-foreground tabular-nums">
+                {DOWNLOAD_SIZE_PX[value]}px
+              </span>
+            </button>
+          ))}
+        </div>
+        <p className="text-muted-foreground text-xs">
+          {tQr("downloadSize.help")}
+        </p>
       </Section>
     </Accordion>
   );
