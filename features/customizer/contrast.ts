@@ -1,5 +1,9 @@
 const HEX_COLOR_REGEX = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i;
 
+export function isValidHex(hex: string): boolean {
+  return HEX_COLOR_REGEX.test(hex);
+}
+
 function hexToRgb(hex: string): [number, number, number] | null {
   const result = HEX_COLOR_REGEX.exec(hex);
   if (!result) {
