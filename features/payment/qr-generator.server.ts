@@ -1,6 +1,7 @@
 import type { CurrencyCode } from "bysquare";
 import { electronicFormatIBAN, isValidIBAN } from "ibantools";
 import QRCode from "qrcode";
+import { buildColorOption } from "./qr-color";
 import { InvalidIBANError } from "./qr-generator";
 import { buildQrPayload } from "./qr-payload";
 
@@ -23,19 +24,6 @@ interface ServerQrOptions {
   lightColor?: string;
   margin?: number;
   errorCorrectionLevel?: "L" | "M" | "Q" | "H";
-}
-
-function buildColorOption(
-  dark: string | undefined,
-  light: string | undefined
-): { dark?: string; light?: string } | undefined {
-  if (!(dark || light)) {
-    return;
-  }
-  return {
-    ...(dark && { dark }),
-    ...(light && { light }),
-  };
 }
 
 export async function generatePaymentQRServer(

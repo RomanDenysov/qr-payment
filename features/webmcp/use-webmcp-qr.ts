@@ -3,6 +3,7 @@
 import type { JsonSchemaObject } from "@mcp-b/webmcp-types";
 import type { CurrencyCode } from "bysquare";
 import { useEffect } from "react";
+import { buildColorOption } from "@/features/payment/qr-color";
 
 const TOOL_NAME = "generate_pay_by_square_qr";
 const HEX_COLOR_PATTERN = "^#(?:[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$";
@@ -19,19 +20,6 @@ function mcpError(message: string) {
 function mcpResult(data: Record<string, unknown>) {
   return {
     content: [{ type: "text" as const, text: JSON.stringify(data) }],
-  };
-}
-
-function buildColorOption(
-  dark: string | undefined,
-  light: string | undefined
-): { dark?: string; light?: string } | undefined {
-  if (!(dark || light)) {
-    return;
-  }
-  return {
-    ...(dark && { dark }),
-    ...(light && { light }),
   };
 }
 
