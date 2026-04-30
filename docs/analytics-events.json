@@ -115,9 +115,9 @@
       "source": "features/customizer/components/dot-style-selector.tsx"
     },
     "guardrail_warning_shown": {
-      "description": "Customizer configuration triggered a scannability guardrail (logo too large, low contrast, or weak gradient). Fires once per warning key per session, not on every render.",
+      "description": "Customizer configuration triggered a scannability guardrail (logo or center text too large, low contrast, or weak gradient). Fires once per warning key per session, not on every render.",
       "properties": {
-        "key": "logo_oversized | low_contrast | very_low_contrast | weak_gradient_fg | weak_gradient_bg",
+        "key": "logo_oversized | text_oversized | low_contrast | very_low_contrast | weak_gradient_fg | weak_gradient_bg",
         "severity": "info | warning"
       },
       "source": "features/customizer/components/customizer-controls.tsx"

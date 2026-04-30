@@ -1,3 +1,4 @@
+import { FONT_SIZE_MAP, FONT_STACKS } from "@/features/payment/qr-shared";
 import { getContrastRatio } from "./contrast";
 import {
   ECC_CONTRAST_THRESHOLD,
@@ -8,6 +9,7 @@ import { type CustomizerConfig, type Fill, fillPrimaryColor } from "./types";
 
 export type GuardrailKey =
   | "logo_oversized"
+  | "text_oversized"
   | "low_contrast"
   | "very_low_contrast"
   | "weak_gradient_fg"
@@ -24,6 +26,31 @@ export interface Guardrail {
 
 const VERY_LOW_CONTRAST_THRESHOLD = 3;
 const WEAK_GRADIENT_THRESHOLD = 1.2;
+const GUARDRAIL_QR_SIZE = 480;
+
+function measureCenterTextCoveragePct(cfg: CustomizerConfig): number | null {
+  if (typeof document === "undefined") {
+    return null;
+  }
+  if (!(cfg.centerTextEnabled && cfg.centerText.trim())) {
+    return null;
+  }
+  const ctx = document.createElement("canvas").getContext("2d");
+  if (!ctx) {
+    return null;
+  }
+  const lines = cfg.centerText.split("\n");
+  const fontSize = FONT_SIZE_MAP[cfg.centerTextSize];
+  const weight = cfg.centerTextBold ? 600 : 400;
+  const stack = FONT_STACKS[cfg.centerTextFont];
+  ctx.font = `${weight} ${fontSize}px ${stack}`;
+  const maxWidth = Math.max(...lines.map((l) => ctx.measureText(l).width));
+  const lineHeight = fontSize * 1.15;
+  const padding = fontSize * 0.5;
+  const w = maxWidth + padding * 2;
+  const h = lines.length * lineHeight + padding * 1.5;
+  return (Math.max(w, h) / GUARDRAIL_QR_SIZE) * 100;
+}
 
 function isGradient(fill: Fill): boolean {
   return fill.kind !== "solid";
@@ -48,6 +75,16 @@ export function checkGuardrails(cfg: CustomizerConfig): Guardrail[] {
       severity: "warning",
       i18nKey: "Branding.guardrail.logoOversized",
       values: { size: cfg.logoSizePct, max: maxLogo, ecc },
+    });
+  }
+
+  const textCoverage = measureCenterTextCoveragePct(cfg);
+  if (textCoverage !== null && textCoverage > maxLogo) {
+    out.push({
+      key: "text_oversized",
+      severity: "warning",
+      i18nKey: "Branding.guardrail.textOversized",
+      values: { max: maxLogo, ecc },
     });
   }
 

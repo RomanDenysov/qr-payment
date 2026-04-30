@@ -155,6 +155,7 @@
     "openInStudio": "Otvoriť v štúdiu",
     "guardrail": {
       "logoOversized": "Logo zaberá {size} % plochy QR. Bezpečné maximum pri korekcii {ecc} je {max} %. Zmenšite logo, aby ostal kód naskenovateľný.",
+      "textOversized": "Stredný text je príliš veľký a presahuje {max} % plochy QR. Skráťte ho, zmenšite veľkosť alebo použite menej riadkov, aby kód zostal naskenovateľný.",
       "lowContrast": "Kontrast medzi popredím a pozadím je nízky. Pre spoľahlivé skenovanie zvoľte výraznejšie farby.",
       "veryLowContrast": "Kontrast je príliš nízky - QR sa nemusí naskenovať. Zvýšte kontrast alebo zvoľte iné farby.",
       "weakGradientFg": "Body gradientu popredia sú príliš blízko a vykreslia sa takmer rovnako. Vyberte farby s väčším rozdielom.",

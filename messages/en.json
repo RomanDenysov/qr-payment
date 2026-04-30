@@ -155,6 +155,7 @@
     "openInStudio": "Open in Studio",
     "guardrail": {
       "logoOversized": "Logo is {size}% of the QR area. The safe maximum at error correction {ecc} is {max}%. Reduce the size to keep the code scannable.",
+      "textOversized": "Center text is too large and covers more than {max}% of the QR. Shorten it, lower the size, or split fewer lines so the code stays scannable.",
       "lowContrast": "Contrast between foreground and background is low. Pick stronger colors for reliable scanning.",
       "veryLowContrast": "Contrast is too low - the QR may not scan. Increase contrast or pick different colors.",
       "weakGradientFg": "Foreground gradient stops are too close together and will render almost flat. Use colors with more separation.",
