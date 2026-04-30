@@ -213,6 +213,11 @@
       "description": "User dismissed the cookie/analytics consent banner",
       "properties": null,
       "source": "components/consent-banner.tsx"
+    },
+    "announcement_changelog_clicked": {
+      "description": "User clicked the 'Read changelog' link in the announcement banner",
+      "properties": { "id": "announcement id, e.g. api-styling-params" },
+      "source": "components/announcement-banner.tsx"
     }
   },
 

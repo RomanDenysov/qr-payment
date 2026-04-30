@@ -1,19 +1,33 @@
 import type { MetadataRoute } from "next";
+import { getLatestChangelogDate } from "@/features/changelog/data";
 import { routing } from "@/i18n/routing";
 import { localePath } from "@/lib/seo";
 
-const pages = [
-  { path: "", changeFrequency: "monthly" as const, priority: 1 },
-  { path: "/studio", changeFrequency: "monthly" as const, priority: 0.7 },
-  { path: "/bulk", changeFrequency: "monthly" as const, priority: 0.8 },
+interface SitemapPage {
+  path: string;
+  changeFrequency: "monthly" | "yearly" | "weekly" | "daily";
+  priority: number;
+  lastModified?: Date;
+}
+
+const pages: SitemapPage[] = [
+  { path: "", changeFrequency: "monthly", priority: 1 },
+  { path: "/studio", changeFrequency: "monthly", priority: 0.7 },
+  { path: "/bulk", changeFrequency: "monthly", priority: 0.8 },
   {
     path: "/ochrana-udajov",
-    changeFrequency: "yearly" as const,
+    changeFrequency: "yearly",
     priority: 0.3,
   },
-  { path: "/podmienky", changeFrequency: "yearly" as const, priority: 0.3 },
-  { path: "/faq", changeFrequency: "monthly" as const, priority: 0.5 },
-  { path: "/docs", changeFrequency: "monthly" as const, priority: 0.7 },
+  { path: "/podmienky", changeFrequency: "yearly", priority: 0.3 },
+  { path: "/faq", changeFrequency: "monthly", priority: 0.5 },
+  { path: "/docs", changeFrequency: "monthly", priority: 0.7 },
+  {
+    path: "/changelog",
+    changeFrequency: "weekly",
+    priority: 0.6,
+    lastModified: new Date(getLatestChangelogDate()),
+  },
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -22,7 +36,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const localePages = pages.flatMap((page) =>
     routing.locales.map((locale) => ({
       url: localePath(locale, page.path),
-      lastModified: now,
+      lastModified: page.lastModified ?? now,
       changeFrequency: page.changeFrequency,
       priority: page.priority,
       alternates: {
