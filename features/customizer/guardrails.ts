@@ -1,5 +1,9 @@
 import { getContrastRatio } from "./contrast";
-import { getMaxLogoSizePct, resolveErrorCorrectionLevel } from "./ecc";
+import {
+  ECC_CONTRAST_THRESHOLD,
+  getMaxLogoSizePct,
+  resolveErrorCorrectionLevel,
+} from "./ecc";
 import { type CustomizerConfig, type Fill, fillPrimaryColor } from "./types";
 
 export type GuardrailKey =
@@ -18,7 +22,6 @@ export interface Guardrail {
   values?: Record<string, string | number>;
 }
 
-const LOW_CONTRAST_THRESHOLD = 4.5;
 const VERY_LOW_CONTRAST_THRESHOLD = 3;
 const WEAK_GRADIENT_THRESHOLD = 1.2;
 
@@ -63,7 +66,7 @@ export function checkGuardrails(cfg: CustomizerConfig): Guardrail[] {
       i18nKey: "Branding.guardrail.veryLowContrast",
       values: { ratio: roundRatio(contrast) },
     });
-  } else if (contrast < LOW_CONTRAST_THRESHOLD) {
+  } else if (contrast < ECC_CONTRAST_THRESHOLD) {
     out.push({
       key: "low_contrast",
       severity: "info",
