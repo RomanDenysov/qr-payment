@@ -10,8 +10,6 @@ import {
 import { Link } from "@/i18n/navigation";
 import { getAlternates, getOgLocale, localePath } from "@/lib/seo";
 
-const CONTACT_EMAIL = "info@qr-platby.com";
-
 const BADGE_VARIANT: Record<
   ChangelogCategory,
   "default" | "secondary" | "outline" | "destructive"
@@ -126,23 +124,6 @@ export default async function ChangelogPage({ params }: Props) {
             />
           ))}
         </ol>
-
-        <section className="space-y-2 border border-border bg-card/40 p-4">
-          <h2 className="font-medium text-foreground text-sm">
-            {t("feedbackTitle")}
-          </h2>
-          <p className="text-muted-foreground text-sm">
-            {t("feedbackBody")}{" "}
-            <a
-              className={linkVariants()}
-              href={`mailto:${CONTACT_EMAIL}`}
-              rel="noopener"
-            >
-              {CONTACT_EMAIL}
-            </a>
-            .
-          </p>
-        </section>
 
         <div className="pt-4 text-center">
           <Link className={linkVariants({ size: "sm" })} href="/">

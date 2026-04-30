@@ -51,8 +51,6 @@
   },
   "Changelog": {
     "subtitle": "What's new, improved, and changed in QR Platby - newest first.",
-    "feedbackTitle": "Have feedback or an idea?",
-    "feedbackBody": "Drop me a line at",
     "categoryFeature": "Feature",
     "categoryApi": "API",
     "categoryFix": "Fix",

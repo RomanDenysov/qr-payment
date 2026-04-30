@@ -51,8 +51,6 @@
   },
   "Changelog": {
     "subtitle": "Čo je nové, vylepšené a zmenené v QR Platby - od najnovšieho.",
-    "feedbackTitle": "Máte nápad alebo pripomienku?",
-    "feedbackBody": "Napíšte mi na",
     "categoryFeature": "Novinka",
     "categoryApi": "API",
     "categoryFix": "Oprava",
