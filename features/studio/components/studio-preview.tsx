@@ -17,8 +17,12 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { renderCustomizerQR } from "@/features/customizer/renderer";
 import { validateScannability } from "@/features/customizer/scannability";
-import type { CustomizerConfig } from "@/features/customizer/types";
+import {
+  type CustomizerConfig,
+  DOWNLOAD_SIZE_PX,
+} from "@/features/customizer/types";
 import { buildQrPayload } from "@/features/payment/qr-payload";
+import { resizePngDataUrl } from "@/features/payment/resize-qr";
 import type { PaymentFormData } from "@/features/payment/schema";
 
 interface Props {
@@ -85,6 +89,7 @@ export function StudioPreview({ config, payment }: Props) {
   const deferredConfig = useDeferredValue(config);
   const deferredPayment = useDeferredValue(payment);
   const t = useTranslations("Studio");
+  const tQr = useTranslations("QRPreview");
   const [dataUrl, setDataUrl] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [scan, setScan] = useState<ScanState>({ status: "idle" });
@@ -125,17 +130,26 @@ export function StudioPreview({ config, payment }: Props) {
     };
   }, [deferredConfig, deferredPayment]);
 
-  const handleDownload = () => {
+  const handleDownload = async () => {
     if (!dataUrl) {
       return;
     }
-    const link = document.createElement("a");
-    link.href = dataUrl;
-    link.download = `qr-studio-${Date.now()}.png`;
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-    toast.success(t("downloaded"));
+    const size = config.downloadSize;
+    const targetPx = DOWNLOAD_SIZE_PX[size];
+    try {
+      const resized = await resizePngDataUrl(dataUrl, targetPx);
+      const link = document.createElement("a");
+      link.href = resized;
+      link.download = `qr-studio-${targetPx}-${Date.now()}.png`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      track("qr_downloaded", { size, source: "studio" });
+      toast.success(t("downloaded"));
+    } catch (err) {
+      console.error("[StudioPreview] Failed to download QR image:", err);
+      toast.error(tQr("downloadFailed"));
+    }
   };
 
   return (

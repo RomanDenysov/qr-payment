@@ -7,6 +7,7 @@ import {
   FONT_STACKS,
   getEyeStyles,
   getLogoSrc,
+  loadImage,
   measureTextOverlayBounds,
 } from "@/features/payment/qr-shared";
 import type { PaymentFormData } from "@/features/payment/schema";
@@ -38,16 +39,6 @@ function toGradient(fill: Fill) {
       { offset: 1, color: fill.to },
     ],
   };
-}
-
-function loadImage(src: string): Promise<HTMLImageElement> {
-  return new Promise((resolve, reject) => {
-    const img = new Image();
-    img.crossOrigin = "anonymous";
-    img.onload = () => resolve(img);
-    img.onerror = () => reject(new Error("Failed to load image"));
-    img.src = src;
-  });
 }
 
 const logoCache = new Map<string, Promise<HTMLImageElement>>();

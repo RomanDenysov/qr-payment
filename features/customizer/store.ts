@@ -4,6 +4,7 @@ import {
   type CustomizerConfig,
   type CustomizerTemplate,
   DEFAULT_CUSTOMIZER_CONFIG,
+  DOWNLOAD_SIZES,
 } from "./types";
 
 const STORAGE_KEY = "qrCustomizer.v1";
@@ -28,6 +29,9 @@ interface LegacyBrandingTemplate {
 
 function migrateConfig(config: CustomizerConfig): void {
   config.centerTextEnabled ??= DEFAULT_CUSTOMIZER_CONFIG.centerTextEnabled;
+  if (!DOWNLOAD_SIZES.includes(config.downloadSize)) {
+    config.downloadSize = DEFAULT_CUSTOMIZER_CONFIG.downloadSize;
+  }
   if (!config.frame) {
     config.frame = structuredClone(DEFAULT_CUSTOMIZER_CONFIG.frame);
     return;

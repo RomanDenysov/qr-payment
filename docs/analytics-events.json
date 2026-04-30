@@ -31,18 +31,25 @@
 
   "qr_actions": {
     "qr_downloaded": {
-      "description": "User downloaded the generated QR code as PNG",
-      "properties": null,
-      "source": "features/payment/components/qr-preview-card.tsx"
+      "description": "User downloaded the generated QR code as PNG. Fired from both home preview and studio.",
+      "properties": {
+        "size": "small (128px) | standard (256px) | document (512px) | print (1024px)",
+        "source": "studio (only when fired from /studio; absent from home)"
+      },
+      "source": "features/payment/components/qr-preview-card.tsx, features/studio/components/studio-preview.tsx"
     },
     "qr_copied": {
-      "description": "User copied the QR code image to clipboard",
-      "properties": null,
+      "description": "User copied the QR code image to clipboard at the picked size",
+      "properties": {
+        "size": "small (128px) | standard (256px) | document (512px) | print (1024px)"
+      },
       "source": "features/payment/components/qr-preview-card.tsx"
     },
     "qr_shared": {
-      "description": "User used the native Web Share API to share the QR code",
-      "properties": null,
+      "description": "User used the native Web Share API to share the QR code at the picked size",
+      "properties": {
+        "size": "small (128px) | standard (256px) | document (512px) | print (1024px)"
+      },
       "source": "features/payment/components/qr-preview-card.tsx"
     }
   },

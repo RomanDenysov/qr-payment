@@ -42,7 +42,7 @@
     "apiDocs": "API Docs"
   },
   "Announcement": {
-    "message": "New: More QR customization options - gradients, logo, frame, position picker, and more.",
+    "message": "What's new: gradients, logo, frame, position picker and more QR customization - plus pick the image size from 128 px for screens up to 1024 px for print.",
     "close": "Close"
   },
   "Consent": {
@@ -105,10 +105,19 @@
     "copyFailed": "Failed to copy QR code",
     "downloadFailed": "Failed to download QR code",
     "shared": "QR code shared",
+    "shareFailed": "Failed to share QR code",
     "generated": "QR code generated",
     "generateFailed": "Failed to generate QR code",
     "regenerateFailed": "Failed to regenerate QR code. Try changing the settings.",
-    "shareTitle": "QR Payment"
+    "shareTitle": "QR Payment",
+    "downloadSize": {
+      "label": "Size",
+      "small": "Small",
+      "standard": "Standard",
+      "document": "Document",
+      "print": "Print",
+      "help": "Small (128px) for screens, Standard (256px) for general use, Document (512px) for invoices, Print (1024px) for physical printing."
+    }
   },
   "History": {
     "title": "History",

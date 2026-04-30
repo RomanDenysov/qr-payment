@@ -42,7 +42,7 @@
     "apiDocs": "API dokumentácia"
   },
   "Announcement": {
-    "message": "Novinka: Viac možností prispôsobenia QR kódu - gradienty, logo, rám, výber polohy a ďalšie.",
+    "message": "Novinky: gradienty, logo, rám, výber polohy a ďalšie možnosti prispôsobenia QR kódu - a teraz aj výber veľkosti obrázka od 128 px pre obrazovku až po 1024 px pre tlač.",
     "close": "Zavriet"
   },
   "Consent": {
@@ -105,10 +105,19 @@
     "copyFailed": "Nepodarilo sa skopírovať QR kód",
     "downloadFailed": "Nepodarilo sa stiahnuť QR kód",
     "shared": "QR kód zdieľaný",
+    "shareFailed": "Nepodarilo sa zdieľať QR kód",
     "generated": "QR kód vygenerovaný",
     "generateFailed": "Nepodarilo sa vygenerovať QR kód",
     "regenerateFailed": "Nepodarilo sa pregenerovať QR kód. Skúste zmeniť nastavenia.",
-    "shareTitle": "QR platba"
+    "shareTitle": "QR platba",
+    "downloadSize": {
+      "label": "Veľkosť",
+      "small": "Malé",
+      "standard": "Štandard",
+      "document": "Dokument",
+      "print": "Tlač",
+      "help": "Malé (128px) na obrazovku, Štandard (256px) všeobecné použitie, Dokument (512px) do faktúr, Tlač (1024px) pre fyzické tlačoviny."
+    }
   },
   "History": {
     "title": "História",
