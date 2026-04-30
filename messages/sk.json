@@ -42,7 +42,7 @@
     "apiDocs": "API dokumentácia"
   },
   "Announcement": {
-    "message": "Novinky: gradienty, logo, rám, výber polohy a ďalšie možnosti prispôsobenia QR kódu - a teraz aj výber veľkosti obrázka od 128 px pre obrazovku až po 1024 px pre tlač.",
+    "message": "Novinky: gradienty, logo, rám, výber polohy a veľkosti obrázka (128-1024 px) - a REST API teraz tiež podporuje vlastné farby, okraj a úroveň korekcie chýb.",
     "close": "Zavriet"
   },
   "Consent": {
