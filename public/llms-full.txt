@@ -27,6 +27,10 @@ CORS is enabled for all origins. An `OPTIONS` preflight returns `204` with appro
 | `paymentFormat` | string | No | `"bysquare"` | Payment format: `"bysquare"` (Slovak PAY by square), `"spayd"` (Czech QR Platba), or `"epc"` (EU SEPA). EPC requires EUR currency and recipientName; does not support symbol fields. |
 | `format` | string | No | `"png"` | Output format: `"png"` (base64 data URI) or `"svg"` (SVG markup) |
 | `size` | integer | No | `300` | QR code size in pixels, range `100` – `1000`. Applies to PNG width/height and SVG intrinsic width/height. |
+| `darkColor` | string | No | `"#000000"` | Foreground hex color (`#RRGGBB` or `#RRGGBBAA`). |
+| `lightColor` | string | No | `"#ffffff"` | Background hex color (`#RRGGBB` or `#RRGGBBAA`). Use `#FFFFFF00` for a transparent background. |
+| `margin` | integer | No | `2` | Quiet zone width in QR modules, range `0` – `10`. Reducing below 2 may hurt scanner reliability. |
+| `errorCorrectionLevel` | string | No | auto | Override the auto-derived error correction level: `"L"` (7%), `"M"` (15%), `"Q"` (25%), or `"H"` (30% recovery). Payload may not fit at lower levels. |
 
 ## Response — Success (200)
 

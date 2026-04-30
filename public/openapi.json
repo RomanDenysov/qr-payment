@@ -261,6 +261,30 @@
             "maximum": 1000,
             "default": 300,
             "description": "QR code size in pixels. Applies to png width/height and svg intrinsic width/height."
+          },
+          "darkColor": {
+            "type": "string",
+            "pattern": "^#(?:[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$",
+            "description": "Foreground color as hex (#RRGGBB or #RRGGBBAA). Defaults to #000000.",
+            "example": "#0070f3"
+          },
+          "lightColor": {
+            "type": "string",
+            "pattern": "^#(?:[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$",
+            "description": "Background color as hex (#RRGGBB or #RRGGBBAA). Defaults to #ffffff. Use #FFFFFF00 for a transparent background.",
+            "example": "#ffffff"
+          },
+          "margin": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10,
+            "default": 2,
+            "description": "Quiet zone width in QR modules. Reducing below 2 may hurt scanner reliability."
+          },
+          "errorCorrectionLevel": {
+            "type": "string",
+            "enum": ["L", "M", "Q", "H"],
+            "description": "Override the auto-derived error correction level (L=7%, M=15%, Q=25%, H=30% recovery). Payload may not fit at lower levels."
           }
         }
       },

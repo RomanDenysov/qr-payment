@@ -104,7 +104,7 @@ export async function POST(req: NextRequest) {
             path: issue.path.join("."),
             message: issue.message,
           })),
-          hint: "Required: iban (string). Optional: amount (number), currency (EUR|CZK), variableSymbol, specificSymbol, constantSymbol, recipientName, paymentNote, paymentFormat (bysquare|spayd|epc), format (png|svg), size (100-1000).",
+          hint: "Required: iban (string). Optional: amount (number), currency (EUR|CZK), variableSymbol, specificSymbol, constantSymbol, recipientName, paymentNote, paymentFormat (bysquare|spayd|epc), format (png|svg), size (100-1000), darkColor (#RRGGBB or #RRGGBBAA), lightColor (#RRGGBB or #RRGGBBAA), margin (0-10), errorCorrectionLevel (L|M|Q|H).",
           docs: DOCS_URL,
           example: {
             iban: "SK3112000000198742637541",
@@ -117,7 +117,17 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const { format, size, currency, paymentFormat, ...paymentData } = parsed.data;
+  const {
+    format,
+    size,
+    currency,
+    paymentFormat,
+    darkColor,
+    lightColor,
+    margin,
+    errorCorrectionLevel,
+    ...paymentData
+  } = parsed.data;
 
   try {
     const data = await generatePaymentQRServer(
@@ -126,7 +136,7 @@ export async function POST(req: NextRequest) {
         format: paymentFormat,
         currency: currency as CurrencyCode,
       },
-      { format, size }
+      { format, size, darkColor, lightColor, margin, errorCorrectionLevel }
     );
 
     track("api_qr_generated", {

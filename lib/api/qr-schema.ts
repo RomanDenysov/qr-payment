@@ -3,6 +3,7 @@ import { electronicFormatIBAN, isValidIBAN } from "ibantools";
 import z from "zod";
 
 const DIGITS_RE = /^\d*$/;
+const HEX_COLOR_RE = /^#(?:[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/;
 
 export const qrRequestSchema = z
   .object({
@@ -62,6 +63,21 @@ export const qrRequestSchema = z
       .max(1000, "Size must be at most 1000px")
       .default(300),
     paymentFormat: z.enum(["bysquare", "spayd", "epc"]).default("bysquare"),
+    darkColor: z
+      .string()
+      .regex(HEX_COLOR_RE, "Must be a hex color (#RRGGBB or #RRGGBBAA)")
+      .optional(),
+    lightColor: z
+      .string()
+      .regex(HEX_COLOR_RE, "Must be a hex color (#RRGGBB or #RRGGBBAA)")
+      .optional(),
+    margin: z
+      .number()
+      .int("Margin must be an integer")
+      .min(0, "Margin must be at least 0")
+      .max(10, "Margin must be at most 10")
+      .optional(),
+    errorCorrectionLevel: z.enum(["L", "M", "Q", "H"]).optional(),
   })
   .superRefine((data, ctx) => {
     if (data.paymentFormat !== "epc") {
