@@ -65,6 +65,10 @@ features/customizer/      # Unified QR customizer (home sheet + /studio page)
   renderer.ts             # renderCustomizerQR (gradients, position overlays, frame compositor)
   compress-logo.ts        # Logo compression for QR overlay
   branding-bridge.ts      # customizerToBranding helper for bulk/share/api callsites
+  contrast.ts             # WCAG luminance + getContrastRatio + isValidHex
+  ecc.ts                  # resolveErrorCorrectionLevel (H|M only), SAFE_LOGO_PCT_BY_ECC, ECC_CONTRAST_THRESHOLD
+  guardrails.ts           # checkGuardrails (logo cap, low contrast, weak gradient) for live customizer feedback
+  scannability.ts         # validateScannability (jsQR round-trip; jsqr is dynamic-imported)
   components/             # Shared customizer UI (color/dot/text/logo/frame controls + sheet + templates)
 features/feedback/        # Feature request / feedback module
 features/faq/             # FAQ data (translated)
@@ -142,6 +146,7 @@ This project uses Ultracite (Biome preset) for formatting and linting. Key rules
 - **Announcement banner**: Change `ANNOUNCEMENT_ID` in `components/announcement-banner.tsx` and update `Announcement.message` in translation files. Old dismissed banners won't block new ones.
 - **No analytics on navigation Links**: Don't add `track()` to `onClick` of `<Link>` for route navigation. Track real interactions (form submits, dialog actions, downloads) instead.
 - **Zustand `onRehydrateStorage` does not auto-persist**: Mutating state inside the callback only updates in-memory state. If you also remove legacy localStorage keys there, a user closing the tab before any setState loses everything. Either keep migration idempotent (don't remove old keys) or trigger a setState after migration.
+- **Customizer renderer scope**: `renderCustomizerQR` (`features/customizer/renderer.ts`) only powers `/studio` preview and the home customizer sheet. Bulk export and `/api/v1/qr` use `generatePaymentQRServer` (no gradients/logos/frames) — don't pipe customizer config into those paths.
 
 ## API Changes
 
