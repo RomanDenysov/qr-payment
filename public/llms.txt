@@ -66,6 +66,7 @@ curl -X POST https://qr-platby.com/api/v1/qr \
 - Supports Slovak (SK), Czech (CZ), and other EU IBANs
 - Currencies: EUR, CZK
 - Payment formats: bysquare (Slovak), spayd (Czech), epc (EU SEPA)
+- Optional styling: `darkColor` / `lightColor` (hex `#RRGGBB` or `#RRGGBBAA`), `margin` (0-10), `errorCorrectionLevel` (`L`/`M`/`Q`/`H`)
 
 ## Source Code
 
