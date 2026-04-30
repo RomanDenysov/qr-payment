@@ -155,8 +155,8 @@
     "openInStudio": "Open in Studio",
     "guardrail": {
       "logoOversized": "Logo is {size}% of the QR area. The safe maximum at error correction {ecc} is {max}%. Reduce the size to keep the code scannable.",
-      "lowContrast": "Foreground / background contrast is {ratio}:1. Aim for at least 4.5:1 for reliable scanning.",
-      "veryLowContrast": "Contrast {ratio}:1 is too low - the QR may not scan. Increase contrast or pick different colors.",
+      "lowContrast": "Contrast between foreground and background is low. Pick stronger colors for reliable scanning.",
+      "veryLowContrast": "Contrast is too low - the QR may not scan. Increase contrast or pick different colors.",
       "weakGradientFg": "Foreground gradient stops are too close together and will render almost flat. Use colors with more separation.",
       "weakGradientBg": "Background gradient stops are too close together and will render almost flat. Use colors with more separation."
     }

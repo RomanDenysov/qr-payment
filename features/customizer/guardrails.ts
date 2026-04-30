@@ -36,10 +36,6 @@ function gradientStopRatio(fill: Fill): number | null {
   return getContrastRatio(fill.from, fill.to);
 }
 
-function roundRatio(ratio: number): string {
-  return ratio.toFixed(1);
-}
-
 export function checkGuardrails(cfg: CustomizerConfig): Guardrail[] {
   const out: Guardrail[] = [];
 
@@ -64,14 +60,12 @@ export function checkGuardrails(cfg: CustomizerConfig): Guardrail[] {
       key: "very_low_contrast",
       severity: "warning",
       i18nKey: "Branding.guardrail.veryLowContrast",
-      values: { ratio: roundRatio(contrast) },
     });
   } else if (contrast < ECC_CONTRAST_THRESHOLD) {
     out.push({
       key: "low_contrast",
       severity: "info",
       i18nKey: "Branding.guardrail.lowContrast",
-      values: { ratio: roundRatio(contrast) },
     });
   }
 

@@ -327,20 +327,16 @@ function GuardrailWarnings({ guardrails }: { guardrails: Guardrail[] }) {
     <div className="flex flex-col gap-2">
       {guardrails.map((g) => (
         <Alert
-          className={cn(
-            "items-start px-3 py-2",
-            g.severity === "warning"
-              ? "border-destructive/50 bg-destructive/5 text-destructive"
-              : "border-amber-500/40 bg-amber-500/5 text-amber-700 dark:text-amber-400"
-          )}
+          className="items-center px-2 py-1.5 sm:px-3 sm:py-2 sm:text-sm"
           key={g.key}
+          variant={g.severity === "warning" ? "destructive" : "default"}
         >
           {g.severity === "warning" ? (
-            <IconAlertTriangle className="size-4" />
+            <IconAlertTriangle className="size-5 self-center" />
           ) : (
-            <IconInfoCircle className="size-4" />
+            <IconInfoCircle className="size-5 self-center" />
           )}
-          <AlertDescription className="text-xs leading-relaxed">
+          <AlertDescription className="sm:text-sm/relaxed">
             {tBranding(g.i18nKey, g.values)}
           </AlertDescription>
         </Alert>
