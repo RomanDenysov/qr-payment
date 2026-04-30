@@ -310,6 +310,9 @@ export function getChangelogData(locale: string): ChangelogEntry[] {
 }
 
 export function getLatestChangelogDate(locale = "sk"): string {
-  const entries = getChangelogData(locale);
-  return entries[0]?.date ?? new Date().toISOString().slice(0, 10);
+  const first = getChangelogData(locale)[0];
+  if (!first) {
+    throw new Error(`Changelog has no entries for locale: ${locale}`);
+  }
+  return first.date;
 }
