@@ -8,7 +8,7 @@ export function createPaymentFormSchema(t: (key: string) => string) {
   return z
     .object({
       format: z.enum(["bysquare", "epc", "spayd"]),
-      currency: z.enum(["EUR", "CZK"]),
+      currency: z.enum(["EUR", "CZK"]).optional(),
       iban: z
         .string()
         .min(1, t("ibanRequired"))
