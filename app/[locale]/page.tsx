@@ -1,8 +1,8 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { DynamicApiCard } from "@/features/api/api-card-dynamic";
-import { HomeContent } from "@/features/seo/home-content";
 import { PaymentFormCard } from "@/features/payment/components/payment-form-card";
 import { QRPreviewCard } from "@/features/payment/components/qr-preview-card";
+import { HomeContent } from "@/features/seo/home-content";
 import { getAlternates } from "@/lib/seo";
 
 interface Props {

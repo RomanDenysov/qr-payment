@@ -1,6 +1,6 @@
 import { getLocale, getTranslations } from "next-intl/server";
-import { localePath } from "@/lib/seo";
 import { getFaqData } from "@/features/faq/data";
+import { localePath } from "@/lib/seo";
 
 export async function JsonLd() {
   const locale = await getLocale();
