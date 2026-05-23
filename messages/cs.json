@@ -490,7 +490,10 @@
       "UniCredit"
     ],
     "section4Title": "Nejčastěji kladené otázky",
-    "section4ViewAllLink": "Zobrazit všechny otázky"
+    "section4ViewAllLink": "Zobrazit všechny otázky",
+    "section4ApiLink": "API dokumentace",
+    "section4StudioLink": "Pokročilý editor QR",
+    "section4BulkLink": "Hromadné generování"
   },
   "JsonLd": {
     "howTo": {

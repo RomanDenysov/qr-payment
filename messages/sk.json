@@ -490,7 +490,10 @@
       "MONETA"
     ],
     "section4Title": "Najčastejšie otázky",
-    "section4ViewAllLink": "Zobraziť všetky otázky"
+    "section4ViewAllLink": "Zobraziť všetky otázky",
+    "section4ApiLink": "API dokumentácia",
+    "section4StudioLink": "Pokročilý QR editor",
+    "section4BulkLink": "Hromadné generovanie"
   },
   "JsonLd": {
     "howTo": {

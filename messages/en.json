@@ -490,7 +490,10 @@
       "MONETA"
     ],
     "section4Title": "Frequently Asked Questions",
-    "section4ViewAllLink": "View all questions"
+    "section4ViewAllLink": "View all questions",
+    "section4ApiLink": "API documentation",
+    "section4StudioLink": "Advanced QR editor",
+    "section4BulkLink": "Bulk generation"
   },
   "JsonLd": {
     "howTo": {

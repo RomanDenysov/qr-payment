@@ -146,13 +146,28 @@ export async function HomeContent({ locale }: Props) {
             </div>
           ))}
         </div>
-        <div className="mt-6 text-center">
-          <Link
-            className="inline-block font-semibold text-foreground text-sm hover:underline"
-            href="/faq"
-          >
-            {t("section4ViewAllLink")} →
-          </Link>
+        <div className="mt-6 flex flex-wrap gap-3 text-center">
+          <div className="w-full">
+            <Link
+              className="inline-block font-semibold text-foreground text-sm hover:underline"
+              href="/faq"
+            >
+              {t("section4ViewAllLink")} →
+            </Link>
+          </div>
+          <div className="flex w-full flex-wrap justify-center gap-2 text-muted-foreground text-xs">
+            <Link className="hover:underline" href="/docs">
+              {t("section4ApiLink")}
+            </Link>
+            <span>•</span>
+            <Link className="hover:underline" href="/studio">
+              {t("section4StudioLink")}
+            </Link>
+            <span>•</span>
+            <Link className="hover:underline" href="/bulk">
+              {t("section4BulkLink")}
+            </Link>
+          </div>
         </div>
       </section>
     </>
