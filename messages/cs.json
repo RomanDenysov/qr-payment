@@ -460,5 +460,51 @@
       "heading": "Kontakt",
       "body": "V případě dotazů kontaktujte:"
     }
+  },
+  "HomeContent": {
+    "section1Title": "Co je QR Platba a generátor QR kódů pro platby",
+    "section1Para1": "QR Platba je český standard pro platební QR kódy zavedený Českou bankovní asociací. QR kód na platbu je rychlý a bezpečný způsob, jak poslat peníze bez nutnosti ručního zadávání bankovních údajů. Kód obsahuje IBAN příjemce, částku, variabilní symbol a poznámku - vše čitelné jedním skenováním pomocí libovolné české bankovní aplikace.",
+    "section1Para2": "QR Platby také podporuje BySquare (slovenský standard) a EPC QR (evropský SEPA standard). Všechny údaje se zpracovávají přímo ve vašem prohlížeči - neshromažďujeme žádné osobní údaje ani je neukládáme na server.",
+    "section2Title": "Jak vytvořit QR kód na platbu - generátor QR platby",
+    "section3Title": "Podporované banky",
+    "section3Col1": "Banky v České republice",
+    "section3Col2": "Banky na Slovensku",
+    "section3Banks1": [
+      "Air Bank",
+      "Česká spořitelna",
+      "ČSOB",
+      "Fio banka",
+      "Komerční banka",
+      "Raiffeisenbank",
+      "mBank",
+      "MONETA"
+    ],
+    "section3Banks2": [
+      "Tatra banka",
+      "Slovenská sporiteľňa",
+      "VÚB",
+      "ČSOB",
+      "mBank",
+      "Fio banka",
+      "365.bank",
+      "UniCredit"
+    ],
+    "section4Title": "Nejčastěji kladené otázky",
+    "section4ViewAllLink": "Zobrazit všechny otázky"
+  },
+  "JsonLd": {
+    "howTo": {
+      "name": "Jak vytvořit QR kód na platbu",
+      "description": "Jednoduché kroky pro vytváření QR kódů pro bankovní platby pomocí QR Platby.",
+      "tool": "QR Platby generátor",
+      "step1Name": "Zadejte platební údaje",
+      "step1Text": "Zadejte IBAN, částku, variabilní symbol a další platební informace.",
+      "step2Name": "Přizpůsobte QR kód",
+      "step2Text": "Volitelně změňte barvy, styl teček nebo přidejte své logo.",
+      "step3Name": "Vygenerujte QR kód",
+      "step3Text": "Klikněte na tlačítko Vygenerovat a vytvořte svůj QR kód.",
+      "step4Name": "Naskenujte bankovní aplikací",
+      "step4Text": "Otevřete svou bankovní aplikaci a naskenujte QR kód pro potvrzení platby."
+    }
   }
 }

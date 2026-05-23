@@ -460,5 +460,51 @@
       "heading": "Kontakt",
       "body": "V prípade otázok kontaktujte:"
     }
+  },
+  "HomeContent": {
+    "section1Title": "Čo je PAY by square a QR platba",
+    "section1Para1": "PAY by square je slovenský štandard pre platobné QR kódy, ktorý si môžete naskenovať ktoroukoľvek bankovnou aplikáciou. QR platba je rýchly a bezpečný spôsob, ako poslať peniaze bez nutnosti ručného zadávania údajov. Kód obsahuje IBAN príjemcu, sumu, variabilný symbol a poznámku - všetko čitateľné jedným skenovaním.",
+    "section1Para2": "QR Platby podporuje aj SPAYD (český štandard) a EPC QR (európsky SEPA štandard). Všetky údaje sa spracúvajú priamo vo vašom prehliadači - nezbierame žiadne osobné údaje ani ich neukladáme na server.",
+    "section2Title": "Ako vytvoriť QR kód na QR platbu generátorem",
+    "section3Title": "Podporované banky",
+    "section3Col1": "Banky na Slovensku",
+    "section3Col2": "Banky v Česku",
+    "section3Banks1": [
+      "Tatra banka",
+      "Slovenská sporiteľňa",
+      "VÚB",
+      "ČSOB",
+      "mBank",
+      "Fio banka",
+      "365.bank",
+      "UniCredit"
+    ],
+    "section3Banks2": [
+      "Air Bank",
+      "Česká spořitelna",
+      "ČSOB",
+      "Fio banka",
+      "Komerční banka",
+      "Raiffeisenbank",
+      "mBank",
+      "MONETA"
+    ],
+    "section4Title": "Najčastejšie otázky",
+    "section4ViewAllLink": "Zobraziť všetky otázky"
+  },
+  "JsonLd": {
+    "howTo": {
+      "name": "Ako vytvoriť QR kód na platbu",
+      "description": "Jednoduché kroky na vytváranie QR kódov pre bankové platby pomocou QR Platby.",
+      "tool": "QR Platby generátor",
+      "step1Name": "Zadajte platobné údaje",
+      "step1Text": "Zadajte IBAN, sumu, variabilný symbol a ďalšie platobné údaje.",
+      "step2Name": "Prispôsobte QR kód",
+      "step2Text": "Voliteľne zmeňte farby, štýl bodov alebo pridajte logo.",
+      "step3Name": "Vygenerujte QR kód",
+      "step3Text": "Kliknite na tlačidlo Vygenerovať a získajte hotový QR kód.",
+      "step4Name": "Naskenujte bankovnou aplikáciou",
+      "step4Text": "Otvorte vašu bankovú aplikáciu a naskenujte QR kód na potvrdenie platby."
+    }
   }
 }
