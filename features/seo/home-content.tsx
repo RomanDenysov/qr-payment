@@ -6,6 +6,27 @@ interface FaqItem {
   a: string;
 }
 
+const SECTION_HEADING_CLASS =
+  "font-bold font-pixel text-foreground text-lg tracking-wide sm:text-xl";
+
+interface BankColumnProps {
+  title: string;
+  banks: string[];
+}
+
+function BankColumn({ title, banks }: BankColumnProps): React.ReactNode {
+  return (
+    <div>
+      <h3 className="mb-3 font-semibold text-foreground text-sm">{title}</h3>
+      <ul className="list-inside list-disc space-y-2 text-muted-foreground text-sm">
+        {banks.map((bank) => (
+          <li key={bank}>{bank}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 export async function HomeContent() {
   const t = await getTranslations("HomeContent");
 
@@ -17,17 +38,13 @@ export async function HomeContent() {
   return (
     <>
       <section className="mt-16 space-y-4">
-        <h2 className="font-bold font-pixel text-foreground text-lg tracking-wide sm:text-xl">
-          {t("section1Title")}
-        </h2>
+        <h2 className={SECTION_HEADING_CLASS}>{t("section1Title")}</h2>
         <p className="text-muted-foreground">{t("section1Para1")}</p>
         <p className="text-muted-foreground">{t("section1Para2")}</p>
       </section>
 
       <section className="mt-16 space-y-4">
-        <h2 className="font-bold font-pixel text-foreground text-lg tracking-wide sm:text-xl">
-          {t("section2Title")}
-        </h2>
+        <h2 className={SECTION_HEADING_CLASS}>{t("section2Title")}</h2>
         <ol className="list-inside list-decimal space-y-2 text-muted-foreground">
           {steps.map((step) => (
             <li key={step}>{step}</li>
@@ -36,37 +53,15 @@ export async function HomeContent() {
       </section>
 
       <section className="mt-16 space-y-4">
-        <h2 className="font-bold font-pixel text-foreground text-lg tracking-wide sm:text-xl">
-          {t("section3Title")}
-        </h2>
+        <h2 className={SECTION_HEADING_CLASS}>{t("section3Title")}</h2>
         <div className="grid gap-8 sm:grid-cols-2">
-          <div>
-            <h3 className="mb-3 font-semibold text-foreground text-sm">
-              {t("section3Col1")}
-            </h3>
-            <ul className="list-inside list-disc space-y-2 text-muted-foreground text-sm">
-              {banksSlovak.map((bank) => (
-                <li key={bank}>{bank}</li>
-              ))}
-            </ul>
-          </div>
-          <div>
-            <h3 className="mb-3 font-semibold text-foreground text-sm">
-              {t("section3Col2")}
-            </h3>
-            <ul className="list-inside list-disc space-y-2 text-muted-foreground text-sm">
-              {banksCzech.map((bank) => (
-                <li key={bank}>{bank}</li>
-              ))}
-            </ul>
-          </div>
+          <BankColumn banks={banksSlovak} title={t("section3Col1")} />
+          <BankColumn banks={banksCzech} title={t("section3Col2")} />
         </div>
       </section>
 
       <section className="mt-16 space-y-4">
-        <h2 className="font-bold font-pixel text-foreground text-lg tracking-wide sm:text-xl">
-          {t("section4Title")}
-        </h2>
+        <h2 className={SECTION_HEADING_CLASS}>{t("section4Title")}</h2>
         <div className="space-y-6">
           {faqItems.map((item) => (
             <div key={item.q}>
