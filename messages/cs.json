@@ -466,6 +466,12 @@
     "section1Para1": "QR Platba je český standard pro platební QR kódy zavedený Českou bankovní asociací. QR kód na platbu je rychlý a bezpečný způsob, jak poslat peníze bez nutnosti ručního zadávání bankovních údajů. Kód obsahuje IBAN příjemce, částku, variabilní symbol a poznámku - vše čitelné jedním skenováním pomocí libovolné české bankovní aplikace.",
     "section1Para2": "QR Platby také podporuje BySquare (slovenský standard) a EPC QR (evropský SEPA standard). Všechny údaje se zpracovávají přímo ve vašem prohlížeči - neshromažďujeme žádné osobní údaje ani je neukládáme na server.",
     "section2Title": "Jak vytvořit QR kód na platbu - generátor QR platby",
+    "section2Steps": [
+      "Zadejte IBAN, částku a symboly",
+      "Volitelně si QR kód přizpůsobte",
+      "Vygenerujte QR kód",
+      "Naskenujte bankovní aplikací"
+    ],
     "section3Title": "Podporované banky",
     "section3Col1": "Banky v České republice",
     "section3Col2": "Banky na Slovensku",
@@ -490,6 +496,20 @@
       "UniCredit"
     ],
     "section4Title": "Nejčastěji kladené otázky",
+    "section4Items": [
+      {
+        "q": "Co je QR Platby?",
+        "a": "QR Platby je bezplatný online nástroj na vytváření QR kódů pro bankovní platby. Všechny údaje se zpracovávají přímo ve vašem prohlížeči - neshromažďujeme žádné osobní údaje."
+      },
+      {
+        "q": "Jak funguje QR platba?",
+        "a": "Zadejte platební údaje (IBAN, částku, symboly), vygenerujte QR kód a naskenujte ho bankovní aplikací. Platba se automaticky vyplní."
+      },
+      {
+        "q": "Které banky jsou podporovány?",
+        "a": "QR kódy ve formátu SPAYD fungují se všemi českými bankami. BySquare formát funguje se všemi slovenskými bankami. EPC QR je podporován většinou evropských bank."
+      }
+    ],
     "section4ViewAllLink": "Zobrazit všechny otázky",
     "section4ApiLink": "API dokumentace",
     "section4StudioLink": "Pokročilý editor QR",

@@ -1,12 +1,9 @@
 import { getLocale, getTranslations } from "next-intl/server";
-import { getFaqData } from "@/features/faq/data";
 import { localePath } from "@/lib/seo";
 
 export async function JsonLd() {
   const locale = await getLocale();
   const t = await getTranslations("Metadata");
-  const tHowTo = await getTranslations("JsonLd.howTo");
-  const faqData = getFaqData(locale);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -52,56 +49,6 @@ export async function JsonLd() {
           priceCurrency: "EUR",
           description: "Free tier: 20 requests/minute, 100 requests/day",
         },
-      },
-      {
-        "@type": "FAQPage",
-        mainEntity: faqData.map((item) => ({
-          "@type": "Question",
-          name: item.question,
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: item.answer,
-          },
-        })),
-      },
-      {
-        "@type": "HowTo",
-        name: tHowTo("name"),
-        description: tHowTo("description"),
-        totalTime: "PT1M",
-        estimatedCost: {
-          "@type": "MonetaryAmount",
-          currency: "EUR",
-          value: "0",
-        },
-        supply: [],
-        tool: [{ "@type": "HowToTool", name: tHowTo("tool") }],
-        step: [
-          {
-            "@type": "HowToStep",
-            name: tHowTo("step1Name"),
-            text: tHowTo("step1Text"),
-            position: 1,
-          },
-          {
-            "@type": "HowToStep",
-            name: tHowTo("step2Name"),
-            text: tHowTo("step2Text"),
-            position: 2,
-          },
-          {
-            "@type": "HowToStep",
-            name: tHowTo("step3Name"),
-            text: tHowTo("step3Text"),
-            position: 3,
-          },
-          {
-            "@type": "HowToStep",
-            name: tHowTo("step4Name"),
-            text: tHowTo("step4Text"),
-            position: 4,
-          },
-        ],
       },
     ],
   };

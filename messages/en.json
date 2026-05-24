@@ -466,6 +466,12 @@
     "section1Para1": "PAY by square is the Slovak standard for payment QR codes that you can scan with any banking app. A payment QR code is a fast and secure way to send money without manually entering bank details. The code contains the recipient's IBAN, amount, variable symbol, and note - all readable in a single scan.",
     "section1Para2": "QR Platby also supports SPAYD (Czech standard) and EPC QR (European SEPA standard). All data is processed directly in your browser - we don't collect or store any personal data on our servers.",
     "section2Title": "How to create a payment QR code",
+    "section2Steps": [
+      "Enter IBAN, amount, and symbols",
+      "Optionally customize colors and logo",
+      "Generate the QR code",
+      "Scan with your banking app"
+    ],
     "section3Title": "Supported Banks",
     "section3Col1": "Slovak Banks",
     "section3Col2": "Czech Banks",
@@ -490,6 +496,20 @@
       "MONETA"
     ],
     "section4Title": "Frequently Asked Questions",
+    "section4Items": [
+      {
+        "q": "What is QR Platby?",
+        "a": "QR Platby is a free online tool for creating QR codes for bank payments. All data is processed directly in your browser - we don't collect any personal data."
+      },
+      {
+        "q": "How does payment QR work?",
+        "a": "Enter payment details (IBAN, amount, symbols), generate the QR code, and scan it with your banking app. The payment fills in automatically."
+      },
+      {
+        "q": "Which banks are supported?",
+        "a": "BySquare QR codes work with all Slovak banks. SPAYD format works with all Czech banks. EPC QR is supported by most European banks."
+      }
+    ],
     "section4ViewAllLink": "View all questions",
     "section4ApiLink": "API documentation",
     "section4StudioLink": "Advanced QR editor",

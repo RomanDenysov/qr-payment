@@ -465,7 +465,13 @@
     "section1Title": "Čo je PAY by square a QR platba",
     "section1Para1": "PAY by square je slovenský štandard pre platobné QR kódy, ktorý si môžete naskenovať ktoroukoľvek bankovnou aplikáciou. QR platba je rýchly a bezpečný spôsob, ako poslať peniaze bez nutnosti ručného zadávania údajov. Kód obsahuje IBAN príjemcu, sumu, variabilný symbol a poznámku - všetko čitateľné jedným skenovaním.",
     "section1Para2": "QR Platby podporuje aj SPAYD (český štandard) a EPC QR (európsky SEPA štandard). Všetky údaje sa spracúvajú priamo vo vašom prehliadači - nezbierame žiadne osobné údaje ani ich neukladáme na server.",
-    "section2Title": "Ako vytvoriť QR kód na QR platbu generátorem",
+    "section2Title": "Ako vytvoriť QR kód na platbu - generátor QR platby",
+    "section2Steps": [
+      "Zadajte IBAN, sumu a symboly",
+      "Voliteľne prispôsobte farby a logo",
+      "Vygenerujte QR kód",
+      "Naskenujte bankovou aplikáciou"
+    ],
     "section3Title": "Podporované banky",
     "section3Col1": "Banky na Slovensku",
     "section3Col2": "Banky v Česku",
@@ -490,6 +496,20 @@
       "MONETA"
     ],
     "section4Title": "Najčastejšie otázky",
+    "section4Items": [
+      {
+        "q": "Čo je QR Platby?",
+        "a": "QR Platby je bezplatný online nástroj na vytváranie QR kódov pre bankové platby. Všetky údaje sa spracúvajú priamo vo vašom prehliadači - nezbierame žiadne osobné údaje."
+      },
+      {
+        "q": "Ako funguje QR platba?",
+        "a": "Zadáte platobné údaje (IBAN, sumu, symboly), vygenerujete QR kód a naskenujete ho bankovou aplikáciou. Platba sa automaticky vyplní."
+      },
+      {
+        "q": "S ktorými bankami to funguje?",
+        "a": "QR kódy vo formáte BySquare fungujú so všetkými slovenskými bankami. Formát SPAYD funguje so všetkými českými bankami. EPC QR je podporovaný väčšinou európskych bánk."
+      }
+    ],
     "section4ViewAllLink": "Zobraziť všetky otázky",
     "section4ApiLink": "API dokumentácia",
     "section4StudioLink": "Pokročilý QR editor",
