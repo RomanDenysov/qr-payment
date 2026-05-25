@@ -5,6 +5,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { linkVariants } from "@/components/ui/link";
 import { Link } from "@/i18n/navigation";
 
 interface FaqItem {
@@ -55,10 +56,7 @@ export async function HomeFaq() {
         ))}
       </Accordion>
       <div className="pt-2 text-center">
-        <Link
-          className="inline-block font-semibold text-foreground text-sm hover:underline"
-          href="/faq"
-        >
+        <Link className={linkVariants({ size: "sm" })} href="/faq">
           {t("section4ViewAllLink")} →
         </Link>
       </div>
@@ -106,16 +104,25 @@ export async function HomeContentSections() {
         <h3 className="font-semibold text-foreground text-sm">
           {t("section4MoreLinksTitle")}
         </h3>
-        <div className="flex flex-wrap gap-2 text-muted-foreground text-xs">
-          <Link className="hover:underline" href="/docs">
+        <div className="flex flex-wrap items-center gap-3">
+          <Link
+            className={linkVariants({ size: "sm", variant: "muted" })}
+            href="/docs"
+          >
             {t("section4ApiLink")}
           </Link>
-          <span>•</span>
-          <Link className="hover:underline" href="/studio">
+          <span className="text-muted-foreground text-xs">•</span>
+          <Link
+            className={linkVariants({ size: "sm", variant: "muted" })}
+            href="/studio"
+          >
             {t("section4StudioLink")}
           </Link>
-          <span>•</span>
-          <Link className="hover:underline" href="/bulk">
+          <span className="text-muted-foreground text-xs">•</span>
+          <Link
+            className={linkVariants({ size: "sm", variant: "muted" })}
+            href="/bulk"
+          >
             {t("section4BulkLink")}
           </Link>
         </div>
