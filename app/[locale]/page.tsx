@@ -33,7 +33,7 @@ export default async function Page({ params }: Props) {
         <QRPreviewCard />
       </section>
       <HomeFaq />
-      <h2 className="mt-16 font-bold font-pixel text-foreground text-lg tracking-wide sm:text-xl">
+      <h2 className="mt-20 font-bold font-pixel text-foreground text-lg tracking-wide sm:mt-24 sm:text-xl">
         {t("sectionApi")}
       </h2>
       <section className="mt-6">

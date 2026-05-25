@@ -43,7 +43,7 @@ export async function HomeFaq() {
   const faqItems = t.raw("section4Items") as FaqItem[];
 
   return (
-    <section className="mt-12 space-y-4">
+    <section className="mt-20 space-y-6 sm:mt-24">
       <h2 className={SECTION_HEADING_CLASS}>{t("section4Title")}</h2>
       <Accordion>
         {faqItems.map((item) => (
@@ -77,13 +77,13 @@ export async function HomeContentSections() {
 
   return (
     <>
-      <section className="mt-16 space-y-4">
+      <section className="mt-24 space-y-6 sm:mt-32">
         <h2 className={SECTION_HEADING_CLASS}>{t("section1Title")}</h2>
         <p className="text-muted-foreground">{t("section1Para1")}</p>
         <p className="text-muted-foreground">{t("section1Para2")}</p>
       </section>
 
-      <section className="mt-16 space-y-4">
+      <section className="mt-20 space-y-6 sm:mt-24">
         <h2 className={SECTION_HEADING_CLASS}>{t("section2Title")}</h2>
         <ol className="list-inside list-decimal space-y-2 text-muted-foreground">
           {steps.map((step) => (
@@ -92,7 +92,7 @@ export async function HomeContentSections() {
         </ol>
       </section>
 
-      <section className="mt-16 space-y-4">
+      <section className="mt-20 space-y-6 sm:mt-24">
         <h2 className={SECTION_HEADING_CLASS}>{t("section3Title")}</h2>
         <div className="grid gap-8 sm:grid-cols-2">
           <BankColumn banks={banksSlovak} title={t("section3Col1")} />
@@ -100,7 +100,7 @@ export async function HomeContentSections() {
         </div>
       </section>
 
-      <section className="mt-16 space-y-4">
+      <section className="mt-20 space-y-6 sm:mt-24">
         <h3 className="font-semibold text-foreground text-sm">
           {t("section4MoreLinksTitle")}
         </h3>
