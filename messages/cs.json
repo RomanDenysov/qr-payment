@@ -463,7 +463,7 @@
   },
   "HomeContent": {
     "section1Title": "Co je QR Platba a generátor QR kódů pro platby",
-    "section1Para1": "QR Platba je český standard pro platební QR kódy zavedený Českou bankovní asociací. QR kód na platbu je rychlý a bezpečný způsob, jak poslat peníze bez nutnosti ručního zadávání bankovních údajů. Kód obsahuje IBAN příjemce, částku, variabilní symbol a poznámku - vše čitelné jedním skenováním pomocí libovolné české bankovní aplikace.",
+    "section1Para1": "QR Platba (formát SPAYD) je platební QR kód podporovaný českými bankami. Umožňuje rychle a bezpečně odeslat platbu bez ručního zadávání bankovních údajů. Kód může obsahovat IBAN příjemce, částku, variabilní symbol a krátkou zprávu - vše načítatelné jedním skenováním pomocí bankovní aplikace.",
     "section1Para2": "QR Platby také podporuje BySquare (slovenský standard) a EPC QR (evropský SEPA standard). Všechny údaje se zpracovávají přímo ve vašem prohlížeči - neshromažďujeme žádné osobní údaje ani je neukládáme na server.",
     "section2Title": "Jak vytvořit QR kód na platbu - generátor QR platby",
     "section2Steps": [
@@ -511,6 +511,7 @@
       }
     ],
     "section4ViewAllLink": "Zobrazit všechny otázky",
+    "section4MoreLinksTitle": "Další nástroje",
     "section4ApiLink": "API dokumentace",
     "section4StudioLink": "Pokročilý editor QR",
     "section4BulkLink": "Hromadné generování"

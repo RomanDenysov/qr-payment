@@ -1,4 +1,10 @@
 import { getTranslations } from "next-intl/server";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { Link } from "@/i18n/navigation";
 
 interface FaqItem {
@@ -27,13 +33,49 @@ function BankColumn({ title, banks }: BankColumnProps): React.ReactNode {
   );
 }
 
-export async function HomeContent() {
+/**
+ * Compact FAQ block for the homepage: collapsed shadcn Accordion with
+ * a handful of teaser questions + a small link out to the full /faq page.
+ */
+export async function HomeFaq() {
   const t = await getTranslations("HomeContent");
+  const faqItems = t.raw("section4Items") as FaqItem[];
 
+  return (
+    <section className="mt-12 space-y-4">
+      <h2 className={SECTION_HEADING_CLASS}>{t("section4Title")}</h2>
+      <Accordion>
+        {faqItems.map((item) => (
+          <AccordionItem key={item.q} value={item.q}>
+            <AccordionTrigger>{item.q}</AccordionTrigger>
+            <AccordionContent>
+              <p>{item.a}</p>
+            </AccordionContent>
+          </AccordionItem>
+        ))}
+      </Accordion>
+      <div className="pt-2 text-center">
+        <Link
+          className="inline-block font-semibold text-foreground text-sm hover:underline"
+          href="/faq"
+        >
+          {t("section4ViewAllLink")} →
+        </Link>
+      </div>
+    </section>
+  );
+}
+
+/**
+ * Long-form SEO content (explainer, how-to steps, supported banks). Lives at
+ * the bottom of the homepage so users hit the form first; Google still crawls
+ * the text for head-term ranking.
+ */
+export async function HomeContentSections() {
+  const t = await getTranslations("HomeContent");
   const steps = t.raw("section2Steps") as string[];
   const banksSlovak = t.raw("section3Banks1") as string[];
   const banksCzech = t.raw("section3Banks2") as string[];
-  const faqItems = t.raw("section4Items") as FaqItem[];
 
   return (
     <>
@@ -61,39 +103,21 @@ export async function HomeContent() {
       </section>
 
       <section className="mt-16 space-y-4">
-        <h2 className={SECTION_HEADING_CLASS}>{t("section4Title")}</h2>
-        <div className="space-y-6">
-          {faqItems.map((item) => (
-            <div key={item.q}>
-              <h3 className="mb-2 font-semibold text-foreground text-sm">
-                {item.q}
-              </h3>
-              <p className="mb-3 text-muted-foreground text-sm">{item.a}</p>
-            </div>
-          ))}
-        </div>
-        <div className="mt-6 flex flex-wrap gap-3 text-center">
-          <div className="w-full">
-            <Link
-              className="inline-block font-semibold text-foreground text-sm hover:underline"
-              href="/faq"
-            >
-              {t("section4ViewAllLink")} →
-            </Link>
-          </div>
-          <div className="flex w-full flex-wrap justify-center gap-2 text-muted-foreground text-xs">
-            <Link className="hover:underline" href="/docs">
-              {t("section4ApiLink")}
-            </Link>
-            <span>•</span>
-            <Link className="hover:underline" href="/studio">
-              {t("section4StudioLink")}
-            </Link>
-            <span>•</span>
-            <Link className="hover:underline" href="/bulk">
-              {t("section4BulkLink")}
-            </Link>
-          </div>
+        <h3 className="font-semibold text-foreground text-sm">
+          {t("section4MoreLinksTitle")}
+        </h3>
+        <div className="flex flex-wrap gap-2 text-muted-foreground text-xs">
+          <Link className="hover:underline" href="/docs">
+            {t("section4ApiLink")}
+          </Link>
+          <span>•</span>
+          <Link className="hover:underline" href="/studio">
+            {t("section4StudioLink")}
+          </Link>
+          <span>•</span>
+          <Link className="hover:underline" href="/bulk">
+            {t("section4BulkLink")}
+          </Link>
         </div>
       </section>
     </>
