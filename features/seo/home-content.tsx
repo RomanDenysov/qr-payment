@@ -1,4 +1,11 @@
 import { getTranslations } from "next-intl/server";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { linkVariants } from "@/components/ui/link";
 import { Link } from "@/i18n/navigation";
 
 interface FaqItem {
@@ -27,23 +34,56 @@ function BankColumn({ title, banks }: BankColumnProps): React.ReactNode {
   );
 }
 
-export async function HomeContent() {
+/**
+ * Compact FAQ block for the homepage: collapsed shadcn Accordion with
+ * a handful of teaser questions + a small link out to the full /faq page.
+ */
+export async function HomeFaq() {
   const t = await getTranslations("HomeContent");
-
-  const steps = t.raw("section2Steps") as string[];
-  const banksSlovak = t.raw("section3Banks1") as string[];
-  const banksCzech = t.raw("section3Banks2") as string[];
   const faqItems = t.raw("section4Items") as FaqItem[];
 
   return (
+    <section className="mt-20 space-y-6 sm:mt-24">
+      <h2 className={SECTION_HEADING_CLASS}>{t("section4Title")}</h2>
+      <Accordion>
+        {faqItems.map((item) => (
+          <AccordionItem key={item.q} value={item.q}>
+            <AccordionTrigger>{item.q}</AccordionTrigger>
+            <AccordionContent>
+              <p>{item.a}</p>
+            </AccordionContent>
+          </AccordionItem>
+        ))}
+      </Accordion>
+      <div className="pt-2 text-center">
+        <Link className={linkVariants({ size: "sm" })} href="/faq">
+          {t("section4ViewAllLink")} →
+        </Link>
+      </div>
+    </section>
+  );
+}
+
+/**
+ * Long-form SEO content (explainer, how-to steps, supported banks). Lives at
+ * the bottom of the homepage so users hit the form first; Google still crawls
+ * the text for head-term ranking.
+ */
+export async function HomeContentSections() {
+  const t = await getTranslations("HomeContent");
+  const steps = t.raw("section2Steps") as string[];
+  const banksSlovak = t.raw("section3Banks1") as string[];
+  const banksCzech = t.raw("section3Banks2") as string[];
+
+  return (
     <>
-      <section className="mt-16 space-y-4">
+      <section className="mt-24 space-y-6 sm:mt-32">
         <h2 className={SECTION_HEADING_CLASS}>{t("section1Title")}</h2>
         <p className="text-muted-foreground">{t("section1Para1")}</p>
         <p className="text-muted-foreground">{t("section1Para2")}</p>
       </section>
 
-      <section className="mt-16 space-y-4">
+      <section className="mt-20 space-y-6 sm:mt-24">
         <h2 className={SECTION_HEADING_CLASS}>{t("section2Title")}</h2>
         <ol className="list-inside list-decimal space-y-2 text-muted-foreground">
           {steps.map((step) => (
@@ -52,7 +92,7 @@ export async function HomeContent() {
         </ol>
       </section>
 
-      <section className="mt-16 space-y-4">
+      <section className="mt-20 space-y-6 sm:mt-24">
         <h2 className={SECTION_HEADING_CLASS}>{t("section3Title")}</h2>
         <div className="grid gap-8 sm:grid-cols-2">
           <BankColumn banks={banksSlovak} title={t("section3Col1")} />
@@ -60,40 +100,31 @@ export async function HomeContent() {
         </div>
       </section>
 
-      <section className="mt-16 space-y-4">
-        <h2 className={SECTION_HEADING_CLASS}>{t("section4Title")}</h2>
-        <div className="space-y-6">
-          {faqItems.map((item) => (
-            <div key={item.q}>
-              <h3 className="mb-2 font-semibold text-foreground text-sm">
-                {item.q}
-              </h3>
-              <p className="mb-3 text-muted-foreground text-sm">{item.a}</p>
-            </div>
-          ))}
-        </div>
-        <div className="mt-6 flex flex-wrap gap-3 text-center">
-          <div className="w-full">
-            <Link
-              className="inline-block font-semibold text-foreground text-sm hover:underline"
-              href="/faq"
-            >
-              {t("section4ViewAllLink")} →
-            </Link>
-          </div>
-          <div className="flex w-full flex-wrap justify-center gap-2 text-muted-foreground text-xs">
-            <Link className="hover:underline" href="/docs">
-              {t("section4ApiLink")}
-            </Link>
-            <span>•</span>
-            <Link className="hover:underline" href="/studio">
-              {t("section4StudioLink")}
-            </Link>
-            <span>•</span>
-            <Link className="hover:underline" href="/bulk">
-              {t("section4BulkLink")}
-            </Link>
-          </div>
+      <section className="mt-20 space-y-6 sm:mt-24">
+        <h3 className="font-semibold text-foreground text-sm">
+          {t("section4MoreLinksTitle")}
+        </h3>
+        <div className="flex flex-wrap items-center gap-3">
+          <Link
+            className={linkVariants({ size: "sm", variant: "muted" })}
+            href="/docs"
+          >
+            {t("section4ApiLink")}
+          </Link>
+          <span className="text-muted-foreground text-xs">•</span>
+          <Link
+            className={linkVariants({ size: "sm", variant: "muted" })}
+            href="/studio"
+          >
+            {t("section4StudioLink")}
+          </Link>
+          <span className="text-muted-foreground text-xs">•</span>
+          <Link
+            className={linkVariants({ size: "sm", variant: "muted" })}
+            href="/bulk"
+          >
+            {t("section4BulkLink")}
+          </Link>
         </div>
       </section>
     </>

@@ -2,7 +2,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { DynamicApiCard } from "@/features/api/api-card-dynamic";
 import { PaymentFormCard } from "@/features/payment/components/payment-form-card";
 import { QRPreviewCard } from "@/features/payment/components/qr-preview-card";
-import { HomeContent } from "@/features/seo/home-content";
+import { HomeContentSections, HomeFaq } from "@/features/seo/home-content";
 import { getAlternates } from "@/lib/seo";
 import { HomeJsonLd } from "./home-json-ld";
 
@@ -32,13 +32,14 @@ export default async function Page({ params }: Props) {
         <PaymentFormCard />
         <QRPreviewCard />
       </section>
-      <HomeContent />
-      <h2 className="mt-16 font-bold font-pixel text-foreground text-lg tracking-wide sm:text-xl">
+      <HomeFaq />
+      <h2 className="mt-20 font-bold font-pixel text-foreground text-lg tracking-wide sm:mt-24 sm:text-xl">
         {t("sectionApi")}
       </h2>
       <section className="mt-6">
         <DynamicApiCard />
       </section>
+      <HomeContentSections />
     </div>
   );
 }
