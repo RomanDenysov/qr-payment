@@ -33,50 +33,88 @@ type PaymentHistoryStore = PaymentHistoryState & {
   actions: PaymentHistoryActions;
 };
 
+function fingerprintIban(payment: PaymentRecord): string {
+  return electronicFormatIBAN(payment.iban) || payment.iban;
+}
+
+function fingerprintAmount(payment: PaymentRecord): string {
+  return (payment.amount || 0).toFixed(2);
+}
+
+function fingerprintOptional(value: string | undefined): string {
+  return value || "";
+}
+
+function fingerprintSymbols(payment: PaymentRecord): string[] {
+  return [
+    fingerprintOptional(payment.variableSymbol),
+    fingerprintOptional(payment.specificSymbol),
+    fingerprintOptional(payment.constantSymbol),
+    fingerprintOptional(payment.recipientName),
+    fingerprintOptional(payment.paymentNote),
+  ];
+}
+
+function buildEpcFingerprint(
+  payment: PaymentRecord,
+  iban: string,
+  amount: string
+): string {
+  return [
+    "epc",
+    iban,
+    amount,
+    fingerprintOptional(payment.bic),
+    fingerprintOptional(payment.recipientName),
+    fingerprintOptional(payment.paymentNote),
+  ].join("|");
+}
+
+function buildSpaydFingerprint(
+  payment: PaymentRecord,
+  iban: string,
+  amount: string
+): string {
+  return [
+    "spayd",
+    iban,
+    amount,
+    payment.currency ?? "CZK",
+    ...fingerprintSymbols(payment),
+  ].join("|");
+}
+
+function buildBysquareFingerprint(
+  payment: PaymentRecord,
+  iban: string,
+  amount: string
+): string {
+  return [
+    "bysquare",
+    iban,
+    amount,
+    payment.currency ?? "EUR",
+    ...fingerprintSymbols(payment),
+  ].join("|");
+}
+
 /**
  * Creates a fingerprint for deduplication based on payment-identifying fields.
  * Two payments with same fingerprint are considered duplicates.
  */
 function getPaymentFingerprint(payment: PaymentRecord): string {
   const format = payment.format ?? "bysquare";
-  const iban = electronicFormatIBAN(payment.iban) || payment.iban;
+  const iban = fingerprintIban(payment);
+  const amount = fingerprintAmount(payment);
 
-  if (format === "epc") {
-    return [
-      "epc",
-      iban,
-      (payment.amount || 0).toFixed(2),
-      payment.bic || "",
-      payment.recipientName || "",
-      payment.paymentNote || "",
-    ].join("|");
+  switch (format) {
+    case "epc":
+      return buildEpcFingerprint(payment, iban, amount);
+    case "spayd":
+      return buildSpaydFingerprint(payment, iban, amount);
+    default:
+      return buildBysquareFingerprint(payment, iban, amount);
   }
-
-  if (format === "spayd") {
-    return [
-      "spayd",
-      iban,
-      (payment.amount || 0).toFixed(2),
-      payment.currency ?? "CZK",
-      payment.variableSymbol || "",
-      payment.specificSymbol || "",
-      payment.constantSymbol || "",
-      payment.recipientName || "",
-      payment.paymentNote || "",
-    ].join("|");
-  }
-
-  return [
-    "bysquare",
-    iban,
-    (payment.amount || 0).toFixed(2),
-    payment.currency ?? "EUR",
-    payment.variableSymbol || "",
-    payment.specificSymbol || "",
-    payment.constantSymbol || "",
-    payment.recipientName || "",
-    payment.paymentNote || "",
-  ].join("|");
 }
 
 /**

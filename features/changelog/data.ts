@@ -11,6 +11,13 @@ export interface ChangelogEntry {
 const changelogData: Record<string, ChangelogEntry[]> = {
   sk: [
     {
+      date: "2026-05-26",
+      category: "improvement",
+      title: "Drobné úpravy dizajnu a opravy",
+      summary:
+        "Vizuálne vylepšenia formulára, náhľadu a editora QR kódu plus pár drobných opráv.",
+    },
+    {
       date: "2026-04-30",
       category: "api",
       title: "Štýlovanie QR kódu cez API",
@@ -109,6 +116,13 @@ const changelogData: Record<string, ChangelogEntry[]> = {
   ],
   en: [
     {
+      date: "2026-05-26",
+      category: "improvement",
+      title: "Small design updates and fixes",
+      summary:
+        "Visual polish across the form, preview, and QR editor, plus a few small fixes.",
+    },
+    {
       date: "2026-04-30",
       category: "api",
       title: "QR styling via API",
@@ -206,6 +220,13 @@ const changelogData: Record<string, ChangelogEntry[]> = {
     },
   ],
   cs: [
+    {
+      date: "2026-05-26",
+      category: "improvement",
+      title: "Drobné úpravy designu a opravy",
+      summary:
+        "Vizuální vylepšení formuláře, náhledu a editoru QR kódu plus pár drobných oprav.",
+    },
     {
       date: "2026-04-30",
       category: "api",

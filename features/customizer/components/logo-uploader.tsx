@@ -62,7 +62,7 @@ export function LogoUploader({ value, onChange }: LogoUploaderProps) {
           onClick={() => onChange(null)}
           size="sm"
           type="button"
-          variant="outline"
+          variant="ghost"
         >
           <IconTrash />
           {t("removeLogo")}

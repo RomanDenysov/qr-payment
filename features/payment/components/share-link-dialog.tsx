@@ -71,67 +71,70 @@ export function ShareLinkDialog({ payment }: Props) {
   return (
     <Dialog>
       <DialogTrigger
-        render={<Button className="col-span-2 sm:col-span-1 sm:flex-1" />}
+        render={<Button className="col-span-2 h-12 sm:col-span-1 sm:flex-1" />}
       >
         <IconLink />
         {t("trigger")}
       </DialogTrigger>
-      <DialogContent>
-        <DialogTitle>{t("title")}</DialogTitle>
-        <DialogDescription>{t("description")}</DialogDescription>
+      <DialogContent className="gap-2 p-0">
+        <div className="flex flex-col gap-4 px-4 py-2">
+          <DialogTitle>{t("title")}</DialogTitle>
+          <DialogDescription>{t("description")}</DialogDescription>
+          <div className="flex flex-col items-center gap-4">
+            {payment.qrDataUrl ? (
+              <div
+                className="w-full p-1.5"
+                style={{ backgroundColor: bgColor }}
+              >
+                <Image
+                  alt="QR payment code"
+                  className="w-full rounded-none"
+                  height={384}
+                  src={payment.qrDataUrl}
+                  width={384}
+                />
+              </div>
+            ) : null}
 
-        <div className="flex flex-col items-center gap-4">
-          {payment.qrDataUrl ? (
-            <div className="w-full p-1.5" style={{ backgroundColor: bgColor }}>
-              <Image
-                alt="QR payment code"
-                className="w-full rounded-none"
-                height={384}
-                src={payment.qrDataUrl}
-                width={384}
-              />
+            <div className="flex flex-wrap justify-center gap-1">
+              {format === "epc" ? <Badge variant="outline">EPC</Badge> : null}
+              {payment.recipientName ? (
+                <Badge variant="secondary">{payment.recipientName}</Badge>
+              ) : null}
+              <Badge variant="secondary">{maskIban(payment.iban)}</Badge>
+              <Badge variant="secondary">
+                {payment.amount.toFixed(2)} {payment.currency ?? "EUR"}
+              </Badge>
+              {payment.variableSymbol ? (
+                <Badge variant="secondary">VS: {payment.variableSymbol}</Badge>
+              ) : null}
+              {payment.specificSymbol ? (
+                <Badge variant="secondary">SS: {payment.specificSymbol}</Badge>
+              ) : null}
+              {payment.constantSymbol ? (
+                <Badge variant="secondary">KS: {payment.constantSymbol}</Badge>
+              ) : null}
+              {payment.paymentNote ? (
+                <Badge variant="secondary">{payment.paymentNote}</Badge>
+              ) : null}
+              {payment.bic ? (
+                <Badge variant="secondary">BIC: {payment.bic}</Badge>
+              ) : null}
             </div>
-          ) : null}
 
-          <div className="flex flex-wrap justify-center gap-1">
-            {format === "epc" ? <Badge variant="outline">EPC</Badge> : null}
-            {payment.recipientName ? (
-              <Badge variant="secondary">{payment.recipientName}</Badge>
-            ) : null}
-            <Badge variant="secondary">{maskIban(payment.iban)}</Badge>
-            <Badge variant="secondary">
-              {payment.amount.toFixed(2)} {payment.currency ?? "EUR"}
-            </Badge>
-            {payment.variableSymbol ? (
-              <Badge variant="secondary">VS: {payment.variableSymbol}</Badge>
-            ) : null}
-            {payment.specificSymbol ? (
-              <Badge variant="secondary">SS: {payment.specificSymbol}</Badge>
-            ) : null}
-            {payment.constantSymbol ? (
-              <Badge variant="secondary">KS: {payment.constantSymbol}</Badge>
-            ) : null}
-            {payment.paymentNote ? (
-              <Badge variant="secondary">{payment.paymentNote}</Badge>
-            ) : null}
-            {payment.bic ? (
-              <Badge variant="secondary">BIC: {payment.bic}</Badge>
-            ) : null}
+            <p className="text-center text-muted-foreground text-xs">
+              {t("hint")}
+            </p>
           </div>
 
-          <p className="text-center text-muted-foreground text-xs">
-            {t("hint")}
-          </p>
+          {customizer.logo ? (
+            <Alert>
+              <IconInfoCircle />
+              <AlertDescription>{t("logoNotice")}</AlertDescription>
+            </Alert>
+          ) : null}
         </div>
-
-        {customizer.logo ? (
-          <Alert>
-            <IconInfoCircle />
-            <AlertDescription>{t("logoNotice")}</AlertDescription>
-          </Alert>
-        ) : null}
-
-        <Button className="w-full" onClick={handleCopy}>
+        <Button className="h-12 w-full" onClick={handleCopy}>
           {copied ? <IconCheck /> : <IconCopy />}
           {copied ? t("copied") : t("copyLink")}
         </Button>

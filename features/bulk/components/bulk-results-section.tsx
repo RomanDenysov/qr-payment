@@ -69,7 +69,7 @@ export function BulkResultsSection() {
           className="w-full sm:w-auto"
           isPending={zipPending}
           onClick={handleExportZip}
-          variant="outline"
+          variant="ghost"
         >
           {zipPending ? null : <IconFileZip className="size-4" />}
           {t("downloadZip")}
@@ -78,7 +78,7 @@ export function BulkResultsSection() {
           className="w-full sm:w-auto"
           isPending={pdfPending}
           onClick={handleExportPdf}
-          variant="outline"
+          variant="ghost"
         >
           {pdfPending ? null : <IconFileTypePdf className="size-4" />}
           {t("downloadPdf")}
@@ -86,7 +86,7 @@ export function BulkResultsSection() {
         <Button
           className="w-full sm:w-auto"
           onClick={handlePrint}
-          variant="outline"
+          variant="ghost"
         >
           <IconPrinter className="size-4" />
           {t("print")}

@@ -153,24 +153,24 @@ export function StudioPreview({ config, payment }: Props) {
   };
 
   return (
-    <div className="flex flex-col gap-3 border border-border bg-card p-4">
-      <div className="flex items-center justify-between gap-2">
+    <div className="flex flex-col border border-border bg-card">
+      <div className="flex h-10 items-center justify-between gap-2 border-border border-b pl-4">
         <div className="flex items-center gap-2">
           <h2 className="font-medium text-sm">{t("preview")}</h2>
           <ScanBadge state={scan} />
         </div>
         <Button
+          className="h-10 border-border border-l"
           disabled={!dataUrl}
           onClick={handleDownload}
-          size="sm"
-          variant="outline"
+          variant="ghost"
         >
           <IconDownload />
           {t("downloadPng")}
         </Button>
       </div>
 
-      <div className="flex aspect-square w-full items-center justify-center border border-border bg-muted">
+      <div className="m-4 flex aspect-square w-auto items-center justify-center border border-border bg-muted">
         {dataUrl && (
           // biome-ignore lint/performance/noImgElement: data URI from in-memory canvas
           // biome-ignore lint/correctness/useImageSize: size set via className
@@ -191,7 +191,7 @@ export function StudioPreview({ config, payment }: Props) {
       </div>
 
       {error && (
-        <Alert>
+        <Alert className="mx-4 mb-4 w-auto">
           <IconAlertTriangle className="size-5" />
           <AlertDescription>{error}</AlertDescription>
         </Alert>

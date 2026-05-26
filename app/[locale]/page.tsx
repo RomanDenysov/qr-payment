@@ -27,8 +27,8 @@ export default async function Page({ params }: Props) {
       <h1 className="font-bold font-pixel text-2xl text-foreground tracking-wide sm:text-3xl">
         {t("homeH1")}
       </h1>
-      <p className="mt-4 text-muted-foreground">{t("homeDescription")}</p>
-      <section className="mt-8 grid gap-8 *:rounded-none sm:grid-cols-2">
+      <p className="text-muted-foreground">{t("homeDescription")}</p>
+      <section className="mt-8 grid gap-8 *:rounded-none md:grid-cols-2">
         <PaymentFormCard />
         <QRPreviewCard />
       </section>

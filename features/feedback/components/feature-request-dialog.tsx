@@ -106,7 +106,7 @@ export function FeatureRequestDialog({
       {trigger ? (
         <DialogTrigger render={trigger} />
       ) : (
-        <DialogTrigger render={<Button size="sm" variant="outline" />}>
+        <DialogTrigger render={<Button size="sm" variant="ghost" />}>
           <IconBulb />
           {t("trigger")}
         </DialogTrigger>
@@ -161,7 +161,7 @@ export function FeatureRequestDialog({
             <PreviousRequests />
 
             <div className="flex gap-2 pt-2">
-              <DialogClose render={<Button size="sm" variant="outline" />}>
+              <DialogClose render={<Button size="sm" variant="ghost" />}>
                 {t("close")}
               </DialogClose>
               <Button

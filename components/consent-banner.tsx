@@ -61,7 +61,7 @@ export function ConsentBanner() {
           >
             {t("privacyPolicy")}
           </Link>
-          <Button onClick={handleDismiss} size="sm" variant="outline">
+          <Button onClick={handleDismiss} size="sm">
             {t("accept")}
           </Button>
         </div>
