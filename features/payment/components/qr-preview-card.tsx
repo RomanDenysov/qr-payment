@@ -11,6 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Card,
+  CardAction,
   CardContent,
   CardFooter,
   CardHeader,
@@ -195,20 +196,22 @@ export function QRPreviewCard() {
   };
 
   return (
-    <Card ref={cardRef}>
-      <CardHeader>
-        <div className="flex items-center justify-between">
-          <CardTitle>{t("title")}</CardTitle>
+    <Card className="py-0" ref={cardRef}>
+      <CardHeader className="h-10 gap-0 border-b px-0">
+        <CardTitle className="h-full grow border-r px-4 py-2">
+          {t("title")}
+        </CardTitle>
+        <CardAction>
           {current?.qrDataUrl ? (
             <CustomizerSheet onApply={handleApplyBranding} />
           ) : null}
-        </div>
+        </CardAction>
       </CardHeader>
-      <CardContent className="flex h-full grow flex-col items-center justify-center">
+      <CardContent className="flex h-full grow flex-col items-center justify-center py-0 pb-0">
         {current?.qrDataUrl ? (
           <>
             <div
-              className="mb-4 w-full max-w-96 motion-safe:animate-qr-reveal"
+              className="mb-4 w-full grow motion-safe:animate-qr-reveal"
               key={current.qrDataUrl}
             >
               <Image
@@ -228,31 +231,31 @@ export function QRPreviewCard() {
         )}
       </CardContent>
       {current?.qrDataUrl ? (
-        <CardFooter className="mt-auto grid grid-cols-2 gap-2 sm:flex">
-          <ShareLinkDialog payment={current} />
+        <CardFooter className="mt-auto grid grid-cols-2 divide-x divide-border p-0 sm:flex">
           <Button
-            className="col-span-2 sm:col-span-1 sm:flex-1"
+            className="col-span-2 h-12 sm:col-span-1 sm:flex-1"
             isPending={downloadPending}
             onClick={handleDownload}
-            variant="outline"
+            variant="ghost"
           >
             {downloadPending ? null : <IconDownload />}
             {t("download")}
           </Button>
+          <ShareLinkDialog payment={current} />
           <Button
-            className="sm:flex-1"
+            className="h-12 sm:flex-1"
             isPending={sharePending}
             onClick={handleShare}
-            variant="outline"
+            variant="ghost"
           >
             {sharePending ? null : <IconShare />}
             {t("share")}
           </Button>
           <Button
-            className="sm:flex-1"
+            className="h-12 sm:flex-1"
             isPending={copyPending}
             onClick={handleCopy}
-            variant="outline"
+            variant="ghost"
           >
             {copyPending ? null : <IconCopy />}
             {t("copy")}

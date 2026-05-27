@@ -59,7 +59,7 @@ export function CustomizerControls({
 
   return (
     <Accordion
-      className={cn("flex flex-col gap-3", className)}
+      className={cn("flex flex-col", className)}
       defaultValue={defaultOpen}
       multiple
     >
@@ -232,11 +232,8 @@ interface SectionProps {
 
 function Section({ value, title, chip, children }: SectionProps) {
   return (
-    <AccordionItem
-      className="border border-border not-last:border-b bg-card"
-      value={value}
-    >
-      <AccordionTrigger className="px-4">
+    <AccordionItem className="border-b bg-card" value={value}>
+      <AccordionTrigger className="h-12 px-4 py-0">
         <span className="flex flex-1 items-center justify-between gap-3">
           <span className="font-medium text-sm">{title}</span>
           <span className="flex items-center gap-2 text-muted-foreground text-xs">
@@ -244,7 +241,7 @@ function Section({ value, title, chip, children }: SectionProps) {
           </span>
         </span>
       </AccordionTrigger>
-      <AccordionContent className="flex flex-col gap-3 px-4 text-foreground">
+      <AccordionContent className="flex flex-col gap-3 px-4 pb-4 text-foreground">
         {children}
       </AccordionContent>
     </AccordionItem>

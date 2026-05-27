@@ -38,7 +38,7 @@ export default async function SharePage({ params, searchParams }: Props) {
       <div className="flex flex-1 flex-col items-center justify-center gap-4 pt-16">
         <p className="text-muted-foreground">{t("invalidLink")}</p>
         <Link href="/">
-          <Button variant="outline">{t("backHome")}</Button>
+          <Button>{t("backHome")}</Button>
         </Link>
       </div>
     );
@@ -49,9 +49,9 @@ export default async function SharePage({ params, searchParams }: Props) {
 
   return (
     <div className="mx-auto flex max-w-md flex-1 flex-col items-center pt-5 sm:pt-8 md:pt-16">
-      <Card className="w-full">
-        <CardHeader>
-          <CardTitle>{t("title")}</CardTitle>
+      <Card className="w-full py-0">
+        <CardHeader className="h-10 gap-0 border-b px-0">
+          <CardTitle className="h-full grow px-4 py-2">{t("title")}</CardTitle>
         </CardHeader>
         <ShareQRSection branding={branding} payment={payment}>
           <PaymentDetails format={format} payment={payment} />

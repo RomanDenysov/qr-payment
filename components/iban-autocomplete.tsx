@@ -4,11 +4,13 @@ import { Autocomplete } from "@base-ui/react/autocomplete";
 import { IconHistory } from "@tabler/icons-react";
 import { electronicFormatIBAN, friendlyFormatIBAN } from "ibantools";
 import { useTranslations } from "next-intl";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { PaymentRecord } from "@/features/payment/schema";
 import { usePaymentHistory } from "@/features/payment/store";
 import { cn } from "@/lib/utils";
 import { inputVariants } from "./ui/input";
+
+const EMPTY_HISTORY: PaymentRecord[] = [];
 
 interface IBANSuggestion {
   id: string;
@@ -41,7 +43,15 @@ export function IBANAutocomplete({
   ref,
 }: IBANAutocompleteProps) {
   const t = useTranslations("PaymentForm");
-  const history = usePaymentHistory();
+  const persistedHistory = usePaymentHistory();
+  // Gate localStorage-backed history behind a mount flag so SSR and the first
+  // client render produce identical DOM (same item count → same Base UI
+  // `useId()` sequence → no hydration mismatch).
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+  const history = mounted ? persistedHistory : EMPTY_HISTORY;
 
   const suggestions = useMemo((): IBANSuggestion[] => {
     const uniqueIbans = new Map<string, PaymentRecord>();

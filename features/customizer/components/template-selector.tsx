@@ -42,23 +42,20 @@ export function TemplateSelector() {
   const overflow = templates.length - COLLAPSED_COUNT;
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-3">
       <h2 className="font-medium text-sm">{t("section.templates")}</h2>
 
       {templates.length > 0 && (
         <div
-          className={cn(
-            "flex flex-col gap-1",
-            expanded && "max-h-40 overflow-auto"
-          )}
+          className={cn("flex flex-col", expanded && "max-h-48 overflow-auto")}
         >
           {visible.map((template) => (
             <div
-              className="flex items-center gap-1.5 px-1 py-0.5 hover:bg-accent"
+              className="flex items-center gap-2 px-1 py-1.5 hover:bg-accent"
               key={template.id}
             >
               <button
-                className="flex flex-1 items-center gap-2 truncate text-left text-xs"
+                className="flex flex-1 items-center gap-2.5 truncate text-left text-sm"
                 onClick={() => {
                   if (loadTemplate(template.id)) {
                     track("customizer_template_loaded");
@@ -69,7 +66,7 @@ export function TemplateSelector() {
                 type="button"
               >
                 <span
-                  className="inline-block size-3 shrink-0 ring-1 ring-foreground/20"
+                  className="inline-block size-4 shrink-0 ring-1 ring-foreground/20"
                   style={{
                     backgroundColor: fillPrimaryColor(template.config.fgFill),
                   }}
@@ -78,15 +75,14 @@ export function TemplateSelector() {
               </button>
               <Button
                 aria-label={tTpl("deleteTemplate")}
-                className="size-6 p-0"
+                className="size-8 p-0"
                 onClick={() => {
                   deleteTemplate(template.id);
                   track("customizer_template_deleted");
                 }}
-                size="sm"
                 variant="ghost"
               >
-                <IconTrash className="size-3" />
+                <IconTrash className="size-4" />
               </Button>
             </div>
           ))}
@@ -96,23 +92,23 @@ export function TemplateSelector() {
       {overflow > 0 && (
         <button
           aria-expanded={expanded}
-          className="inline-flex items-center justify-center gap-1 text-muted-foreground text-xs hover:text-foreground"
+          className="inline-flex items-center justify-center gap-1 text-muted-foreground text-sm hover:text-foreground"
           onClick={() => setExpanded((v) => !v)}
           type="button"
         >
           {expanded ? tTpl("showLess") : tTpl("showMore", { count: overflow })}
           <IconChevronDown
             className={cn(
-              "size-3 transition-transform",
+              "size-4 transition-transform",
               expanded && "rotate-180"
             )}
           />
         </button>
       )}
 
-      <div className="flex gap-1.5">
+      <div className="flex gap-2">
         <Input
-          className="h-7 text-xs"
+          className="h-10 text-sm"
           maxLength={30}
           onChange={(e) => setNewName(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleSave()}
@@ -120,12 +116,12 @@ export function TemplateSelector() {
           value={newName}
         />
         <Button
+          className="h-10"
           disabled={!newName.trim()}
           onClick={handleSave}
-          size="sm"
-          variant="outline"
+          variant="ghost"
         >
-          <IconDeviceFloppy className="size-3.5" />
+          <IconDeviceFloppy className="size-4" />
           {tTpl("save")}
         </Button>
       </div>

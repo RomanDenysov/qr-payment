@@ -21,7 +21,7 @@ interface BankColumnProps {
   banks: string[];
 }
 
-function BankColumn({ title, banks }: BankColumnProps): React.ReactNode {
+function _BankColumn({ title, banks }: BankColumnProps): React.ReactNode {
   return (
     <div>
       <h3 className="mb-3 font-semibold text-foreground text-sm">{title}</h3>
@@ -72,8 +72,8 @@ export async function HomeFaq() {
 export async function HomeContentSections() {
   const t = await getTranslations("HomeContent");
   const steps = t.raw("section2Steps") as string[];
-  const banksSlovak = t.raw("section3Banks1") as string[];
-  const banksCzech = t.raw("section3Banks2") as string[];
+  const _banksSlovak = t.raw("section3Banks1") as string[];
+  const _banksCzech = t.raw("section3Banks2") as string[];
 
   return (
     <>
@@ -90,14 +90,6 @@ export async function HomeContentSections() {
             <li key={step}>{step}</li>
           ))}
         </ol>
-      </section>
-
-      <section className="mt-20 space-y-6 sm:mt-24">
-        <h2 className={SECTION_HEADING_CLASS}>{t("section3Title")}</h2>
-        <div className="grid gap-8 sm:grid-cols-2">
-          <BankColumn banks={banksSlovak} title={t("section3Col1")} />
-          <BankColumn banks={banksCzech} title={t("section3Col2")} />
-        </div>
       </section>
 
       <section className="mt-20 space-y-6 sm:mt-24">

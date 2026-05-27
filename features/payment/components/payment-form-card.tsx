@@ -3,27 +3,11 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { IconLoader3, IconQrcode, IconTrash } from "@tabler/icons-react";
 import { track } from "@vercel/analytics";
-import dynamic from "next/dynamic";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useMemo } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { CurrencyInput } from "@/components/currency-input";
-import { inputVariants } from "@/components/ui/input";
-import { SegmentedControl } from "@/components/ui/segmented-control";
-import { Skeleton } from "@/components/ui/skeleton";
-
-// Dynamic import to prevent hydration mismatch from Base UI's auto-generated IDs
-const IBANAutocomplete = dynamic(
-  () =>
-    import("@/components/iban-autocomplete").then(
-      (mod) => mod.IBANAutocomplete
-    ),
-  {
-    ssr: false,
-    loading: () => <Skeleton className={inputVariants({ className: "h-9" })} />,
-  }
-);
-
+import { IBANAutocomplete } from "@/components/iban-autocomplete";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -40,6 +24,7 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { SegmentedControl } from "@/components/ui/segmented-control";
 import { Textarea } from "@/components/ui/textarea";
 import type { PaymentFormat } from "../format";
 import { FORMAT_LABELS } from "../format";
@@ -268,79 +253,81 @@ export function PaymentFormCard() {
   };
 
   return (
-    <Card>
+    <Card className="py-0">
+      <SegmentedControl
+        className="h-10"
+        onChange={handleFormatChange}
+        options={FORMAT_OPTIONS}
+        value={format ?? "bysquare"}
+      />
       <CardHeader>
         <div className="flex items-center justify-between gap-2">
-          <CardTitle>{t("title")}</CardTitle>
-          <SegmentedControl
-            onChange={handleFormatChange}
-            options={FORMAT_OPTIONS}
-            value={format ?? "bysquare"}
-          />
+          <CardTitle>
+            {t(`formatDescription.${format ?? "bysquare"}`)}
+          </CardTitle>
         </div>
-        <p className="text-muted-foreground text-xs">
-          {t(`formatDescription.${format ?? "bysquare"}`)}
-        </p>
       </CardHeader>
+
       <form className="flex h-full flex-col" onSubmit={handleSubmit(generate)}>
-        <CardContent className="flex-1 grow">
+        <CardContent className="flex-1 grow border-t py-4">
           <FieldGroup>
-            <Field>
-              <FieldLabel htmlFor="iban">{t("ibanRequired")}</FieldLabel>
+            <div className="flex w-full flex-col items-stretch gap-2 sm:flex-row">
+              <Field className="grow">
+                <FieldLabel htmlFor="iban">{t("ibanRequired")}</FieldLabel>
 
-              <Controller
-                control={control}
-                name="iban"
-                render={({ field, fieldState }) => (
-                  <IBANAutocomplete
-                    hasError={!!fieldState.error}
-                    id="iban"
-                    onChange={field.onChange}
-                    onSelectPayment={handleSelectFromHistory}
-                    value={field.value}
-                  />
-                )}
-              />
-              <FieldError errors={errors.iban ? [errors.iban] : undefined} />
-            </Field>
-
-            <Field>
-              <FieldLabel htmlFor="amount">{t("amount")}</FieldLabel>
-              <FieldContent>
-                <div className="flex items-stretch gap-2">
-                  <div className="flex-1">
-                    <Controller
-                      control={control}
-                      name="amount"
-                      render={({ field }) => (
-                        <CurrencyInput
-                          currency={currency ?? "EUR"}
-                          id="amount"
-                          onChange={field.onChange}
-                          placeholder={t("amountPlaceholder")}
-                          value={field.value}
-                        />
-                      )}
+                <Controller
+                  control={control}
+                  name="iban"
+                  render={({ field, fieldState }) => (
+                    <IBANAutocomplete
+                      hasError={!!fieldState.error}
+                      id="iban"
+                      onChange={field.onChange}
+                      onSelectPayment={handleSelectFromHistory}
+                      value={field.value}
                     />
-                  </div>
-                  {format !== "epc" ? (
-                    <SegmentedControl
-                      className="h-auto"
-                      onChange={(val) => {
-                        setValue("currency", val as "EUR" | "CZK");
-                        setPreferredCurrency(val as "EUR" | "CZK");
-                      }}
-                      options={CURRENCY_OPTIONS}
-                      value={currency ?? "EUR"}
-                    />
-                  ) : null}
-                </div>
-                <FieldError
-                  errors={errors.amount ? [errors.amount] : undefined}
+                  )}
                 />
-              </FieldContent>
-            </Field>
+                <FieldError errors={errors.iban ? [errors.iban] : undefined} />
+              </Field>
 
+              <Field className="shrink">
+                <FieldLabel htmlFor="amount">{t("amount")}</FieldLabel>
+                <FieldContent>
+                  <div className="flex items-stretch">
+                    <div className="w-fit">
+                      <Controller
+                        control={control}
+                        name="amount"
+                        render={({ field }) => (
+                          <CurrencyInput
+                            currency={currency ?? "EUR"}
+                            id="amount"
+                            onChange={field.onChange}
+                            placeholder={t("amountPlaceholder")}
+                            value={field.value}
+                          />
+                        )}
+                      />
+                    </div>
+                    {format !== "epc" ? (
+                      <SegmentedControl
+                        className="h-auto border-y border-r"
+                        onChange={(val) => {
+                          setValue("currency", val as "EUR" | "CZK");
+                          setPreferredCurrency(val as "EUR" | "CZK");
+                        }}
+                        options={CURRENCY_OPTIONS}
+                        value={currency ?? "EUR"}
+                      />
+                    ) : null}
+                  </div>
+                  <FieldError
+                    errors={errors.amount ? [errors.amount] : undefined}
+                  />
+                </FieldContent>
+              </Field>
+            </div>
             {format === "epc" ? (
               <BicField errors={errors} register={register} t={t} />
             ) : (
@@ -391,18 +378,18 @@ export function PaymentFormCard() {
             </Field>
           </FieldGroup>
         </CardContent>
-        <CardFooter className="mt-auto shrink-0 gap-2 sm:justify-end">
+        <CardFooter className="mt-auto shrink-0 p-0">
           <Button
-            className="flex-1 sm:flex-initial"
+            className="h-12 w-full flex-1 sm:flex-initial"
             onClick={handleClear}
             type="button"
-            variant="outline"
+            variant="ghost"
           >
             <IconTrash />
             {t("clear")}
           </Button>
           <Button
-            className="flex-1 sm:flex-initial"
+            className="h-12 w-full flex-1 sm:flex-initial"
             disabled={isPending}
             type="submit"
           >

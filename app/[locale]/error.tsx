@@ -22,7 +22,7 @@ export default function ErrorPage({
       <p className="max-w-md text-muted-foreground text-sm">
         {error.message || t("defaultMessage")}
       </p>
-      <Button onClick={reset} variant="outline">
+      <Button onClick={reset}>
         <IconRefresh />
         {t("retry")}
       </Button>

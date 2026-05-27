@@ -107,7 +107,7 @@ export function StudioClient() {
         <CustomizerControls />
 
         <div className="flex justify-end">
-          <Button onClick={reset} size="sm" variant="outline">
+          <Button onClick={reset} size="sm" variant="ghost">
             <IconRefresh />
             {t("reset")}
           </Button>
