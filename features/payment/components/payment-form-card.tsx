@@ -269,7 +269,7 @@ export function PaymentFormCard() {
       </CardHeader>
 
       <form className="flex h-full flex-col" onSubmit={handleSubmit(generate)}>
-        <CardContent className="flex-1 grow border-t py-2">
+        <CardContent className="flex-1 grow border-t py-4">
           <FieldGroup>
             <div className="flex w-full flex-col items-stretch gap-2 sm:flex-row">
               <Field className="grow">
