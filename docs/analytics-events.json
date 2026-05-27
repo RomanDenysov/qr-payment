@@ -115,7 +115,10 @@
     },
     "customizer_preset_applied": {
       "description": "User applied a starter preset (Classic / Bold / Sunset / Framed) from the home sheet or studio",
-      "properties": { "preset": "classic | bold | sunset | framed" },
+      "properties": {
+        "preset": "classic | bold | sunset | framed",
+        "source": "sheet | studio"
+      },
       "source": "features/customizer/components/preset-buttons.tsx"
     },
     "customizer_nudge_shown": {

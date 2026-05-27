@@ -21,7 +21,11 @@ function swatchStyle(fill: Fill): CSSProperties {
   };
 }
 
-export function PresetButtons() {
+interface PresetButtonsProps {
+  source: "sheet" | "studio";
+}
+
+export function PresetButtons({ source }: PresetButtonsProps) {
   const { replace } = useCustomizerActions();
   const t = useTranslations("Branding.presets");
 
@@ -31,7 +35,7 @@ export function PresetButtons() {
       caption: t("framedCaption"),
     });
     replace(config);
-    track("customizer_preset_applied", { preset: id });
+    track("customizer_preset_applied", { preset: id, source });
   };
 
   return (

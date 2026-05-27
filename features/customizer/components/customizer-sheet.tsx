@@ -69,7 +69,7 @@ export function CustomizerSheet({
 
         <div className="flex flex-1 flex-col overflow-auto">
           <div className="border-b bg-card px-4 py-3">
-            <PresetButtons />
+            <PresetButtons source="sheet" />
           </div>
           <CustomizerControls />
           <div className="mt-auto border-b bg-card px-4 py-3">
