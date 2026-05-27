@@ -131,11 +131,6 @@
       "properties": null,
       "source": "features/payment/components/qr-preview-card.tsx"
     },
-    "customizer_nudge_dismissed": {
-      "description": "User dismissed the 'Add your logo' nudge",
-      "properties": null,
-      "source": "features/payment/components/qr-preview-card.tsx"
-    },
     "guardrail_warning_shown": {
       "description": "Customizer configuration triggered a scannability guardrail (logo or center text too large, low contrast, or weak gradient). Fires once per warning key per session, not on every render.",
       "properties": {

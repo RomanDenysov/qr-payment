@@ -5,7 +5,6 @@ import {
   IconCopy,
   IconDownload,
   IconShare,
-  IconX,
 } from "@tabler/icons-react";
 import { track } from "@vercel/analytics";
 import dynamic from "next/dynamic";
@@ -139,11 +138,6 @@ export function QRPreviewCard() {
     track("customizer_nudge_clicked");
   };
 
-  const handleNudgeDismiss = () => {
-    dismissNudge();
-    track("customizer_nudge_dismissed");
-  };
-
   const handleApplyBranding = async () => {
     if (!current) {
       return;
@@ -244,24 +238,14 @@ export function QRPreviewCard() {
         <CardTitle className="flex h-full grow items-center gap-2 border-r px-4 py-2">
           <span>{t("title")}</span>
           {nudgeVisible ? (
-            <span className="motion-safe:fade-in-0 motion-safe:slide-in-from-left-1 flex h-6 items-stretch border border-border bg-background font-normal text-xs motion-safe:animate-in">
-              <button
-                className="flex items-center gap-1 px-2 text-foreground hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                onClick={handleNudgeOpen}
-                type="button"
-              >
-                {tBranding("nudgeAddLogo")}
-                <IconArrowRight className="size-3.5" />
-              </button>
-              <button
-                aria-label={tBranding("nudgeDismiss")}
-                className="flex items-center justify-center border-border border-l px-1.5 text-muted-foreground hover:bg-accent hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                onClick={handleNudgeDismiss}
-                type="button"
-              >
-                <IconX className="size-3" />
-              </button>
-            </span>
+            <button
+              className="motion-safe:fade-in-0 motion-safe:slide-in-from-right-1 ml-auto flex h-6 items-center gap-1 border border-border bg-background px-2 font-normal text-foreground text-xs hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring motion-safe:animate-in"
+              onClick={handleNudgeOpen}
+              type="button"
+            >
+              {tBranding("nudgeAddLogo")}
+              <IconArrowRight className="size-3.5" />
+            </button>
           ) : null}
         </CardTitle>
         <CardAction>
