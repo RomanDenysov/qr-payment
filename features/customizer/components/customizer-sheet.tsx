@@ -48,18 +48,18 @@ export function CustomizerSheet({ onApply }: CustomizerSheetProps) {
         className="w-full data-[side=left]:w-full data-[side=left]:sm:max-w-lg"
         side="left"
       >
-        <SheetHeader className="h-12 flex-row items-center gap-0 border-border border-b px-4 py-0">
+        <SheetHeader className="h-12 flex-row items-center gap-0 border-b px-4 py-0">
           <SheetTitle>{t("dialogTitle")}</SheetTitle>
         </SheetHeader>
 
         <div className="flex flex-1 flex-col overflow-auto">
           <CustomizerControls />
-          <div className="mt-auto border-border border-b bg-card px-4 py-3">
+          <div className="mt-auto border-b bg-card px-4 py-3">
             <TemplateSelector />
           </div>
         </div>
 
-        <SheetFooter className="gap-0 border-border border-t p-0">
+        <SheetFooter className="gap-0 border-t p-0">
           <output
             aria-live="polite"
             className="flex items-start gap-2 px-4 py-3 text-muted-foreground text-xs sm:text-sm/relaxed"
@@ -67,7 +67,7 @@ export function CustomizerSheet({ onApply }: CustomizerSheetProps) {
             <IconAlertTriangle className="size-4 shrink-0 translate-y-0.5" />
             <span>{t("warning")}</span>
           </output>
-          <div className="flex flex-row divide-x divide-border border-border border-t">
+          <div className="flex flex-row divide-x divide-border border-t">
             <Button
               className={FOOTER_BUTTON_CLASS}
               onClick={() => {
@@ -93,7 +93,7 @@ export function CustomizerSheet({ onApply }: CustomizerSheetProps) {
             </Button>
           </div>
           <Link
-            className="inline-flex items-center justify-center gap-1 border-border border-t py-3 text-center text-muted-foreground text-xs underline-offset-2 hover:text-foreground hover:underline"
+            className="inline-flex items-center justify-center gap-1 border-t py-3 text-center text-muted-foreground text-xs underline-offset-2 hover:text-foreground hover:underline"
             href="/studio"
           >
             {t("openInStudio")}

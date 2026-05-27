@@ -154,8 +154,8 @@ export function StudioPreview({ config, payment }: Props) {
 
   return (
     <div className="flex flex-col border border-border bg-card">
-      <div className="flex h-10 items-center justify-between gap-0 border-border border-b">
-        <div className="flex h-full grow items-center gap-2 border-border border-r px-4">
+      <div className="flex h-10 items-center justify-between gap-0 border-b">
+        <div className="flex h-full grow items-center gap-2 border-r px-4">
           <h2 className="font-medium text-sm">{t("preview")}</h2>
           <ScanBadge state={scan} />
         </div>
