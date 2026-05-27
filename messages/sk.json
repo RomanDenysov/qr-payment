@@ -64,7 +64,7 @@
   "PaymentForm": {
     "title": "Platobné údaje",
     "iban": "IBAN",
-    "ibanRequired": "IBAN *",
+    "ibanRequired": "IBAN*",
     "amount": "Suma",
     "amountPlaceholder": "0,00",
     "recipientName": "Meno príjemcu",
@@ -82,6 +82,7 @@
     "clear": "Vymazať",
     "generate": "Vygenerovať QR",
     "noHistoryResults": "Žiadne výsledky z histórie",
+    "bankDetected": "Rozpoznaná banka: {name}",
     "formatDescription": {
       "bysquare": "Štandard slovenských bánk",
       "epc": "Európsky SEPA štandard",

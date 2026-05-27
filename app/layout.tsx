@@ -19,6 +19,7 @@ export default async function RootLayout({
     >
       <head>
         <link href="https://va.vercel-scripts.com" rel="dns-prefetch" />
+        <link href="/openapi.json" rel="describedby" type="application/json" />
       </head>
       <body className="container relative mx-auto flex min-h-screen max-w-5xl flex-col px-2 tracking-tight md:px-4">
         <SkipLink />
