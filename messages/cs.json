@@ -175,6 +175,19 @@
     "dotStyleDots": "Kruhy",
     "dotStyleClassyRounded": "Elegantní",
     "openInStudio": "Otevřít ve studiu",
+    "nudgeAddLogo": "Přidat vaše logo",
+    "nudgeDismiss": "Zavřít",
+    "presets": {
+      "title": "Styly",
+      "names": {
+        "classic": "Klasický",
+        "bold": "Výrazná značka",
+        "sunset": "Sluneční gradient",
+        "framed": "S rámem"
+      },
+      "framedTitle": "PLATBA",
+      "framedCaption": "Naskenujte bankou"
+    },
     "guardrail": {
       "logoOversized": "Logo zabírá {size} % plochy QR. Bezpečné maximum při korekci {ecc} je {max} %. Zmenšete logo, aby zůstal kód skenovatelný.",
       "textOversized": "Středový text je příliš velký a přesahuje {max} % plochy QR. Zkraťte jej, zmenšete velikost nebo použijte méně řádků, aby kód zůstal skenovatelný.",
@@ -193,8 +206,8 @@
     "showLess": "Zobrazit méně"
   },
   "Studio": {
-    "title": "QR Studio",
-    "intro": "Pokročilý editor pro tvorbu QR kódu s gradienty, logem, rámem a přesným umístěním prvků. Vše ve vašem prohlížeči.",
+    "title": "Ať vypadá jako vaše značka",
+    "intro": "Vlastní barvy a gradienty, vaše logo, rám s titulkem a přesné umístění prvků. Pokročilý editor QR kódů přímo ve vašem prohlížeči.",
     "section": {
       "payment": "Platba",
       "colors": "Barvy a gradienty",

@@ -22,17 +22,32 @@ import { Link } from "@/i18n/navigation";
 import { useCustomizerActions } from "../store";
 import { useGuardrails } from "../use-guardrails";
 import { CustomizerControls } from "./customizer-controls";
+import { PresetButtons } from "./preset-buttons";
 import { TemplateSelector } from "./template-selector";
 
 interface CustomizerSheetProps {
   onApply: () => void;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 }
 
 const FOOTER_BUTTON_CLASS =
   "h-12 flex-1 sm:px-4 sm:text-sm sm:[&_svg:not([class*='size-'])]:size-4";
 
-export function CustomizerSheet({ onApply }: CustomizerSheetProps) {
-  const [open, setOpen] = useState(false);
+export function CustomizerSheet({
+  onApply,
+  open: controlledOpen,
+  onOpenChange,
+}: CustomizerSheetProps) {
+  const [internalOpen, setInternalOpen] = useState(false);
+  const isControlled = controlledOpen !== undefined;
+  const open = isControlled ? controlledOpen : internalOpen;
+  const setOpen = (next: boolean) => {
+    if (!isControlled) {
+      setInternalOpen(next);
+    }
+    onOpenChange?.(next);
+  };
   const actions = useCustomizerActions();
   const t = useTranslations("Branding");
   const guardrails = useGuardrails();
@@ -53,6 +68,9 @@ export function CustomizerSheet({ onApply }: CustomizerSheetProps) {
         </SheetHeader>
 
         <div className="flex flex-1 flex-col overflow-auto">
+          <div className="border-b bg-card px-4 py-3">
+            <PresetButtons />
+          </div>
           <CustomizerControls />
           <div className="mt-auto border-b bg-card px-4 py-3">
             <TemplateSelector />

@@ -1,11 +1,17 @@
 "use client";
 
-import { IconCopy, IconDownload, IconShare } from "@tabler/icons-react";
+import {
+  IconArrowRight,
+  IconCopy,
+  IconDownload,
+  IconShare,
+  IconX,
+} from "@tabler/icons-react";
 import { track } from "@vercel/analytics";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { useEffect, useRef, useTransition } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -83,16 +89,22 @@ function PaymentDetails({ paymentDetails }: { paymentDetails: PaymentRecord }) {
   );
 }
 
+const NUDGE_STORAGE_KEY = "qrCustomizer.nudge.v1";
+
 export function QRPreviewCard() {
   const current = useCurrentPayment();
   const { setCurrent } = usePaymentActions();
   const customizer = useCustomizerConfig();
   const t = useTranslations("QRPreview");
+  const tBranding = useTranslations("Branding");
   const cardRef = useRef<HTMLDivElement>(null);
   const prevQrRef = useRef<string | undefined>(undefined);
   const [downloadPending, startDownload] = useTransition();
   const [copyPending, startCopy] = useTransition();
   const [sharePending, startShare] = useTransition();
+  const [sheetOpen, setSheetOpen] = useState(false);
+  const [nudgeDismissed, setNudgeDismissed] = useState(true);
+  const trackedNudgeRef = useRef(false);
 
   useEffect(() => {
     if (current?.qrDataUrl && current.qrDataUrl !== prevQrRef.current) {
@@ -100,6 +112,37 @@ export function QRPreviewCard() {
     }
     prevQrRef.current = current?.qrDataUrl;
   }, [current?.qrDataUrl]);
+
+  useEffect(() => {
+    const stored = window.localStorage.getItem(NUDGE_STORAGE_KEY);
+    setNudgeDismissed(stored === "dismissed");
+  }, []);
+
+  const nudgeVisible =
+    Boolean(current?.qrDataUrl) && !customizer.logo && !nudgeDismissed;
+
+  useEffect(() => {
+    if (nudgeVisible && !trackedNudgeRef.current) {
+      trackedNudgeRef.current = true;
+      track("customizer_nudge_shown");
+    }
+  }, [nudgeVisible]);
+
+  const dismissNudge = () => {
+    window.localStorage.setItem(NUDGE_STORAGE_KEY, "dismissed");
+    setNudgeDismissed(true);
+  };
+
+  const handleNudgeOpen = () => {
+    dismissNudge();
+    setSheetOpen(true);
+    track("customizer_nudge_clicked");
+  };
+
+  const handleNudgeDismiss = () => {
+    dismissNudge();
+    track("customizer_nudge_dismissed");
+  };
 
   const handleApplyBranding = async () => {
     if (!current) {
@@ -198,12 +241,36 @@ export function QRPreviewCard() {
   return (
     <Card className="py-0" ref={cardRef}>
       <CardHeader className="h-10 gap-0 border-b px-0">
-        <CardTitle className="h-full grow border-r px-4 py-2">
-          {t("title")}
+        <CardTitle className="flex h-full grow items-center gap-2 border-r px-4 py-2">
+          <span>{t("title")}</span>
+          {nudgeVisible ? (
+            <span className="motion-safe:fade-in-0 motion-safe:slide-in-from-left-1 flex h-6 items-stretch border border-border bg-background font-normal text-xs motion-safe:animate-in">
+              <button
+                className="flex items-center gap-1 px-2 text-foreground hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                onClick={handleNudgeOpen}
+                type="button"
+              >
+                {tBranding("nudgeAddLogo")}
+                <IconArrowRight className="size-3.5" />
+              </button>
+              <button
+                aria-label={tBranding("nudgeDismiss")}
+                className="flex items-center justify-center border-border border-l px-1.5 text-muted-foreground hover:bg-accent hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                onClick={handleNudgeDismiss}
+                type="button"
+              >
+                <IconX className="size-3" />
+              </button>
+            </span>
+          ) : null}
         </CardTitle>
         <CardAction>
           {current?.qrDataUrl ? (
-            <CustomizerSheet onApply={handleApplyBranding} />
+            <CustomizerSheet
+              onApply={handleApplyBranding}
+              onOpenChange={setSheetOpen}
+              open={sheetOpen}
+            />
           ) : null}
         </CardAction>
       </CardHeader>
