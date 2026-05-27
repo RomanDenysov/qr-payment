@@ -13,6 +13,7 @@ import {
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { CustomizerControls } from "@/features/customizer/components/customizer-controls";
+import { PresetButtons } from "@/features/customizer/components/preset-buttons";
 import { TemplateSelector } from "@/features/customizer/components/template-selector";
 import {
   useCustomizerActions,
@@ -72,6 +73,9 @@ export function StudioClient() {
   return (
     <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-[1fr_360px]">
       <div className="flex flex-col gap-3">
+        <div className="border border-border bg-card p-4">
+          <PresetButtons source="studio" />
+        </div>
         <Accordion
           className="flex flex-col gap-3"
           defaultValue={["payment"]}

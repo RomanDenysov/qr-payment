@@ -113,6 +113,24 @@
       "properties": { "style": "square | rounded | dots | classy-rounded" },
       "source": "features/customizer/components/dot-style-selector.tsx"
     },
+    "customizer_preset_applied": {
+      "description": "User applied a starter preset (Classic / Bold / Sunset / Framed) from the home sheet or studio",
+      "properties": {
+        "preset": "classic | bold | sunset | framed",
+        "source": "sheet | studio"
+      },
+      "source": "features/customizer/components/preset-buttons.tsx"
+    },
+    "customizer_nudge_shown": {
+      "description": "One-time inline nudge appeared below the QR on the home preview (first generation, no logo yet, not previously dismissed)",
+      "properties": null,
+      "source": "features/payment/components/qr-preview-card.tsx"
+    },
+    "customizer_nudge_clicked": {
+      "description": "User clicked the 'Add your logo' nudge to open the customizer sheet",
+      "properties": null,
+      "source": "features/payment/components/qr-preview-card.tsx"
+    },
     "guardrail_warning_shown": {
       "description": "Customizer configuration triggered a scannability guardrail (logo or center text too large, low contrast, or weak gradient). Fires once per warning key per session, not on every render.",
       "properties": {

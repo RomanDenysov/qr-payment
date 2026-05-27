@@ -97,7 +97,7 @@
       "category": "core",
       "i18nNamespace": "Branding",
       "clientSide": true,
-      "description": "Unified customizer (home page sheet + /studio page) with solid/linear/radial gradients, dot style, center text with 9-position picker, logo upload with size slider and 9-position picker, decorative frame with title and caption, and a shared template store synced across both surfaces."
+      "description": "Unified customizer (home page sheet + /studio page) with solid/linear/radial gradients, dot style, center text with 9-position picker, logo upload with size slider and 9-position picker, decorative frame with title and caption, 4 one-click starter presets (Classic / Bold / Sunset / Framed), and a shared template store synced across both surfaces. Includes a one-time 'Add your logo' nudge next to the home QR title for first-time users."
     },
     {
       "name": "QR Studio",

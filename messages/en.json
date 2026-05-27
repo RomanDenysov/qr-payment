@@ -175,6 +175,18 @@
     "dotStyleDots": "Circles",
     "dotStyleClassyRounded": "Classy",
     "openInStudio": "Open in Studio",
+    "nudgeAddLogo": "Add your logo",
+    "presets": {
+      "title": "Styles",
+      "names": {
+        "classic": "Classic",
+        "bold": "Bold brand",
+        "sunset": "Sunset gradient",
+        "framed": "Framed"
+      },
+      "framedTitle": "PAYMENT",
+      "framedCaption": "Scan with your bank app"
+    },
     "guardrail": {
       "logoOversized": "Logo is {size}% of the QR area. The safe maximum at error correction {ecc} is {max}%. Reduce the size to keep the code scannable.",
       "textOversized": "Center text is too large and covers more than {max}% of the QR. Shorten it, lower the size, or split fewer lines so the code stays scannable.",
@@ -193,8 +205,8 @@
     "showLess": "Show less"
   },
   "Studio": {
-    "title": "QR Studio",
-    "intro": "Advanced editor for designing QR codes with gradients, logo, frame, and precise overlay positioning. Everything runs in your browser.",
+    "title": "Make it look like your brand",
+    "intro": "Custom colors and gradients, your own logo, a frame with title, and precise overlay positioning. Advanced QR code editor that runs entirely in your browser.",
     "section": {
       "payment": "Payment",
       "colors": "Colors and gradients",
