@@ -111,11 +111,11 @@ export function CustomizerSheet({
             </Button>
           </div>
           <Link
-            className="inline-flex items-center justify-center gap-1 border-t py-3 text-center text-muted-foreground text-xs underline-offset-2 hover:text-foreground hover:underline"
+            className="flex h-12 items-center justify-center gap-2 border-t bg-secondary px-4 text-secondary-foreground text-sm transition-colors hover:bg-secondary/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             href="/studio"
           >
             {t("openInStudio")}
-            <IconArrowRight className="size-3.5" />
+            <IconArrowRight className="size-4" />
           </Link>
         </SheetFooter>
       </SheetContent>
