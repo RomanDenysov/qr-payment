@@ -2,6 +2,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { Suspense } from "react";
 import { AnnouncementBanner } from "@/components/announcement-banner";
 import { Background } from "@/components/background";
 import { ConsentBanner } from "@/components/consent-banner";
@@ -119,7 +120,6 @@ export default async function LocaleLayout({ children, params }: Props) {
 
   return (
     <NextIntlClientProvider>
-      <link href="/openapi.json" rel="describedby" type="application/json" />
       <ThemeProvider
         attribute="class"
         defaultTheme="system"
@@ -127,7 +127,9 @@ export default async function LocaleLayout({ children, params }: Props) {
         enableSystem
       >
         <Header />
-        <AnnouncementBanner />
+        <Suspense>
+          <AnnouncementBanner />
+        </Suspense>
         <main id="main-content">{children}</main>
         <JsonLd />
         <Footer />

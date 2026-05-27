@@ -1,7 +1,12 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { IconLoader3, IconQrcode, IconTrash } from "@tabler/icons-react";
+import {
+  IconCheck,
+  IconLoader3,
+  IconQrcode,
+  IconTrash,
+} from "@tabler/icons-react";
 import { track } from "@vercel/analytics";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useMemo } from "react";
@@ -26,6 +31,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { SegmentedControl } from "@/components/ui/segmented-control";
 import { Textarea } from "@/components/ui/textarea";
+import { detectBank } from "@/lib/iban-bank";
 import type { PaymentFormat } from "../format";
 import { FORMAT_LABELS } from "../format";
 import {
@@ -183,6 +189,8 @@ export function PaymentFormCard() {
 
   const format = watch("format");
   const currency = watch("currency");
+  const iban = watch("iban");
+  const detectedBank = useMemo(() => detectBank(iban), [iban]);
 
   const handleFormatChange = (newFormat: PaymentFormat) => {
     setValue("format", newFormat);
@@ -273,7 +281,22 @@ export function PaymentFormCard() {
           <FieldGroup>
             <div className="flex w-full flex-col items-stretch gap-2 sm:flex-row">
               <Field className="grow">
-                <FieldLabel htmlFor="iban">{t("ibanRequired")}</FieldLabel>
+                <FieldLabel className="items-center" htmlFor="iban">
+                  <span>{t("ibanRequired")}</span>
+                  {detectedBank ? (
+                    <output
+                      aria-label={t("bankDetected", {
+                        name: detectedBank.name,
+                      })}
+                      className="fade-in-0 slide-in-from-left-1 ml-auto inline-flex animate-in items-center gap-1 text-success text-xs duration-200 ease-out-quad"
+                    >
+                      <IconCheck aria-hidden className="size-3.5 shrink-0" />
+                      <span aria-hidden className="font-medium">
+                        {detectedBank.name}
+                      </span>
+                    </output>
+                  ) : null}
+                </FieldLabel>
 
                 <Controller
                   control={control}
@@ -282,6 +305,7 @@ export function PaymentFormCard() {
                     <IBANAutocomplete
                       hasError={!!fieldState.error}
                       id="iban"
+                      isValid={!!detectedBank}
                       onChange={field.onChange}
                       onSelectPayment={handleSelectFromHistory}
                       value={field.value}

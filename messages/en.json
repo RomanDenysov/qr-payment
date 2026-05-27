@@ -64,7 +64,7 @@
   "PaymentForm": {
     "title": "Payment Details",
     "iban": "IBAN",
-    "ibanRequired": "IBAN *",
+    "ibanRequired": "IBAN*",
     "amount": "Amount",
     "amountPlaceholder": "0.00",
     "recipientName": "Recipient Name",
@@ -82,6 +82,7 @@
     "clear": "Clear",
     "generate": "Generate QR",
     "noHistoryResults": "No results from history",
+    "bankDetected": "Detected bank: {name}",
     "formatDescription": {
       "bysquare": "Slovak banking standard",
       "epc": "European SEPA standard",

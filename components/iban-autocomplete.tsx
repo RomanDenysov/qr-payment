@@ -29,6 +29,7 @@ interface IBANAutocompleteProps {
   placeholder?: string;
   className?: string;
   hasError?: boolean;
+  isValid?: boolean;
   ref?: React.Ref<HTMLInputElement>;
 }
 
@@ -40,6 +41,7 @@ export function IBANAutocomplete({
   placeholder = "SK89 7500 0000 0000 1234 5678",
   className,
   hasError = false,
+  isValid = false,
   ref,
 }: IBANAutocompleteProps) {
   const t = useTranslations("PaymentForm");
@@ -107,6 +109,9 @@ export function IBANAutocomplete({
           inputVariants(),
           "h-8!",
           hasError && "border-destructive focus-visible:ring-destructive",
+          isValid &&
+            !hasError &&
+            "border-success ring-1 ring-success/40 focus-visible:border-success focus-visible:ring-success/50",
           className
         )}
         id={id}
