@@ -232,7 +232,7 @@ interface SectionProps {
 
 function Section({ value, title, chip, children }: SectionProps) {
   return (
-    <AccordionItem className="border-border border-b bg-card" value={value}>
+    <AccordionItem className="border-b bg-card" value={value}>
       <AccordionTrigger className="h-12 px-4 py-0">
         <span className="flex flex-1 items-center justify-between gap-3">
           <span className="font-medium text-sm">{title}</span>

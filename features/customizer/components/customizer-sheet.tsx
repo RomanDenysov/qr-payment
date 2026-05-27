@@ -60,10 +60,13 @@ export function CustomizerSheet({ onApply }: CustomizerSheetProps) {
         </div>
 
         <SheetFooter className="gap-0 border-border border-t p-0">
-          <div className="flex items-start gap-2 px-4 py-3 text-muted-foreground text-xs sm:text-sm/relaxed">
+          <output
+            aria-live="polite"
+            className="flex items-start gap-2 px-4 py-3 text-muted-foreground text-xs sm:text-sm/relaxed"
+          >
             <IconAlertTriangle className="size-4 shrink-0 translate-y-0.5" />
             <span>{t("warning")}</span>
-          </div>
+          </output>
           <div className="flex flex-row divide-x divide-border border-border border-t">
             <Button
               className={FOOTER_BUTTON_CLASS}
