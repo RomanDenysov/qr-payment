@@ -14,7 +14,7 @@
     "termsDescription": "Podmienky používania aplikácie QR Platby.",
     "faqTitle": "Často kladené otázky",
     "faqDescription": "Odpovede na najčastejšie otázky o generátore QR kódov pre platby.",
-    "homeH1": "Bezplatný generátor QR kódov pre slovenské bankové platby",
+    "homeH1": "Bezplatný generátor QR platby pre slovenské a české banky",
     "homeDescription": "Stačí IBAN a suma. Klient naskenuje a zaplatí jedným klikom. Bez registrácie, bez poplatkov.",
     "sectionApi": "REST API pre generovanie QR kódov",
     "backToHome": "Späť na hlavnú stránku",
@@ -476,8 +476,25 @@
   },
   "HomeContent": {
     "section1Title": "Čo je PAY by square a QR platba",
-    "section1Para1": "PAY by square je slovenský štandard pre platobné QR kódy, ktorý si môžete naskenovať ktoroukoľvek bankovnou aplikáciou. QR platba je rýchly a bezpečný spôsob, ako poslať peniaze bez nutnosti ručného zadávania údajov. Kód obsahuje IBAN príjemcu, sumu, variabilný symbol a poznámku - všetko čitateľné jedným skenovaním.",
-    "section1Para2": "QR Platby podporuje aj SPAYD (český štandard) a EPC QR (európsky SEPA štandard). Všetky údaje sa spracúvajú priamo vo vašom prehliadači - nezbierame žiadne osobné údaje ani ich neukladáme na server.",
+    "section1Para1": "PAY by square je slovenský štandard pre platobné QR kódy, ktorý si môžete naskenovať ktoroukoľvek bankovnou aplikáciou. QR platba je rýchly a bezpečný spôsob, ako poslať peniaze bez nutnosti ručného zadávania údajov. Kód obsahuje IBAN príjemcu, sumu, variabilný symbol a poznámku - všetko čitateľné jedným skenovaním. Suma je voliteľná - ak ju necháte prázdnu, vytvoríte statický QR kód z IBANu.",
+    "section1Para2": "Všetky údaje sa spracúvajú priamo vo vašom prehliadači - nezbierame žiadne osobné údaje ani ich neukladáme na server.",
+    "formats": [
+      {
+        "name": "PAY by square",
+        "region": "Slovensko",
+        "description": "Slovenský štandard pre platobné QR kódy - naskenuje ho každá slovenská banková aplikácia."
+      },
+      {
+        "name": "SPAYD",
+        "region": "Česko",
+        "description": "Český formát Short Payment Descriptor, ktorý podporujú všetky české banky."
+      },
+      {
+        "name": "EPC QR",
+        "region": "EÚ / SEPA",
+        "description": "Európsky štandard SEPA pre eurové prevody v rámci eurozóny."
+      }
+    ],
     "section2Title": "Ako vytvoriť QR kód na platbu - generátor QR platby",
     "section2Steps": [
       "Zadajte IBAN, sumu a symboly",
@@ -508,24 +525,7 @@
       "mBank",
       "MONETA"
     ],
-    "section4Title": "Najčastejšie otázky",
-    "section4Items": [
-      {
-        "q": "Čo je QR Platby?",
-        "a": "QR Platby je bezplatný online nástroj na vytváranie QR kódov pre bankové platby. Všetky údaje sa spracúvajú priamo vo vašom prehliadači - nezbierame žiadne osobné údaje."
-      },
-      {
-        "q": "Ako funguje QR platba?",
-        "a": "Zadáte platobné údaje (IBAN, sumu, symboly), vygenerujete QR kód a naskenujete ho bankovou aplikáciou. Platba sa automaticky vyplní."
-      },
-      {
-        "q": "S ktorými bankami to funguje?",
-        "a": "QR kódy vo formáte BySquare fungujú so všetkými slovenskými bankami. Formát SPAYD funguje so všetkými českými bankami. EPC QR je podporovaný väčšinou európskych bánk."
-      }
-    ],
-    "section4ViewAllLink": "Zobraziť všetky otázky",
     "section4MoreLinksTitle": "Ďalšie nástroje",
-    "section4ApiLink": "API dokumentácia",
     "section4StudioLink": "Pokročilý QR editor",
     "section4BulkLink": "Hromadné generovanie"
   },
