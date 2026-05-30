@@ -477,7 +477,7 @@
   "HomeContent": {
     "section1Title": "Co je QR Platba a generátor QR kódů pro platby",
     "section1Para1": "QR Platba (formát SPAYD) je platební QR kód podporovaný českými bankami. Umožňuje rychle a bezpečně odeslat platbu bez ručního zadávání bankovních údajů. Kód může obsahovat IBAN příjemce, částku, variabilní symbol a krátkou zprávu - vše načítatelné jedním skenováním pomocí bankovní aplikace. Částka je nepovinná - když ji necháte prázdnou, vytvoříte statický QR kód z IBANu.",
-    "section1Para2": "QR Platby také podporuje BySquare (slovenský standard) a EPC QR (evropský SEPA standard). Všechny údaje se zpracovávají přímo ve vašem prohlížeči - neshromažďujeme žádné osobní údaje ani je neukládáme na server.",
+    "section1Para2": "Všechny údaje se zpracovávají přímo ve vašem prohlížeči - neshromažďujeme žádné osobní údaje ani je neukládáme na server.",
     "formats": [
       {
         "name": "PAY by square",
@@ -525,28 +525,7 @@
       "365.bank",
       "UniCredit"
     ],
-    "section4Title": "Nejčastěji kladené otázky",
-    "section4Items": [
-      {
-        "q": "Co je QR Platby?",
-        "a": "QR Platby je bezplatný online nástroj na vytváření QR kódů pro bankovní platby. Všechny údaje se zpracovávají přímo ve vašem prohlížeči - neshromažďujeme žádné osobní údaje."
-      },
-      {
-        "q": "Jak funguje QR platba?",
-        "a": "Zadejte platební údaje (IBAN, částku, symboly), vygenerujte QR kód a naskenujte ho bankovní aplikací. Platba se automaticky vyplní."
-      },
-      {
-        "q": "Které banky jsou podporovány?",
-        "a": "QR kódy ve formátu SPAYD fungují se všemi českými bankami. BySquare formát funguje se všemi slovenskými bankami. EPC QR je podporován většinou evropských bank."
-      },
-      {
-        "q": "Jak vytvořit QR kód z IBANu?",
-        "a": "Zadejte IBAN příjemce a částku nechte prázdnou - vytvoříte tak statický QR kód z IBANu, který lze opakovaně použít na fakturách či plakátech. Naskenujete jej libovolnou bankovní aplikací."
-      }
-    ],
-    "section4ViewAllLink": "Zobrazit všechny otázky",
     "section4MoreLinksTitle": "Další nástroje",
-    "section4ApiLink": "API dokumentace",
     "section4StudioLink": "Pokročilý editor QR",
     "section4BulkLink": "Hromadné generování"
   },

@@ -1,19 +1,8 @@
 import { getTranslations } from "next-intl/server";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { linkVariants } from "@/components/ui/link";
 import { Link } from "@/i18n/navigation";
-
-interface FaqItem {
-  q: string;
-  a: string;
-}
 
 interface FormatTile {
   name: string;
@@ -43,36 +32,6 @@ function BankColumn({ title, banks }: BankColumnProps) {
         ))}
       </ul>
     </div>
-  );
-}
-
-/**
- * Compact FAQ block for the homepage: collapsed shadcn Accordion with
- * a handful of teaser questions + a small link out to the full /faq page.
- */
-export async function HomeFaq() {
-  const t = await getTranslations("HomeContent");
-  const faqItems = t.raw("section4Items") as FaqItem[];
-
-  return (
-    <section className="mt-20 space-y-6 sm:mt-24">
-      <h2 className={SECTION_HEADING_CLASS}>{t("section4Title")}</h2>
-      <Accordion>
-        {faqItems.map((item) => (
-          <AccordionItem key={item.q} value={item.q}>
-            <AccordionTrigger>{item.q}</AccordionTrigger>
-            <AccordionContent>
-              <p>{item.a}</p>
-            </AccordionContent>
-          </AccordionItem>
-        ))}
-      </Accordion>
-      <div className="pt-2 text-center">
-        <Link className={linkVariants({ size: "sm" })} href="/faq">
-          {t("section4ViewAllLink")} →
-        </Link>
-      </div>
-    </section>
   );
 }
 
