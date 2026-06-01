@@ -1,9 +1,8 @@
 "use client";
 
 import { IconAlertTriangle, IconInfoCircle } from "@tabler/icons-react";
-import { track } from "@vercel/analytics";
 import { useTranslations } from "next-intl";
-import { useEffect, useMemo, useRef } from "react";
+import { useMemo } from "react";
 import {
   Accordion,
   AccordionContent,
@@ -337,20 +336,6 @@ function posLabel(p: OverlayPosition, t: (key: string) => string): string {
 
 function GuardrailWarnings({ guardrails }: { guardrails: Guardrail[] }) {
   const tBranding = useTranslations();
-  const trackedKeys = useRef<Set<string>>(new Set());
-
-  useEffect(() => {
-    for (const g of guardrails) {
-      if (trackedKeys.current.has(g.key)) {
-        continue;
-      }
-      trackedKeys.current.add(g.key);
-      track("guardrail_warning_shown", {
-        key: g.key,
-        severity: g.severity,
-      });
-    }
-  }, [guardrails]);
 
   if (guardrails.length === 0) {
     return null;

@@ -103,7 +103,6 @@ export function QRPreviewCard() {
   const [sharePending, startShare] = useTransition();
   const [sheetOpen, setSheetOpen] = useState(false);
   const [nudgeDismissed, setNudgeDismissed] = useState(true);
-  const trackedNudgeRef = useRef(false);
 
   useEffect(() => {
     if (current?.qrDataUrl && current.qrDataUrl !== prevQrRef.current) {
@@ -119,13 +118,6 @@ export function QRPreviewCard() {
 
   const nudgeVisible =
     Boolean(current?.qrDataUrl) && !customizer.logo && !nudgeDismissed;
-
-  useEffect(() => {
-    if (nudgeVisible && !trackedNudgeRef.current) {
-      trackedNudgeRef.current = true;
-      track("customizer_nudge_shown");
-    }
-  }, [nudgeVisible]);
 
   const dismissNudge = () => {
     window.localStorage.setItem(NUDGE_STORAGE_KEY, "dismissed");
@@ -171,7 +163,7 @@ export function QRPreviewCard() {
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-        track("qr_downloaded", { size });
+        track("qr_downloaded", { size, source: "home" });
         toast.success(t("downloaded"));
       } catch (error) {
         console.error("[QRPreviewCard] Failed to download QR image:", error);

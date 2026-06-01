@@ -32,12 +32,20 @@ export function ShareQRSection({ payment, branding, children }: Props) {
   const t = useTranslations("QRPreview");
 
   useEffect(() => {
+    let cancelled = false;
     generatePaymentQR(payment, {
       ...branding,
       logo: null,
     })
-      .then(setQrDataUrl)
+      .then((result) => {
+        if (!cancelled) {
+          setQrDataUrl(result);
+        }
+      })
       .catch((error) => {
+        if (cancelled) {
+          return;
+        }
         const message =
           error instanceof InvalidIBANError
             ? error.message
@@ -47,6 +55,9 @@ export function ShareQRSection({ payment, branding, children }: Props) {
         });
         toast.error(message);
       });
+    return () => {
+      cancelled = true;
+    };
   }, [payment, branding, t]);
 
   const handleDownload = () => {
