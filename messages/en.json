@@ -334,7 +334,10 @@
     "copyIban": "Copy IBAN",
     "copyFailed": "Failed to copy IBAN",
     "invalidLink": "Invalid or corrupted payment link.",
-    "backHome": "Back to home page"
+    "backHome": "Back to home page",
+    "ctaTitle": "Create your own payment QR code",
+    "ctaDescription": "Free, no sign-up. Made with QR Platby.",
+    "ctaButton": "Create for free"
   },
   "Api": {
     "title": "API Available",

@@ -1,7 +1,6 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
-import { linkVariants } from "@/components/ui/link";
 import { decodeShareData } from "@/features/payment/share-link";
 import { Link } from "@/i18n/navigation";
 import { PaymentDetails } from "./payment-details";
@@ -58,9 +57,11 @@ export default async function SharePage({ params, searchParams }: Props) {
         </ShareQRSection>
       </Card>
 
-      <div className="pt-4 text-center">
-        <Link className={linkVariants({ size: "sm" })} href="/">
-          ← {t("backHome")}
+      <div className="mt-6 flex w-full flex-col items-center gap-2 border border-border bg-card p-5 text-center">
+        <p className="font-medium text-sm">{t("ctaTitle")}</p>
+        <p className="text-muted-foreground text-xs">{t("ctaDescription")}</p>
+        <Link className="mt-1 w-full sm:w-auto" href="/">
+          <Button className="w-full sm:w-auto">{t("ctaButton")}</Button>
         </Link>
       </div>
     </div>
