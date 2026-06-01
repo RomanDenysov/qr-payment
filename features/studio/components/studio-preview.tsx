@@ -10,7 +10,7 @@ import { track } from "@vercel/analytics";
 import { CurrencyCode } from "bysquare";
 import { electronicFormatIBAN, isValidIBAN } from "ibantools";
 import { useTranslations } from "next-intl";
-import { useDeferredValue, useEffect, useRef, useState } from "react";
+import { useDeferredValue, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { PageSpinner } from "@/components/page-spinner";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -47,28 +47,6 @@ function buildExpectedPayload(data: PaymentFormData): string | null {
   return payload;
 }
 
-function scanStateKey(state: ScanState): string {
-  return state.status === "at-risk" ? `at-risk:${state.reason}` : state.status;
-}
-
-function trackScanTransition(
-  state: ScanState,
-  lastKey: { current: string | null }
-): void {
-  if (state.status !== "ok" && state.status !== "at-risk") {
-    return;
-  }
-  const key = scanStateKey(state);
-  if (lastKey.current === key) {
-    return;
-  }
-  lastKey.current = key;
-  track("qr_scannability_checked", {
-    ok: state.status === "ok",
-    reason: state.status === "at-risk" ? state.reason : null,
-  });
-}
-
 async function runRenderAndScan(
   payment: PaymentFormData,
   config: CustomizerConfig
@@ -93,7 +71,6 @@ export function StudioPreview({ config, payment }: Props) {
   const [dataUrl, setDataUrl] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [scan, setScan] = useState<ScanState>({ status: "idle" });
-  const lastTrackedKey = useRef<string | null>(null);
 
   useEffect(() => {
     if (!deferredPayment) {
@@ -114,7 +91,6 @@ export function StudioPreview({ config, payment }: Props) {
         setDataUrl(url);
         setError(null);
         setScan(nextScan);
-        trackScanTransition(nextScan, lastTrackedKey);
       })
       .catch((err) => {
         if (cancelled) {

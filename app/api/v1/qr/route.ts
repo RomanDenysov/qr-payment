@@ -141,8 +141,8 @@ export async function POST(req: NextRequest) {
 
     track("api_qr_generated", {
       format,
-      paymentFormat,
-      hasAmount: paymentData.amount != null,
+      payment_format: paymentFormat,
+      has_amount: paymentData.amount != null,
     }).catch((err) => {
       console.warn("[api/v1/qr] Analytics tracking failed:", err);
     });

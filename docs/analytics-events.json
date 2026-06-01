@@ -22,8 +22,9 @@
     "api_qr_generated": {
       "description": "QR code generated via the REST API",
       "properties": {
-        "format": "png | svg",
-        "hasAmount": "true if amount was provided"
+        "format": "png | svg (output image format)",
+        "payment_format": "bysquare | epc | spayd",
+        "has_amount": "true if amount was provided"
       },
       "source": "app/api/v1/qr/route.ts"
     }
@@ -34,7 +35,7 @@
       "description": "User downloaded the generated QR code as PNG. Fired from both home preview and studio.",
       "properties": {
         "size": "small (128px) | standard (256px) | document (512px) | print (1024px)",
-        "source": "studio (only when fired from /studio; absent from home)"
+        "source": "home | studio"
       },
       "source": "features/payment/components/qr-preview-card.tsx, features/studio/components/studio-preview.tsx"
     },
@@ -73,11 +74,6 @@
   },
 
   "branding": {
-    "qr_branding_applied": {
-      "description": "User applied custom branding (colors, text, logo) to the QR code",
-      "properties": null,
-      "source": "features/payment/components/qr-preview-card.tsx"
-    },
     "logo_uploaded": {
       "description": "User uploaded a custom logo for the QR code center",
       "properties": null,
@@ -121,23 +117,10 @@
       },
       "source": "features/customizer/components/preset-buttons.tsx"
     },
-    "customizer_nudge_shown": {
-      "description": "One-time inline nudge appeared below the QR on the home preview (first generation, no logo yet, not previously dismissed)",
-      "properties": null,
-      "source": "features/payment/components/qr-preview-card.tsx"
-    },
     "customizer_nudge_clicked": {
       "description": "User clicked the 'Add your logo' nudge to open the customizer sheet",
       "properties": null,
       "source": "features/payment/components/qr-preview-card.tsx"
-    },
-    "guardrail_warning_shown": {
-      "description": "Customizer configuration triggered a scannability guardrail (logo or center text too large, low contrast, or weak gradient). Fires once per warning key per session, not on every render.",
-      "properties": {
-        "key": "logo_oversized | text_oversized | low_contrast | very_low_contrast | weak_gradient_fg | weak_gradient_bg",
-        "severity": "info | warning"
-      },
-      "source": "features/customizer/components/customizer-controls.tsx"
     }
   },
 
@@ -224,21 +207,15 @@
       "properties": null,
       "source": "components/consent-banner.tsx"
     },
+    "announcement_dismissed": {
+      "description": "User dismissed the announcement banner",
+      "properties": { "id": "announcement id, e.g. api-styling-params" },
+      "source": "components/announcement-banner.tsx"
+    },
     "announcement_changelog_clicked": {
       "description": "User clicked the 'Read changelog' link in the announcement banner",
       "properties": { "id": "announcement id, e.g. api-styling-params" },
       "source": "components/announcement-banner.tsx"
-    }
-  },
-
-  "qr_validation": {
-    "qr_scannability_checked": {
-      "description": "Studio preview decoded the rendered QR via jsQR and reported the result; fires on transition between states (ok / at-risk), not every render",
-      "properties": {
-        "ok": "boolean",
-        "reason": "decode_failed | payload_mismatch | null"
-      },
-      "source": "features/studio/components/studio-preview.tsx"
     }
   }
 }

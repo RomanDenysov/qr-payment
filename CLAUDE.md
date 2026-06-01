@@ -163,7 +163,6 @@ This project uses Ultracite (Biome preset) for formatting and linting. Key rules
 Guardrails surface scannability risks live in the customizer (`features/customizer/guardrails.ts`). Adding one requires keeping these in sync:
 - `features/customizer/guardrails.ts` - add the key to the `GuardrailKey` union and a check in `checkGuardrails`
 - `messages/{sk,en,cs}.json` - translate `Branding.guardrail.<name>`
-- `docs/analytics-events.json` - append the key to `guardrail_warning_shown.properties.key`
 
 Severity `"warning"` disables the home customizer Done button (via `useGuardrails`); `"info"` is non-blocking guidance. Don't surface raw technical metrics (contrast ratios, thresholds) in the message text - keep copy actionable.
 
