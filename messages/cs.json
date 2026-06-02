@@ -334,7 +334,10 @@
     "copyIban": "Kopírovat IBAN",
     "copyFailed": "Nepodařilo se zkopírovat IBAN",
     "invalidLink": "Neplatný nebo poškozený odkaz na platbu.",
-    "backHome": "Zpět na hlavní stránku"
+    "backHome": "Zpět na hlavní stránku",
+    "ctaTitle": "Vytvořte si vlastní QR kód na platbu",
+    "ctaDescription": "Zdarma a bez registrace. Vytvořeno přes QR Platby.",
+    "ctaButton": "Vytvořit zdarma"
   },
   "Api": {
     "title": "API k dispozici",
