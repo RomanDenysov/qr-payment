@@ -2,13 +2,15 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { decodeShareData } from "@/features/payment/share-link";
+import { SHARE_ID_RE } from "@/features/payment/tracking";
 import { Link } from "@/i18n/navigation";
+import { OpenPing } from "./open-ping";
 import { PaymentDetails } from "./payment-details";
 import { ShareQRSection } from "./share-qr-section";
 
 interface Props {
   params: Promise<{ locale: string }>;
-  searchParams: Promise<{ d?: string }>;
+  searchParams: Promise<{ d?: string; t?: string }>;
 }
 
 export function generateMetadata() {
@@ -18,7 +20,10 @@ export function generateMetadata() {
 }
 
 export default async function SharePage({ params, searchParams }: Props) {
-  const [{ locale }, { d }] = await Promise.all([params, searchParams]);
+  const [{ locale }, { d, t: trackId }] = await Promise.all([
+    params,
+    searchParams,
+  ]);
   setRequestLocale(locale);
 
   const data = d ? decodeShareData(d) : null;
@@ -48,6 +53,7 @@ export default async function SharePage({ params, searchParams }: Props) {
 
   return (
     <div className="mx-auto flex max-w-md flex-1 flex-col items-center pt-5 sm:pt-8 md:pt-16">
+      {trackId && SHARE_ID_RE.test(trackId) ? <OpenPing id={trackId} /> : null}
       <Card className="w-full py-0">
         <CardHeader className="h-10 gap-0 border-b px-0">
           <CardTitle className="h-full grow px-4 py-2">{t("title")}</CardTitle>

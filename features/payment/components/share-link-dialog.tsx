@@ -27,6 +27,9 @@ import { useCopyState } from "@/lib/hooks/use-copy-state";
 import { maskIban } from "@/lib/utils";
 import type { PaymentRecord } from "../schema";
 import { encodeShareData } from "../share-link";
+import { usePaymentActions } from "../store";
+import { generateShareSecret, shareIdFromSecret } from "../tracking";
+import { ShareOpenStats } from "./share-open-stats";
 
 interface Props {
   payment: PaymentRecord;
@@ -35,6 +38,7 @@ interface Props {
 export function ShareLinkDialog({ payment }: Props) {
   const { copied, trigger } = useCopyState();
   const customizer = useCustomizerConfig();
+  const { setShareSecret } = usePaymentActions();
   const locale = useLocale();
   const t = useTranslations("ShareLink");
 
@@ -51,8 +55,17 @@ export function ShareLinkDialog({ payment }: Props) {
 
   const handleCopy = async () => {
     try {
+      // Lazily mint the tracking secret on first copy — only links that
+      // actually left the device get a tracking id.
+      let secret = payment.shareSecret;
+      if (!secret) {
+        secret = generateShareSecret();
+        setShareSecret(payment.id, secret);
+      }
+      const trackId = await shareIdFromSecret(secret);
+
       const prefix = locale === "sk" ? "" : `/${locale}`;
-      const shareUrl = `${window.location.origin}${prefix}/p?d=${encoded}`;
+      const shareUrl = `${window.location.origin}${prefix}/p?d=${encoded}&t=${trackId}`;
       await navigator.clipboard.writeText(shareUrl);
       trigger();
       track("share_link_copied");
@@ -125,6 +138,13 @@ export function ShareLinkDialog({ payment }: Props) {
             <p className="text-center text-muted-foreground text-xs">
               {t("hint")}
             </p>
+
+            {payment.shareSecret ? (
+              <ShareOpenStats
+                className="text-center"
+                secret={payment.shareSecret}
+              />
+            ) : null}
           </div>
 
           {customizer.logo ? (
