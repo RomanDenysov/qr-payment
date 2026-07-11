@@ -10,13 +10,22 @@
       "description": "Users enter payment details (IBAN, amount, symbols) and generate a scannable QR code in BySquare, EPC, or SPAYD format."
     },
     {
+      "name": "Per-format Optional Fields",
+      "source": "features/payment/optional-fields.ts",
+      "route": "/",
+      "category": "core",
+      "i18nNamespace": "PaymentForm",
+      "clientSide": true,
+      "description": "A per-format 'Fields' menu next to the format selector lets users opt extra standard fields into the form (bysquare: due date, invoice number, BIC; SPAYD: due date, BIC, reference; EPC: purpose code). The choice is persisted per format in localStorage."
+    },
+    {
       "name": "QR Code Generation API",
       "source": "app/api/v1/qr/route.ts",
       "route": "/api/v1/qr",
       "category": "core",
       "i18nNamespace": null,
       "clientSide": false,
-      "description": "REST API for generating BySquare and SPAYD QR payment codes. Supports PNG/SVG output, configurable size, and IP-based rate limiting via Upstash Redis."
+      "description": "REST API for generating BySquare, SPAYD, and EPC QR payment codes. Supports symbols, recipient, note, BIC, due date, invoice number, SPAYD reference, and EPC purpose code (validated per format), PNG/SVG output, configurable size/colors, and IP-based rate limiting via Upstash Redis."
     },
     {
       "name": "OpenAPI Specification",
@@ -269,6 +278,42 @@
       "i18nNamespace": "Changelog",
       "clientSide": false,
       "description": "Chronological log of features, API changes, and improvements with locale-aware dates and BreadcrumbList + ItemList JSON-LD. Linked only from the announcement banner; entries are stored in features/changelog/data.ts."
+    },
+    {
+      "name": "How-to Guide Page",
+      "source": "app/[locale]/ako-vytvorit-qr-kod-na-platbu/page.tsx",
+      "route": "/ako-vytvorit-qr-kod-na-platbu",
+      "category": "seo",
+      "i18nNamespace": "Guide",
+      "clientSide": false,
+      "description": "SEO landing page 'How to create a payment QR code' with localized slugs per locale (sk/cs/en via next-intl pathnames), step-by-step guide, format explainer, generator CTA, FAQ, and HowTo + FAQPage + BreadcrumbList JSON-LD. Linked from home 'More tools' and the FAQ page."
+    },
+    {
+      "name": "SEPA/EPC Landing Page",
+      "source": "app/[locale]/sepa-qr-code-generator/page.tsx",
+      "route": "/sepa-qr-code-generator",
+      "category": "seo",
+      "i18nNamespace": "Sepa",
+      "clientSide": false,
+      "description": "SEO landing page targeting EN 'sepa qr code generator' / 'epc qr' demand (NL/DE/UK). Explains EPC QR, bank app support, CTA linking to the generator with ?format=epc preselecting the EPC tab (handled in use-payment-form.ts), FAQPage + BreadcrumbList JSON-LD. Linked from home 'More tools' and the FAQ page."
+    },
+    {
+      "name": "Usage Stats",
+      "source": "lib/api/stats.ts",
+      "route": "/",
+      "category": "core",
+      "i18nNamespace": "Stats",
+      "clientSide": false,
+      "description": "Anonymous Upstash Redis counters (stats:qr:total, stats:qr:{YYYY-MM}, stats:api:total). Incremented by a body-less sendBeacon POST /api/v1/stats/hit after client-side generation (single + bulk, count capped at 100) and directly in /api/v1/qr via after(). Public GET /api/v1/stats returns { total, month, api }. Homepage shows three metric cards (features/seo/usage-stats.tsx); month card appears once a full previous month of data exists, static formats/banks card until then. Hidden when Redis is unconfigured or counters are empty."
+    },
+    {
+      "name": "Share-link Open Tracking",
+      "source": "features/payment/tracking.ts",
+      "route": "/p",
+      "category": "core",
+      "i18nNamespace": "ShareLink",
+      "clientSide": true,
+      "description": "Privacy-first open counter for share links. A random 32-byte secret is minted on first copy and stored on the history entry (localStorage only); the public id = base64url(sha256(secret)).slice(0,16) travels as ?t= on the share URL. The opened /p page fires POST /api/v1/t/{id} from client JS only (never SSR, so unfurl bots don't count); Redis keeps count + last-opened timestamp with 90-day TTL. Owner stats ('Opened 5x · last yesterday') shown in the share dialog and history list via GET /api/v1/t/{id}, id re-derived client-side from the secret. No unique visitors, no IP, no fingerprinting; payment payload never touches the server; copy says 'opened', never 'paid'."
     }
   ]
 }

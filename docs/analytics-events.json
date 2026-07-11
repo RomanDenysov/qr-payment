@@ -7,17 +7,43 @@
         "currency": "EUR | CZK",
         "has_branding": "true if colors or center text differ from defaults",
         "has_logo": "true if a logo is set",
-        "fields_filled": "count of optional fields filled (0-6)"
+        "fields_filled": "count of optional fields filled (0-10)"
       },
-      "source": "features/payment/use-payment-generator.ts"
+      "source": "features/payment/hooks/use-payment-generator.ts"
     },
     "format_selected": {
       "description": "User switched the QR format (BySquare / EPC / SPAYD)",
-      "properties": { "format": "bysquare | epc | spayd" },
-      "source": "features/payment/components/payment-form-card.tsx"
+      "properties": {
+        "format": "bysquare | epc | spayd"
+      },
+      "source": "components/qr-generator-section.tsx"
+    },
+    "optional_field_toggled": {
+      "description": "User toggled an optional payment field on/off via the per-format Fields menu",
+      "properties": {
+        "format": "bysquare | epc | spayd",
+        "field": "paymentDueDate | invoiceId | bic | spaydReference | purposeCode",
+        "enabled": "true if the field was shown, false if hidden"
+      },
+      "source": "components/qr-generator-section.tsx"
+    },
+    "format_hint_accepted": {
+      "description": "User clicked the soft IBAN/format mismatch hint to switch format (hint never auto-switches; no *_shown counterpart by convention - no useEffect tracking)",
+      "properties": {
+        "from": "bysquare | spayd (format before the switch)",
+        "to": "bysquare | spayd (suggested format)"
+      },
+      "source": "components/qr-generator-section.tsx"
+    },
+    "form_validation_failed": {
+      "description": "Submit blocked by client-side validation - measures the EPC selection->generation drop-off (mandatory recipient name hypothesis)",
+      "properties": {
+        "format": "bysquare | epc | spayd",
+        "fields": "comma-joined sorted field names that failed validation"
+      },
+      "source": "components/qr-generator-section.tsx"
     }
   },
-
   "api": {
     "api_qr_generated": {
       "description": "QR code generated via the REST API",
@@ -29,7 +55,6 @@
       "source": "app/api/v1/qr/route.ts"
     }
   },
-
   "qr_actions": {
     "qr_downloaded": {
       "description": "User downloaded the generated QR code as PNG. Fired from both home preview and studio.",
@@ -54,7 +79,6 @@
       "source": "features/payment/components/qr-preview-card.tsx"
     }
   },
-
   "share_link": {
     "share_link_copied": {
       "description": "User copied the shareable payment link from the share dialog",
@@ -72,7 +96,6 @@
       "source": "app/[locale]/p/share-qr-section.tsx"
     }
   },
-
   "branding": {
     "logo_uploaded": {
       "description": "User uploaded a custom logo for the QR code center",
@@ -106,7 +129,9 @@
     },
     "qr_dot_style_changed": {
       "description": "User changed the QR code dot style",
-      "properties": { "style": "square | rounded | dots | classy-rounded" },
+      "properties": {
+        "style": "square | rounded | dots | classy-rounded"
+      },
       "source": "features/customizer/components/dot-style-selector.tsx"
     },
     "customizer_preset_applied": {
@@ -123,7 +148,6 @@
       "source": "features/payment/components/qr-preview-card.tsx"
     }
   },
-
   "history": {
     "history_entry_named": {
       "description": "User assigned a custom name to a payment history entry",
@@ -141,7 +165,6 @@
       "source": "components/history-sheet.tsx"
     }
   },
-
   "bulk": {
     "bulk_csv_uploaded": {
       "description": "User uploaded a CSV file for bulk QR generation",
@@ -154,7 +177,9 @@
     },
     "bulk_sample_csv_downloaded": {
       "description": "User downloaded the sample CSV template",
-      "properties": { "format": "bysquare | epc | spayd" },
+      "properties": {
+        "format": "bysquare | epc | spayd"
+      },
       "source": "features/bulk/components/bulk-upload-section.tsx"
     },
     "bulk_qr_generated": {
@@ -168,21 +193,26 @@
     },
     "bulk_exported_zip": {
       "description": "User exported bulk QR codes as a ZIP archive",
-      "properties": { "count": "number of QR codes" },
+      "properties": {
+        "count": "number of QR codes"
+      },
       "source": "features/bulk/components/bulk-results-section.tsx"
     },
     "bulk_exported_pdf": {
       "description": "User exported bulk QR codes as a PDF document",
-      "properties": { "count": "number of QR codes" },
+      "properties": {
+        "count": "number of QR codes"
+      },
       "source": "features/bulk/components/bulk-results-section.tsx"
     },
     "bulk_printed": {
       "description": "User printed bulk QR codes via browser print dialog",
-      "properties": { "count": "number of QR codes" },
+      "properties": {
+        "count": "number of QR codes"
+      },
       "source": "features/bulk/components/bulk-results-section.tsx"
     }
   },
-
   "feedback": {
     "feature_request_opened": {
       "description": "User opened the feature request / feedback dialog",
@@ -196,11 +226,12 @@
     },
     "feature_request_failed": {
       "description": "Feature request submission failed",
-      "properties": { "reason": "api-error | timeout | network-error" },
+      "properties": {
+        "reason": "api-error | timeout | network-error"
+      },
       "source": "features/feedback/send-feedback.ts"
     }
   },
-
   "misc": {
     "consent_banner_dismissed": {
       "description": "User dismissed the cookie/analytics consent banner",
@@ -209,12 +240,16 @@
     },
     "announcement_dismissed": {
       "description": "User dismissed the announcement banner",
-      "properties": { "id": "announcement id, e.g. api-styling-params" },
+      "properties": {
+        "id": "announcement id, e.g. api-styling-params"
+      },
       "source": "components/announcement-banner.tsx"
     },
     "announcement_changelog_clicked": {
       "description": "User clicked the 'Read changelog' link in the announcement banner",
-      "properties": { "id": "announcement id, e.g. api-styling-params" },
+      "properties": {
+        "id": "announcement id, e.g. api-styling-params"
+      },
       "source": "components/announcement-banner.tsx"
     }
   }
