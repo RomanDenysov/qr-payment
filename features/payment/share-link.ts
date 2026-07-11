@@ -22,6 +22,10 @@ interface CompactPayload {
   pn?: string;
   b?: string;
   c?: string;
+  dd?: string;
+  inv?: string;
+  rf?: string;
+  pc?: string;
   fg?: string;
   bg?: string;
   ct?: string;
@@ -50,6 +54,20 @@ function fromBase64Url(str: string): string {
   return atob(pad ? padded + "=".repeat(4 - pad) : padded);
 }
 
+/** Optional string payment fields -> their compact share-link keys. */
+const SHARE_STRING_FIELDS: [keyof PaymentFormData, keyof CompactPayload][] = [
+  ["variableSymbol", "vs"],
+  ["specificSymbol", "ss"],
+  ["constantSymbol", "ks"],
+  ["recipientName", "n"],
+  ["paymentNote", "pn"],
+  ["bic", "b"],
+  ["paymentDueDate", "dd"],
+  ["invoiceId", "inv"],
+  ["spaydReference", "rf"],
+  ["purposeCode", "pc"],
+];
+
 export function encodeShareData(
   payment: PaymentFormData,
   branding: ShareBranding
@@ -60,24 +78,14 @@ export function encodeShareData(
     ...(payment.amount && { a: payment.amount }),
   };
 
-  if (payment.variableSymbol) {
-    compact.vs = payment.variableSymbol;
+  const compactRecord = compact as unknown as Record<string, string>;
+  for (const [src, dest] of SHARE_STRING_FIELDS) {
+    const value = payment[src];
+    if (typeof value === "string" && value) {
+      compactRecord[dest] = value;
+    }
   }
-  if (payment.specificSymbol) {
-    compact.ss = payment.specificSymbol;
-  }
-  if (payment.constantSymbol) {
-    compact.ks = payment.constantSymbol;
-  }
-  if (payment.recipientName) {
-    compact.n = payment.recipientName;
-  }
-  if (payment.paymentNote) {
-    compact.pn = payment.paymentNote;
-  }
-  if (payment.bic) {
-    compact.b = payment.bic;
-  }
+
   if (payment.currency && payment.currency !== "EUR") {
     compact.c = payment.currency;
   }
@@ -134,6 +142,10 @@ export function decodeShareData(encoded: string): SharePayload | null {
         recipientName: compact.n,
         paymentNote: compact.pn,
         bic: compact.b,
+        paymentDueDate: compact.dd,
+        invoiceId: compact.inv,
+        spaydReference: compact.rf,
+        purposeCode: compact.pc,
       },
       branding: {
         fgColor: compact.fg ?? DEFAULT_FG,

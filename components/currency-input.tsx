@@ -1,8 +1,22 @@
 "use client";
 
+import { IconChevronDown } from "@tabler/icons-react";
 import { useState } from "react";
-import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput,
+} from "./ui/input-group";
 
 const CURRENCY_RE = /^[\d]*[,.]?[\d]{0,2}$/;
 const WHITESPACE_RE = /\s/g;
@@ -15,6 +29,8 @@ interface CurrencyInputProps {
   placeholder?: string;
   className?: string;
   ref?: React.Ref<HTMLInputElement>;
+  currencies?: string[];
+  onCurrencyChange?: (currency: string) => void;
 }
 
 export function CurrencyInput({
@@ -25,6 +41,8 @@ export function CurrencyInput({
   placeholder = "0,00",
   className,
   ref,
+  currencies = ["EUR", "CZK"],
+  onCurrencyChange,
 }: CurrencyInputProps) {
   const [inputValue, setInputValue] = useState("");
   const [isFocused, setIsFocused] = useState(false);
@@ -62,8 +80,8 @@ export function CurrencyInput({
   };
 
   return (
-    <div className="relative">
-      <Input
+    <InputGroup>
+      <InputGroupInput
         className={cn("pr-12", className)}
         id={id}
         inputMode="decimal"
@@ -75,9 +93,43 @@ export function CurrencyInput({
         type="text"
         value={isFocused ? inputValue : formatDisplay(value)}
       />
-      <span className="pointer-events-none absolute top-1/2 right-3 -translate-y-1/2 text-muted-foreground text-xs">
-        {currency}
-      </span>
-    </div>
+      <InputGroupAddon align="inline-end">
+        {onCurrencyChange && currencies.length > 1 ? (
+          <DropdownMenu>
+            <DropdownMenuTrigger
+              render={
+                <InputGroupButton className="pr-1.5! text-xs" variant="ghost">
+                  {currency}
+                  <IconChevronDown className="size-3" />
+                </InputGroupButton>
+              }
+            />
+            <DropdownMenuContent
+              align="end"
+              alignOffset={-4}
+              className="min-w-16"
+              sideOffset={8}
+            >
+              <DropdownMenuGroup>
+                <DropdownMenuRadioGroup
+                  onValueChange={onCurrencyChange}
+                  value={currency}
+                >
+                  {currencies.map((c) => (
+                    <DropdownMenuRadioItem key={c} value={c}>
+                      {c}
+                    </DropdownMenuRadioItem>
+                  ))}
+                </DropdownMenuRadioGroup>
+              </DropdownMenuGroup>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        ) : (
+          <span className="px-1.5 text-muted-foreground text-xs">
+            {currency}
+          </span>
+        )}
+      </InputGroupAddon>
+    </InputGroup>
   );
 }

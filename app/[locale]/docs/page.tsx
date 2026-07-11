@@ -84,7 +84,7 @@ export default async function DocsPage({ params }: Props) {
       <div className="mx-auto max-w-5xl">
         {/* Title */}
         <div className="space-y-2">
-          <h1 className="font-bold font-pixel text-foreground text-lg tracking-wide sm:text-xl">
+          <h1 className="font-bold font-pixel-grid text-foreground text-lg tracking-wide sm:text-xl">
             {t("title")}
           </h1>
           <p className="text-muted-foreground text-sm/relaxed">

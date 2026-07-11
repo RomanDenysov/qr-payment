@@ -40,22 +40,44 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { ShareOpenStats } from "@/features/payment/components/share-open-stats";
 import type { PaymentRecord } from "@/features/payment/schema";
 import { usePaymentActions, usePaymentHistory } from "@/features/payment/store";
 import { cn, formatAmount, maskIban } from "@/lib/utils";
+
+function EntryInfo({
+  entry,
+  formattedDate,
+}: {
+  entry: PaymentRecord;
+  formattedDate: string;
+}) {
+  return (
+    <div className="flex flex-col gap-0.5">
+      {entry.name ? (
+        <span className="font-medium">{entry.name}</span>
+      ) : (
+        formattedDate
+      )}
+      {(entry.format ?? "bysquare") === "epc" && (
+        <Badge className="w-fit" variant="outline">
+          EPC
+        </Badge>
+      )}
+      {entry.shareSecret ? (
+        <ShareOpenStats className="text-[0.65rem]" secret={entry.shareSecret} />
+      ) : null}
+    </div>
+  );
+}
 
 export function HistorySheet({ onOpen }: { onOpen?: () => void } = {}) {
   const [open, setOpen] = useState(false);
   const [namingId, setNamingId] = useState<string | null>(null);
   const [nameInput, setNameInput] = useState("");
   const history = usePaymentHistory();
-  const {
-    clearHistory,
-    loadFromStorage,
-    removeFromStorage,
-    nameEntry,
-    unnameEntry,
-  } = usePaymentActions();
+  const { clearHistory, loadFromStorage, removeFromStorage, nameEntry } =
+    usePaymentActions();
   const t = useTranslations("History");
   const locale = useLocale();
 
@@ -190,18 +212,10 @@ export function HistorySheet({ onOpen }: { onOpen?: () => void } = {}) {
                       }}
                     >
                       <TableCell className="align-middle text-xs tracking-tighter">
-                        <div className="flex flex-col gap-0.5">
-                          {entry.name ? (
-                            <span className="font-medium">{entry.name}</span>
-                          ) : (
-                            formatDate(entry.createdAt)
-                          )}
-                          {(entry.format ?? "bysquare") === "epc" && (
-                            <Badge className="w-fit" variant="outline">
-                              EPC
-                            </Badge>
-                          )}
-                        </div>
+                        <EntryInfo
+                          entry={entry}
+                          formattedDate={formatDate(entry.createdAt)}
+                        />
                       </TableCell>
                       <TableCell className="align-middle text-xs">
                         {maskIban(entry.iban)}
@@ -240,7 +254,7 @@ export function HistorySheet({ onOpen }: { onOpen?: () => void } = {}) {
                                 aria-label={t("unpin")}
                                 className="size-9 p-0"
                                 onClick={() => {
-                                  unnameEntry(entry.id);
+                                  nameEntry(entry.id, "");
                                   track("history_entry_unnamed");
                                 }}
                                 size="sm"

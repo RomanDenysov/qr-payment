@@ -13,6 +13,10 @@ interface QrPayloadInput {
   recipientName?: string;
   paymentNote?: string;
   bic?: string;
+  paymentDueDate?: string;
+  invoiceId?: string;
+  spaydReference?: string;
+  purposeCode?: string;
 }
 
 export function buildQrPayload(
@@ -30,6 +34,7 @@ export function buildQrPayload(
         beneficiaryName: data.recipientName ?? "",
         bic: data.bic ?? undefined,
         remittanceText: data.paymentNote ?? undefined,
+        purposeCode: data.purposeCode || undefined,
       }),
       errorCorrectionLevel: "M",
     };
@@ -48,6 +53,8 @@ export function buildQrPayload(
         recipientName: data.recipientName || undefined,
         paymentNote: data.paymentNote || undefined,
         bic: data.bic ?? undefined,
+        dueDate: data.paymentDueDate || undefined,
+        reference: data.spaydReference || undefined,
       }),
       errorCorrectionLevel: "M",
     };
@@ -57,10 +64,11 @@ export function buildQrPayload(
     type: PaymentOptions.PaymentOrder,
     ...(data.amount && { amount: data.amount }),
     currencyCode,
-    bankAccounts: [{ iban: cleanIban }],
+    bankAccounts: [{ iban: cleanIban, ...(data.bic && { bic: data.bic }) }],
     ...(data.variableSymbol && { variableSymbol: data.variableSymbol }),
     ...(data.specificSymbol && { specificSymbol: data.specificSymbol }),
     ...(data.constantSymbol && { constantSymbol: data.constantSymbol }),
+    ...(data.paymentDueDate && { paymentDueDate: data.paymentDueDate }),
     ...(data.paymentNote && { paymentNote: data.paymentNote }),
     ...(data.recipientName && {
       beneficiary: { name: data.recipientName },
@@ -68,7 +76,10 @@ export function buildQrPayload(
   };
 
   return {
-    payload: encode({ payments: [payment] }),
+    payload: encode({
+      ...(data.invoiceId && { invoiceId: data.invoiceId }),
+      payments: [payment],
+    }),
     errorCorrectionLevel: "H",
   };
 }

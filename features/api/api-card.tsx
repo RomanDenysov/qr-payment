@@ -49,7 +49,7 @@ export function ApiCard() {
       <div className="space-y-4 px-4 py-4">
         <div className="space-y-1">
           <h2
-            className="font-bold font-pixel text-xl tracking-wide sm:text-2xl"
+            className="font-bold font-pixel-grid text-xl tracking-wide sm:text-2xl"
             itemProp="name"
           >
             {t("title")}

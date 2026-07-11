@@ -45,14 +45,14 @@ export function AnnouncementBanner() {
   };
 
   return (
-    <div className="fade-in-0 slide-in-from-top-2 sticky top-16 z-30 animate-in bg-card px-4 py-2 ring-1 ring-foreground/10 duration-200 ease-out">
-      <div className="container mx-auto flex max-w-5xl items-center justify-between gap-3">
-        <p className="text-foreground/80 text-xs">
+    <div className="fade-in-0 slide-in-from-top-0 sticky top-0 z-30 min-h-9 animate-in bg-brand py-2 ring-1 ring-foreground/10 duration-200 ease-out">
+      <div className="mx-auto flex h-full items-center justify-between gap-3.5 px-2 md:px-4">
+        <p className="font-medium text-brand-foreground text-xs">
           {t("message")}{" "}
           <Link
             className={cn(
               linkVariants({ variant: "muted", size: "sm" }),
-              "whitespace-nowrap"
+              "whitespace-nowrap font-semibold text-brand-foreground dark:text-brand-foreground"
             )}
             href="/changelog"
             onClick={handleChangelogClick}
@@ -62,11 +62,11 @@ export function AnnouncementBanner() {
         </p>
         <button
           aria-label={t("close")}
-          className="shrink-0 text-muted-foreground transition-colors hover:text-foreground"
+          className="shrink-0 text-brand-foreground transition-colors hover:text-foreground"
           onClick={handleDismiss}
           type="button"
         >
-          <IconX className="size-3.5" />
+          <IconX className="size-5" />
         </button>
       </div>
     </div>

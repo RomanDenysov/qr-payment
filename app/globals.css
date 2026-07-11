@@ -9,7 +9,8 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-mono);
   --font-mono: var(--font-geist-mono);
-  --font-pixel: var(--font-geist-pixel-square);
+  --font-pixel-square: var(--font-geist-pixel-square);
+  --font-pixel-grid: var(--font-geist-pixel-grid);
   --color-chart-5: var(--chart-5);
   --color-chart-4: var(--chart-4);
   --color-chart-3: var(--chart-3);
@@ -46,6 +47,14 @@
   --animate-qr-reveal: qr-reveal 300ms cubic-bezier(0.215, 0.61, 0.355, 1);
   --animate-shimmer: shimmer 1.6s linear infinite;
   --animate-shake: shake 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --color-brand: var(--brand);
+  --color-brand-foreground: var(--brand-foreground);
+  --color-brand-hover: var(--brand-hover);
+  --color-brand-active: var(--brand-active);
+  --color-brand-muted: var(--brand-muted);
+  --color-brand-subtle: var(--brand-subtle);
+  --color-brand-bg: var(--brand-bg);
+  --animate-spin-reverse: spin 2s linear infinite reverse;
 }
 
 :root {
@@ -65,7 +74,7 @@
   --accent-foreground: oklch(0.205 0 0);
   --destructive: oklch(0.58 0.22 27);
   --success: oklch(0.62 0.17 145);
-  --warning: oklch(0.72 0.17 75);
+  --warning: oklch(0.78 0.16 85);
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
   --ring: oklch(0.708 0 0);
@@ -75,6 +84,14 @@
   --chart-4: oklch(0.488 0.243 264.376);
   --chart-5: oklch(0.424 0.199 265.638);
   --radius: 0.625rem;
+  /* Brand — warm orange */
+  --brand: oklch(0.72 0.17 47); /* #FF8237 primary */
+  --brand-foreground: oklch(0.3 0.07 40); /* #4A1B0C dark text on orange */
+  --brand-hover: oklch(0.67 0.17 45); /* slightly darker for hover */
+  --brand-active: oklch(0.62 0.16 43); /* pressed */
+  --brand-muted: oklch(0.8 0.12 55); /* #FFAA6E secondary fills */
+  --brand-subtle: oklch(0.88 0.07 65); /* #FFD3A5 badges, soft bg */
+  --brand-bg: oklch(0.96 0.03 70); /* very soft tint for section bg */
 }
 
 .dark {
@@ -94,7 +111,7 @@
   --accent-foreground: oklch(0.985 0 0);
   --destructive: oklch(0.704 0.191 22.216);
   --success: oklch(0.74 0.16 145);
-  --warning: oklch(0.8 0.16 75);
+  --warning: oklch(0.83 0.15 88);
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.556 0 0);
@@ -103,6 +120,14 @@
   --chart-3: oklch(0.546 0.245 262.881);
   --chart-4: oklch(0.488 0.243 264.376);
   --chart-5: oklch(0.424 0.199 265.638);
+  /* Brand — warm orange (toned down for dark) */
+  --brand: oklch(0.7 0.16 47);
+  --brand-foreground: oklch(0.25 0.06 40);
+  --brand-hover: oklch(0.74 0.16 48); /* lighter on hover in dark */
+  --brand-active: oklch(0.66 0.15 45);
+  --brand-muted: oklch(0.62 0.11 50);
+  --brand-subtle: oklch(0.45 0.08 50); /* darker subtle fill for dark */
+  --brand-bg: oklch(0.28 0.05 50);
 }
 
 @page {
@@ -189,6 +214,37 @@
   }
 }
 
+/* Single brief blink. Squares stay lit for almost the whole (long) cycle and
+   flick off once — only a narrow window is dimmed, so few are off at any time. */
+@keyframes pixel-flicker {
+  0%,
+  48%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.12;
+  }
+  52% {
+    opacity: 1;
+  }
+}
+
+/* A subset of squares flash the brand color once per cycle instead of dimming. */
+@keyframes pixel-glow {
+  0%,
+  48%,
+  100% {
+    fill: currentColor;
+  }
+  50% {
+    fill: var(--brand);
+  }
+  52% {
+    fill: currentColor;
+  }
+}
+
 @keyframes shimmer {
   0% {
     background-position: -200% 0;
@@ -210,6 +266,17 @@
   40%,
   80% {
     transform: translateX(3px);
+  }
+}
+
+/* Diagonal brand stripes sliding across a button on hover.
+   Period along the 45° axis is 8px, so a horizontal shift of 8 * √2
+   (≈11.314px) advances the pattern exactly one period for a seamless loop.
+   Slides via transform (GPU-composited, no per-frame gradient re-raster) to
+   keep the diagonals crisp while moving. */
+@keyframes btn-stripes-slide {
+  to {
+    transform: translateX(11.314px);
   }
 }
 
@@ -285,4 +352,75 @@
       oklch(0 0 0 / 30%) 100%
     );
   }
+}
+
+/* Outside @layer so Tailwind v4 never tree-shakes these (dev HMR can miss
+   @layer base rules until a full rebuild when classes are only in TS strings). */
+
+/* Drafting board — faint construction grid */
+.bg-drafting-grid {
+  background-image:
+    linear-gradient(to right, oklch(0.72 0.17 47 / 12%) 1px, transparent 1px),
+    linear-gradient(to bottom, oklch(0.72 0.17 47 / 12%) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.dark .bg-drafting-grid {
+  background-image:
+    linear-gradient(to right, oklch(0.7 0.16 47 / 18%) 1px, transparent 1px),
+    linear-gradient(to bottom, oklch(0.7 0.16 47 / 18%) 1px, transparent 1px);
+}
+
+.terminal-cursor::after {
+  content: "▋";
+  animation: blink 1s step-end infinite;
+  margin-left: 1px;
+  color: var(--brand);
+}
+
+/* Pixel-grid title squares. Delay + duration are set inline per <rect>. */
+.qr-pixel {
+  fill: currentColor;
+}
+
+.qr-pixel--flicker {
+  animation-name: pixel-flicker;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.qr-pixel--glow {
+  animation-name: pixel-glow;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+/* Diagonal hatch sliding across the brand CTA on hover. ::after sits above the
+   button background (z-index:-1 within isolation:isolate) but below label/icon. */
+.btn-stripes {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.btn-stripes::after {
+  content: "";
+  position: absolute;
+  inset: 0 -16px;
+  z-index: -1;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    45deg,
+    var(--brand-foreground) 0,
+    var(--brand-foreground) 1.5px,
+    transparent 2.5px,
+    transparent 8px
+  );
+  opacity: 0;
+  transition: opacity 200ms var(--ease-out-quad);
+}
+
+.btn-stripes:hover::after {
+  opacity: 0.22;
+  animation: btn-stripes-slide 1.2s linear infinite;
 }

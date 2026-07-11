@@ -11,7 +11,7 @@ interface FormatTile {
 }
 
 const SECTION_HEADING_CLASS =
-  "font-bold font-pixel text-foreground text-lg tracking-wide sm:text-xl";
+  "font-bold font-pixel-grid text-foreground text-lg tracking-wide sm:text-xl";
 
 interface BankColumnProps {
   title: string;
@@ -82,7 +82,7 @@ export async function HomeContentSections() {
               className="flex gap-3 bg-card p-4 ring-1 ring-foreground/10"
               key={step}
             >
-              <span className="font-bold font-pixel text-base text-muted-foreground/50 tabular-nums">
+              <span className="font-bold font-pixel-grid text-base text-muted-foreground/50 tabular-nums">
                 {String(index + 1).padStart(2, "0")}
               </span>
               <span className="text-muted-foreground text-sm/relaxed">
@@ -118,6 +118,20 @@ export async function HomeMoreTools() {
         {t("section4MoreLinksTitle")}
       </h3>
       <div className="flex flex-wrap items-center gap-3">
+        <Link
+          className={linkVariants({ size: "sm", variant: "muted" })}
+          href="/ako-vytvorit-qr-kod-na-platbu"
+        >
+          {t("section4GuideLink")}
+        </Link>
+        <span className="text-muted-foreground text-xs">•</span>
+        <Link
+          className={linkVariants({ size: "sm", variant: "muted" })}
+          href="/sepa-qr-code-generator"
+        >
+          {t("section4SepaLink")}
+        </Link>
+        <span className="text-muted-foreground text-xs">•</span>
         <Link
           className={linkVariants({ size: "sm", variant: "muted" })}
           href="/studio"

@@ -1,5 +1,5 @@
 import { GeistMono } from "geist/font/mono";
-import { GeistPixelSquare } from "geist/font/pixel";
+import { GeistPixelGrid, GeistPixelSquare } from "geist/font/pixel";
 import { getLocale, getTranslations } from "next-intl/server";
 
 import "./globals.css";
@@ -13,7 +13,7 @@ export default async function RootLayout({
 
   return (
     <html
-      className={`dark ${GeistMono.variable} ${GeistPixelSquare.variable}`}
+      className={`dark ${GeistMono.variable} ${GeistPixelGrid.variable} ${GeistPixelSquare.variable}`}
       lang={locale}
       suppressHydrationWarning
     >
@@ -21,10 +21,11 @@ export default async function RootLayout({
         <link href="https://va.vercel-scripts.com" rel="dns-prefetch" />
         <link href="/openapi.json" rel="describedby" type="application/json" />
       </head>
-      <body className="container relative mx-auto flex min-h-screen max-w-5xl flex-col px-2 tracking-tight md:px-4">
+      <body className="relative min-h-screen tracking-tight">
         <SkipLink />
         {children}
         <script
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD structured data requires script injection
           dangerouslySetInnerHTML={{
             __html:
               'if("serviceWorker"in navigator)navigator.serviceWorker.register("/sw.js")',

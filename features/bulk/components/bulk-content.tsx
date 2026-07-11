@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { customizerToBranding } from "@/features/customizer/branding-bridge";
 import { useCustomizerConfig } from "@/features/customizer/store";
 import { FORMAT_LABELS } from "@/features/payment/format";
+import { pingStats } from "@/lib/stats-ping";
 import { generateBulkQR } from "../bulk-generator";
 import {
   useBulkActions,
@@ -67,6 +68,9 @@ export function BulkContent() {
         errors: qrErrors.length,
         format: detectedFormat,
       });
+      if (qrs.length > 0) {
+        pingStats(qrs.length);
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : t("generateError"));
     } finally {

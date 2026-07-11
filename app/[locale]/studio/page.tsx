@@ -38,7 +38,7 @@ export default async function StudioPage({ params }: Props) {
     <div className="flex-1 pt-5 sm:pt-8 md:pt-12">
       <div className="mx-auto max-w-6xl space-y-6">
         <header className="space-y-2">
-          <h1 className="font-bold font-pixel text-foreground text-lg tracking-wide sm:text-xl">
+          <h1 className="font-bold font-pixel-grid text-foreground text-lg tracking-wide sm:text-xl">
             {t("title")}
           </h1>
           <p className="max-w-2xl text-muted-foreground text-sm">

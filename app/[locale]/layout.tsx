@@ -1,8 +1,8 @@
 import { Analytics } from "@vercel/analytics/next";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { AnnouncementBanner } from "@/components/announcement-banner";
 import { Background } from "@/components/background";
 import { ConsentBanner } from "@/components/consent-banner";
 import { Footer } from "@/components/footer";
@@ -32,7 +32,7 @@ export async function generateMetadata({
   params,
 }: {
   params: Promise<{ locale: string }>;
-}) {
+}): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "Metadata" });
 
@@ -68,7 +68,7 @@ export async function generateMetadata({
           alt: t("title"),
         },
       ],
-      alternateLocales: getAlternateOgLocales(locale),
+      alternateLocale: getAlternateOgLocales(locale),
     },
     twitter: {
       card: "summary_large_image" as const,
@@ -126,7 +126,6 @@ export default async function LocaleLayout({ children, params }: Props) {
         enableSystem
       >
         <Header />
-        <AnnouncementBanner />
         <main id="main-content">{children}</main>
         <JsonLd />
         <Footer />

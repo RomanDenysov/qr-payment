@@ -1,10 +1,10 @@
 {
   "Metadata": {
-    "title": "PAY by square Generator - Free QR Code for Slovak & Czech Bank Payments",
+    "title": "SEPA QR Code Generator - Free IBAN Payment QR Codes",
     "titleTemplate": "{title} | QR Platby",
-    "description": "Free online PAY by square QR code generator. Create payment QR codes for Slovak and Czech banks instantly. Also supports EPC QR and SPAYD. No registration.",
-    "ogDescription": "Generate PAY by square QR codes for free. Create payment QR codes for Slovak and Czech banks. Custom colors, logo, and text. Also supports EPC QR and SPAYD.",
-    "twitterDescription": "Free PAY by square QR code generator for Slovak and Czech bank payments. Also supports EPC QR & SPAYD.",
+    "description": "Create a SEPA payment QR code from any IBAN in seconds. Free, no signup, works with EU, Slovak and Czech banking apps. EPC QR, PAY by square and SPAYD.",
+    "ogDescription": "Create SEPA and IBAN payment QR codes for free. Works with EU, Slovak and Czech banking apps. Custom colors, logo, and text. EPC QR, PAY by square and SPAYD.",
+    "twitterDescription": "Free SEPA QR code generator for IBAN payments. EPC QR, PAY by square & SPAYD for EU, Slovak and Czech banks.",
     "keywords": "QR code, payment, bank transfer, BySquare, PAY by square, EPC QR, SEPA, IBAN, Slovakia, Czech, QR code generator, Slovak banks, Czech banks, payment QR code, free, online payment, SPAYD, CZK",
     "bulkTitle": "Bulk QR Code Generation for Payments",
     "bulkDescription": "Bulk QR code generation for bank transfers from a CSV file. Download as ZIP or PDF.",
@@ -14,7 +14,11 @@
     "termsDescription": "Terms of use for the QR Payments application.",
     "faqTitle": "Frequently Asked Questions",
     "faqDescription": "Answers to the most common questions about the QR code payment generator.",
-    "homeH1": "PAY by square Generator - Free Payment QR Codes for Slovak & Czech Banks",
+    "guideTitle": "How to Create a Payment QR Code - Step-by-Step Guide",
+    "guideDescription": "Create a payment QR code from an IBAN for free, in seconds. Step-by-step guide, no signup, works with EU, Slovak and Czech banking apps. EPC QR included.",
+    "sepaTitle": "SEPA QR Code Generator (EPC QR) - Free, No Signup",
+    "sepaDescription": "Generate an EPC QR code for SEPA euro transfers from any IBAN. Free, no signup. Scannable by banking apps in Germany, Austria and across the eurozone.",
+    "homeH1": "Payment QR Code Generator for SEPA, Slovak & Czech Banks",
     "homeDescription": "Just IBAN and amount. Your customer scans and pays with a single click. No signup, no fees.",
     "sectionApi": "REST API for QR Code Generation",
     "backToHome": "Back to home page",
@@ -68,7 +72,7 @@
     "amount": "Amount",
     "amountPlaceholder": "0.00",
     "recipientName": "Recipient Name",
-    "recipientNameRequired": "Recipient Name *",
+    "recipientNameRequired": "Recipient Name*",
     "recipientNamePlaceholder": "Recipient Name",
     "note": "Note",
     "notePlaceholder": "Payment note",
@@ -79,6 +83,18 @@
     "vs": "VS",
     "ss": "SS",
     "ks": "KS",
+    "dueDate": "Due date",
+    "invoiceId": "Invoice number",
+    "invoiceIdPlaceholder": "Invoice no.",
+    "spaydReference": "Reference",
+    "spaydReferencePlaceholder": "1234567890",
+    "purposeCode": "Purpose code",
+    "purposeCodePlaceholder": "e.g. GDDS",
+    "optionalFields": {
+      "menu": "Fields",
+      "menuAria": "Add optional fields",
+      "title": "Add fields"
+    },
     "clear": "Clear",
     "generate": "Generate QR",
     "noHistoryResults": "No results from history",
@@ -87,7 +103,9 @@
       "bysquare": "Slovak banking standard",
       "epc": "European SEPA standard",
       "spayd": "Czech banking standard (SPAYD)"
-    }
+    },
+    "formatHint": "This IBAN is usually paired with {format}.",
+    "formatHintSwitch": "Switch to {format}"
   },
   "Validation": {
     "ibanRequired": "IBAN is required",
@@ -99,6 +117,8 @@
     "max70chars": "Max 70 characters",
     "max140chars": "Max 140 characters",
     "max11chars": "Max 11 characters",
+    "max16chars": "Max 16 characters",
+    "dueDateInvalid": "Invalid date",
     "recipientRequired": "Recipient name is required for EPC QR",
     "bicInvalid": "BIC must be 8 or 11 characters",
     "epcMaxAmount": "Max amount for EPC QR is 999,999,999.99 €",
@@ -326,7 +346,9 @@
     "copied": "Link copied",
     "copyFailed": "Failed to copy link",
     "logoNotice": "The logo won't appear in the shared link. The recipient's QR code will be displayed without it.",
-    "hint": "The recipient will see a page with the QR code, which they can scan using their banking app."
+    "hint": "The recipient will see a page with the QR code, which they can scan using their banking app.",
+    "openedCount": "Opened {count}×",
+    "lastOpened": "last {time}"
   },
   "SharePage": {
     "title": "QR Code Payment",
@@ -529,8 +551,133 @@
       "MONETA"
     ],
     "section4MoreLinksTitle": "More tools",
+    "section4GuideLink": "How to create a payment QR code",
+    "section4SepaLink": "SEPA QR code generator",
     "section4StudioLink": "Advanced QR editor",
     "section4BulkLink": "Bulk generation"
+  },
+  "Stats": {
+    "totalLabel": "QR codes generated",
+    "monthLabel": "this month",
+    "apiLabel": "API requests",
+    "fallbackValue": "3 formats · 16 banks",
+    "fallbackLabel": "PAY by square, SPAYD & EPC QR",
+    "caption": "Anonymous counters - we never see your payment data."
+  },
+  "Sepa": {
+    "h1": "SEPA QR Code Generator (EPC QR) - Free, No Signup",
+    "intro1": "Create an EPC QR code (also called a SEPA QR code) for euro bank transfers in seconds: enter the IBAN, recipient name and amount, click Generate, and share or print the code. The payer scans it with their banking app and the transfer is pre-filled.",
+    "intro2": "The generator is free, requires no signup, and your payment data never leaves your browser.",
+    "heroButton": "Generate an EPC QR code",
+    "whatTitle": "What is an EPC QR code?",
+    "whatText1": "EPC QR is the European Payments Council standard for SEPA credit transfers. The code encodes the recipient's IBAN and name, the amount in euros, an optional BIC and a payment reference or note - everything a banking app needs to pre-fill the transfer after one scan.",
+    "whatText2": "EPC QR codes work for euro transfers only. For Czech koruna payments use the SPAYD format, and for Slovak accounts PAY by square is the native choice - this generator supports all three.",
+    "banksTitle": "Which banking apps scan EPC QR codes?",
+    "banksText": "EPC QR is widely supported in Germany and Austria, where it appears in banking apps as GiroCode or 'Zahlen mit Code', and by a growing number of apps across the eurozone - Belgium, Finland, the Netherlands, Slovakia and elsewhere. Support varies by bank, so if you are unsure, generate a test code and scan it with your app.",
+    "guideLinkLabel": "Step-by-step guide: How to create a payment QR code",
+    "ctaTitle": "Create your SEPA QR code",
+    "ctaText": "Free, no signup, EUR transfers to any IBAN in the SEPA area.",
+    "ctaButton": "Open the generator",
+    "faqTitle": "Frequently asked questions",
+    "faq": [
+      {
+        "question": "Is the SEPA QR code generator free?",
+        "answer": "Yes, completely free with no limit on the number of codes and no signup. The QR code is generated in your browser and your data is never sent to a server."
+      },
+      {
+        "question": "What data does an EPC QR code contain?",
+        "answer": "The recipient's IBAN and name, the amount in euros, and optionally a BIC and a payment reference or note. The amount can be left empty so the payer fills it in."
+      },
+      {
+        "question": "Does my bank's app support EPC QR codes?",
+        "answer": "In Germany and Austria support is nearly universal (look for GiroCode or 'Zahlen mit Code' in the app). Elsewhere in the eurozone support is growing but varies by bank - the quickest check is to scan a test code with your app."
+      },
+      {
+        "question": "Can I use an EPC QR code for non-euro payments?",
+        "answer": "No, the EPC standard is euro-only. For Czech koruna payments switch the generator to SPAYD, and for Slovak accounts use PAY by square."
+      },
+      {
+        "question": "What is the difference between EPC QR, PAY by square and SPAYD?",
+        "answer": "All three encode a bank transfer in a QR code. EPC QR is the European SEPA standard, PAY by square is the Slovak standard and SPAYD is the Czech standard. Pick the format the recipient's bank understands - this generator supports all three."
+      }
+    ]
+  },
+  "Guide": {
+    "h1": "How to Create a Payment QR Code",
+    "intro1": "You can create a payment QR code for free in a few seconds: enter the IBAN and amount in the generator, click Generate, then download the QR code or let it be scanned straight off the screen. No signup, no installation - just your browser.",
+    "intro2": "The banking app reads all payment details from the code - IBAN, amount, payment reference and note - and pre-fills the transfer. The payer just confirms it. No more retyping account numbers and no typos.",
+    "stepsTitle": "Creating a QR code step by step",
+    "steps": [
+      {
+        "name": "Enter the IBAN",
+        "text": "Paste the IBAN of the account that should receive the payment. The generator detects the bank and validates the format automatically."
+      },
+      {
+        "name": "Add the amount and references",
+        "text": "The amount is optional - leave it empty to create a static QR code where the payer fills it in. Add a payment reference or invoice number if you need to match the payment later."
+      },
+      {
+        "name": "Choose the format",
+        "text": "Use EPC QR (SEPA) for euro transfers across the EU. Use PAY by square for Slovak banks and SPAYD for Czech banks."
+      },
+      {
+        "name": "Generate the QR code",
+        "text": "Click Generate. The QR code is created directly in your browser - your payment details are never sent to a server."
+      },
+      {
+        "name": "Download or share",
+        "text": "Download the QR code as an image, copy it to the clipboard, or let it be scanned straight off the screen. Put it on an invoice, in an email or on a poster."
+      }
+    ],
+    "formatsTitle": "Which QR code format to choose",
+    "formatsIntro": "Each country uses its own payment QR code standard. The generator supports all three major formats:",
+    "formats": [
+      {
+        "name": "EPC QR",
+        "region": "EU / SEPA",
+        "description": "The European standard for euro SEPA transfers. Supported by banking apps in Germany, Austria, the Netherlands and most of the eurozone."
+      },
+      {
+        "name": "PAY by square",
+        "region": "Slovakia",
+        "description": "The Slovak standard, scanned by every Slovak banking app. The first choice for payments to a Slovak account."
+      },
+      {
+        "name": "SPAYD",
+        "region": "Czechia",
+        "description": "The Czech QR payment standard, supported by all Czech banks. Choose it for payments to a Czech account."
+      }
+    ],
+    "ctaTitle": "Create your payment QR code",
+    "ctaText": "The generator is free, requires no signup, and all data stays in your browser.",
+    "ctaButton": "Open the generator",
+    "faqTitle": "Frequently asked questions",
+    "faq": [
+      {
+        "question": "Is it free to create a QR code?",
+        "answer": "Yes, the generator is completely free with no limit on the number of QR codes. No signup or installation required."
+      },
+      {
+        "question": "Do I need to install anything?",
+        "answer": "No. The generator runs directly in your browser on desktop and mobile. To scan the code, the payer just needs their regular banking app."
+      },
+      {
+        "question": "Does it work with my bank?",
+        "answer": "EPC QR is supported by most European banking apps in the eurozone, PAY by square by all Slovak banks and SPAYD by all Czech banks."
+      },
+      {
+        "question": "Can I create a QR code without an amount?",
+        "answer": "Yes. Leave the amount empty to create a static QR code - the payer enters the amount themselves. Useful for donations or recurring payments with varying amounts."
+      },
+      {
+        "question": "What is an EPC QR code?",
+        "answer": "EPC QR (also called a SEPA QR code) is the European Payments Council standard for euro credit transfers. It encodes the IBAN, amount, recipient name and note in a single scannable code."
+      },
+      {
+        "question": "Is my payment data safe?",
+        "answer": "Yes. The QR code is generated directly in your browser and your data never leaves your device. Nothing is stored on a server."
+      }
+    ]
   },
   "JsonLd": {
     "howTo": {

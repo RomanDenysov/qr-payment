@@ -13,8 +13,8 @@ export function SectionHeading({
 }: SectionHeadingProps) {
   const className =
     Tag === "h2"
-      ? "group scroll-mt-20 font-bold font-pixel text-base tracking-wide sm:text-lg"
-      : "group scroll-mt-20 font-bold font-pixel text-sm tracking-wide sm:text-base";
+      ? "group scroll-mt-20 font-bold font-pixel-grid text-base tracking-wide sm:text-lg"
+      : "group scroll-mt-20 font-bold font-pixel-grid text-sm tracking-wide sm:text-base";
 
   return (
     <Tag className={className} id={id}>

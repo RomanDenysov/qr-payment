@@ -4,6 +4,23 @@ import z from "zod";
 
 const DIGITS_RE = /^\d*$/;
 const HEX_COLOR_RE = /^#(?:[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/;
+const BIC_RE = /^[A-Z]{4}[A-Z]{2}[A-Z0-9]{2}([A-Z0-9]{3})?$/i;
+const ISO_DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+
+/**
+ * Optional payment fields and the formats that support them. Fields sent for a
+ * format not listed here are rejected (see superRefine). `bic` is valid for all
+ * formats, so it is not listed.
+ */
+const FIELD_FORMATS: Record<string, readonly QrRequest["paymentFormat"][]> = {
+  variableSymbol: ["bysquare", "spayd"],
+  specificSymbol: ["bysquare", "spayd"],
+  constantSymbol: ["bysquare", "spayd"],
+  paymentDueDate: ["bysquare", "spayd"],
+  invoiceId: ["bysquare"],
+  spaydReference: ["spayd"],
+  purposeCode: ["epc"],
+};
 
 export const qrRequestSchema = z
   .object({
@@ -55,6 +72,27 @@ export const qrRequestSchema = z
       .string()
       .max(140, "Payment note must be at most 140 characters")
       .optional(),
+    bic: z.string().regex(BIC_RE, "BIC must be 8 or 11 characters").optional(),
+    paymentDueDate: z
+      .string()
+      .regex(ISO_DATE_RE, "Payment due date must be in YYYY-MM-DD format")
+      .optional(),
+    invoiceId: z
+      .string()
+      .max(10, "Invoice ID must be at most 10 characters")
+      .optional(),
+    spaydReference: z
+      .string()
+      .max(16, "SPAYD reference must be at most 16 characters")
+      .refine(
+        (val) => DIGITS_RE.test(val),
+        "SPAYD reference must be digits only"
+      )
+      .optional(),
+    purposeCode: z
+      .string()
+      .max(4, "Purpose code must be at most 4 characters")
+      .optional(),
     format: z.enum(["png", "svg"]).default("png"),
     size: z
       .number()
@@ -80,32 +118,31 @@ export const qrRequestSchema = z
     errorCorrectionLevel: z.enum(["L", "M", "Q", "H"]).optional(),
   })
   .superRefine((data, ctx) => {
-    if (data.paymentFormat !== "epc") {
-      return;
-    }
-    if (data.currency !== "EUR") {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: "EPC format only supports EUR currency",
-        path: ["currency"],
-      });
-    }
-    if (!data.recipientName?.trim()) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: "EPC format requires recipient name",
-        path: ["recipientName"],
-      });
-    }
-    for (const field of [
-      "variableSymbol",
-      "specificSymbol",
-      "constantSymbol",
-    ] as const) {
-      if (data[field]) {
+    if (data.paymentFormat === "epc") {
+      if (data.currency !== "EUR") {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
-          message: `EPC format does not support ${field}`,
+          message: "EPC format only supports EUR currency",
+          path: ["currency"],
+        });
+      }
+      if (!data.recipientName?.trim()) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "EPC format requires recipient name",
+          path: ["recipientName"],
+        });
+      }
+    }
+
+    for (const [field, formats] of Object.entries(FIELD_FORMATS)) {
+      if (
+        data[field as keyof typeof data] &&
+        !formats.includes(data.paymentFormat)
+      ) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: `${field} is not supported for ${data.paymentFormat} format`,
           path: [field],
         });
       }

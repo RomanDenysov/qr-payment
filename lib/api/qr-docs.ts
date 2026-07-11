@@ -46,12 +46,36 @@ export const apiDocs = {
         type: "string",
         description: "Up to 140 characters",
       },
+      bic: {
+        type: "string",
+        description:
+          "BIC/SWIFT code (8 or 11 characters). Supported by all formats.",
+      },
+      paymentDueDate: {
+        type: "string",
+        description:
+          "Payment due date in YYYY-MM-DD format. Supported by bysquare and spayd only.",
+      },
+      invoiceId: {
+        type: "string",
+        description: "Invoice number, up to 10 characters. bysquare only.",
+      },
+      spaydReference: {
+        type: "string",
+        description:
+          "SPAYD recipient reference (RF), up to 16 digits. spayd only.",
+      },
+      purposeCode: {
+        type: "string",
+        description:
+          "SEPA purpose code (AT-44), up to 4 characters (e.g. GDDS). epc only.",
+      },
       paymentFormat: {
         type: "string",
         enum: ["bysquare", "spayd", "epc"],
         default: "bysquare",
         description:
-          "Payment QR format. bysquare for Slovak banks, spayd for Czech banks, epc for EU SEPA payments. Note: EPC does not support variableSymbol, specificSymbol, or constantSymbol.",
+          "Payment QR format. bysquare for Slovak banks, spayd for Czech banks, epc for EU SEPA payments. A field sent for a format that doesn't support it is rejected: EPC does not support variableSymbol, specificSymbol, constantSymbol, paymentDueDate, invoiceId, or spaydReference; invoiceId is bysquare-only; spaydReference is spayd-only; purposeCode is epc-only.",
       },
       format: {
         type: "string",
@@ -124,6 +148,9 @@ export const apiDocs = {
   -d '{"iban":"CZ6508000000192000145399","amount":480.50,"currency":"CZK","paymentFormat":"spayd","variableSymbol":"1234567890"}'`,
     curlEpc: `curl -X POST https://qr-platby.com/api/v1/qr \\
   -H "Content-Type: application/json" \\
-  -d '{"iban":"DE89370400440532013000","amount":100,"paymentFormat":"epc","recipientName":"Max Mustermann"}'`,
+  -d '{"iban":"DE89370400440532013000","amount":100,"paymentFormat":"epc","recipientName":"Max Mustermann","purposeCode":"GDDS"}'`,
+    curlDueDate: `curl -X POST https://qr-platby.com/api/v1/qr \\
+  -H "Content-Type: application/json" \\
+  -d '{"iban":"SK3112000000198742637541","amount":25.50,"variableSymbol":"2024001","paymentDueDate":"2026-12-31","invoiceId":"2024001"}'`,
   },
 };

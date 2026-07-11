@@ -1,6 +1,6 @@
 import { track } from "@vercel/analytics/server";
 import type { CurrencyCode } from "bysquare";
-import { type NextRequest, NextResponse } from "next/server";
+import { after, type NextRequest, NextResponse } from "next/server";
 import { EpcPayloadTooLargeError } from "@/features/payment/epc-encoder";
 import { InvalidIBANError } from "@/features/payment/qr-generator";
 import { generatePaymentQRServer } from "@/features/payment/qr-generator.server";
@@ -18,6 +18,7 @@ import {
   getClientIp,
   MINUTE_LIMIT,
 } from "@/lib/api/rate-limiter";
+import { incrementApiStats } from "@/lib/api/stats";
 
 export const runtime = "nodejs";
 
@@ -33,7 +34,7 @@ export function GET() {
   });
 }
 
-export { corsOptions as OPTIONS };
+export const OPTIONS = corsOptions;
 
 export async function POST(req: NextRequest) {
   const ip = getClientIp(req);
@@ -104,7 +105,7 @@ export async function POST(req: NextRequest) {
             path: issue.path.join("."),
             message: issue.message,
           })),
-          hint: "Required: iban (string). Optional: amount (number), currency (EUR|CZK), variableSymbol, specificSymbol, constantSymbol, recipientName, paymentNote, paymentFormat (bysquare|spayd|epc), format (png|svg), size (100-1000), darkColor (#RRGGBB or #RRGGBBAA), lightColor (#RRGGBB or #RRGGBBAA), margin (0-10), errorCorrectionLevel (L|M|Q|H).",
+          hint: "Required: iban (string). Optional: amount (number), currency (EUR|CZK), variableSymbol, specificSymbol, constantSymbol, recipientName, paymentNote, bic, paymentDueDate (YYYY-MM-DD; bysquare/spayd), invoiceId (bysquare), spaydReference (spayd, digits), purposeCode (epc), paymentFormat (bysquare|spayd|epc), format (png|svg), size (100-1000), darkColor (#RRGGBB or #RRGGBBAA), lightColor (#RRGGBB or #RRGGBBAA), margin (0-10), errorCorrectionLevel (L|M|Q|H).",
           docs: DOCS_URL,
           example: {
             iban: "SK3112000000198742637541",
@@ -146,6 +147,8 @@ export async function POST(req: NextRequest) {
     }).catch((err) => {
       console.warn("[api/v1/qr] Analytics tracking failed:", err);
     });
+
+    after(() => incrementApiStats());
 
     return NextResponse.json(
       {

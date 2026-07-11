@@ -114,7 +114,7 @@ export default async function ChangelogPage({ params }: Props) {
     <div className="flex-1 pt-5 sm:pt-8 md:pt-16">
       <div className="mx-auto max-w-2xl space-y-6 px-4 pb-12 sm:px-0">
         <header className="space-y-2">
-          <h1 className="font-bold font-pixel text-foreground text-lg tracking-wide sm:text-xl">
+          <h1 className="font-bold font-pixel-grid text-foreground text-lg tracking-wide sm:text-xl">
             {tMeta("changelogTitle")}
           </h1>
           <p className="text-muted-foreground text-sm">{t("subtitle")}</p>

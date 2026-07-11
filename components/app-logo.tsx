@@ -7,7 +7,7 @@ export const AppLogo = ({ className }: { className?: string }) => (
       className
     )}
   >
-    <span className="rounded-none bg-primary p-1 font-pixel text-primary-foreground">
+    <span className="rounded-none bg-primary p-1 font-pixel-grid text-primary-foreground">
       QR
     </span>
     <span>Platby</span>
