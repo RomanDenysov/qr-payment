@@ -24,9 +24,8 @@ export function LocaleSwitcher() {
     routing.locales[(currentIndex + 1) % routing.locales.length];
 
   const handleSwitch = () => {
-    const search = searchParams.toString();
-    const href = search ? `${pathname}?${search}` : pathname;
-    router.replace(href, { locale: nextLocale });
+    const query = Object.fromEntries(searchParams.entries());
+    router.replace({ pathname, query }, { locale: nextLocale });
   };
 
   return (
