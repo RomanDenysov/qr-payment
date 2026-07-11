@@ -8,6 +8,8 @@ The web app lets users create QR codes for Slovak and Czech banking payments. Al
 
 - [Home - Generate QR Code](https://qr-platby.com): Single payment form with IBAN, amount, symbols, recipient, and note
 - [Bulk QR Generation](https://qr-platby.com/bulk): Upload CSV to generate QR codes in batch, export as PDF or ZIP
+- [How to Create a Payment QR Code](https://qr-platby.com/en/how-to-create-payment-qr-code): Step-by-step guide with format explainer and FAQ (SK: /ako-vytvorit-qr-kod-na-platbu, CS: /cs/jak-vytvorit-qr-kod-pro-platbu)
+- [SEPA QR Code Generator (EPC QR)](https://qr-platby.com/en/sepa-qr-code-generator): What EPC QR is, which EU banking apps scan it (SK/CS: /sepa-qr-kod-generator)
 - [FAQ (SK)](https://qr-platby.com/faq): Frequently asked questions about QR payments
 - [FAQ (EN)](https://qr-platby.com/en/faq): FAQ in English
 - [FAQ (CS)](https://qr-platby.com/cs/faq): FAQ in Czech
@@ -25,6 +27,7 @@ Single REST endpoint for programmatic QR code generation. Free, no API key neede
 - [API Documentation (JSON)](https://qr-platby.com/api/v1/qr): `GET` returns machine-readable docs, `POST` generates QR codes
 - [OpenAPI Specification](https://qr-platby.com/openapi.json): OpenAPI 3.1 spec for the QR generation API
 - [Full API Reference](https://qr-platby.com/llms-full.txt): Complete parameters, response schemas, error codes, and examples
+- [Usage Stats](https://qr-platby.com/api/v1/stats): `GET` returns anonymous usage counters `{ total, month, api }` - no auth, no PII
 
 ### Quick Example
 
@@ -49,7 +52,7 @@ curl -X POST https://qr-platby.com/api/v1/qr \
 ```bash
 curl -X POST https://qr-platby.com/api/v1/qr \
   -H "Content-Type: application/json" \
-  -d '{"iban":"DE89370400440532013000","amount":100,"paymentFormat":"epc","recipientName":"Max Mustermann"}'
+  -d '{"iban":"DE89370400440532013000","amount":100,"paymentFormat":"epc","recipientName":"Max Mustermann","purposeCode":"GDDS"}'
 ```
 
 ### Rate Limits
@@ -66,6 +69,7 @@ curl -X POST https://qr-platby.com/api/v1/qr \
 - Supports Slovak (SK), Czech (CZ), and other EU IBANs
 - Currencies: EUR, CZK
 - Payment formats: bysquare (Slovak), spayd (Czech), epc (EU SEPA)
+- Optional payment fields: `variableSymbol`, `specificSymbol`, `constantSymbol`, `recipientName`, `paymentNote`, `bic` (all formats), `paymentDueDate` (YYYY-MM-DD; bysquare/spayd), `invoiceId` (bysquare), `spaydReference` (spayd), `purposeCode` (epc). Fields sent for an unsupported format are rejected.
 - Optional styling: `darkColor` / `lightColor` (hex `#RRGGBB` or `#RRGGBBAA`), `margin` (0-10), `errorCorrectionLevel` (`L`/`M`/`Q`/`H`)
 
 ## Source Code

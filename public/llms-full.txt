@@ -24,7 +24,12 @@ CORS is enabled for all origins. An `OPTIONS` preflight returns `204` with appro
 | `constantSymbol` | string | No | — | Constant symbol, up to 4 digits (digits only) |
 | `recipientName` | string | No | — | Recipient name, up to 70 characters |
 | `paymentNote` | string | No | — | Payment note / message, up to 140 characters |
-| `paymentFormat` | string | No | `"bysquare"` | Payment format: `"bysquare"` (Slovak PAY by square), `"spayd"` (Czech QR Platba), or `"epc"` (EU SEPA). EPC requires EUR currency and recipientName; does not support symbol fields. |
+| `bic` | string | No | — | BIC/SWIFT code (8 or 11 characters). Supported by all formats. |
+| `paymentDueDate` | string | No | — | Payment due date in `YYYY-MM-DD` format. `bysquare` and `spayd` only. |
+| `invoiceId` | string | No | — | Invoice number, up to 10 characters. `bysquare` only. |
+| `spaydReference` | string | No | — | SPAYD recipient reference (RF), up to 16 digits. `spayd` only. |
+| `purposeCode` | string | No | — | SEPA purpose code (AT-44), up to 4 characters (e.g. `GDDS`). `epc` only. |
+| `paymentFormat` | string | No | `"bysquare"` | Payment format: `"bysquare"` (Slovak PAY by square), `"spayd"` (Czech QR Platba), or `"epc"` (EU SEPA). EPC requires EUR currency and recipientName. A field sent for a format that does not support it is rejected (e.g. `invoiceId` is bysquare-only, `spaydReference` spayd-only, `purposeCode` epc-only; EPC rejects symbol fields, `paymentDueDate`, `invoiceId`, `spaydReference`). |
 | `format` | string | No | `"png"` | Output format: `"png"` (base64 data URI) or `"svg"` (SVG markup) |
 | `size` | integer | No | `300` | QR code size in pixels, range `100` – `1000`. Applies to PNG width/height and SVG intrinsic width/height. |
 | `darkColor` | string | No | `"#000000"` | Foreground hex color (`#RRGGBB` or `#RRGGBBAA`). |
@@ -239,15 +244,36 @@ if result["success"]:
 EPC QR codes are available via the API using `"paymentFormat": "epc"`. Requirements:
 - Currency must be `"EUR"` (EPC only supports EUR)
 - `recipientName` is required
-- `variableSymbol`, `specificSymbol`, and `constantSymbol` are NOT supported (will return validation error)
+- Supports `bic` and `purposeCode` (SEPA AT-44, e.g. `GDDS`)
+- `variableSymbol`, `specificSymbol`, `constantSymbol`, `paymentDueDate`, `invoiceId`, and `spaydReference` are NOT supported (will return validation error)
 
 ### curl - EPC QR (EU SEPA)
 
 ```bash
 curl -X POST https://qr-platby.com/api/v1/qr \
   -H "Content-Type: application/json" \
-  -d '{"iban":"DE89370400440532013000","amount":100,"paymentFormat":"epc","recipientName":"Max Mustermann"}'
+  -d '{"iban":"DE89370400440532013000","amount":100,"paymentFormat":"epc","recipientName":"Max Mustermann","purposeCode":"GDDS"}'
 ```
+
+### curl - Slovak payment with due date and invoice number
+
+```bash
+curl -X POST https://qr-platby.com/api/v1/qr \
+  -H "Content-Type: application/json" \
+  -d '{"iban":"SK3112000000198742637541","amount":25.50,"variableSymbol":"2024001","paymentDueDate":"2026-12-31","invoiceId":"2024001"}'
+```
+
+## Usage Stats Endpoint
+
+`GET https://qr-platby.com/api/v1/stats` returns anonymous usage counters. No auth, no PII, cached for 10 minutes.
+
+```json
+{ "total": 12345, "month": 987, "api": 2100 }
+```
+
+- `total` — QR codes generated in the web app, all time
+- `month` — QR codes generated this calendar month
+- `api` — QR codes generated via the REST API, all time
 
 ## Machine-Readable Resources
 
