@@ -1,5 +1,5 @@
 import { track } from "@vercel/analytics/server";
-import type { CurrencyCode } from "bysquare";
+import type { CurrencyCode } from "bysquare/pay";
 import { after, type NextRequest, NextResponse } from "next/server";
 import { EpcPayloadTooLargeError } from "@/features/payment/epc-encoder";
 import { InvalidIBANError } from "@/features/payment/qr-generator";

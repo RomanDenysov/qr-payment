@@ -1,4 +1,4 @@
-import { CurrencyCode } from "bysquare";
+import { CurrencyCode } from "bysquare/pay";
 import { electronicFormatIBAN, isValidIBAN } from "ibantools";
 import { InvalidIBANError } from "@/features/payment/qr-generator";
 import { buildQrPayload } from "@/features/payment/qr-payload";

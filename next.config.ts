@@ -9,6 +9,8 @@ const nextConfig: NextConfig = {
   typedRoutes: true,
   reactCompiler: true,
   experimental: {
+    // Rust port of the React Compiler, runs inside Turbopack instead of Babel.
+    turbopackRustReactCompiler: true,
     optimizeCss: true,
     optimizePackageImports: [
       "@tabler/icons-react",
