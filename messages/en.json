@@ -55,10 +55,11 @@
     "colTools": "Tools",
     "colResources": "Resources",
     "colProject": "Project",
-    "generator": "QR payment generator"
+    "generator": "QR payment generator",
+    "contribute": "QR Platby is open source. Want to move it forward? Contribute code or ideas on <link>GitHub</link>."
   },
   "Announcement": {
-    "message": "What's new: gradients, logo, frame, position picker, image size from 128 to 1024 px - and the REST API now supports custom colors, margin, and error correction level.",
+    "message": "New: optional payment fields (due date, invoice number, BIC and more), and the recipient name is now required for PAY by square.",
     "close": "Close",
     "readMore": "Read changelog"
   },

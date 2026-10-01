@@ -8,7 +8,7 @@ import { linkVariants } from "@/components/ui/link";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 
-const ANNOUNCEMENT_ID = "api-styling-params";
+const ANNOUNCEMENT_ID = "optional-fields-payee-name";
 const STORAGE_PREFIX = "announcement-dismissed-";
 
 export function AnnouncementBanner() {

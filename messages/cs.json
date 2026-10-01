@@ -55,10 +55,11 @@
     "colTools": "Nástroje",
     "colResources": "Informace",
     "colProject": "Projekt",
-    "generator": "Generátor QR platby"
+    "generator": "Generátor QR platby",
+    "contribute": "QR Platby jsou open source. Chcete projekt posunout dál? Přispějte kódem nebo nápadem na <link>GitHubu</link>."
   },
   "Announcement": {
-    "message": "Novinky: gradienty, logo, rám, výběr pozice a velikosti obrázku (128-1024 px) - a REST API nyní podporuje vlastní barvy, okraj a úroveň korekce chyb.",
+    "message": "Novinky: volitelná pole platby (datum splatnosti, číslo faktury, BIC a další) a jméno příjemce je u PAY by square povinné.",
     "close": "Zavrit",
     "readMore": "Zobrazit změny"
   },

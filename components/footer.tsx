@@ -4,7 +4,11 @@ import type { ReactNode } from "react";
 import { DynamicFeatureRequestDialog } from "@/features/feedback/components/feature-request-dialog-dynamic";
 import { Link } from "@/i18n/navigation";
 import { AppLogo } from "./app-logo";
+import { OutboundLink } from "./outbound-link";
 import { SupportLink } from "./support-link";
+
+const CREATOR_URL =
+  "https://denysov.dev/?utm_source=qr-platby.com&utm_medium=referral&utm_campaign=footer";
 
 const LINK_CLASS =
   "text-foreground underline decoration-foreground/25 underline-offset-4 hover:decoration-foreground";
@@ -102,17 +106,6 @@ export function Footer() {
                 {tNav("changelog")}
               </Link>
             </li>
-            <li>
-              <a
-                className={`inline-flex items-center gap-1 ${LINK_CLASS}`}
-                href="https://github.com/RomanDenysov/qr-payment"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                <IconBrandGithub className="size-4" />
-                GitHub
-              </a>
-            </li>
           </FooterColumn>
         </nav>
 
@@ -146,19 +139,37 @@ export function Footer() {
         </nav>
       </div>
 
-      <div className="mt-10 flex flex-col gap-2 border-foreground/10 border-t pt-4 text-xs sm:flex-row sm:items-center sm:justify-between">
+      <p className="mt-10 flex items-start gap-2 text-xs/relaxed">
+        <IconBrandGithub aria-hidden className="mt-px size-4 shrink-0" />
+        <span>
+          {t.rich("contribute", {
+            link: (chunks) => (
+              <OutboundLink
+                className={LINK_CLASS}
+                event="github_link_clicked"
+                href="https://github.com/RomanDenysov/qr-payment"
+                placement="footer"
+              >
+                {chunks}
+              </OutboundLink>
+            ),
+          })}
+        </span>
+      </p>
+
+      <div className="mt-4 flex flex-col gap-2 border-foreground/10 border-t pt-4 text-xs sm:flex-row sm:items-center sm:justify-between">
         <span>{t("copyright")}</span>
         <span>
           {t.rich("madeBy", {
             link: (chunks) => (
-              <a
+              <OutboundLink
                 className={LINK_CLASS}
-                href="https://denysov.dev"
-                rel="noopener"
-                target="_blank"
+                event="creator_link_clicked"
+                href={CREATOR_URL}
+                placement="footer"
               >
                 {chunks}
-              </a>
+              </OutboundLink>
             ),
           })}
         </span>
