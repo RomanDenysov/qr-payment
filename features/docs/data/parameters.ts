@@ -56,7 +56,8 @@ export const parameters: Parameter[] = [
     type: "string",
     required: false,
     validation: "Up to 70 characters",
-    description: "Recipient name",
+    description:
+      "Payee name. Use the exact account holder name. Required for epc, expected for bysquare (a code without it returns a warning)",
   },
   {
     name: "paymentNote",

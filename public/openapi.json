@@ -313,7 +313,7 @@
           "recipientName": {
             "type": "string",
             "maxLength": 70,
-            "description": "Recipient name"
+            "description": "Payee name, up to 70 characters. Use the exact account holder name. Required for epc. Expected for bysquare: Slovak banks verify it against the IBAN, and a code without it returns a warning."
           },
           "paymentNote": {
             "type": "string",
@@ -422,6 +422,11 @@
           "currency": {
             "type": "string",
             "enum": ["EUR", "CZK"]
+          },
+          "warnings": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Non-fatal notes about the generated code. Present when recipientName is missing for bysquare."
           }
         }
       },

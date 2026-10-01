@@ -160,6 +160,8 @@ export interface QrGenerationResponse {
   iban: string;
   amount?: number;
   currency: "EUR" | "CZK";
+  /** Non-fatal notes about the generated code, e.g. a missing payee name. */
+  warnings?: string[];
 }
 
 export type QrErrorCode = "VALIDATION_ERROR" | "RATE_LIMIT" | "INTERNAL_ERROR";

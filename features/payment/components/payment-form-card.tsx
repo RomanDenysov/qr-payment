@@ -24,6 +24,7 @@ import {
 import {
   Field,
   FieldContent,
+  FieldDescription,
   FieldError,
   FieldGroup,
   FieldLabel,
@@ -78,6 +79,44 @@ function BicField({
           placeholder={t("bicPlaceholder")}
         />
         <FieldError errors={errors.bic ? [errors.bic] : undefined} />
+      </FieldContent>
+    </Field>
+  );
+}
+
+/**
+ * Payee name. Required for PAY by square and EPC, where the payer's bank
+ * verifies it against the IBAN; optional for SPAYD.
+ */
+function RecipientField({
+  register,
+  errors,
+  t,
+  required,
+}: {
+  register: ReturnType<typeof useForm<PaymentFormData>>["register"];
+  errors: ReturnType<typeof useForm<PaymentFormData>>["formState"]["errors"];
+  t: ReturnType<typeof useTranslations<"PaymentForm">>;
+  required: boolean;
+}) {
+  return (
+    <Field>
+      <FieldLabel htmlFor="recipient">
+        {required ? t("recipientNameRequired") : t("recipientName")}
+      </FieldLabel>
+      <FieldContent>
+        <Input
+          {...register("recipientName")}
+          id="recipient"
+          maxLength={70}
+          placeholder={t("recipientNamePlaceholder")}
+        />
+        {required ? (
+          <FieldDescription>{t("recipientNameHint")}</FieldDescription>
+        ) : null}
+        <FieldError
+          errors={errors.recipientName ? [errors.recipientName] : undefined}
+        />
       </FieldContent>
     </Field>
   );
@@ -421,26 +460,12 @@ export function PaymentFormCard() {
               <SymbolFields errors={errors} register={register} t={t} />
             )}
 
-            <Field>
-              <FieldLabel htmlFor="recipient">
-                {format === "epc"
-                  ? t("recipientNameRequired")
-                  : t("recipientName")}
-              </FieldLabel>
-              <FieldContent>
-                <Input
-                  {...register("recipientName")}
-                  id="recipient"
-                  maxLength={70}
-                  placeholder={t("recipientNamePlaceholder")}
-                />
-                <FieldError
-                  errors={
-                    errors.recipientName ? [errors.recipientName] : undefined
-                  }
-                />
-              </FieldContent>
-            </Field>
+            <RecipientField
+              errors={errors}
+              register={register}
+              required={activeFormat !== "spayd"}
+              t={t}
+            />
 
             <Field>
               <FieldLabel htmlFor="note">

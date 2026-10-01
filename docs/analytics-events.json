@@ -216,6 +216,11 @@
       "properties": null,
       "source": "components/consent-banner.tsx"
     },
+    "support_link_clicked": {
+      "description": "User clicked the Buy me a coffee link",
+      "properties": { "placement": "footer" },
+      "source": "components/support-link.tsx"
+    },
     "announcement_dismissed": {
       "description": "User dismissed the announcement banner",
       "properties": { "id": "announcement id, e.g. api-styling-params" },
