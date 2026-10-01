@@ -424,7 +424,8 @@
     "copy": "Copy",
     "copied": "Copied!",
     "copyFailed": "Failed to copy",
-    "backToHome": "Back to home page"
+    "backToHome": "Back to home page",
+    "warningsNote": "The response may include a warnings array. For example, PAY by square without recipientName is still generated, with a note that banks verify the payee name."
   },
   "Feedback": {
     "trigger": "Suggest a feature",
@@ -517,7 +518,7 @@
   },
   "HomeContent": {
     "section1Title": "PAY by square QR code generator",
-    "section1Para1": "PAY by square is the Slovak standard for payment QR codes, read by every banking app. The code carries the recipient's IBAN and name, the amount, symbols and a note, so the payer retypes nothing.",
+    "section1Para1": "A payment QR code carries the recipient's IBAN and name, the amount, symbols and a note, so the payer retypes nothing. Pick the format by the recipient's bank.",
     "formats": [
       {
         "format": "bysquare",

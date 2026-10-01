@@ -13,8 +13,9 @@ import { PaymentDetails } from "./payment-details";
 import { ShareQRSection } from "./share-qr-section";
 
 /**
- * Reads the encoded payment from the URL fragment (`/p#d=...`). The fragment
- * never reaches the server or analytics. Links made before the switch carry
+ * Reads the encoded payment from the URL fragment (`/p#d=...`). Browsers do
+ * not send the fragment to the server, and `components/analytics.tsx` strips
+ * it from analytics events. Links made before the switch carry
  * it in the query (`/p?d=...`) and are still read here.
  */
 function readShareData(): SharePayload | null {
@@ -31,11 +32,16 @@ export function SharedPayment({ children }: { children: ReactNode }) {
   const [data, setData] = useState<SharePayload | null | undefined>(undefined);
 
   useEffect(() => {
-    setData(readShareData());
+    // A second share link opened in the same tab only changes the fragment.
+    const read = () => setData(readShareData());
+    read();
+    window.addEventListener("hashchange", read);
+    return () => window.removeEventListener("hashchange", read);
   }, []);
 
   if (data === undefined) {
-    return null;
+    // Same wrapper as the loaded state, so the footer does not jump.
+    return <div className="mx-auto flex max-w-md flex-1 flex-col pt-5" />;
   }
 
   if (!data) {

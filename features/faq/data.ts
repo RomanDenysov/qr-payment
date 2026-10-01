@@ -56,7 +56,7 @@ const faqData: Record<string, FaqItem[]> = {
     {
       question: "Čo je SPAYD (QR Platba)?",
       answer:
-        "SPAYD (QR Platba) je český štandard pre platobné QR kódy zavedený Českou bankovnou asociáciou. Formát SPD (Short Payment Descriptor) podporujú všetky české banky - Air Bank, Česká spořitelna, ČSOB, Fio banka, Komerční banka, Raiffeisenbank, mBank a ďalšie. QR Platby tento formát plne podporuje.",
+        "SPAYD (QR Platba) je český štandard pre platobné QR kódy zavedený Českou bankovou asociáciou. Formát SPD (Short Payment Descriptor) podporujú všetky české banky - Air Bank, Česká spořitelna, ČSOB, Fio banka, Komerční banka, Raiffeisenbank, mBank a ďalšie. QR Platby tento formát plne podporuje.",
     },
     {
       question: "Môžem si QR kód upraviť?",

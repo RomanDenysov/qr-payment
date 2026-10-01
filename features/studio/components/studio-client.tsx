@@ -32,7 +32,8 @@ const DEFAULT_PAYMENT: StudioPaymentState = {
   amount: 25,
   currency: "EUR",
   format: "bysquare",
-  recipientName: "",
+  // Sample payee so the preview renders: PAY by square requires a name.
+  recipientName: "Ján Novák",
 };
 
 const AMOUNT_FMT = new Intl.NumberFormat("sk-SK", {

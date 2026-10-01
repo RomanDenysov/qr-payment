@@ -41,7 +41,7 @@ export const apiDocs = {
       recipientName: {
         type: "string",
         description:
-          "Payee name, up to 70 characters. Use the exact account holder name. Required for epc. Expected for bysquare: Slovak banks verify it against the IBAN, and a code without it returns a warning.",
+          "Payee name, up to 70 characters (cut to 35 for spayd). Use the exact account holder name. Required for epc. Expected for bysquare: Slovak banks verify it against the IBAN, and a code without it returns a warning.",
       },
       paymentNote: {
         type: "string",
@@ -159,6 +159,6 @@ export const apiDocs = {
   -d '{"iban":"DE89370400440532013000","amount":100,"paymentFormat":"epc","recipientName":"Max Mustermann","purposeCode":"GDDS"}'`,
     curlDueDate: `curl -X POST https://qr-platby.com/api/v1/qr \\
   -H "Content-Type: application/json" \\
-  -d '{"iban":"SK3112000000198742637541","amount":25.50,"variableSymbol":"2024001","paymentDueDate":"2026-12-31","invoiceId":"2024001"}'`,
+  -d '{"iban":"SK3112000000198742637541","amount":25.50,"variableSymbol":"2024001","paymentDueDate":"2026-12-31","invoiceId":"2024001","recipientName":"Ján Novák"}'`,
   },
 };

@@ -16,7 +16,8 @@ export const codeExamples: CodeExample[] = [
     "iban": "SK3112000000198742637541",
     "amount": 25.50,
     "currency": "EUR",
-    "variableSymbol": "2024001"
+    "variableSymbol": "2024001",
+    "recipientName": "Ján Novák"
   }'`,
   },
   {
@@ -30,6 +31,7 @@ export const codeExamples: CodeExample[] = [
     amount: 25.50,
     currency: "EUR",
     variableSymbol: "2024001",
+    recipientName: "Ján Novák",
   }),
 });
 
@@ -52,6 +54,7 @@ response = requests.post(
         "amount": 25.50,
         "currency": "EUR",
         "variableSymbol": "2024001",
+        "recipientName": "Ján Novák",
     },
 )
 
@@ -76,6 +79,7 @@ if data["success"]:
                 "amount" => 25.50,
                 "currency" => "EUR",
                 "variableSymbol" => "2024001",
+                "recipientName" => "Ján Novák",
             ]),
         ],
     ])
@@ -95,6 +99,7 @@ if ($data["success"]) {
     "amount":         25.50,
     "currency":       "EUR",
     "variableSymbol": "2024001",
+    "recipientName":  "Ján Novák",
 }
 
 body, _ := json.Marshal(payload)
@@ -131,7 +136,8 @@ var response = await client.PostAsJsonAsync(
         iban = "SK3112000000198742637541",
         amount = 25.50,
         currency = "EUR",
-        variableSymbol = "2024001"
+        variableSymbol = "2024001",
+        recipientName = "Ján Novák"
     }
 );
 

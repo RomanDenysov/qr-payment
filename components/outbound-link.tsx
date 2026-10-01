@@ -7,7 +7,10 @@ interface OutboundLinkProps {
   children: ReactNode;
   className?: string;
   /** Analytics event recorded on click. */
-  event: string;
+  event:
+    | "creator_link_clicked"
+    | "github_link_clicked"
+    | "support_link_clicked";
   href: string;
   /** Where the link sits, so placements can be compared in analytics. */
   placement: string;

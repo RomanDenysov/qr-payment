@@ -424,7 +424,8 @@
     "copy": "Kopírovať",
     "copied": "Skopírované!",
     "copyFailed": "Nepodarilo sa skopírovať",
-    "backToHome": "Späť na hlavnú stránku"
+    "backToHome": "Späť na hlavnú stránku",
+    "warningsNote": "Odpoveď môže obsahovať pole warnings. Napríklad PAY by square bez recipientName sa vygeneruje, ale s upozornením, že banky meno príjemcu overujú."
   },
   "Feedback": {
     "trigger": "Navrhnúť vylepšenie",
@@ -517,7 +518,7 @@
   },
   "HomeContent": {
     "section1Title": "Čo je PAY by square a QR platba",
-    "section1Para1": "PAY by square je slovenský štandard platobných QR kódov, ktorý naskenuje každá banková aplikácia. Kód nesie IBAN a meno príjemcu, sumu, symboly a poznámku, takže platiteľ nič neprepisuje.",
+    "section1Para1": "Platobný QR kód nesie IBAN a meno príjemcu, sumu, symboly a poznámku, takže platiteľ nič neprepisuje. Formát vyberte podľa banky príjemcu.",
     "formats": [
       {
         "format": "bysquare",

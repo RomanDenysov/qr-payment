@@ -62,7 +62,7 @@ export function UsageStats() {
       <section aria-hidden className="mt-16 sm:mt-20">
         <div className="grid gap-4 sm:grid-cols-3">
           {SKELETON_CARDS.map((key) => (
-            <Skeleton className="h-[6.75rem] sm:h-[7.5rem]" key={key} />
+            <Skeleton className="h-[6.5rem] sm:h-[6.95rem]" key={key} />
           ))}
         </div>
         <Skeleton className="mt-3 h-4 w-64 max-w-full" />

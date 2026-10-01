@@ -192,6 +192,9 @@ export default async function DocsPage({ params }: Props) {
 }`}
                 language="json"
               />
+              <p className="text-muted-foreground text-sm">
+                {t("warningsNote")}
+              </p>
               <SectionHeading as="h3" id="response-error">
                 {t("responseError")}
               </SectionHeading>

@@ -37,7 +37,7 @@ export function CommunityBanner({ className }: { className?: string }) {
                   defaultMessage={example}
                   trigger={
                     <button
-                      className="group/example flex w-full items-center justify-between gap-3 border border-foreground/10 px-3 py-2.5 text-left text-foreground text-sm outline-none transition-colors duration-150 ease-out hover:border-foreground/30 hover:bg-muted focus-visible:border-foreground/40"
+                      className="group/example flex w-full items-center justify-between gap-3 border border-foreground/10 px-3 py-2.5 text-left text-foreground text-sm outline-none transition-colors duration-150 ease-out hover:border-foreground/30 hover:bg-muted focus-visible:border-ring focus-visible:ring-1 focus-visible:ring-ring/50"
                       type="button"
                     >
                       {example}

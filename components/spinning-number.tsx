@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 
 // Full turns of the 0-9 reel before a digit lands.
@@ -17,29 +17,46 @@ interface SpinningNumberProps {
 
 /**
  * Number whose digits spin like slot reels and land left to right, once, when
- * the component mounts. Each digit is a clipped column of 0-9 cells one line
+ * it first scrolls into view. Each digit is a clipped column of 0-9 cells one line
  * high; the column slides up to its digit. Separators stay put. With reduced
  * motion the digits are simply shown.
  */
 export function SpinningNumber({ className, value }: SpinningNumberProps) {
+  const ref = useRef<HTMLSpanElement>(null);
   const [landed, setLanded] = useState(false);
 
+  // Spin when the number scrolls into view, so it is not wasted below the
+  // fold. The observer fires after the first paint, which the transition needs.
   useEffect(() => {
-    const frame = requestAnimationFrame(() => setLanded(true));
-    return () => cancelAnimationFrame(frame);
+    const element = ref.current;
+    if (!element) {
+      return;
+    }
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry?.isIntersecting) {
+        setLanded(true);
+        observer.disconnect();
+      }
+    });
+    observer.observe(element);
+    return () => observer.disconnect();
   }, []);
 
   let column = 0;
 
   return (
-    <span className={cn("inline-flex leading-none", className)}>
+    <span className={cn("inline-flex leading-none", className)} ref={ref}>
       <span className="sr-only">{value}</span>
       {[...value].map((char, index) => {
         // Position is the identity here: the string never reorders.
         const key = `${index}-${char}`;
         if (!DIGIT_RE.test(char)) {
           return (
-            <span aria-hidden className="whitespace-pre" key={key}>
+            <span
+              aria-hidden
+              className="flex h-[1.2em] items-center whitespace-pre"
+              key={key}
+            >
               {char}
             </span>
           );

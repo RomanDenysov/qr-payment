@@ -4,7 +4,7 @@
 
 ## Web App
 
-The web app lets users create QR codes for Slovak and Czech banking payments. All data stays in the browser (localStorage).
+The web app lets users create QR codes for Slovak and Czech banking payments. Payment data entered in the web app stays in the browser (localStorage); share links carry it in the URL fragment.
 
 - [Home - Generate QR Code](https://qr-platby.com): Single payment form with IBAN, amount, symbols, recipient, and note
 - [Bulk QR Generation](https://qr-platby.com/bulk): Upload CSV to generate QR codes in batch, export as PDF or ZIP
@@ -19,7 +19,7 @@ Available in Slovak, English, and Czech (Slovak has no prefix; English and Czech
 
 ## Privacy
 
-All processing happens in the browser - no personal data collected. Payment history and settings are stored in localStorage only.
+In the web app, payment data is processed in the browser and is not sent to the server. Payment history and settings are stored in localStorage only. The server sees anonymous usage events, a counter ping per generated code, REST API requests (processed, not stored), and feature requests a user chooses to send, optionally with an email.
 
 ## API
 

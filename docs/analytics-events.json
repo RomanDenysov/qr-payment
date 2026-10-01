@@ -224,17 +224,17 @@
     "support_link_clicked": {
       "description": "User clicked the Buy me a coffee link",
       "properties": { "placement": "footer | home" },
-      "source": "components/support-link.tsx"
+      "source": "components/outbound-link.tsx"
     },
     "creator_link_clicked": {
       "description": "User clicked the denysov.dev link (carries UTM parameters)",
       "properties": { "placement": "footer" },
-      "source": "components/footer.tsx"
+      "source": "components/outbound-link.tsx"
     },
     "github_link_clicked": {
       "description": "User clicked the GitHub contribute link",
       "properties": { "placement": "footer" },
-      "source": "components/footer.tsx"
+      "source": "components/outbound-link.tsx"
     },
     "announcement_dismissed": {
       "description": "User dismissed the announcement banner",
