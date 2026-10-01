@@ -6,6 +6,7 @@ import {
   HomeContentSections,
   HomeMoreTools,
 } from "@/features/seo/home-content";
+import { UsageStats } from "@/features/stats/usage-stats";
 import { getAlternates } from "@/lib/seo";
 import { HomeJsonLd } from "./home-json-ld";
 
@@ -35,6 +36,7 @@ export default async function Page({ params }: Props) {
         <PaymentFormCard />
         <QRPreviewCard />
       </section>
+      <UsageStats />
       <HomeContentSections />
       <h2 className="mt-20 font-bold font-pixel text-foreground text-lg tracking-wide sm:mt-24 sm:text-xl">
         {t("sectionApi")}

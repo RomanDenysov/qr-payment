@@ -16,6 +16,7 @@ interface EpcInput {
   beneficiaryName: string;
   bic?: string;
   remittanceText?: string;
+  purposeCode?: string;
 }
 
 /**
@@ -29,6 +30,9 @@ export function encodeEpcQr(input: EpcInput): string {
   const remittance = input.remittanceText
     ? sanitizeForEpc(input.remittanceText).sanitized
     : "";
+  const purpose = input.purposeCode
+    ? sanitizeForEpc(input.purposeCode).sanitized.toUpperCase().slice(0, 4)
+    : "";
 
   const lines = [
     "BCD", // 1. Service Tag
@@ -39,7 +43,7 @@ export function encodeEpcQr(input: EpcInput): string {
     name, // 6. Beneficiary name
     iban, // 7. IBAN
     amount, // 8. Amount
-    "", // 9. Purpose code (unused)
+    purpose, // 9. Purpose code (AT-44)
     "", // 10. Structured reference (unused)
     remittance, // 11. Remittance text (unstructured)
     "", // 12. Beneficiary to originator info (unused)

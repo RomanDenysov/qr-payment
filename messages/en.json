@@ -79,6 +79,19 @@
     "vs": "VS",
     "ss": "SS",
     "ks": "KS",
+    "dueDate": "Due date",
+    "invoiceId": "Invoice number",
+    "invoiceIdPlaceholder": "Invoice no.",
+    "spaydReference": "Reference",
+    "spaydReferencePlaceholder": "1234567890",
+    "purposeCode": "Purpose code",
+    "purposeCodePlaceholder": "e.g. GDDS",
+    "instantPayment": "Instant payment",
+    "optionalFields": {
+      "menu": "Fields",
+      "menuAria": "Add optional fields",
+      "title": "Add fields"
+    },
     "clear": "Clear",
     "generate": "Generate QR",
     "noHistoryResults": "No results from history",
@@ -99,6 +112,8 @@
     "max70chars": "Max 70 characters",
     "max140chars": "Max 140 characters",
     "max11chars": "Max 11 characters",
+    "max16chars": "Max 16 characters",
+    "dueDateInvalid": "Invalid date",
     "recipientRequired": "Recipient name is required for EPC QR",
     "bicInvalid": "BIC must be 8 or 11 characters",
     "epcMaxAmount": "Max amount for EPC QR is 999,999,999.99 €",
@@ -531,6 +546,12 @@
     "section4MoreLinksTitle": "More tools",
     "section4StudioLink": "Advanced QR editor",
     "section4BulkLink": "Bulk generation"
+  },
+  "Stats": {
+    "totalLabel": "QR codes generated",
+    "monthLabel": "this month",
+    "apiLabel": "API requests",
+    "caption": "Anonymous counters - we never see your payment data."
   },
   "JsonLd": {
     "howTo": {

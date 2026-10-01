@@ -8,6 +8,50 @@ import { buildColorOption } from "@/features/payment/qr-color";
 const TOOL_NAME = "generate_pay_by_square_qr";
 const HEX_COLOR_PATTERN = "^#(?:[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$";
 
+type QrFormat = "bysquare" | "spayd" | "epc";
+
+/** Optional fields and the formats that support them (mirrors the REST API). */
+const FIELD_FORMATS: Record<string, QrFormat[]> = {
+  variableSymbol: ["bysquare", "spayd"],
+  specificSymbol: ["bysquare", "spayd"],
+  constantSymbol: ["bysquare", "spayd"],
+  paymentDueDate: ["bysquare", "spayd"],
+  invoiceId: ["bysquare"],
+  spaydReference: ["spayd"],
+  purposeCode: ["epc"],
+  instantPayment: ["spayd"],
+};
+
+const FORMAT_LABELS: Record<QrFormat, string> = {
+  bysquare: "PAY by square",
+  spayd: "SPAYD",
+  epc: "EPC QR",
+};
+
+/** Returns an error message if args are invalid for the format, else null. */
+function validateArgs(
+  args: Record<string, unknown>,
+  format: QrFormat,
+  currency: string
+): string | null {
+  if (format === "epc") {
+    if (currency !== "EUR") {
+      return "EPC format only supports EUR currency";
+    }
+    if (!(args.recipientName as string)?.trim()) {
+      return "EPC format requires recipientName";
+    }
+  }
+
+  for (const [field, formats] of Object.entries(FIELD_FORMATS)) {
+    if (args[field] && !formats.includes(format)) {
+      return `${field} is not supported for ${format} format`;
+    }
+  }
+
+  return null;
+}
+
 function mcpError(message: string) {
   return {
     content: [
@@ -52,22 +96,9 @@ async function executeGenerateQr(
       ? formatInput
       : "bysquare";
 
-  if (format === "epc") {
-    if (currency !== "EUR") {
-      return mcpError("EPC format only supports EUR currency");
-    }
-    if (!(args.recipientName as string)?.trim()) {
-      return mcpError("EPC format requires recipientName");
-    }
-    for (const field of [
-      "variableSymbol",
-      "specificSymbol",
-      "constantSymbol",
-    ]) {
-      if (args[field]) {
-        return mcpError(`EPC format does not support ${field}`);
-      }
-    }
+  const validationError = validateArgs(args, format, currency);
+  if (validationError) {
+    return mcpError(validationError);
   }
 
   const { payload, errorCorrectionLevel: derivedEcc } = deps.buildQrPayload(
@@ -81,6 +112,11 @@ async function executeGenerateQr(
       recipientName: args.recipientName as string | undefined,
       paymentNote: args.paymentNote as string | undefined,
       bic: args.bic as string | undefined,
+      paymentDueDate: args.paymentDueDate as string | undefined,
+      invoiceId: args.invoiceId as string | undefined,
+      spaydReference: args.spaydReference as string | undefined,
+      purposeCode: args.purposeCode as string | undefined,
+      instantPayment: args.instantPayment === true,
     },
     cleanIban,
     currencyCode
@@ -110,12 +146,7 @@ async function executeGenerateQr(
     iban: cleanIban,
     amount: args.amount ?? null,
     currency,
-    format:
-      format === "spayd"
-        ? "SPAYD"
-        : format === "epc"
-          ? "EPC QR"
-          : "PAY by square",
+    format: FORMAT_LABELS[format],
   });
 }
 
@@ -191,7 +222,29 @@ export function useWebMcpQr() {
           },
           bic: {
             type: "string",
-            description: "BIC/SWIFT code",
+            description: "BIC/SWIFT code (8 or 11 chars). All formats.",
+          },
+          paymentDueDate: {
+            type: "string",
+            description: "Due date YYYY-MM-DD. bysquare and spayd only.",
+          },
+          invoiceId: {
+            type: "string",
+            description: "Invoice number, up to 10 chars. bysquare only.",
+          },
+          spaydReference: {
+            type: "string",
+            description: "SPAYD reference (RF), up to 16 digits. spayd only.",
+          },
+          purposeCode: {
+            type: "string",
+            description:
+              "SEPA purpose code (e.g. GDDS), up to 4 chars. epc only.",
+          },
+          instantPayment: {
+            type: "boolean",
+            description:
+              "Request an instant payment where supported. spayd only.",
           },
           darkColor: {
             type: "string",

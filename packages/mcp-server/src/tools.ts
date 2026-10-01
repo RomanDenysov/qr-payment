@@ -13,6 +13,12 @@ const OPTIONAL_FIELDS = [
   "constantSymbol",
   "recipientName",
   "paymentNote",
+  "bic",
+  "paymentDueDate",
+  "invoiceId",
+  "spaydReference",
+  "purposeCode",
+  "instantPayment",
   "paymentFormat",
   "format",
   "darkColor",
@@ -26,22 +32,22 @@ const FORMATS_INFO = `## Supported QR Payment Formats
 - **Country**: Slovakia
 - **Currency**: EUR
 - **IBAN prefix**: SK
-- **Features**: Variable symbol (VS), Specific symbol (SS), Constant symbol (KS), recipient name, payment note
+- **Features**: Variable symbol (VS), Specific symbol (SS), Constant symbol (KS), recipient name, payment note, BIC, due date (paymentDueDate), invoice number (invoiceId)
 - **API parameter**: \`"paymentFormat": "bysquare"\` (default)
 
 ### SPAYD / QR Platba (spayd)
 - **Country**: Czech Republic
 - **Currency**: CZK
 - **IBAN prefix**: CZ
-- **Features**: Variable symbol (VS), Specific symbol (SS), Constant symbol (KS), recipient name, payment note
+- **Features**: Variable symbol (VS), Specific symbol (SS), Constant symbol (KS), recipient name, payment note, BIC, due date (paymentDueDate), recipient reference (spaydReference), instant payment request (instantPayment)
 - **API parameter**: \`"paymentFormat": "spayd"\`
 
 ### EPC QR (European SEPA)
 - **Country**: All EU/SEPA countries
 - **Currency**: EUR only
-- **Features**: BIC/SWIFT, recipient name (required), payment reference
+- **Features**: BIC/SWIFT, recipient name (required), payment reference (paymentNote), purpose code (purposeCode)
 - **API parameter**: \`"paymentFormat": "epc"\`
-- **Note**: Requires recipient name, EUR currency. Does NOT support variable/specific/constant symbols.
+- **Note**: Requires recipient name, EUR currency. Does NOT support variable/specific/constant symbols, paymentDueDate, invoiceId, or spaydReference.
 
 ## Format Selection Guide
 - Slovak IBAN (SK...) -> Use bysquare with EUR
@@ -124,6 +130,33 @@ export function registerTools(server: McpServer) {
         .describe("Constant symbol, up to 4 digits"),
       recipientName: z.string().max(70).optional().describe("Recipient name"),
       paymentNote: z.string().max(140).optional().describe("Payment note"),
+      bic: z
+        .string()
+        .optional()
+        .describe("BIC/SWIFT code (8 or 11 chars). All formats."),
+      paymentDueDate: z
+        .string()
+        .optional()
+        .describe("Due date YYYY-MM-DD. bysquare and spayd only."),
+      invoiceId: z
+        .string()
+        .max(10)
+        .optional()
+        .describe("Invoice number, up to 10 chars. bysquare only."),
+      spaydReference: z
+        .string()
+        .max(16)
+        .optional()
+        .describe("SPAYD reference (RF), up to 16 digits. spayd only."),
+      purposeCode: z
+        .string()
+        .max(4)
+        .optional()
+        .describe("SEPA purpose code (e.g. GDDS), up to 4 chars. epc only."),
+      instantPayment: z
+        .boolean()
+        .optional()
+        .describe("Request an instant payment where supported. spayd only."),
       paymentFormat: z
         .enum(["bysquare", "spayd", "epc"])
         .optional()

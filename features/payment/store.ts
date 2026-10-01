@@ -55,6 +55,17 @@ function fingerprintSymbols(payment: PaymentRecord): string[] {
   ];
 }
 
+/** Opt-in fields (see optional-fields.ts); unset ones collapse to "". */
+function fingerprintExtras(payment: PaymentRecord): string[] {
+  return [
+    fingerprintOptional(payment.paymentDueDate),
+    fingerprintOptional(payment.invoiceId),
+    fingerprintOptional(payment.spaydReference),
+    fingerprintOptional(payment.purposeCode),
+    payment.instantPayment ? "ip" : "",
+  ];
+}
+
 function buildEpcFingerprint(
   payment: PaymentRecord,
   iban: string,
@@ -67,6 +78,7 @@ function buildEpcFingerprint(
     fingerprintOptional(payment.bic),
     fingerprintOptional(payment.recipientName),
     fingerprintOptional(payment.paymentNote),
+    ...fingerprintExtras(payment),
   ].join("|");
 }
 
@@ -81,6 +93,8 @@ function buildSpaydFingerprint(
     amount,
     payment.currency ?? "CZK",
     ...fingerprintSymbols(payment),
+    fingerprintOptional(payment.bic),
+    ...fingerprintExtras(payment),
   ].join("|");
 }
 
@@ -95,6 +109,8 @@ function buildBysquareFingerprint(
     amount,
     payment.currency ?? "EUR",
     ...fingerprintSymbols(payment),
+    fingerprintOptional(payment.bic),
+    ...fingerprintExtras(payment),
   ].join("|");
 }
 
