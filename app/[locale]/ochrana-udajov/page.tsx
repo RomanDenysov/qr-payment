@@ -1,4 +1,4 @@
-import { getTranslations, setRequestLocale } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 import { linkVariants } from "@/components/ui/link";
 import { Link } from "@/i18n/navigation";
 import { getAlternates, getOgLocale, localePath } from "@/lib/seo";
@@ -26,8 +26,6 @@ export async function generateMetadata({ params }: Props) {
 
 export default async function PrivacyPolicyPage({ params }: Props) {
   const { locale } = await params;
-  setRequestLocale(locale);
-
   const t = await getTranslations({ locale, namespace: "PrivacyPolicy" });
   const tMeta = await getTranslations({ locale, namespace: "Metadata" });
   const t_nav = await getTranslations({ locale, namespace: "Nav" });

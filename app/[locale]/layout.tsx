@@ -1,7 +1,9 @@
 import { Analytics } from "@vercel/analytics/next";
+import { GeistMono } from "geist/font/mono";
+import { GeistPixelSquare } from "geist/font/pixel";
 import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
-import { getTranslations, setRequestLocale } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 import { AnnouncementBanner } from "@/components/announcement-banner";
 import { Background } from "@/components/background";
 import { ConsentBanner } from "@/components/consent-banner";
@@ -18,6 +20,8 @@ import {
   localePath,
 } from "@/lib/seo";
 import { JsonLd } from "./json-ld";
+
+import "../globals.css";
 
 interface Props {
   children: React.ReactNode;
@@ -115,27 +119,57 @@ export default async function LocaleLayout({ children, params }: Props) {
     notFound();
   }
 
-  setRequestLocale(locale);
-
   return (
-    <NextIntlClientProvider>
-      <ThemeProvider
-        attribute="class"
-        defaultTheme="system"
-        disableTransitionOnChange
-        enableSystem
-      >
-        <Header />
-        <AnnouncementBanner />
-        <main id="main-content">{children}</main>
-        <JsonLd />
-        <Footer />
-        <Background />
-        <Toaster />
-        <ConsentBanner />
-        <Analytics />
-        <WebMcpProvider />
-      </ThemeProvider>
-    </NextIntlClientProvider>
+    <html
+      className={`dark ${GeistMono.variable} ${GeistPixelSquare.variable}`}
+      lang={locale}
+      suppressHydrationWarning
+    >
+      <head>
+        <link href="https://va.vercel-scripts.com" rel="dns-prefetch" />
+        <link href="/openapi.json" rel="describedby" type="application/json" />
+      </head>
+      <body className="container relative mx-auto flex min-h-screen max-w-5xl flex-col px-2 tracking-tight md:px-4">
+        <SkipLink />
+        <NextIntlClientProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            disableTransitionOnChange
+            enableSystem
+          >
+            <Header />
+            <AnnouncementBanner />
+            <main id="main-content">{children}</main>
+            <JsonLd />
+            <Footer />
+            <Background />
+            <Toaster />
+            <ConsentBanner />
+            <Analytics />
+            <WebMcpProvider />
+          </ThemeProvider>
+        </NextIntlClientProvider>
+        <script
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: static inline service worker registration
+          dangerouslySetInnerHTML={{
+            __html:
+              'if("serviceWorker"in navigator)navigator.serviceWorker.register("/sw.js")',
+          }}
+        />
+      </body>
+    </html>
+  );
+}
+
+async function SkipLink() {
+  const t = await getTranslations("Nav");
+  return (
+    <a
+      className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:rounded-md focus:bg-background focus:px-4 focus:py-2 focus:text-foreground focus:ring-2 focus:ring-ring"
+      href="#main-content"
+    >
+      {t("skipToContent")}
+    </a>
   );
 }

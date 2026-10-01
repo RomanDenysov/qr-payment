@@ -1,4 +1,4 @@
-import { getTranslations, setRequestLocale } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 import { Badge } from "@/components/ui/badge";
 import { linkVariants } from "@/components/ui/link";
 import { Separator } from "@/components/ui/separator";
@@ -62,8 +62,6 @@ export async function generateMetadata({ params }: Props) {
 
 export default async function ChangelogPage({ params }: Props) {
   const { locale } = await params;
-  setRequestLocale(locale);
-
   const tMeta = await getTranslations({ locale, namespace: "Metadata" });
   const tNav = await getTranslations({ locale, namespace: "Nav" });
   const t = await getTranslations({ locale, namespace: "Changelog" });

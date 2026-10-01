@@ -1,4 +1,4 @@
-import { getTranslations, setRequestLocale } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 import {
   Accordion,
   AccordionContent,
@@ -33,8 +33,6 @@ export async function generateMetadata({ params }: Props) {
 
 export default async function FaqPage({ params }: Props) {
   const { locale } = await params;
-  setRequestLocale(locale);
-
   const t = await getTranslations({ locale, namespace: "Metadata" });
   const t_nav = await getTranslations({ locale, namespace: "Nav" });
   const faqItems = getFaqData(locale);
