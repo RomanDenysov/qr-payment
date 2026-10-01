@@ -120,6 +120,20 @@ export async function HomeMoreTools() {
       <div className="flex flex-wrap items-center gap-3">
         <Link
           className={linkVariants({ size: "sm", variant: "muted" })}
+          href="/ako-vytvorit-qr-kod-na-platbu"
+        >
+          {t("section4GuideLink")}
+        </Link>
+        <span className="text-muted-foreground text-xs">•</span>
+        <Link
+          className={linkVariants({ size: "sm", variant: "muted" })}
+          href="/sepa-qr-code-generator"
+        >
+          {t("section4SepaLink")}
+        </Link>
+        <span className="text-muted-foreground text-xs">•</span>
+        <Link
+          className={linkVariants({ size: "sm", variant: "muted" })}
           href="/studio"
         >
           {t("section4StudioLink")}

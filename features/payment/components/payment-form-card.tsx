@@ -324,6 +324,18 @@ export function PaymentFormCard() {
     setPreferredCurrency("CZK");
   }, [locale, setValue, setPreferredFormat, setPreferredCurrency]);
 
+  // Landing pages link to /?format=epc. Read on mount from window.location:
+  // useSearchParams() would opt the homepage out of prerendering.
+  useEffect(() => {
+    const requested = new URLSearchParams(window.location.search).get("format");
+    if (requested && requested in FORMAT_LABELS) {
+      setValue("format", requested as PaymentFormat);
+      if (requested === "epc") {
+        setValue("currency", "EUR");
+      }
+    }
+  }, [setValue]);
+
   const handleClear = () => {
     reset({ ...defaultValues, format });
   };

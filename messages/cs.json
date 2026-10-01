@@ -14,6 +14,10 @@
     "termsDescription": "Podmínky používání aplikace QR Platby.",
     "faqTitle": "Často kladené otázky",
     "faqDescription": "Odpovědi na nejčastější otázky o generátoru QR kódů pro platby.",
+    "guideTitle": "Jak vytvořit QR kód pro platbu - návod krok za krokem",
+    "guideDescription": "Návod, jak zdarma vytvořit QR kód pro platbu z IBANu. Krok za krokem, bez registrace, funguje se všemi českými bankami. QR platba (SPAYD) i PAY by square.",
+    "sepaTitle": "SEPA QR kód generátor (EPC QR) - zdarma, bez registrace",
+    "sepaDescription": "Vytvořte EPC QR kód pro eurové SEPA převody z IBANu. Zdarma a bez registrace. Naskenují ho bankovní aplikace v Německu, Rakousku i v celé eurozóně.",
     "homeH1": "Generátor QR kódů pro platby - české a slovenské banky zdarma",
     "homeDescription": "Stačí IBAN a částka. Klient naskenuje a zaplatí jedním kliknutím. Bez registrace, bez poplatků.",
     "sectionApi": "REST API pro generování QR kódů",
@@ -545,8 +549,125 @@
       "UniCredit"
     ],
     "section4MoreLinksTitle": "Další nástroje",
+    "section4GuideLink": "Jak vytvořit QR kód pro platbu",
+    "section4SepaLink": "SEPA QR kód generátor",
     "section4StudioLink": "Pokročilý editor QR",
     "section4BulkLink": "Hromadné generování"
+  },
+  "Sepa": {
+    "h1": "SEPA QR kód generátor (EPC QR) - zdarma, bez registrace",
+    "intro1": "Vytvořte EPC QR kód (nazývaný také SEPA QR kód) pro eurové bankovní převody během pár sekund: zadejte IBAN, jméno příjemce a částku, klikněte na Vygenerovat a kód sdílejte nebo vytiskněte. Plátce ho naskenuje bankovní aplikací a převod má předvyplněný.",
+    "intro2": "Generátor je zdarma, bez registrace a platební údaje nikdy neopustí váš prohlížeč.",
+    "heroButton": "Vygenerovat EPC QR kód",
+    "whatTitle": "Co je EPC QR kód?",
+    "whatText1": "EPC QR je standard Evropské platební rady (European Payments Council) pro SEPA převody. Kód obsahuje IBAN a jméno příjemce, částku v eurech, volitelný BIC a platební referenci nebo zprávu - vše, co bankovní aplikace potřebuje k předvyplnění převodu jedním skenem.",
+    "whatText2": "EPC QR kódy fungují jen pro eurové převody. Pro platby v českých korunách použijte formát SPAYD (QR platba) a pro slovenské účty je nativní volbou PAY by square - generátor podporuje všechny tři.",
+    "banksTitle": "Které bankovní aplikace skenují EPC QR kódy?",
+    "banksText": "EPC QR je široce podporovaný v Německu a Rakousku, kde ho v aplikacích najdete jako GiroCode nebo Zahlen mit Code, a stále více i v dalších zemích eurozóny - v Belgii, Finsku, Nizozemsku, na Slovensku a jinde. Podpora se liší podle banky - pokud si nejste jistí, vygenerujte zkušební kód a naskenujte ho svou aplikací.",
+    "guideLinkLabel": "Návod krok za krokem: Jak vytvořit QR kód pro platbu",
+    "ctaTitle": "Vytvořte si SEPA QR kód",
+    "ctaText": "Zdarma, bez registrace, eurové převody na jakýkoli IBAN v SEPA prostoru.",
+    "ctaButton": "Otevřít generátor",
+    "faqTitle": "Časté otázky",
+    "faq": [
+      {
+        "question": "Je SEPA QR kód generátor zdarma?",
+        "answer": "Ano, zcela zdarma, bez omezení počtu kódů a bez registrace. QR kód se generuje ve vašem prohlížeči a údaje se nikam neodesílají."
+      },
+      {
+        "question": "Jaké údaje obsahuje EPC QR kód?",
+        "answer": "IBAN a jméno příjemce, částku v eurech a volitelně BIC a platební referenci nebo zprávu. Částku můžete nechat prázdnou a plátce ji doplní sám."
+      },
+      {
+        "question": "Podporuje moje banka EPC QR kódy?",
+        "answer": "V Německu a Rakousku je podpora téměř univerzální (v aplikaci hledejte GiroCode nebo Zahlen mit Code). Jinde v eurozóně podpora roste, ale liší se podle banky - nejrychleji to ověříte naskenováním zkušebního kódu."
+      },
+      {
+        "question": "Můžu EPC QR kód použít pro platby v jiné měně než euro?",
+        "answer": "Ne, standard EPC je jen pro eura. Pro platby v českých korunách přepněte generátor na SPAYD (QR platba) a pro slovenské účty použijte PAY by square."
+      },
+      {
+        "question": "Jaký je rozdíl mezi EPC QR, PAY by square a SPAYD?",
+        "answer": "Všechny tři kódují bankovní převod do QR kódu. EPC QR je evropský SEPA standard, PAY by square slovenský a SPAYD český standard. Vyberte formát, kterému rozumí banka příjemce - generátor podporuje všechny tři."
+      }
+    ]
+  },
+  "Guide": {
+    "h1": "Jak vytvořit QR kód pro platbu",
+    "intro1": "QR kód pro platbu vytvoříte zdarma během pár sekund: zadejte IBAN a částku do generátoru, klikněte na Vygenerovat a hotový QR kód si stáhněte nebo jej nechte naskenovat přímo z obrazovky. Nepotřebujete registraci ani instalaci - stačí prohlížeč.",
+    "intro2": "Bankovní aplikace z kódu přečte všechny platební údaje - číslo účtu, částku, variabilní symbol i zprávu pro příjemce - a předvyplní převod. Plátce už jen potvrdí platbu. Odpadá ruční přepisování čísel účtů i překlepy.",
+    "stepsTitle": "Vytvoření QR kódu krok za krokem",
+    "steps": [
+      {
+        "name": "Zadejte IBAN",
+        "text": "Vložte IBAN účtu, na který má platba přijít. Generátor automaticky rozpozná banku a zkontroluje formát. IBAN najdete v internetovém bankovnictví u detailu účtu."
+      },
+      {
+        "name": "Doplňte částku a symboly",
+        "text": "Částka je volitelná - když ji necháte prázdnou, vznikne statický QR kód a plátce ji zadá sám. Variabilní, specifický a konstantní symbol doplňte podle potřeby, například číslo faktury."
+      },
+      {
+        "name": "Vyberte formát",
+        "text": "Pro české banky nechte SPAYD (QR platba). Pro slovenské banky zvolte PAY by square a pro ostatní evropské banky EPC QR (SEPA)."
+      },
+      {
+        "name": "Vygenerujte QR kód",
+        "text": "Klikněte na Vygenerovat. QR kód se vytvoří přímo ve vašem prohlížeči - platební údaje se nikam neodesílají."
+      },
+      {
+        "name": "Stáhněte nebo sdílejte",
+        "text": "QR kód si stáhněte jako obrázek, zkopírujte do schránky nebo jej nechte naskenovat přímo z obrazovky. Vložit ho můžete na fakturu, do e-mailu i na leták."
+      }
+    ],
+    "formatsTitle": "Který formát QR kódu vybrat",
+    "formatsIntro": "Každá země používá vlastní standard platebních QR kódů. Generátor podporuje všechny tři hlavní formáty:",
+    "formats": [
+      {
+        "name": "SPAYD",
+        "region": "Česko",
+        "description": "Český standard QR platba (Short Payment Descriptor). Podporují ho všechny české banky - Česká spořitelna, Komerční banka, ČSOB, Air Bank, Fio, Raiffeisenbank i Moneta. První volba pro platby na český účet."
+      },
+      {
+        "name": "PAY by square",
+        "region": "Slovensko",
+        "description": "Slovenský standard, který naskenuje každá slovenská bankovní aplikace. Zvolte ho pro platby na slovenský účet."
+      },
+      {
+        "name": "EPC QR",
+        "region": "EU / SEPA",
+        "description": "Evropský standard pro eurové SEPA převody. Funguje v bankovních aplikacích v Německu, Rakousku, Nizozemsku a většině eurozóny."
+      }
+    ],
+    "ctaTitle": "Vytvořte si QR kód pro platbu",
+    "ctaText": "Generátor je zdarma, bez registrace a všechny údaje zůstávají ve vašem prohlížeči.",
+    "ctaButton": "Otevřít generátor",
+    "faqTitle": "Časté otázky",
+    "faq": [
+      {
+        "question": "Je vytvoření QR kódu zdarma?",
+        "answer": "Ano, generátor je zcela zdarma a bez omezení počtu QR kódů. Není potřeba registrace ani instalace."
+      },
+      {
+        "question": "Musím něco instalovat?",
+        "answer": "Ne. Generátor běží přímo v prohlížeči na počítači i mobilu. Na skenování stačí bankovní aplikace, kterou už máte."
+      },
+      {
+        "question": "Funguje QR kód s mou bankou?",
+        "answer": "Ano. SPAYD (QR platba) podporují všechny české banky, PAY by square všechny slovenské banky a EPC QR většina evropských bank v eurozóně."
+      },
+      {
+        "question": "Co je variabilní symbol v QR kódu?",
+        "answer": "Variabilní symbol je identifikátor platby, nejčastěji číslo faktury. Bankovní aplikace ho z QR kódu automaticky předvyplní, takže platbu snadno spárujete s fakturou."
+      },
+      {
+        "question": "Můžu vytvořit QR kód bez částky?",
+        "answer": "Ano. Když částku nevyplníte, vznikne statický QR kód - plátce zadá částku sám. Hodí se na dobrovolné příspěvky nebo opakované platby s různou částkou."
+      },
+      {
+        "question": "Potřebuji IBAN, nebo stačí číslo účtu?",
+        "answer": "Generátor pracuje s IBANem. Svůj IBAN najdete v internetovém bankovnictví u detailu účtu, případně si ho z čísla účtu převedete kalkulačkou na webu ČNB."
+      }
+    ]
   },
   "Stats": {
     "totalLabel": "vygenerovaných QR kódů",

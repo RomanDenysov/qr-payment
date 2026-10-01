@@ -87,7 +87,7 @@ export default async function FaqPage({ params }: Props) {
                       <Link
                         className={linkVariants()}
                         href={link.href}
-                        key={link.href}
+                        key={link.label}
                       >
                         {link.label} →
                       </Link>
