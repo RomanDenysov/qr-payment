@@ -1,14 +1,10 @@
 import { getTranslations } from "next-intl/server";
 import { Button } from "@/components/ui/button";
-import { Card, CardHeader, CardTitle } from "@/components/ui/card";
-import { decodeShareData } from "@/features/payment/share-link";
 import { Link } from "@/i18n/navigation";
-import { PaymentDetails } from "./payment-details";
-import { ShareQRSection } from "./share-qr-section";
+import { SharedPayment } from "./shared-payment";
 
 interface Props {
   params: Promise<{ locale: string }>;
-  searchParams: Promise<{ d?: string }>;
 }
 
 export function generateMetadata() {
@@ -17,44 +13,16 @@ export function generateMetadata() {
   };
 }
 
-export default async function SharePage({ params, searchParams }: Props) {
-  const [{ locale }, { d }] = await Promise.all([params, searchParams]);
-  const data = d ? decodeShareData(d) : null;
-
-  if (d && !data) {
-    console.error("[SharePage] Invalid share link", {
-      locale,
-      encodedLength: d.length,
-    });
-  }
-
+/**
+ * Shared payment page. The payment travels in the URL fragment and is decoded
+ * in the browser, so this page is static and the server never sees it.
+ */
+export default async function SharePage({ params }: Props) {
+  const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "SharePage" });
 
-  if (!data) {
-    return (
-      <div className="flex flex-1 flex-col items-center justify-center gap-4 pt-16">
-        <p className="text-muted-foreground">{t("invalidLink")}</p>
-        <Link href="/">
-          <Button>{t("backHome")}</Button>
-        </Link>
-      </div>
-    );
-  }
-
-  const { payment, branding } = data;
-  const format = payment.format ?? "bysquare";
-
   return (
-    <div className="mx-auto flex max-w-md flex-1 flex-col items-center pt-5 sm:pt-8 md:pt-16">
-      <Card className="w-full py-0">
-        <CardHeader className="h-10 gap-0 border-b px-0">
-          <CardTitle className="h-full grow px-4 py-2">{t("title")}</CardTitle>
-        </CardHeader>
-        <ShareQRSection branding={branding} payment={payment}>
-          <PaymentDetails format={format} payment={payment} />
-        </ShareQRSection>
-      </Card>
-
+    <SharedPayment>
       <div className="mt-6 flex w-full flex-col items-center gap-2 border border-border bg-card p-5 text-center">
         <p className="font-medium text-sm">{t("ctaTitle")}</p>
         <p className="text-muted-foreground text-xs">{t("ctaDescription")}</p>
@@ -62,6 +30,6 @@ export default async function SharePage({ params, searchParams }: Props) {
           <Button className="w-full sm:w-auto">{t("ctaButton")}</Button>
         </Link>
       </div>
-    </div>
+    </SharedPayment>
   );
 }

@@ -147,6 +147,11 @@ async function executeGenerateQr(
     amount: args.amount ?? null,
     currency,
     format: FORMAT_LABELS[format],
+    ...(format === "bysquare" &&
+      !(args.recipientName as string | undefined)?.trim() && {
+        warning:
+          "recipientName is missing. Slovak banks verify the payee name, so the payer will have to type it in after scanning.",
+      }),
   });
 }
 

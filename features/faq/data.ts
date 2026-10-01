@@ -19,7 +19,7 @@ const faqData: Record<string, FaqItem[]> = {
     {
       question: "Ako to funguje?",
       answer:
-        "Zadáte platobné údaje (IBAN, sumu, variabilný symbol a pod.), kliknete na Vygenerovať a získate QR kód. Ten naskenujete bankovou aplikáciou a platba sa automaticky vyplní.",
+        "Zadáte platobné údaje (IBAN, meno príjemcu, sumu, variabilný symbol a pod.), kliknete na Vygenerovať a získate QR kód. Ten naskenujete bankovou aplikáciou a platba sa automaticky vyplní.",
       links: [
         {
           label: "Návod: Ako vytvoriť QR kód na platbu",
@@ -35,7 +35,7 @@ const faqData: Record<string, FaqItem[]> = {
     {
       question: "Sú moje údaje v bezpečí?",
       answer:
-        "Áno. Všetky údaje sa spracúvajú priamo vo vašom prehliadači a nikdy neopúšťajú vaše zariadenie. Nepoužívame cookies, nezbierame osobné údaje a nemáme žiadnu databázu.",
+        "Áno. Platobné údaje sa vo webovej aplikácii spracúvajú priamo vo vašom prehliadači a neopúšťajú vaše zariadenie, ani pri zdieľaní odkazom. Na server ide len anonymný signál pre počítadlo vygenerovaných kódov. Nepoužívame sledovacie cookies a platobné údaje nikde neukladáme.",
     },
     {
       question: "S ktorými bankami to funguje?",
@@ -61,7 +61,7 @@ const faqData: Record<string, FaqItem[]> = {
     {
       question: "Môžem si QR kód upraviť?",
       answer:
-        "Áno. Môžete zmeniť farbu QR kódu a pozadia, vybrať štýl bodov (štvorce, zaoblené, kruhy alebo elegantné), pridať text do stredu alebo vlastné logo. Všetky úpravy sú viditeľné v reálnom čase. Nastavenia si môžete uložiť ako šablónu pre opakované použitie.",
+        "Áno. Môžete zmeniť farbu QR kódu a pozadia vrátane gradientov, vybrať štýl bodov (štvorce, zaoblené, kruhy alebo elegantné), pridať text do stredu, vlastné logo alebo rám. Všetky úpravy sú viditeľné v reálnom čase. Nastavenia si môžete uložiť ako šablónu pre opakované použitie.",
     },
     {
       question: "Čo je hromadné generovanie?",
@@ -72,7 +72,7 @@ const faqData: Record<string, FaqItem[]> = {
     {
       question: "Ako môžem zdieľať platbu?",
       answer:
-        "Kliknite na tlačidlo Zdieľať link a skopírujte odkaz. Odkaz obsahuje všetky platobné údaje vrátane IBAN, sumy, symbolov, poznámky a vzhľadu QR kódu. Príjemca po otvorení odkazu uvidí stránku s QR kódom, ktorý naskenuje bankovou aplikáciou.",
+        "Kliknite na tlačidlo Zdieľať link a skopírujte odkaz. Odkaz obsahuje všetky platobné údaje vrátane IBAN, sumy, symbolov a poznámky a základné farby QR kódu. Logo, gradienty a rám sa neprenášajú. Príjemca po otvorení odkazu uvidí stránku s QR kódom, ktorý naskenuje bankovou aplikáciou.",
     },
   ],
   en: [
@@ -84,7 +84,7 @@ const faqData: Record<string, FaqItem[]> = {
     {
       question: "How does it work?",
       answer:
-        "Enter payment details (IBAN, amount, variable symbol, etc.), click Generate, and you get a QR code. Scan it with your banking app and the payment fills in automatically.",
+        "Enter payment details (IBAN, recipient name, amount, variable symbol, etc.), click Generate, and you get a QR code. Scan it with your banking app and the payment fills in automatically.",
       links: [
         {
           label: "Guide: How to create a payment QR code",
@@ -100,7 +100,7 @@ const faqData: Record<string, FaqItem[]> = {
     {
       question: "Is my data safe?",
       answer:
-        "Yes. All data is processed directly in your browser and never leaves your device. We don't use cookies, don't collect personal data, and don't have any database.",
+        "Yes. In the web app your payment data is processed directly in your browser and never leaves your device, share links included. The server only receives an anonymous signal for the counter of generated codes. We don't use tracking cookies and we don't store payment data anywhere.",
     },
     {
       question: "Which banks does it work with?",
@@ -126,7 +126,7 @@ const faqData: Record<string, FaqItem[]> = {
     {
       question: "Can I customize the QR code?",
       answer:
-        "Yes. You can change the QR code and background colors, choose a dot style (square, rounded, circles, or classy), and add center text or your own logo. All changes are visible in real time. You can also save your customization settings as a template for reuse.",
+        "Yes. You can change the QR code and background colors, gradients included, choose a dot style (square, rounded, circles, or classy), and add center text, your own logo or a frame. All changes are visible in real time. You can also save your customization settings as a template for reuse.",
     },
     {
       question: "What is bulk generation?",
@@ -137,7 +137,7 @@ const faqData: Record<string, FaqItem[]> = {
     {
       question: "How can I share a payment?",
       answer:
-        "Click the Share link button and copy the link. The link contains all payment details including IBAN, amount, symbols, note, and QR code appearance. The recipient will see a page with the QR code that they can scan using their banking app.",
+        "Click the Share link button and copy the link. The link contains all payment details including IBAN, amount, symbols and note, and the basic colors of the QR code. The logo, gradients and frame are not carried over. The recipient will see a page with the QR code that they can scan using their banking app.",
     },
   ],
   cs: [
@@ -165,7 +165,7 @@ const faqData: Record<string, FaqItem[]> = {
     {
       question: "Jsou moje údaje v bezpečí?",
       answer:
-        "Ano. Všechny údaje se zpracovávají přímo ve vašem prohlížeči a nikdy neopouštějí vaše zařízení. Nepoužíváme cookies, neshromažďujeme osobní údaje a nemáme žádnou databázi.",
+        "Ano. Platební údaje se ve webové aplikaci zpracovávají přímo ve vašem prohlížeči a neopouštějí vaše zařízení, ani při sdílení odkazem. Na server jde jen anonymní signál pro počítadlo vygenerovaných kódů. Nepoužíváme sledovací cookies a platební údaje nikde neukládáme.",
     },
     {
       question: "Které banky podporují QR platbu?",
@@ -191,7 +191,7 @@ const faqData: Record<string, FaqItem[]> = {
     {
       question: "Můžu si QR kód upravit?",
       answer:
-        "Ano. Můžete změnit barvu QR kódu a pozadí, vybrat styl bodů (čtverce, zaoblené, kruhy nebo elegantní), přidat text do středu nebo vlastní logo. Všechny úpravy jsou viditelné v reálném čase. Nastavení si můžete uložit jako šablonu pro opakované použití.",
+        "Ano. Můžete změnit barvu QR kódu a pozadí včetně gradientů, vybrat styl bodů (čtverce, zaoblené, kruhy nebo elegantní), přidat text do středu, vlastní logo nebo rám. Všechny úpravy jsou viditelné v reálném čase. Nastavení si můžete uložit jako šablonu pro opakované použití.",
     },
     {
       question: "Co je hromadné generování?",
@@ -202,7 +202,7 @@ const faqData: Record<string, FaqItem[]> = {
     {
       question: "Jak můžu sdílet platbu?",
       answer:
-        "Klikněte na tlačítko Sdílet link a zkopírujte odkaz. Odkaz obsahuje všechny platební údaje včetně IBAN, částky, symbolů, poznámky a vzhledu QR kódu. Příjemce po otevření odkazu uvidí stránku s QR kódem, který naskenuje bankovní aplikací.",
+        "Klikněte na tlačítko Sdílet link a zkopírujte odkaz. Odkaz obsahuje všechny platební údaje včetně IBAN, částky, symbolů a poznámky a základní barvy QR kódu. Logo, gradienty a rám se nepřenášejí. Příjemce po otevření odkazu uvidí stránku s QR kódem, který naskenuje bankovní aplikací.",
     },
   ],
 };

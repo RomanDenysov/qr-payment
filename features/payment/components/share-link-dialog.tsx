@@ -52,7 +52,7 @@ export function ShareLinkDialog({ payment }: Props) {
   const handleCopy = async () => {
     try {
       const prefix = locale === "sk" ? "" : `/${locale}`;
-      const shareUrl = `${window.location.origin}${prefix}/p?d=${encoded}`;
+      const shareUrl = `${window.location.origin}${prefix}/p#d=${encoded}`;
       await navigator.clipboard.writeText(shareUrl);
       trigger();
       track("share_link_copied");

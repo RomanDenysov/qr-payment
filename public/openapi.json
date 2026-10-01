@@ -318,7 +318,7 @@
           "paymentNote": {
             "type": "string",
             "maxLength": 140,
-            "description": "Payment note / message for recipient"
+            "description": "Payment note / message for recipient (cut to 60 characters for spayd)"
           },
           "bic": {
             "type": "string",

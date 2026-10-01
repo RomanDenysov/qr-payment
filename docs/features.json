@@ -16,7 +16,7 @@
       "category": "core",
       "i18nNamespace": null,
       "clientSide": false,
-      "description": "REST API for generating BySquare and SPAYD QR payment codes. Supports PNG/SVG output, configurable size, and IP-based rate limiting via Upstash Redis."
+      "description": "REST API for generating PAY by square, SPAYD and EPC QR payment codes. Supports PNG/SVG output, configurable size, and IP-based rate limiting via Upstash Redis."
     },
     {
       "name": "OpenAPI Specification",
@@ -70,7 +70,7 @@
       "category": "core",
       "i18nNamespace": "Docs",
       "clientSide": false,
-      "description": "Comprehensive API documentation page with interactive Try It form, code examples in 5 languages, parameter reference table, and error handling guide."
+      "description": "Comprehensive API documentation page with interactive Try It form, code examples in 6 languages, parameter reference table, and error handling guide."
     },
     {
       "name": "API Card",
@@ -88,7 +88,7 @@
       "category": "core",
       "i18nNamespace": null,
       "clientSide": true,
-      "description": "Registers tools via the W3C Web Model Context API, allowing in-browser AI agents to generate BySquare and SPAYD QR codes directly without API calls."
+      "description": "Registers tools via the W3C Web Model Context API, allowing in-browser AI agents to generate PAY by square, SPAYD and EPC QR codes directly without API calls."
     },
     {
       "name": "QR Customizer",
@@ -146,7 +146,7 @@
     },
     {
       "name": "QR Download & Copy",
-      "source": "features/payment/components/qr-actions.tsx",
+      "source": "features/payment/components/qr-preview-card.tsx",
       "route": null,
       "category": "export",
       "i18nNamespace": "Payment",
@@ -196,7 +196,7 @@
       "category": "ui",
       "i18nNamespace": "Feedback",
       "clientSide": true,
-      "description": "Dialog for users to submit improvement suggestions with rate limiting and submission history. An optional email lets the developer follow up; requests are delivered through Telegram."
+      "description": "Dialog for users to submit improvement suggestions with a local history of sent suggestions. An optional email lets the developer follow up; requests are delivered through Telegram."
     },
     {
       "name": "Multi-Language Support",
@@ -223,7 +223,7 @@
       "category": "ui",
       "i18nNamespace": "Consent",
       "clientSide": true,
-      "description": "One-time banner informing users about localStorage usage. No cookies, no data collection."
+      "description": "One-time banner informing users about localStorage usage and the single language cookie."
     },
     {
       "name": "Offline Support",
@@ -232,7 +232,7 @@
       "category": "ui",
       "i18nNamespace": "Offline",
       "clientSide": false,
-      "description": "Service worker enables partial offline functionality. QR generation works without internet."
+      "description": "Service worker caches only an offline fallback page. The app itself needs a connection to load."
     },
     {
       "name": "Privacy Policy",
@@ -241,7 +241,7 @@
       "category": "legal",
       "i18nNamespace": "Privacy",
       "clientSide": false,
-      "description": "Data protection information page explaining that all data stays in the browser."
+      "description": "Data protection page: payment data stays in the browser (share links carry it in the URL fragment); documents analytics events, the counter ping, the language cookie, the REST API and feature requests."
     },
     {
       "name": "Terms of Service",
@@ -268,7 +268,7 @@
       "category": "ui",
       "i18nNamespace": "Changelog",
       "clientSide": false,
-      "description": "Chronological log of features, API changes, and improvements with locale-aware dates and BreadcrumbList + ItemList JSON-LD. Linked only from the announcement banner; entries are stored in features/changelog/data.ts."
+      "description": "Chronological log of features, API changes, and improvements with locale-aware dates and BreadcrumbList + ItemList JSON-LD. Linked from the announcement banner and the footer; entries are stored in features/changelog/data.ts."
     },
     {
       "name": "Optional Payment Fields",

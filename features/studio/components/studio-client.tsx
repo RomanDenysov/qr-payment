@@ -48,7 +48,8 @@ function toPaymentData(p: StudioPaymentState): PaymentFormData | null {
   if (p.amount < 0 || p.amount > 999_999_999.99) {
     return null;
   }
-  if (p.format === "epc" && !p.recipientName.trim()) {
+  // Same rule as the home form: only SPAYD may omit the payee name.
+  if (p.format !== "spayd" && !p.recipientName.trim()) {
     return null;
   }
   return {

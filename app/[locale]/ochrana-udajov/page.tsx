@@ -64,7 +64,7 @@ export default async function PrivacyPolicyPage({ params }: Props) {
           <p>
             <a
               className={linkVariants()}
-              href="https://buymeacoffee.com/romandenysov"
+              href="https://denysov.dev"
               rel="noopener noreferrer"
               target="_blank"
             >

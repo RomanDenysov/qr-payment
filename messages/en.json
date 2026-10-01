@@ -21,14 +21,14 @@
     "sepaTitle": "SEPA QR Code Generator (EPC QR) - Free, No Signup",
     "sepaDescription": "Generate an EPC QR code for SEPA euro transfers from any IBAN. Free, no signup. Scannable by banking apps in Germany, Austria and across the eurozone.",
     "homeH1": "PAY by square Generator - Free Payment QR Codes for Slovak & Czech Banks",
-    "homeDescription": "Just IBAN and amount. Your customer scans and pays with a single click. No signup, no fees.",
+    "homeDescription": "Just IBAN, recipient name and amount. Your customer scans and pays with a single click. No signup, no fees.",
     "sectionApi": "REST API for QR Code Generation",
     "backToHome": "Back to home page",
     "webApiDescription": "REST API for generating QR codes for Slovak and Czech bank payments in BySquare, EPC, and SPAYD formats. Free, no authentication required.",
     "apiDocsTitle": "API Documentation",
-    "apiDocsDescription": "Complete REST API documentation for generating PAY by square and SPAYD QR codes for Slovak and Czech bank payments. Free, no authentication required.",
+    "apiDocsDescription": "Complete REST API documentation for generating PAY by square, SPAYD and EPC QR codes for Slovak, Czech and SEPA bank payments. Free, no authentication required.",
     "studioTitle": "QR Studio - Advanced QR Code Editor",
-    "studioDescription": "Design a QR code with gradients, custom logo, frame, caption, and overlay positioning. Fully offline, no signup.",
+    "studioDescription": "Design a QR code with gradients, custom logo, frame, caption, and overlay positioning. Runs in your browser, no signup.",
     "changelogTitle": "Changelog",
     "changelogDescription": "Chronological log of new features, improvements, and API changes in QR Platby. Stay up to date with the latest releases."
   },
@@ -71,7 +71,7 @@
     "categoryImprovement": "Improvement"
   },
   "Consent": {
-    "message": "This site uses localStorage to save your settings. We don't collect cookies or personal data.",
+    "message": "This site uses localStorage to save your settings and one cookie for the language. We don't collect tracking cookies or personal data.",
     "privacyPolicy": "Privacy Policy",
     "accept": "Got it"
   },
@@ -126,6 +126,8 @@
     "max4chars": "Max 4 characters",
     "max70chars": "Max 70 characters",
     "max140chars": "Max 140 characters",
+    "max35chars": "Max 35 characters for SPAYD",
+    "max60chars": "Max 60 characters for SPAYD",
     "max11chars": "Max 11 characters",
     "max16chars": "Max 16 characters",
     "dueDateInvalid": "Invalid date",
@@ -351,11 +353,11 @@
   "ShareLink": {
     "trigger": "Share link",
     "title": "Share payment via link",
-    "description": "The link contains IBAN, amount, recipient name, payment symbols, note, and QR code appearance.",
+    "description": "The link contains the payment details (IBAN, amount, recipient name, symbols, note and optional fields) and the basic colors and text of the QR code. They sit in the part of the address after #, which is not sent to the server.",
     "copyLink": "Copy link",
     "copied": "Link copied",
     "copyFailed": "Failed to copy link",
-    "logoNotice": "The logo won't appear in the shared link. The recipient's QR code will be displayed without it.",
+    "logoNotice": "The logo, gradients, dot style and frame are not carried by the link. The recipient's QR code is shown in the basic look.",
     "hint": "The recipient will see a page with the QR code, which they can scan using their banking app."
   },
   "SharePage": {
@@ -373,7 +375,7 @@
     "title": "API Available",
     "description": "Integrate QR code generation into your app, chatbot, or workflow. Free, no API key required.",
     "promptHint": "Just ask ChatGPT or Claude:",
-    "prompt": "First GET https://qr-platby.com/api/v1/qr to read the API docs, then generate a PAY by square QR code for 25€ to IBAN SK3112000000198742637541",
+    "prompt": "First GET https://qr-platby.com/api/v1/qr to read the API docs, then generate a PAY by square QR code for 25€ to IBAN SK3112000000198742637541 for recipient Ján Novák",
     "promptAlt": "Generate a Czech SPAYD QR code for 500 CZK to IBAN CZ5508000000001234567899 with variable symbol 1234567890",
     "promptAltLabel": "or try Czech SPAYD:",
     "mcpNote": "Also available as a ChatGPT Custom GPT and Claude MCP server.",
@@ -383,7 +385,7 @@
   },
   "Docs": {
     "title": "API Documentation",
-    "subtitle": "Generate PAY by square and SPAYD QR codes via REST API",
+    "subtitle": "Generate PAY by square, SPAYD and EPC QR codes via REST API",
     "quickStart": "Quick Start",
     "quickStartDesc": "Generate a Slovak PAY by square QR code with a single POST request:",
     "quickStartSpayd": "Or generate a Czech SPAYD QR code:",
@@ -414,7 +416,6 @@
     "tryItDesc": "Send a real request to the API and see the response:",
     "noAuth": "No authentication required",
     "corsEnabled": "CORS enabled for all origins",
-    "epcNote": "EPC QR (European SEPA) is available in the web app but not yet via the API.",
     "amount": "Amount",
     "advanced": "Advanced Options",
     "send": "Send Request",
@@ -437,8 +438,6 @@
     "close": "Close",
     "successTitle": "Thank you for your suggestion!",
     "successClose": "This window will close automatically...",
-    "maxReachedTitle": "Limit reached",
-    "maxReached": "You have sent the maximum number of suggestions.",
     "sendFailed": "Failed to send message",
     "submitted": "Suggestion submitted",
     "previousTitle": "Previous suggestions ({count})",
@@ -460,7 +459,7 @@
     },
     "dataCollection": {
       "heading": "What data we collect",
-      "body": "<strong>No payment data.</strong> All payment details (IBAN, amount, symbols) are processed only in your browser and are never sent to a server. The one exception outside payments is a feature request you choose to send (see below)."
+      "body": "<strong>No payment data.</strong> In the web app all payment details (IBAN, amount, symbols) are processed only in your browser and are never sent to a server. That includes share links: the payment sits in the part of the address after #, which browsers do not send to the server. The exceptions are the REST API, which processes a request on the server and does not store it, and a feature request you choose to send (see below)."
     },
     "localStorage": {
       "heading": "Local storage (localStorage)",
@@ -469,11 +468,11 @@
     },
     "analytics": {
       "heading": "Analytics",
-      "body": "We use <link>Vercel Web Analytics</link>, which collects anonymous traffic data (page views, country). It does not use cookies and does not identify individual users."
+      "body": "We use <link>Vercel Web Analytics</link>, which collects anonymous traffic data (page views, country) and feature usage, such as the chosen format or the number of filled fields. Payment data is not part of it. It does not use cookies and does not identify individual users. After a QR code is generated, the server only receives a signal for an anonymous counter; the IP address is used briefly there to prevent abuse. On the first visit the page language is chosen by country."
     },
     "cookies": {
       "heading": "Cookies and tracking",
-      "body": "The application does not use cookies. We do not use any advertising, tracking, or third-party marketing tools."
+      "body": "The application does not use tracking or advertising cookies. A single cookie (NEXT_LOCALE) remembers the chosen language. We do not use any advertising, tracking, or third-party marketing tools."
     },
     "contact": {
       "heading": "Contact",
@@ -518,7 +517,7 @@
   },
   "HomeContent": {
     "section1Title": "PAY by square QR code generator",
-    "section1Para1": "PAY by square is the Slovak standard for payment QR codes that you can scan with any banking app. A payment QR code is a fast and secure way to send money without manually entering bank details. The code contains the recipient's IBAN, amount, variable symbol, and note - all readable in a single scan. The amount is optional - leave it empty to create a static QR code from just an IBAN.",
+    "section1Para1": "PAY by square is the Slovak standard for payment QR codes that you can scan with any banking app. A payment QR code is a fast and secure way to send money without manually entering bank details. The code contains the recipient's IBAN and name, amount, variable symbol, and note - all readable in a single scan. The amount is optional - leave it empty and the payer fills it in.",
     "section1Para2": "All data is processed directly in your browser - we don't collect or store any personal data on our servers.",
     "formats": [
       {
@@ -542,7 +541,7 @@
     ],
     "section2Title": "How to create a payment QR code",
     "section2Steps": [
-      "Enter IBAN, amount, and symbols",
+      "Enter IBAN, recipient name, and amount",
       "Optionally customize colors and logo",
       "Generate the QR code",
       "Scan with your banking app"
@@ -616,13 +615,13 @@
   },
   "Guide": {
     "h1": "How to Create a Payment QR Code",
-    "intro1": "You can create a payment QR code for free in a few seconds: enter the IBAN and amount in the generator, click Generate, then download the QR code or let it be scanned straight off the screen. No signup, no installation - just your browser.",
+    "intro1": "You can create a payment QR code for free in a few seconds: enter the IBAN, recipient name and amount in the generator, click Generate, then download the QR code or let it be scanned straight off the screen. No signup, no installation - just your browser.",
     "intro2": "The banking app reads all payment details from the code - IBAN, amount, payment reference and note - and pre-fills the transfer. The payer just confirms it. No more retyping account numbers and no typos.",
     "stepsTitle": "Creating a QR code step by step",
     "steps": [
       {
         "name": "Enter the IBAN",
-        "text": "Paste the IBAN of the account that should receive the payment. The generator detects the bank and validates the format automatically."
+        "text": "Paste the IBAN of the account that should receive the payment. The generator detects the bank and validates the format automatically. Add the exact account holder name too: banks check it when the payment is made."
       },
       {
         "name": "Add the amount and references",
@@ -712,7 +711,7 @@
       "description": "Simple steps to create QR codes for bank payments using QR Platby.",
       "tool": "QR Platby generator",
       "step1Name": "Enter payment details",
-      "step1Text": "Enter your IBAN, amount, variable symbol, and other payment information.",
+      "step1Text": "Enter your IBAN, recipient name, amount, and other payment information.",
       "step2Name": "Customize the QR code",
       "step2Text": "Optionally change colors, dot style, or add your logo.",
       "step3Name": "Generate the QR code",

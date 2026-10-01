@@ -22,8 +22,8 @@ CORS is enabled for all origins. An `OPTIONS` preflight returns `204` with appro
 | `variableSymbol` | string | No | — | Variable symbol, up to 10 digits (digits only) |
 | `specificSymbol` | string | No | — | Specific symbol, up to 10 digits (digits only) |
 | `constantSymbol` | string | No | — | Constant symbol, up to 4 digits (digits only) |
-| `recipientName` | string | No | — | Payee name, up to 70 characters. Use the exact account holder name. Required for `epc`. Expected for `bysquare`: Slovak banks verify it against the IBAN, and a code without it returns a `warnings` entry. |
-| `paymentNote` | string | No | — | Payment note / message, up to 140 characters |
+| `recipientName` | string | No | — | Payee name, up to 70 characters (cut to 35 for `spayd`). Use the exact account holder name. Required for `epc`. Expected for `bysquare`: Slovak banks verify it against the IBAN, and a code without it returns a `warnings` entry. |
+| `paymentNote` | string | No | — | Payment note / message, up to 140 characters (cut to 60 for `spayd`) |
 | `bic` | string | No | — | BIC/SWIFT code (8 or 11 characters). Supported by all formats. |
 | `paymentDueDate` | string | No | — | Payment due date in `YYYY-MM-DD` format. `bysquare` and `spayd` only. |
 | `invoiceId` | string | No | — | Invoice number, up to 10 characters. `bysquare` only. |

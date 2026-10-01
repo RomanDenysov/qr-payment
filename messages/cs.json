@@ -26,9 +26,9 @@
     "backToHome": "Zpět na hlavní stránku",
     "webApiDescription": "REST API pro generování QR kódů pro bankovní platby ve formátech BySquare, EPC a SPAYD. Zdarma, bez autentizace.",
     "apiDocsTitle": "API dokumentace",
-    "apiDocsDescription": "Kompletní REST API dokumentace pro generování PAY by square a SPAYD QR kódů pro slovenské a české bankovní platby. Zdarma, bez autentizace.",
+    "apiDocsDescription": "Kompletní REST API dokumentace pro generování PAY by square, SPAYD a EPC QR kódů pro slovenské, české a SEPA platby. Zdarma, bez autentizace.",
     "studioTitle": "QR Studio - Pokročilý editor QR kódů",
-    "studioDescription": "Navrhněte QR kód s gradienty, vlastním logem, rámem, titulkem a polohou prvků. Plně offline, bez registrace.",
+    "studioDescription": "Navrhněte QR kód s gradienty, vlastním logem, rámem, titulkem a polohou prvků. Běží ve vašem prohlížeči, bez registrace.",
     "changelogTitle": "Změny a novinky",
     "changelogDescription": "Chronologický přehled novinek, vylepšení a změn API v aplikaci QR Platby. Sledujte, co je nového."
   },
@@ -60,7 +60,7 @@
   },
   "Announcement": {
     "message": "Novinky: volitelná pole platby (datum splatnosti, číslo faktury, BIC a další) a jméno příjemce je u PAY by square povinné.",
-    "close": "Zavrit",
+    "close": "Zavřít",
     "readMore": "Zobrazit změny"
   },
   "Changelog": {
@@ -71,7 +71,7 @@
     "categoryImprovement": "Vylepšení"
   },
   "Consent": {
-    "message": "Tato stránka používá localStorage k uložení vašeho nastavení. Žádné cookies ani osobní údaje neshromažďujeme.",
+    "message": "Tato stránka používá localStorage k uložení vašeho nastavení a jednu cookie pro jazyk. Sledovací cookies ani osobní údaje neshromažďujeme.",
     "privacyPolicy": "Ochrana osobních údajů",
     "accept": "Rozumím"
   },
@@ -126,6 +126,8 @@
     "max4chars": "Max 4 znaky",
     "max70chars": "Max 70 znaků",
     "max140chars": "Max 140 znaků",
+    "max35chars": "Max 35 znaků pro SPAYD",
+    "max60chars": "Max 60 znaků pro SPAYD",
     "max11chars": "Max 11 znaků",
     "max16chars": "Max 16 znaků",
     "dueDateInvalid": "Neplatné datum",
@@ -351,11 +353,11 @@
   "ShareLink": {
     "trigger": "Sdílet link",
     "title": "Sdílet platbu odkazem",
-    "description": "Odkaz obsahuje IBAN, částku, jméno příjemce, platební symboly, poznámku a vzhled QR kódu.",
+    "description": "Odkaz obsahuje platební údaje (IBAN, částku, jméno příjemce, symboly, poznámku a volitelná pole) a základní barvy a text QR kódu. Údaje jsou v části adresy za znakem #, která se neposílá na server.",
     "copyLink": "Kopírovat odkaz",
     "copied": "Odkaz zkopírován",
     "copyFailed": "Nepodařilo se zkopírovat odkaz",
-    "logoNotice": "Logo se ve sdíleném odkazu nezobrazí. QR kód na stránce příjemce bude bez loga.",
+    "logoNotice": "Logo, gradienty, styl bodů a rám se odkazem nepřenášejí. QR kód na stránce příjemce bude v základním vzhledu.",
     "hint": "Po kliknutí na odkaz se příjemci zobrazí stránka s QR kódem, který naskenuje bankovní aplikací."
   },
   "SharePage": {
@@ -383,7 +385,7 @@
   },
   "Docs": {
     "title": "API dokumentace",
-    "subtitle": "Generujte PAY by square a SPAYD QR kódy přes REST API",
+    "subtitle": "Generujte PAY by square, SPAYD a EPC QR kódy přes REST API",
     "quickStart": "Rychlý start",
     "quickStartDesc": "Vygenerujte slovenský PAY by square QR kód jedním POST požadavkem:",
     "quickStartSpayd": "Nebo vygenerujte český SPAYD QR kód:",
@@ -414,7 +416,6 @@
     "tryItDesc": "Odešlete skutečný požadavek na API a podívejte se na odpověď:",
     "noAuth": "Bez autentizace",
     "corsEnabled": "CORS povolen pro všechny zdroje",
-    "epcNote": "EPC QR (Evropský SEPA) je dostupný ve webové aplikaci, ale zatím ne přes API.",
     "amount": "Částka",
     "advanced": "Rozšířené možnosti",
     "send": "Odeslat požadavek",
@@ -437,8 +438,6 @@
     "close": "Zavřít",
     "successTitle": "Děkujeme za váš návrh!",
     "successClose": "Okno se automaticky zavře...",
-    "maxReachedTitle": "Limit dosažen",
-    "maxReached": "Odeslali jste maximální počet návrhů.",
     "sendFailed": "Nepodařilo se odeslat zprávu",
     "submitted": "Návrh byl odeslán",
     "previousTitle": "Předchozí návrhy ({count})",
@@ -460,7 +459,7 @@
     },
     "dataCollection": {
       "heading": "Jaké údaje shromažďujeme",
-      "body": "<strong>Platební údaje žádné.</strong> Všechny platební údaje (IBAN, částka, symboly) jsou zpracovány výhradně ve vašem prohlížeči a na server se nepřenášejí. Jedinou výjimkou mimo platby je návrh na vylepšení, který odešlete sami (viz níže)."
+      "body": "<strong>Platební údaje žádné.</strong> Všechny platební údaje (IBAN, částka, symboly) se ve webové aplikaci zpracují výhradně ve vašem prohlížeči a na server se nepřenášejí. Platí to i pro sdílené odkazy: platba je v části adresy za znakem #, kterou prohlížeč na server neposílá. Výjimkou je REST API, které požadavek zpracuje na serveru a neukládá ho, a návrh na vylepšení, který odešlete sami (viz níže)."
     },
     "localStorage": {
       "heading": "Místní úložiště (localStorage)",
@@ -469,11 +468,11 @@
     },
     "analytics": {
       "heading": "Analytika",
-      "body": "Používáme <link>Vercel Web Analytics</link>, které shromažďují anonymní údaje o návštěvnosti (počet zobrazení, země). Nepoužívají cookies a neidentifikují jednotlivé uživatele."
+      "body": "Používáme <link>Vercel Web Analytics</link>, které shromažďují anonymní údaje o návštěvnosti (počet zobrazení, země) a o používání funkcí, například zvolený formát nebo počet vyplněných polí. Platební údaje mezi nimi nejsou. Analytika nepoužívá cookies a neidentifikuje jednotlivé uživatele. Po vygenerování QR kódu se na server odešle jen signál pro anonymní počítadlo; IP adresa se při něm krátce použije k ochraně před zneužitím. Jazyk stránky se při první návštěvě vybere podle země."
     },
     "cookies": {
       "heading": "Cookies a sledování",
-      "body": "Aplikace nepoužívá cookies. Nepoužíváme žádné reklamní, sledovací ani marketingové nástroje třetích stran."
+      "body": "Aplikace nepoužívá sledovací ani reklamní cookies. Jediná cookie (NEXT_LOCALE) si pamatuje zvolený jazyk. Nepoužíváme žádné reklamní, sledovací ani marketingové nástroje třetích stran."
     },
     "contact": {
       "heading": "Kontakt",
@@ -622,7 +621,7 @@
     "steps": [
       {
         "name": "Zadejte IBAN",
-        "text": "Vložte IBAN účtu, na který má platba přijít. Generátor automaticky rozpozná banku a zkontroluje formát. IBAN najdete v internetovém bankovnictví u detailu účtu."
+        "text": "Vložte IBAN účtu, na který má platba přijít. Generátor automaticky rozpozná banku a zkontroluje formát. IBAN najdete v internetovém bankovnictví u detailu účtu. U PAY by square a EPC QR doplňte i přesné jméno majitele účtu, banky ho při platbě ověřují."
       },
       {
         "name": "Doplňte částku a symboly",

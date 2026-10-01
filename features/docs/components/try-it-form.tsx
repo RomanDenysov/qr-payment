@@ -10,6 +10,7 @@ import { useTranslations } from "next-intl";
 import { useState, useTransition } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -33,6 +34,7 @@ interface FormValues {
   invoiceId: string;
   spaydReference: string;
   purposeCode: string;
+  instantPayment: boolean;
   darkColor: string;
   lightColor: string;
   margin: string;
@@ -163,6 +165,7 @@ export function TryItForm() {
       invoiceId: "",
       spaydReference: "",
       purposeCode: "",
+      instantPayment: false,
       darkColor: "#000000",
       lightColor: "#ffffff",
       margin: "2",
@@ -450,6 +453,22 @@ export function TryItForm() {
                   <Input id="try-purpose" placeholder="GDDS" {...field} />
                 )}
               />
+            </Field>
+            <Field orientation="horizontal">
+              <Controller
+                control={control}
+                name="instantPayment"
+                render={({ field }) => (
+                  <Checkbox
+                    checked={field.value}
+                    id="try-instant"
+                    onCheckedChange={field.onChange}
+                  />
+                )}
+              />
+              <FieldLabel htmlFor="try-instant">
+                <Label>instantPayment</Label>
+              </FieldLabel>
             </Field>
             <Field>
               <FieldLabel htmlFor="try-size">

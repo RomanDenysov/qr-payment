@@ -45,7 +45,7 @@ export const apiDocs = {
       },
       paymentNote: {
         type: "string",
-        description: "Up to 140 characters",
+        description: "Up to 140 characters (cut to 60 for spayd)",
       },
       bic: {
         type: "string",
@@ -150,7 +150,7 @@ export const apiDocs = {
   example: {
     curl: `curl -X POST https://qr-platby.com/api/v1/qr \\
   -H "Content-Type: application/json" \\
-  -d '{"iban":"SK3112000000198742637541","amount":25.50,"variableSymbol":"2024001"}'`,
+  -d '{"iban":"SK3112000000198742637541","amount":25.50,"variableSymbol":"2024001","recipientName":"Ján Novák"}'`,
     curlSpayd: `curl -X POST https://qr-platby.com/api/v1/qr \\
   -H "Content-Type: application/json" \\
   -d '{"iban":"CZ6508000000192000145399","amount":480.50,"currency":"CZK","paymentFormat":"spayd","variableSymbol":"1234567890"}'`,
