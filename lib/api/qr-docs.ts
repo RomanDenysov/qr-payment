@@ -40,7 +40,8 @@ export const apiDocs = {
       },
       recipientName: {
         type: "string",
-        description: "Up to 70 characters",
+        description:
+          "Payee name, up to 70 characters. Use the exact account holder name. Required for epc. Expected for bysquare: Slovak banks verify it against the IBAN, and a code without it returns a warning.",
       },
       paymentNote: {
         type: "string",
@@ -126,6 +127,8 @@ export const apiDocs = {
       iban: "normalized IBAN",
       amount: "echoed back if provided",
       currency: "EUR",
+      warnings:
+        "Array of non-fatal notes (optional), e.g. recipientName missing for bysquare",
     },
     error: {
       success: false,

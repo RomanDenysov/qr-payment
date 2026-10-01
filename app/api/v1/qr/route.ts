@@ -22,6 +22,23 @@ import { incrementApiStats } from "@/lib/api/stats";
 
 export const runtime = "nodejs";
 
+const MISSING_PAYEE_NAME_WARNING =
+  "recipientName is missing. Slovak banks verify the payee name since October 2025, so the payer will have to type it in after scanning. Send the exact account holder name.";
+
+/**
+ * A PAY by square code without a payee name is still generated, with a
+ * warning. Rejecting it would break clients that send only an IBAN.
+ */
+function payeeNameWarning(
+  paymentFormat: string,
+  recipientName: string | undefined
+): { warnings?: string[] } {
+  if (paymentFormat !== "bysquare" || recipientName?.trim()) {
+    return {};
+  }
+  return { warnings: [MISSING_PAYEE_NAME_WARNING] };
+}
+
 const DOCS_URL = "https://qr-platby.com/en/docs";
 
 export function GET() {
@@ -158,6 +175,7 @@ export async function POST(req: NextRequest) {
         iban: paymentData.iban,
         ...(paymentData.amount != null && { amount: paymentData.amount }),
         currency,
+        ...payeeNameWarning(paymentFormat, paymentData.recipientName),
       } satisfies QrGenerationResponse,
       {
         status: 200,

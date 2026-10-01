@@ -61,7 +61,9 @@ export function createPaymentFormSchema(t: (key: string) => string) {
         });
       }
 
-      if (data.format === "epc" && !data.recipientName?.trim()) {
+      // EPC needs the name by spec. PAY by square needs it since spec 1.2.0
+      // (October 2025): Slovak banks verify the payee name against the IBAN.
+      if (data.format !== "spayd" && !data.recipientName?.trim()) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           message: t("recipientRequired"),
