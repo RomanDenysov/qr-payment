@@ -1,4 +1,4 @@
-import { getTranslations, setRequestLocale } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 import { linkVariants } from "@/components/ui/link";
 import { StudioClient } from "@/features/studio/components/studio-client";
 import { Link } from "@/i18n/navigation";
@@ -28,8 +28,6 @@ export async function generateMetadata({ params }: Props) {
 
 export default async function StudioPage({ params }: Props) {
   const { locale } = await params;
-  setRequestLocale(locale);
-
   const t = await getTranslations({ locale, namespace: "Studio" });
   const tMeta = await getTranslations({ locale, namespace: "Metadata" });
   const tNav = await getTranslations({ locale, namespace: "Nav" });

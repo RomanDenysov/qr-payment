@@ -1,4 +1,4 @@
-import { getTranslations, setRequestLocale } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 import {
   Card,
   CardContent,
@@ -37,8 +37,6 @@ export default async function Page({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  setRequestLocale(locale);
-
   const t = await getTranslations({ locale, namespace: "Bulk" });
   const tMeta = await getTranslations({ locale, namespace: "Metadata" });
   const t_nav = await getTranslations({ locale, namespace: "Nav" });

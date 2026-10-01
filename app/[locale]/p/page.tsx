@@ -1,4 +1,4 @@
-import { getTranslations, setRequestLocale } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { decodeShareData } from "@/features/payment/share-link";
@@ -19,8 +19,6 @@ export function generateMetadata() {
 
 export default async function SharePage({ params, searchParams }: Props) {
   const [{ locale }, { d }] = await Promise.all([params, searchParams]);
-  setRequestLocale(locale);
-
   const data = d ? decodeShareData(d) : null;
 
   if (d && !data) {

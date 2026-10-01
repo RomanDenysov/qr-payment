@@ -1,6 +1,5 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
 import { useLocale } from "next-intl";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
@@ -17,16 +16,17 @@ export function LocaleSwitcher() {
   const locale = useLocale() as Locale;
   const router = useRouter();
   const pathname = usePathname();
-  const searchParams = useSearchParams();
 
   const currentIndex = routing.locales.indexOf(locale);
   const nextLocale =
     routing.locales[(currentIndex + 1) % routing.locales.length];
 
   const handleSwitch = () => {
-    const search = searchParams.toString();
-    const href = search ? `${pathname}?${search}` : pathname;
-    router.replace(href, { locale: nextLocale });
+    // Read the query at click time: useSearchParams() would opt every page
+    // that renders the header out of prerendering.
+    router.replace(`${pathname}${window.location.search}`, {
+      locale: nextLocale,
+    });
   };
 
   return (

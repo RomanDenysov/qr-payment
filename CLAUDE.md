@@ -179,6 +179,8 @@ Then follow "API Changes" below.
 
 `proxy.ts` picks the locale by country before browser language. Visitors from SK get `sk` and visitors from CZ get `cs`, read from the `x-vercel-ip-country` header. Everyone else falls back to next-intl's `Accept-Language` detection. A locale prefix in the URL or a `NEXT_LOCALE` cookie always wins.
 
+Pages are prerendered per locale. `app/[locale]/layout.tsx` is the root layout and `i18n/request.ts` reads the locale from `next/root-params`, so there is no `setRequestLocale`. Don't add an `app/layout.tsx` above it and don't call `headers()` or `cookies()` in shared layouts: either one turns every page dynamic. Route handlers and server actions can't read root params, so pass the locale explicitly there (`getTranslations({ locale })`).
+
 ## Customizer Guardrails
 
 Guardrails surface scannability risks live in the customizer (`features/customizer/guardrails.ts`). Adding one requires keeping these in sync:
