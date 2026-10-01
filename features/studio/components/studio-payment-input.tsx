@@ -92,7 +92,7 @@ export function StudioPaymentInput({ value, onChange }: Props) {
         </Field>
       </div>
 
-      {value.format === "epc" && (
+      {value.format !== "spayd" && (
         <Field>
           <FieldLabel>{t("recipientNameRequired")}</FieldLabel>
           <Input

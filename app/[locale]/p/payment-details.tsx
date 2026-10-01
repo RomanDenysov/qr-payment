@@ -1,4 +1,4 @@
-import { getTranslations } from "next-intl/server";
+import { useTranslations } from "next-intl";
 import { Badge } from "@/components/ui/badge";
 import type { PaymentFormData } from "@/features/payment/schema";
 import { formatAmount, maskIban } from "@/lib/utils";
@@ -18,8 +18,8 @@ interface Props {
   format: string;
 }
 
-export async function PaymentDetails({ payment, format }: Props) {
-  const tForm = await getTranslations("PaymentForm");
+export function PaymentDetails({ payment, format }: Props) {
+  const tForm = useTranslations("PaymentForm");
 
   return (
     <div className="w-full space-y-2 pt-2">

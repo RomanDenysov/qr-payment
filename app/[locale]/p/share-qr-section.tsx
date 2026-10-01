@@ -14,12 +14,7 @@ import {
   InvalidIBANError,
 } from "@/features/payment/qr-generator";
 import type { PaymentFormData } from "@/features/payment/schema";
-
-interface ShareBranding {
-  fgColor: string;
-  bgColor: string;
-  centerText: string;
-}
+import type { ShareBranding } from "@/features/payment/share-link";
 
 interface Props {
   payment: PaymentFormData;

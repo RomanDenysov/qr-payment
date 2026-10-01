@@ -16,19 +16,19 @@ CORS is enabled for all origins. An `OPTIONS` preflight returns `204` with appro
 
 | Parameter | Type | Required | Default | Description |
 |---|---|---|---|---|
-| `iban` | string | Yes | — | Recipient IBAN (e.g. `SK3112000000198742637541`). Slovak and Czech IBANs supported. |
-| `amount` | number | No | — | Payment amount, range `0.01` – `999999999.99` |
+| `iban` | string | Yes | - | Recipient IBAN (e.g. `SK3112000000198742637541`). Slovak and Czech IBANs supported. |
+| `amount` | number | No | - | Payment amount, range `0.01` – `999999999.99` |
 | `currency` | string | No | `"EUR"` | Currency code: `"EUR"` or `"CZK"` |
-| `variableSymbol` | string | No | — | Variable symbol, up to 10 digits (digits only) |
-| `specificSymbol` | string | No | — | Specific symbol, up to 10 digits (digits only) |
-| `constantSymbol` | string | No | — | Constant symbol, up to 4 digits (digits only) |
-| `recipientName` | string | No | — | Payee name, up to 70 characters. Use the exact account holder name. Required for `epc`. Expected for `bysquare`: Slovak banks verify it against the IBAN, and a code without it returns a `warnings` entry. |
-| `paymentNote` | string | No | — | Payment note / message, up to 140 characters |
-| `bic` | string | No | — | BIC/SWIFT code (8 or 11 characters). Supported by all formats. |
-| `paymentDueDate` | string | No | — | Payment due date in `YYYY-MM-DD` format. `bysquare` and `spayd` only. |
-| `invoiceId` | string | No | — | Invoice number, up to 10 characters. `bysquare` only. |
-| `spaydReference` | string | No | — | SPAYD recipient reference (RF), up to 16 digits. `spayd` only. |
-| `purposeCode` | string | No | — | SEPA purpose code (AT-44), up to 4 characters (e.g. `GDDS`). `epc` only. |
+| `variableSymbol` | string | No | - | Variable symbol, up to 10 digits (digits only) |
+| `specificSymbol` | string | No | - | Specific symbol, up to 10 digits (digits only) |
+| `constantSymbol` | string | No | - | Constant symbol, up to 4 digits (digits only) |
+| `recipientName` | string | No | - | Payee name, up to 70 characters (cut to 35 for `spayd`). Use the exact account holder name. Required for `epc`. Expected for `bysquare`: Slovak banks verify it against the IBAN, and a code without it returns a `warnings` entry. |
+| `paymentNote` | string | No | - | Payment note / message, up to 140 characters (cut to 60 for `spayd`) |
+| `bic` | string | No | - | BIC/SWIFT code (8 or 11 characters). Supported by all formats. |
+| `paymentDueDate` | string | No | - | Payment due date in `YYYY-MM-DD` format. `bysquare` and `spayd` only. |
+| `invoiceId` | string | No | - | Invoice number, up to 10 characters. `bysquare` only. |
+| `spaydReference` | string | No | - | SPAYD recipient reference (RF), up to 16 digits. `spayd` only. |
+| `purposeCode` | string | No | - | SEPA purpose code (AT-44), up to 4 characters (e.g. `GDDS`). `epc` only. |
 | `instantPayment` | boolean | No | `false` | Request an instant payment (SPAYD `PT:IP`) where the payer's bank supports it. `spayd` only. |
 | `paymentFormat` | string | No | `"bysquare"` | Payment format: `"bysquare"` (Slovak PAY by square), `"spayd"` (Czech QR Platba), or `"epc"` (EU SEPA). EPC requires EUR currency and recipientName. A field sent for a format that does not support it is rejected (e.g. `invoiceId` is bysquare-only, `spaydReference` spayd-only, `purposeCode` epc-only; EPC rejects symbol fields, `paymentDueDate`, `invoiceId`, `spaydReference`). |
 | `format` | string | No | `"png"` | Output format: `"png"` (base64 data URI) or `"svg"` (SVG markup) |
@@ -77,7 +77,7 @@ Returned when request parameters fail validation.
   "success": false,
   "error": {
     "code": "VALIDATION_ERROR",
-    "message": "Validation failed",
+    "message": "Validation failed. Check the issues array for details.",
     "issues": [
       { "path": "iban", "message": "Invalid IBAN" },
       { "path": "amount", "message": "Amount must be at least 0.01" }
@@ -102,7 +102,7 @@ Returned when per-IP rate limits are exceeded.
   "success": false,
   "error": {
     "code": "RATE_LIMIT",
-    "message": "Rate limit exceeded. Please try again later."
+    "message": "Rate limit exceeded. Limit is 20 requests/minute and 100 requests/day. Retry after 42 seconds."
   }
 }
 ```
@@ -128,7 +128,7 @@ Returned when per-IP rate limits are exceeded.
   "success": false,
   "error": {
     "code": "INTERNAL_ERROR",
-    "message": "An unexpected error occurred"
+    "message": "QR code generation failed"
   }
 }
 ```
@@ -148,7 +148,7 @@ Returned when per-IP rate limits are exceeded.
 ```bash
 curl -X POST https://qr-platby.com/api/v1/qr \
   -H "Content-Type: application/json" \
-  -d '{"iban":"SK3112000000198742637541","amount":25.50,"variableSymbol":"2024001"}'
+  -d '{"iban":"SK3112000000198742637541","amount":25.50,"variableSymbol":"2024001","recipientName":"Ján Novák"}'
 ```
 
 ### curl — IBAN Only (Minimal)
@@ -156,7 +156,7 @@ curl -X POST https://qr-platby.com/api/v1/qr \
 ```bash
 curl -X POST https://qr-platby.com/api/v1/qr \
   -H "Content-Type: application/json" \
-  -d '{"iban":"SK3112000000198742637541"}'
+  -d '{"iban":"SK3112000000198742637541","recipientName":"Ján Novák"}'
 ```
 
 ### curl — SVG Format with Czech CZK
@@ -183,6 +183,7 @@ const response = await fetch("https://qr-platby.com/api/v1/qr", {
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify({
     iban: "SK3112000000198742637541",
+    recipientName: "Ján Novák",
     amount: 25.50,
     variableSymbol: "2024001",
   }),
@@ -207,6 +208,7 @@ response = requests.post(
     "https://qr-platby.com/api/v1/qr",
     json={
         "iban": "SK3112000000198742637541",
+        "recipientName": "Ján Novák",
         "amount": 25.50,
         "variableSymbol": "2024001",
     },
@@ -229,7 +231,7 @@ import requests
 
 response = requests.post(
     "https://qr-platby.com/api/v1/qr",
-    json={"iban": "SK3112000000198742637541", "amount": 100},
+    json={"iban": "SK3112000000198742637541", "recipientName": "Ján Novák", "amount": 100},
 )
 
 result = response.json()
@@ -262,7 +264,7 @@ curl -X POST https://qr-platby.com/api/v1/qr \
 ```bash
 curl -X POST https://qr-platby.com/api/v1/qr \
   -H "Content-Type: application/json" \
-  -d '{"iban":"SK3112000000198742637541","amount":25.50,"variableSymbol":"2024001","paymentDueDate":"2026-12-31","invoiceId":"2024001"}'
+  -d '{"iban":"SK3112000000198742637541","amount":25.50,"variableSymbol":"2024001","paymentDueDate":"2026-12-31","invoiceId":"2024001","recipientName":"Ján Novák"}'
 ```
 
 ## Usage Stats Endpoint

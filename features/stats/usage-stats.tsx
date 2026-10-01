@@ -2,6 +2,7 @@
 
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
+import { SpinningNumber } from "@/components/spinning-number";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { UsageStats as UsageStatsData } from "@/lib/api/stats";
 
@@ -12,11 +13,11 @@ const MIN_TOTAL_TO_SHOW = 100;
 
 function StatCard({ value, label }: { value: string; label: string }) {
   return (
-    <div className="bg-card p-4 ring-1 ring-foreground/10">
-      <p className="font-bold font-pixel text-foreground text-xl tabular-nums sm:text-2xl">
-        {value}
+    <div className="bg-card p-5 ring-1 ring-foreground/10">
+      <p className="font-bold font-pixel text-3xl text-foreground tabular-nums sm:text-4xl">
+        <SpinningNumber value={value} />
       </p>
-      <p className="mt-1 text-muted-foreground text-sm">{label}</p>
+      <p className="mt-2 text-muted-foreground text-sm">{label}</p>
     </div>
   );
 }
@@ -58,10 +59,10 @@ export function UsageStats() {
 
   if (stats === undefined) {
     return (
-      <section aria-hidden className="mt-8">
+      <section aria-hidden className="mt-16 sm:mt-20">
         <div className="grid gap-4 sm:grid-cols-3">
           {SKELETON_CARDS.map((key) => (
-            <Skeleton className="h-[5.25rem] sm:h-[5.75rem]" key={key} />
+            <Skeleton className="h-[6.5rem] sm:h-[6.95rem]" key={key} />
           ))}
         </div>
         <Skeleton className="mt-3 h-4 w-64 max-w-full" />
@@ -76,7 +77,7 @@ export function UsageStats() {
   const format = new Intl.NumberFormat(locale);
 
   return (
-    <section className="fade-in-0 mt-8 animate-in duration-200 ease-out-quad">
+    <section className="fade-in-0 mt-16 animate-in duration-200 ease-out-quad sm:mt-20">
       <div className="grid gap-4 sm:grid-cols-3">
         <StatCard label={t("totalLabel")} value={format.format(stats.total)} />
         <StatCard

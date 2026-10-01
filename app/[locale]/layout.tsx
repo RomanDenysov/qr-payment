@@ -1,9 +1,9 @@
-import { Analytics } from "@vercel/analytics/next";
 import { GeistMono } from "geist/font/mono";
 import { GeistPixelSquare } from "geist/font/pixel";
 import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations } from "next-intl/server";
+import { Analytics } from "@/components/analytics";
 import { AnnouncementBanner } from "@/components/announcement-banner";
 import { Background } from "@/components/background";
 import { ConsentBanner } from "@/components/consent-banner";

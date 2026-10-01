@@ -56,7 +56,8 @@
                     "iban": "SK3112000000198742637541",
                     "amount": 25.5,
                     "currency": "EUR",
-                    "variableSymbol": "2024001"
+                    "variableSymbol": "2024001",
+                    "recipientName": "Ján Novák"
                   }
                 },
                 "ibanOnly": {
@@ -91,6 +92,7 @@
                     "iban": "SK3112000000198742637541",
                     "amount": 25.5,
                     "variableSymbol": "2024001",
+                    "recipientName": "Ján Novák",
                     "paymentDueDate": "2026-12-31",
                     "invoiceId": "2024001"
                   }
@@ -313,12 +315,12 @@
           "recipientName": {
             "type": "string",
             "maxLength": 70,
-            "description": "Payee name, up to 70 characters. Use the exact account holder name. Required for epc. Expected for bysquare: Slovak banks verify it against the IBAN, and a code without it returns a warning."
+            "description": "Payee name, up to 70 characters (cut to 35 for spayd). Use the exact account holder name. Required for epc. Expected for bysquare: Slovak banks verify it against the IBAN, and a code without it returns a warning."
           },
           "paymentNote": {
             "type": "string",
             "maxLength": 140,
-            "description": "Payment note / message for recipient"
+            "description": "Payment note / message for recipient (cut to 60 characters for spayd)"
           },
           "bic": {
             "type": "string",

@@ -7,7 +7,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: "QR Platby - Bezplatný generátor QR kódov pre bankové prevody",
     short_name: "QR Platby",
     description:
-      "Bezplatný generátor QR kódov pre bankové prevody vo formáte PAY by square a EPC QR. Funguje so všetkými slovenskými bankami.",
+      "Bezplatný generátor QR kódov pre bankové prevody vo formáte PAY by square, SPAYD a EPC QR. Funguje so slovenskými aj českými bankami.",
     start_url: "/",
     scope: "/",
     display: "standalone",

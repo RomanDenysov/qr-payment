@@ -34,7 +34,7 @@ Content-Type: `application/json`
 - `variableSymbol` (string, optional) - Up to 10 digits
 - `specificSymbol` (string, optional) - Up to 10 digits
 - `constantSymbol` (string, optional) - Up to 4 digits
-- `recipientName` (string, optional) - Up to 70 characters
+- `recipientName` (string) - Payee name, up to 70 characters. Required for epc. Always ask for it with bysquare: Slovak banks verify the name against the IBAN, and without it the response carries a `warnings` array that you must relay to the user.
 - `paymentNote` (string, optional) - Up to 140 characters
 - `bic` (string, optional) - BIC/SWIFT code, 8 or 11 characters (all formats)
 - `paymentDueDate` (string, optional) - Due date in YYYY-MM-DD format (bysquare and spayd only)
@@ -82,7 +82,7 @@ Import the OpenAPI spec from `https://qr-platby.com/openapi.json` in the Actions
 
 ## Conversation Starters
 
-1. "Generate a QR code for a 25€ payment to SK3112000000198742637541"
+1. "Generate a QR code for a 25€ payment to SK3112000000198742637541, recipient Ján Novák"
 2. "Create a Czech SPAYD QR code for 500 CZK to CZ6508000000192000145399 with variable symbol 1234567890"
 3. "I need a QR code for my Slovak IBAN with amount 150€ and note 'Invoice 2024-001'"
 4. "What payment QR formats do you support?"

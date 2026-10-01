@@ -1,5 +1,6 @@
 import { track } from "@vercel/analytics/server";
 import type { CurrencyCode } from "bysquare/pay";
+import { electronicFormatIBAN } from "ibantools";
 import { after, type NextRequest, NextResponse } from "next/server";
 import { EpcPayloadTooLargeError } from "@/features/payment/epc-encoder";
 import { InvalidIBANError } from "@/features/payment/qr-generator";
@@ -172,7 +173,7 @@ export async function POST(req: NextRequest) {
         success: true,
         data,
         format,
-        iban: paymentData.iban,
+        iban: electronicFormatIBAN(paymentData.iban) ?? paymentData.iban,
         ...(paymentData.amount != null && { amount: paymentData.amount }),
         currency,
         ...payeeNameWarning(paymentFormat, paymentData.recipientName),
@@ -228,7 +229,7 @@ export async function POST(req: NextRequest) {
           error: {
             code: "VALIDATION_ERROR",
             message: error.message,
-            hint: "Reduce the length of beneficiaryName or remittanceText to fit within EPC limits (331 bytes max).",
+            hint: "Reduce the length of recipientName or paymentNote to fit within EPC limits (331 bytes max).",
             docs: DOCS_URL,
           },
         } satisfies QrErrorResponse,

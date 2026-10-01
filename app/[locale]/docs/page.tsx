@@ -113,7 +113,7 @@ export default async function DocsPage({ params }: Props) {
               <CodeBlock
                 code={`curl -X POST https://qr-platby.com/api/v1/qr \\
   -H "Content-Type: application/json" \\
-  -d '{"iban":"SK3112000000198742637541","amount":25.50,"variableSymbol":"2024001"}'`}
+  -d '{"iban":"SK3112000000198742637541","amount":25.50,"variableSymbol":"2024001","recipientName":"Ján Novák"}'`}
                 language="curl"
               />
               <p className="text-muted-foreground text-xs">
@@ -173,7 +173,6 @@ export default async function DocsPage({ params }: Props) {
                 {t("parametersDesc")}
               </p>
               <ParameterTable />
-              <p className="text-muted-foreground text-xs">{t("epcNote")}</p>
             </section>
 
             {/* Response */}
@@ -193,6 +192,9 @@ export default async function DocsPage({ params }: Props) {
 }`}
                 language="json"
               />
+              <p className="text-muted-foreground text-sm">
+                {t("warningsNote")}
+              </p>
               <SectionHeading as="h3" id="response-error">
                 {t("responseError")}
               </SectionHeading>

@@ -56,7 +56,6 @@ export async function HomeContentSections() {
       <section className="mt-24 space-y-6 sm:mt-32">
         <h2 className={SECTION_HEADING_CLASS}>{t("section1Title")}</h2>
         <p className="text-muted-foreground">{t("section1Para1")}</p>
-        <p className="text-muted-foreground">{t("section1Para2")}</p>
         <div className="grid gap-4 sm:grid-cols-3">
           {formats.map((format) => (
             <Card
@@ -76,12 +75,12 @@ export async function HomeContentSections() {
               <CardContent className="flex-1 text-muted-foreground text-sm/relaxed">
                 {format.description}
               </CardContent>
-              <CardContent>
+              <div className="flex justify-center border-foreground/10 border-t px-3 pt-3">
                 <FormatTileAction
                   format={format.format}
                   label={t("formatUse")}
                 />
-              </CardContent>
+              </div>
             </Card>
           ))}
         </div>

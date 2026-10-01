@@ -32,7 +32,8 @@ const DEFAULT_PAYMENT: StudioPaymentState = {
   amount: 25,
   currency: "EUR",
   format: "bysquare",
-  recipientName: "",
+  // Sample payee so the preview renders: PAY by square requires a name.
+  recipientName: "Ján Novák",
 };
 
 const AMOUNT_FMT = new Intl.NumberFormat("sk-SK", {
@@ -48,7 +49,8 @@ function toPaymentData(p: StudioPaymentState): PaymentFormData | null {
   if (p.amount < 0 || p.amount > 999_999_999.99) {
     return null;
   }
-  if (p.format === "epc" && !p.recipientName.trim()) {
+  // Same rule as the home form: only SPAYD may omit the payee name.
+  if (p.format !== "spayd" && !p.recipientName.trim()) {
     return null;
   }
   return {

@@ -1,6 +1,6 @@
 import type { PaymentFormData } from "./schema";
 
-interface ShareBranding {
+export interface ShareBranding {
   fgColor: string;
   bgColor: string;
   centerText: string;

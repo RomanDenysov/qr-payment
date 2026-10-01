@@ -11,6 +11,57 @@ export interface ChangelogEntry {
 const changelogData: Record<string, ChangelogEntry[]> = {
   sk: [
     {
+      date: "2026-10-01",
+      category: "feature",
+      title: "Voliteľné polia platby",
+      summary: "V menu Polia si zapnete ďalšie údaje podľa formátu.",
+      highlights: [
+        "PAY by square: dátum splatnosti, číslo faktúry, BIC",
+        "SPAYD: dátum splatnosti, BIC, referencia, okamžitá platba",
+        "EPC QR: účel platby",
+      ],
+    },
+    {
+      date: "2026-10-01",
+      category: "improvement",
+      title: "Meno príjemcu je pri PAY by square povinné",
+      summary:
+        "Banky od októbra 2025 overujú, či meno príjemcu sedí s IBAN-om. Zadajte presné meno majiteľa účtu.",
+    },
+    {
+      date: "2026-10-01",
+      category: "feature",
+      title: "Návody a časté otázky",
+      summary:
+        "Nová stránka Návody, sprievodca tvorbou QR kódu a stránka o SEPA QR. Časté otázky sú teraz priamo na hlavnej stránke.",
+    },
+    {
+      date: "2026-10-01",
+      category: "api",
+      title: "API: nové polia a upozornenia",
+      summary:
+        "API prijíma voliteľné polia platby a upozorní, keď chýba meno príjemcu.",
+      highlights: [
+        "bic, paymentDueDate, invoiceId, spaydReference, purposeCode, instantPayment",
+        "warnings v odpovedi, keď PAY by square nemá meno príjemcu",
+        "API je opäť dostupné pre skripty a servery",
+      ],
+    },
+    {
+      date: "2026-10-01",
+      category: "improvement",
+      title: "Rýchlejšie stránky a jazyk podľa krajiny",
+      summary:
+        "Stránky sa načítavajú rýchlejšie. Návštevníci zo Slovenska a Česka dostanú svoj jazyk automaticky.",
+    },
+    {
+      date: "2026-10-01",
+      category: "feature",
+      title: "Počítadlo a návrhy na vylepšenie",
+      summary:
+        "Na hlavnej stránke vidíte, koľko QR kódov sa už vygenerovalo. K návrhu na vylepšenie môžete pridať e-mail, ak chcete odpoveď.",
+    },
+    {
       date: "2026-05-26",
       category: "improvement",
       title: "Drobné úpravy dizajnu a opravy",
@@ -116,6 +167,57 @@ const changelogData: Record<string, ChangelogEntry[]> = {
   ],
   en: [
     {
+      date: "2026-10-01",
+      category: "feature",
+      title: "Optional payment fields",
+      summary: "Turn on extra fields per format in the Fields menu.",
+      highlights: [
+        "PAY by square: due date, invoice number, BIC",
+        "SPAYD: due date, BIC, reference, instant payment",
+        "EPC QR: purpose code",
+      ],
+    },
+    {
+      date: "2026-10-01",
+      category: "improvement",
+      title: "Recipient name is required for PAY by square",
+      summary:
+        "Since October 2025 banks check that the recipient name matches the IBAN. Enter the exact account holder name.",
+    },
+    {
+      date: "2026-10-01",
+      category: "feature",
+      title: "Guides and FAQ",
+      summary:
+        "New Guides page, a step-by-step guide to creating a QR code and a page about SEPA QR. The FAQ now sits on the homepage.",
+    },
+    {
+      date: "2026-10-01",
+      category: "api",
+      title: "API: new fields and warnings",
+      summary:
+        "The API accepts the optional payment fields and warns when the recipient name is missing.",
+      highlights: [
+        "bic, paymentDueDate, invoiceId, spaydReference, purposeCode, instantPayment",
+        "warnings in the response when a PAY by square code has no recipient name",
+        "The API is reachable from scripts and servers again",
+      ],
+    },
+    {
+      date: "2026-10-01",
+      category: "improvement",
+      title: "Faster pages and language by country",
+      summary:
+        "Pages load faster. Visitors from Slovakia and Czechia get their language automatically.",
+    },
+    {
+      date: "2026-10-01",
+      category: "feature",
+      title: "Usage counter and feature requests",
+      summary:
+        "The homepage shows how many QR codes have been generated. You can add an email to a feature request if you want a reply.",
+    },
+    {
       date: "2026-05-26",
       category: "improvement",
       title: "Small design updates and fixes",
@@ -220,6 +322,57 @@ const changelogData: Record<string, ChangelogEntry[]> = {
     },
   ],
   cs: [
+    {
+      date: "2026-10-01",
+      category: "feature",
+      title: "Volitelná pole platby",
+      summary: "V menu Pole si zapnete další údaje podle formátu.",
+      highlights: [
+        "PAY by square: datum splatnosti, číslo faktury, BIC",
+        "SPAYD: datum splatnosti, BIC, reference, okamžitá platba",
+        "EPC QR: účel platby",
+      ],
+    },
+    {
+      date: "2026-10-01",
+      category: "improvement",
+      title: "Jméno příjemce je u PAY by square povinné",
+      summary:
+        "Banky od října 2025 ověřují, zda jméno příjemce odpovídá IBANu. Zadejte přesné jméno majitele účtu.",
+    },
+    {
+      date: "2026-10-01",
+      category: "feature",
+      title: "Návody a časté otázky",
+      summary:
+        "Nová stránka Návody, průvodce tvorbou QR kódu a stránka o SEPA QR. Časté otázky jsou nyní přímo na hlavní stránce.",
+    },
+    {
+      date: "2026-10-01",
+      category: "api",
+      title: "API: nová pole a upozornění",
+      summary:
+        "API přijímá volitelná pole platby a upozorní, když chybí jméno příjemce.",
+      highlights: [
+        "bic, paymentDueDate, invoiceId, spaydReference, purposeCode, instantPayment",
+        "warnings v odpovědi, když PAY by square nemá jméno příjemce",
+        "API je opět dostupné pro skripty a servery",
+      ],
+    },
+    {
+      date: "2026-10-01",
+      category: "improvement",
+      title: "Rychlejší stránky a jazyk podle země",
+      summary:
+        "Stránky se načítají rychleji. Návštěvníci ze Slovenska a Česka dostanou svůj jazyk automaticky.",
+    },
+    {
+      date: "2026-10-01",
+      category: "feature",
+      title: "Počítadlo a návrhy na vylepšení",
+      summary:
+        "Na hlavní stránce vidíte, kolik QR kódů se už vygenerovalo. K návrhu na vylepšení můžete přidat e-mail, pokud chcete odpověď.",
+    },
     {
       date: "2026-05-26",
       category: "improvement",

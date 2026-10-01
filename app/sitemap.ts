@@ -20,7 +20,7 @@ const pages: SitemapPage[] = [
     priority: 0.3,
   },
   { path: "/podmienky", changeFrequency: "yearly", priority: 0.3 },
-  { path: "/faq", changeFrequency: "monthly", priority: 0.5 },
+  { path: "/navody", changeFrequency: "monthly", priority: 0.6 },
   {
     path: "/ako-vytvorit-qr-kod-na-platbu",
     changeFrequency: "monthly",
