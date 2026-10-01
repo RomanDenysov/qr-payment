@@ -24,9 +24,10 @@ export function LocaleSwitcher() {
   const handleSwitch = () => {
     // Read the query at click time: useSearchParams() would opt every page
     // that renders the header out of prerendering.
-    router.replace(`${pathname}${window.location.search}`, {
-      locale: nextLocale,
-    });
+    const query = Object.fromEntries(
+      new URLSearchParams(window.location.search)
+    );
+    router.replace({ pathname, query }, { locale: nextLocale });
   };
 
   return (

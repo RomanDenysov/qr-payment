@@ -21,6 +21,16 @@ const pages: SitemapPage[] = [
   },
   { path: "/podmienky", changeFrequency: "yearly", priority: 0.3 },
   { path: "/faq", changeFrequency: "monthly", priority: 0.5 },
+  {
+    path: "/ako-vytvorit-qr-kod-na-platbu",
+    changeFrequency: "monthly",
+    priority: 0.8,
+  },
+  {
+    path: "/sepa-qr-code-generator",
+    changeFrequency: "monthly",
+    priority: 0.8,
+  },
   { path: "/docs", changeFrequency: "monthly", priority: 0.7 },
   {
     path: "/changelog",

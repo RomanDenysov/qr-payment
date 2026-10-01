@@ -1,7 +1,12 @@
+import type { ComponentProps } from "react";
+import type { Link } from "@/i18n/navigation";
+
+type LinkHref = ComponentProps<typeof Link>["href"];
+
 interface FaqItem {
   question: string;
   answer: string;
-  links?: Array<{ label: string; href: string }>;
+  links?: Array<{ label: string; href: LinkHref }>;
 }
 
 const faqData: Record<string, FaqItem[]> = {
@@ -15,6 +20,12 @@ const faqData: Record<string, FaqItem[]> = {
       question: "Ako to funguje?",
       answer:
         "Zadáte platobné údaje (IBAN, sumu, variabilný symbol a pod.), kliknete na Vygenerovať a získate QR kód. Ten naskenujete bankovou aplikáciou a platba sa automaticky vyplní.",
+      links: [
+        {
+          label: "Návod: Ako vytvoriť QR kód na platbu",
+          href: "/ako-vytvorit-qr-kod-na-platbu",
+        },
+      ],
     },
     {
       question: "Je to zadarmo?",
@@ -35,6 +46,12 @@ const faqData: Record<string, FaqItem[]> = {
       question: "Aký je rozdiel medzi BySquare, EPC QR a SPAYD?",
       answer:
         "BySquare je slovenský štandard pre platobné QR kódy - podporuje variabilný, špecifický a konštantný symbol. SPAYD (QR Platba) je český štandard s rovnakými symbolmi, ale v inom formáte. EPC QR (European Payments Council) je európsky SEPA štandard, ktorý funguje naprieč krajinami EÚ, ale nepodporuje české a slovenské symboly. Na platby na Slovensku použite BySquare, na platby v Česku SPAYD a na medzinárodné SEPA platby EPC QR.",
+      links: [
+        {
+          label: "SEPA QR kód generátor (EPC QR)",
+          href: "/sepa-qr-code-generator",
+        },
+      ],
     },
     {
       question: "Čo je SPAYD (QR Platba)?",
@@ -79,6 +96,12 @@ const faqData: Record<string, FaqItem[]> = {
       question: "How does it work?",
       answer:
         "Enter payment details (IBAN, amount, variable symbol, etc.), click Generate, and you get a QR code. Scan it with your banking app and the payment fills in automatically.",
+      links: [
+        {
+          label: "Guide: How to create a payment QR code",
+          href: "/ako-vytvorit-qr-kod-na-platbu",
+        },
+      ],
     },
     {
       question: "Is it free?",
@@ -99,6 +122,12 @@ const faqData: Record<string, FaqItem[]> = {
       question: "What is the difference between BySquare, EPC QR, and SPAYD?",
       answer:
         "BySquare is the Slovak standard for payment QR codes - it supports variable, specific, and constant symbols. SPAYD (QR Platba) is the Czech standard with the same symbols but in a different format. EPC QR (European Payments Council) is a European SEPA standard that works across EU countries but does not support Czech and Slovak symbols. For payments within Slovakia, use BySquare. For payments within Czech Republic, use SPAYD. For international SEPA payments, choose EPC QR.",
+      links: [
+        {
+          label: "SEPA QR code generator (EPC QR)",
+          href: "/sepa-qr-code-generator",
+        },
+      ],
     },
     {
       question: "What is SPAYD (QR Platba)?",
@@ -143,6 +172,12 @@ const faqData: Record<string, FaqItem[]> = {
       question: "Jak vytvořit QR kód pro platbu?",
       answer:
         "Zadejte platební údaje (IBAN, částku, variabilní symbol apod.), klikněte na Vygenerovat a získáte QR kód. Ten naskenujete bankovní aplikací a platba se automaticky vyplní. Můžete zvolit formát SPAYD pro české platby, BySquare pro slovenské nebo EPC QR pro mezinárodní SEPA převody.",
+      links: [
+        {
+          label: "Návod: Jak vytvořit QR kód pro platbu",
+          href: "/ako-vytvorit-qr-kod-na-platbu",
+        },
+      ],
     },
     {
       question: "Je to zdarma?",
@@ -168,6 +203,12 @@ const faqData: Record<string, FaqItem[]> = {
       question: "Jaký je rozdíl mezi SPAYD, BySquare a EPC QR?",
       answer:
         "SPAYD (QR Platba) je český standard pro platební QR kódy - podporuje variabilní, specifický a konstantní symbol. BySquare je slovenský standard se stejnými symboly, ale v jiném formátu. EPC QR (European Payments Council) je evropský SEPA standard, který funguje napříč zeměmi EU, ale nepodporuje české a slovenské symboly. Pro platby v Česku použijte SPAYD, pro platby na Slovensku BySquare a pro mezinárodní SEPA platby EPC QR.",
+      links: [
+        {
+          label: "SEPA QR kód generátor (EPC QR)",
+          href: "/sepa-qr-code-generator",
+        },
+      ],
     },
     {
       question: "Můžu si QR kód upravit?",

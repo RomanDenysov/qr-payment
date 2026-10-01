@@ -287,6 +287,24 @@
       "i18nNamespace": "Stats",
       "clientSide": true,
       "description": "Anonymous counters of generated QR codes (total, this month, API) shown under the generator once the total reaches 100. Loaded on the client from GET /api/v1/stats so the homepage stays static; incremented by a body-less, rate-limited POST /api/v1/stats/hit."
+    },
+    {
+      "name": "How-to Guide Landing Page",
+      "source": "app/[locale]/ako-vytvorit-qr-kod-na-platbu/page.tsx",
+      "route": "/ako-vytvorit-qr-kod-na-platbu",
+      "category": "seo",
+      "i18nNamespace": "Guide",
+      "clientSide": false,
+      "description": "Step-by-step guide to creating a payment QR code, with a format explainer, FAQ and FAQPage/BreadcrumbList JSON-LD. Localized slugs: /cs/jak-vytvorit-qr-kod-pro-platbu, /en/how-to-create-payment-qr-code."
+    },
+    {
+      "name": "SEPA QR Landing Page",
+      "source": "app/[locale]/sepa-qr-code-generator/page.tsx",
+      "route": "/sepa-qr-code-generator",
+      "category": "seo",
+      "i18nNamespace": "Sepa",
+      "clientSide": false,
+      "description": "Explains EPC QR for SEPA transfers and links into the generator with the EPC format preselected (/?format=epc). Localized slugs: /sepa-qr-kod-generator (sk, cs), /en/sepa-qr-code-generator."
     }
   ]
 }
