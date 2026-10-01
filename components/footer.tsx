@@ -3,9 +3,11 @@ import { useTranslations } from "next-intl";
 import type { ReactNode } from "react";
 import { DynamicFeatureRequestDialog } from "@/features/feedback/components/feature-request-dialog-dynamic";
 import { Link } from "@/i18n/navigation";
+import { AppLogo } from "./app-logo";
 import { SupportLink } from "./support-link";
 
-const LINK_CLASS = "hover:text-foreground";
+const LINK_CLASS =
+  "text-foreground/80 underline-offset-4 hover:text-foreground hover:underline";
 
 function FooterColumn({
   title,
@@ -35,9 +37,9 @@ export function Footer() {
     <footer className="mt-auto pt-20 pb-6 text-muted-foreground text-sm">
       <div className="grid gap-10 border-foreground/10 border-t pt-10 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
         <div className="space-y-3">
-          <p className="font-bold font-pixel text-base text-foreground tracking-wide">
-            QR Platby
-          </p>
+          <Link className="inline-block text-foreground" href="/">
+            <AppLogo />
+          </Link>
           <p className="text-xs/relaxed">{t("privacy")}</p>
           <p className="text-xs/relaxed">{t("hobbyNotice")}</p>
         </div>
@@ -136,20 +138,20 @@ export function Footer() {
         </nav>
       </div>
 
-      <div className="mt-10 flex flex-col gap-2 border-foreground/10 border-t pt-4 text-xs sm:flex-row sm:items-center sm:justify-between">
-        <span>{t("copyright")}</span>
-        <span>
-          {t("createdBy")}{" "}
-          <a
-            className="underline underline-offset-2 hover:text-foreground"
-            href="https://denysov.dev"
-            rel="noopener"
-            target="_blank"
-          >
-            denysov.dev
-          </a>
-        </span>
-      </div>
+      <p className="mt-10 border-foreground/10 border-t pt-4 text-xs">
+        {t.rich("madeBy", {
+          link: (chunks) => (
+            <a
+              className={LINK_CLASS}
+              href="https://denysov.dev"
+              rel="noopener"
+              target="_blank"
+            >
+              {chunks}
+            </a>
+          ),
+        })}
+      </p>
     </footer>
   );
 }

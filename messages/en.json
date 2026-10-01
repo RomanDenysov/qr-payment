@@ -43,11 +43,10 @@
   },
   "Footer": {
     "privacy": "We don't need your data. Everything is stored in your browser and never leaves it.",
-    "copyright": "© 2026 Made with 🖤 in Slovakia",
+    "madeBy": "© 2026 QR Platby · Made by <link>denysov.dev</link> with 🖤 in Slovakia",
     "privacyPolicy": "Privacy Policy",
     "terms": "Terms",
     "apiDocs": "API Docs",
-    "createdBy": "Built by",
     "hobbyNotice": "QR Platby is a hobby project, built in spare time, with no obligations to users and no commercial goals for now.",
     "colTools": "Tools",
     "colResources": "Resources",
@@ -565,6 +564,7 @@
       "mBank",
       "MONETA"
     ],
+    "formatUse": "Use this format",
     "section4GuideLink": "How to create a payment QR code",
     "section4SepaLink": "SEPA QR code generator",
     "section4StudioLink": "Advanced QR editor",

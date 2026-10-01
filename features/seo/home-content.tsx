@@ -1,12 +1,18 @@
 import { getTranslations } from "next-intl/server";
+import { RevealOnScroll } from "@/components/reveal-on-scroll";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import type { PaymentFormat } from "@/features/payment/format";
+import { FormatTileAction } from "./format-tile-action";
 
 interface FormatTile {
   name: string;
   region: string;
   description: string;
 }
+
+// Order of the `HomeContent.formats` tiles in the translation files.
+const TILE_FORMATS: PaymentFormat[] = ["bysquare", "spayd", "epc"];
 
 const SECTION_HEADING_CLASS =
   "font-bold font-pixel text-foreground text-lg tracking-wide sm:text-xl";
@@ -54,8 +60,13 @@ export async function HomeContentSections() {
         <p className="text-muted-foreground">{t("section1Para1")}</p>
         <p className="text-muted-foreground">{t("section1Para2")}</p>
         <div className="grid gap-4 sm:grid-cols-3">
-          {formats.map((format) => (
-            <Card key={format.name} size="sm">
+          {formats.map((format, index) => (
+            <Card
+              className="relative focus-within:ring-foreground/40"
+              interactive
+              key={format.name}
+              size="sm"
+            >
               <CardHeader>
                 <div className="flex items-center justify-between gap-2">
                   <Badge variant="secondary">{format.name}</Badge>
@@ -64,8 +75,14 @@ export async function HomeContentSections() {
                   </span>
                 </div>
               </CardHeader>
-              <CardContent className="text-muted-foreground text-sm/relaxed">
+              <CardContent className="flex-1 text-muted-foreground text-sm/relaxed">
                 {format.description}
+              </CardContent>
+              <CardContent>
+                <FormatTileAction
+                  format={TILE_FORMATS[index] ?? "bysquare"}
+                  label={t("formatUse")}
+                />
               </CardContent>
             </Card>
           ))}
@@ -74,11 +91,12 @@ export async function HomeContentSections() {
 
       <section className="mt-20 space-y-6 sm:mt-24">
         <h2 className={SECTION_HEADING_CLASS}>{t("section2Title")}</h2>
-        <ol className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <RevealOnScroll className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {steps.map((step, index) => (
             <li
               className="flex gap-3 bg-card p-4 ring-1 ring-foreground/10"
               key={step}
+              style={{ transitionDelay: `${index * 60}ms` }}
             >
               <span className="font-bold font-pixel text-base text-muted-foreground/50 tabular-nums">
                 {String(index + 1).padStart(2, "0")}
@@ -88,7 +106,7 @@ export async function HomeContentSections() {
               </span>
             </li>
           ))}
-        </ol>
+        </RevealOnScroll>
       </section>
 
       <section className="mt-20 space-y-6 sm:mt-24">

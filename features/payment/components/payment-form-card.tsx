@@ -34,7 +34,7 @@ import { SegmentedControl } from "@/components/ui/segmented-control";
 import { Textarea } from "@/components/ui/textarea";
 import { detectBank } from "@/lib/iban-bank";
 import type { PaymentFormat } from "../format";
-import { FORMAT_LABELS } from "../format";
+import { FORMAT_LABELS, SELECT_FORMAT_EVENT } from "../format";
 import {
   OPTIONAL_FIELDS,
   OPTIONAL_FIELDS_BY_FORMAT,
@@ -335,6 +335,15 @@ export function PaymentFormCard() {
       }
     }
   }, [setValue]);
+
+  // Format tiles further down the homepage switch the format from outside.
+  useEffect(() => {
+    const onSelect = (event: Event) => {
+      handleFormatChange((event as CustomEvent<PaymentFormat>).detail);
+    };
+    window.addEventListener(SELECT_FORMAT_EVENT, onSelect);
+    return () => window.removeEventListener(SELECT_FORMAT_EVENT, onSelect);
+  });
 
   const handleClear = () => {
     reset({ ...defaultValues, format });

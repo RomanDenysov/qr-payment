@@ -43,11 +43,10 @@
   },
   "Footer": {
     "privacy": "Vaše údaje nepotrebujeme. Všetky sú uložené vo vašom prehliadači a neopustia ho.",
-    "copyright": "© 2026 Vyrobené s 🖤 na Slovensku",
+    "madeBy": "© 2026 QR Platby · Vyrobil <link>denysov.dev</link> s 🖤 na Slovensku",
     "privacyPolicy": "Ochrana údajov",
     "terms": "Podmienky",
     "apiDocs": "API dokumentácia",
-    "createdBy": "Vytvoril",
     "hobbyNotice": "QR Platby sú hobby projekt. Vyvíjajú sa vo voľnom čase, bez záväzkov voči používateľom a zatiaľ bez komerčných cieľov.",
     "colTools": "Nástroje",
     "colResources": "Informácie",
@@ -565,6 +564,7 @@
       "mBank",
       "MONETA"
     ],
+    "formatUse": "Použiť tento formát",
     "section4GuideLink": "Ako vytvoriť QR kód na platbu",
     "section4SepaLink": "SEPA QR kód generátor",
     "section4StudioLink": "Pokročilý QR editor",

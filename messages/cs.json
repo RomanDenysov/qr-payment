@@ -43,11 +43,10 @@
   },
   "Footer": {
     "privacy": "Vaše údaje nepotřebujeme. Všechny jsou uloženy ve vašem prohlížeči a neopustí ho.",
-    "copyright": "© 2026 Vyrobeno s 🖤 na Slovensku",
+    "madeBy": "© 2026 QR Platby · Vyrobil <link>denysov.dev</link> s 🖤 na Slovensku",
     "privacyPolicy": "Ochrana údajů",
     "terms": "Podmínky",
     "apiDocs": "API dokumentace",
-    "createdBy": "Vytvořil",
     "hobbyNotice": "QR Platby jsou hobby projekt. Vyvíjejí se ve volném čase, bez závazků vůči uživatelům a zatím bez komerčních cílů.",
     "colTools": "Nástroje",
     "colResources": "Informace",
@@ -565,6 +564,7 @@
       "365.bank",
       "UniCredit"
     ],
+    "formatUse": "Použít tento formát",
     "section4GuideLink": "Jak vytvořit QR kód pro platbu",
     "section4SepaLink": "SEPA QR kód generátor",
     "section4StudioLink": "Pokročilý editor QR",

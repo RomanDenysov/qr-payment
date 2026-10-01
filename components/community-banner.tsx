@@ -16,39 +16,35 @@ export function CommunityBanner({ className }: { className?: string }) {
   return (
     <section
       className={cn(
-        "bg-card px-5 py-8 ring-1 ring-foreground/10 sm:px-8 sm:py-10",
+        "bg-card px-5 py-6 ring-1 ring-foreground/10 sm:px-8 sm:py-8",
         className
       )}
     >
-      <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between md:gap-10">
-        <div className="min-w-0 max-w-xl">
-          <h2 className="font-bold font-pixel text-foreground text-xl tracking-wide sm:text-2xl">
-            {t("title")}
-          </h2>
-          <p className="mt-2 text-muted-foreground text-sm/relaxed">
-            {t("description")}
-          </p>
-        </div>
-        <div className="flex shrink-0 flex-col gap-3 sm:flex-row">
-          <DynamicFeatureRequestDialog
-            trigger={
-              <Button className="h-12 px-5 text-sm" variant="default">
-                <IconBulb />
-                {tFeedback("trigger")}
-              </Button>
-            }
-          />
-          <SupportLink
-            className={cn(
-              buttonVariants({ variant: "outline" }),
-              "h-12 px-5 text-sm"
-            )}
-            placement="home"
-          >
-            <IconCup />
-            {t("support")}
-          </SupportLink>
-        </div>
+      <h2 className="text-balance font-bold font-pixel text-foreground text-xl tracking-wide sm:text-2xl">
+        {t("title")}
+      </h2>
+      <p className="mt-2 max-w-2xl text-muted-foreground text-sm/relaxed">
+        {t("description")}
+      </p>
+      <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+        <DynamicFeatureRequestDialog
+          trigger={
+            <Button className="h-11 px-5 text-sm" variant="default">
+              <IconBulb />
+              {tFeedback("trigger")}
+            </Button>
+          }
+        />
+        <SupportLink
+          className={cn(
+            buttonVariants({ variant: "outline" }),
+            "h-11 px-5 text-sm"
+          )}
+          placement="home"
+        >
+          <IconCup />
+          {t("support")}
+        </SupportLink>
       </div>
     </section>
   );
