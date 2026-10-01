@@ -1,7 +1,13 @@
 import { IconArrowRight } from "@tabler/icons-react";
 import { getTranslations } from "next-intl/server";
 import type { ComponentProps } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Link } from "@/i18n/navigation";
 import { getAlternates, getOgLocale, localePath } from "@/lib/seo";
 
@@ -107,15 +113,15 @@ export default async function GuidesPage({ params }: Props) {
                       {guide.title}
                     </Link>
                   </CardTitle>
+                  <CardAction>
+                    <IconArrowRight
+                      aria-hidden
+                      className="size-4 text-foreground transition-transform duration-150 ease-out group-hover/card:translate-x-0.5"
+                    />
+                  </CardAction>
                 </CardHeader>
-                <CardContent className="flex-1 text-muted-foreground">
+                <CardContent className="text-muted-foreground">
                   {guide.description}
-                </CardContent>
-                <CardContent>
-                  <IconArrowRight
-                    aria-hidden
-                    className="size-4 text-foreground transition-transform duration-150 ease-out group-hover/card:translate-x-0.5"
-                  />
                 </CardContent>
               </Card>
             </li>
