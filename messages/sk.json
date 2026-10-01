@@ -14,6 +14,8 @@
     "termsDescription": "Podmienky používania aplikácie QR Platby.",
     "faqTitle": "Často kladené otázky",
     "faqDescription": "Odpovede na najčastejšie otázky o generátore QR kódov pre platby.",
+    "guidesTitle": "Návody k QR platbám",
+    "guidesDescription": "Postupy a vysvetlenia k platobným QR kódom: ako ich vytvoriť, ktorý formát zvoliť a čo podporujú banky.",
     "guideTitle": "Ako vytvoriť QR kód na platbu - návod krok za krokom",
     "guideDescription": "Návod, ako zadarmo vytvoriť QR kód na platbu z IBANu. Krok za krokom, bez registrácie, funguje so všetkými slovenskými bankami. PAY by square aj EPC QR.",
     "sepaTitle": "SEPA QR kód generátor (EPC QR) - zadarmo, bez registrácie",
@@ -39,7 +41,8 @@
     "closeMenu": "Zavrieť menu",
     "openMenu": "Otvoriť menu",
     "toggleTheme": "Prepnúť tému",
-    "skipToContent": "Preskočiť na obsah"
+    "skipToContent": "Preskočiť na obsah",
+    "guides": "Návody"
   },
   "Footer": {
     "privacy": "Vaše platobné údaje nepotrebujeme. Sú uložené vo vašom prehliadači a neopustia ho.",
@@ -691,6 +694,10 @@
     "title": "O smerovaní QR Platieb rozhodujete vy",
     "description": "QR Platby sú hobby projekt, zadarmo a bez registrácie. Napíšte, čo vám chýba, alebo projekt podporte.",
     "support": "Podporiť projekt"
+  },
+  "Guides": {
+    "h1": "Návody",
+    "intro": "Postupy a vysvetlenia k platobným QR kódom: ako ich vytvoriť, ktorý formát zvoliť a čo podporujú banky."
   },
   "Stats": {
     "totalLabel": "vygenerovaných QR kódov",

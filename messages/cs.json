@@ -14,6 +14,8 @@
     "termsDescription": "Podmínky používání aplikace QR Platby.",
     "faqTitle": "Často kladené otázky",
     "faqDescription": "Odpovědi na nejčastější otázky o generátoru QR kódů pro platby.",
+    "guidesTitle": "Návody ke QR platbám",
+    "guidesDescription": "Postupy a vysvětlení k platebním QR kódům: jak je vytvořit, který formát zvolit a co podporují banky.",
     "guideTitle": "Jak vytvořit QR kód pro platbu - návod krok za krokem",
     "guideDescription": "Návod, jak zdarma vytvořit QR kód pro platbu z IBANu. Krok za krokem, bez registrace, funguje se všemi českými bankami. QR platba (SPAYD) i PAY by square.",
     "sepaTitle": "SEPA QR kód generátor (EPC QR) - zdarma, bez registrace",
@@ -39,7 +41,8 @@
     "closeMenu": "Zavřít menu",
     "openMenu": "Otevřít menu",
     "toggleTheme": "Přepnout motiv",
-    "skipToContent": "Přeskočit na obsah"
+    "skipToContent": "Přeskočit na obsah",
+    "guides": "Návody"
   },
   "Footer": {
     "privacy": "Vaše platební údaje nepotřebujeme. Jsou uloženy ve vašem prohlížeči a neopustí ho.",
@@ -691,6 +694,10 @@
     "title": "O směřování QR Plateb rozhodujete vy",
     "description": "QR Platby jsou hobby projekt, zdarma a bez registrace. Napište, co vám chybí, nebo projekt podpořte.",
     "support": "Podpořit projekt"
+  },
+  "Guides": {
+    "h1": "Návody",
+    "intro": "Postupy a vysvětlení k platebním QR kódům: jak je vytvořit, který formát zvolit a co podporují banky."
   },
   "Stats": {
     "totalLabel": "vygenerovaných QR kódů",

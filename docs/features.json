@@ -183,11 +183,11 @@
     {
       "name": "FAQ",
       "source": "features/faq/",
-      "route": "/faq",
+      "route": "/#faq",
       "category": "ui",
       "i18nNamespace": "FAQ",
       "clientSide": false,
-      "description": "Accordion-style FAQ page with JSON-LD structured data for SEO."
+      "description": "FAQ accordion with FAQPage JSON-LD, rendered as a section of the homepage (features/faq/faq-section.tsx). The old /faq URLs redirect to /#faq."
     },
     {
       "name": "Feature Requests",
@@ -323,6 +323,15 @@
       "i18nNamespace": "HomeContent",
       "clientSide": true,
       "description": "Format tiles in the homepage explainer select that format in the payment form and scroll to it (features/seo/format-tile-action.tsx, via the qr:select-format window event). The how-to steps fade in once with a stagger when scrolled into view (components/reveal-list.tsx)."
+    },
+    {
+      "name": "Guides Index",
+      "source": "app/[locale]/navody/page.tsx",
+      "route": "/navody",
+      "category": "seo",
+      "i18nNamespace": "Guides",
+      "clientSide": false,
+      "description": "Index of the how-to and explainer pages (guide, SEPA page, FAQ) for non-developers. Localized slug: /en/guides. /docs stays the API documentation."
     }
   ]
 }

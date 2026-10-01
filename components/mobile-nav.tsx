@@ -86,11 +86,11 @@ export function MobileNav() {
                 buttonVariants({ variant: "ghost", size: "default" }),
                 "justify-start text-sm"
               )}
-              href="/faq"
+              href="/navody"
               onClick={close}
             >
               <IconHelp />
-              {t("faq")}
+              {t("guides")}
             </Link>
 
             <div className="flex items-center justify-between">

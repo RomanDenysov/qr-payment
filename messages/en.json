@@ -14,6 +14,8 @@
     "termsDescription": "Terms of use for the QR Payments application.",
     "faqTitle": "Frequently Asked Questions",
     "faqDescription": "Answers to the most common questions about the QR code payment generator.",
+    "guidesTitle": "Payment QR code guides",
+    "guidesDescription": "How-tos and explainers for payment QR codes: how to create one, which format to pick and what banks support.",
     "guideTitle": "How to Create a Payment QR Code - Step-by-Step Guide",
     "guideDescription": "Create a payment QR code from an IBAN for free, in seconds. Step-by-step guide, no signup, works with EU, Slovak and Czech banking apps. EPC QR included.",
     "sepaTitle": "SEPA QR Code Generator (EPC QR) - Free, No Signup",
@@ -39,7 +41,8 @@
     "closeMenu": "Close menu",
     "openMenu": "Open menu",
     "toggleTheme": "Toggle theme",
-    "skipToContent": "Skip to content"
+    "skipToContent": "Skip to content",
+    "guides": "Guides"
   },
   "Footer": {
     "privacy": "We don't need your payment data. It is stored in your browser and never leaves it.",
@@ -691,6 +694,10 @@
     "title": "You decide where QR Platby goes next",
     "description": "QR Platby is a hobby project, free and with no signup. Tell us what is missing, or support the project.",
     "support": "Support the project"
+  },
+  "Guides": {
+    "h1": "Guides",
+    "intro": "How-tos and explainers for payment QR codes: how to create one, which format to pick and what banks support."
   },
   "Stats": {
     "totalLabel": "QR codes generated",

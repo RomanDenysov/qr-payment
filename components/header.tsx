@@ -35,10 +35,10 @@ export function Header() {
           </Link>
           <Link
             className={cn(buttonVariants({ variant: "ghost", size: "sm" }))}
-            href="/faq"
+            href="/navody"
           >
             <IconHelp />
-            {t("faq")}
+            {t("guides")}
           </Link>
           <HistorySheet />
           <LocaleSwitcher />

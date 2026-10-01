@@ -19,6 +19,17 @@ const nextConfig: NextConfig = {
       "zod",
     ],
   },
+  // The FAQ moved onto the homepage; keep the old URLs working.
+  async redirects() {
+    return [
+      { source: "/faq", destination: "/#faq", permanent: true },
+      {
+        source: "/:locale(cs|en)/faq",
+        destination: "/:locale#faq",
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       {

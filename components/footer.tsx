@@ -85,7 +85,15 @@ export function Footer() {
               </Link>
             </li>
             <li>
-              <Link className={LINK_CLASS} href="/faq">
+              <Link className={LINK_CLASS} href="/navody">
+                {tNav("guides")}
+              </Link>
+            </li>
+            <li>
+              <Link
+                className={LINK_CLASS}
+                href={{ pathname: "/", hash: "faq" }}
+              >
                 {tNav("faq")}
               </Link>
             </li>

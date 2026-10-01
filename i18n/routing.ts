@@ -8,7 +8,11 @@ export const routing = defineRouting({
     "/": "/",
     "/studio": "/studio",
     "/bulk": "/bulk",
-    "/faq": "/faq",
+    "/navody": {
+      sk: "/navody",
+      cs: "/navody",
+      en: "/guides",
+    },
     "/docs": "/docs",
     "/changelog": "/changelog",
     "/ochrana-udajov": "/ochrana-udajov",
