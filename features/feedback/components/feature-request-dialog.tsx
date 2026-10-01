@@ -14,6 +14,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 import { createFeatureRequestSchema } from "../schema";
 import { sendFeedback } from "../send-feedback";
@@ -30,6 +32,7 @@ export function FeatureRequestDialog({
   trigger?: React.ReactElement;
 }) {
   const [message, setMessage] = useState("");
+  const [email, setEmail] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [state, setState] = useState<DialogState>("idle");
   const { addRequest } = useFeedbackActions();
@@ -41,6 +44,7 @@ export function FeatureRequestDialog({
       createFeatureRequestSchema({
         min: t("messageMin"),
         max: t("messageMax"),
+        email: t("emailInvalid"),
       }),
     [t]
   );
@@ -50,13 +54,14 @@ export function FeatureRequestDialog({
       track("feature_request_opened");
     } else {
       setMessage("");
+      setEmail("");
       setError(null);
       setState("idle");
     }
   }, []);
 
   const handleSubmit = useCallback(async () => {
-    const result = schema.safeParse({ message });
+    const result = schema.safeParse({ message, email: email.trim() });
     if (!result.success) {
       setError(result.error.issues[0]?.message ?? "Validation error");
       return;
@@ -72,6 +77,7 @@ export function FeatureRequestDialog({
         message: result.data.message,
         language: navigator.language,
         deviceType: isMobile ? "Mobile" : "Desktop",
+        ...(result.data.email && { email: result.data.email }),
       });
 
       if (!response.success) {
@@ -87,7 +93,7 @@ export function FeatureRequestDialog({
       setState("idle");
       setError(t("sendFailed"));
     }
-  }, [message, addRequest, schema, t]);
+  }, [message, email, addRequest, schema, t]);
 
   useEffect(() => {
     if (state !== "success") {
@@ -157,6 +163,25 @@ export function FeatureRequestDialog({
                   {charCount}/500
                 </span>
               </div>
+            </div>
+            <div className="flex flex-col gap-1.5">
+              <Label htmlFor="feature-request-email">{t("emailLabel")}</Label>
+              <Input
+                autoComplete="email"
+                disabled={state === "submitting"}
+                id="feature-request-email"
+                maxLength={254}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  if (error) {
+                    setError(null);
+                  }
+                }}
+                placeholder="meno@example.com"
+                type="email"
+                value={email}
+              />
+              <p className="text-muted-foreground text-xs">{t("emailHint")}</p>
             </div>
             <PreviousRequests />
 

@@ -270,11 +270,11 @@ curl -X POST https://qr-platby.com/api/v1/qr \
 `GET https://qr-platby.com/api/v1/stats` returns anonymous usage counters. No auth, no PII, cached for 10 minutes.
 
 ```json
-{ "total": 12345, "month": 987, "api": 2100 }
+{ "total": 12345, "last30Days": 987, "api": 2100 }
 ```
 
 - `total` — QR codes generated in the web app, all time
-- `month` — QR codes generated this calendar month
+- `last30Days` — QR codes generated in the web app over the last 30 days
 - `api` — QR codes generated via the REST API, all time
 
 ## Machine-Readable Resources

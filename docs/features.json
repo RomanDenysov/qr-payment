@@ -305,6 +305,15 @@
       "i18nNamespace": "Sepa",
       "clientSide": false,
       "description": "Explains EPC QR for SEPA transfers and links into the generator with the EPC format preselected (/?format=epc). Localized slugs: /sepa-qr-kod-generator (sk, cs), /en/sepa-qr-code-generator."
+    },
+    {
+      "name": "Community Banner",
+      "source": "components/community-banner.tsx",
+      "route": "/",
+      "category": "ui",
+      "i18nNamespace": "Community",
+      "clientSide": false,
+      "description": "Support link and feature request dialog in one block. Shown in the footer on every page and under the generator once the browser has generated a QR code. Feature requests accept an optional email for follow-up and go to the developer via Telegram."
     }
   ]
 }

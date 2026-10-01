@@ -9,6 +9,7 @@ const feedbackSchema = z.object({
   message: z.string().min(1).max(500),
   language: z.string().min(1).max(10),
   deviceType: z.string().min(1).max(50),
+  email: z.email().max(254).optional(),
 });
 
 type SendFeedbackResult =
@@ -21,7 +22,8 @@ type SendFeedbackResult =
 function formatMessage(
   message: string,
   language: string,
-  deviceType: string
+  deviceType: string,
+  email?: string
 ): string {
   const timestamp = new Date().toLocaleString("sk-SK", {
     timeZone: "Europe/Bratislava",
@@ -36,6 +38,7 @@ function formatMessage(
     `🕐 ${timestamp}`,
     `🌐 ${language}`,
     `📱 ${deviceType}`,
+    ...(email ? [`✉️ ${email}`] : []),
   ].join("\n");
 }
 
@@ -47,7 +50,7 @@ export async function sendFeedback(
     return { success: false, error: "invalid-input" };
   }
 
-  const { message, language, deviceType } = parsed.data;
+  const { message, language, deviceType, email } = parsed.data;
 
   try {
     const response = await fetch(
@@ -57,7 +60,7 @@ export async function sendFeedback(
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           chat_id: env.TELEGRAM_CHAT_ID,
-          text: formatMessage(message, language, deviceType),
+          text: formatMessage(message, language, deviceType, email),
         }),
         signal: AbortSignal.timeout(5000),
       }

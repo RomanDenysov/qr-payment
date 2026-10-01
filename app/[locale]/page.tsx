@@ -1,5 +1,7 @@
 import { getTranslations } from "next-intl/server";
+import { CommunityBanner } from "@/components/community-banner";
 import { DynamicApiCard } from "@/features/api/api-card-dynamic";
+import { AfterGeneration } from "@/features/payment/components/after-generation";
 import { PaymentFormCard } from "@/features/payment/components/payment-form-card";
 import { QRPreviewCard } from "@/features/payment/components/qr-preview-card";
 import {
@@ -34,6 +36,9 @@ export default async function Page({ params }: Props) {
         <PaymentFormCard />
         <QRPreviewCard />
       </section>
+      <AfterGeneration>
+        <CommunityBanner className="mt-8" placement="home" />
+      </AfterGeneration>
       <UsageStats />
       <HomeContentSections />
       <h2 className="mt-20 font-bold font-pixel text-foreground text-lg tracking-wide sm:mt-24 sm:text-xl">

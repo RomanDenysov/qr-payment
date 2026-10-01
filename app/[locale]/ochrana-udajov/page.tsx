@@ -94,6 +94,13 @@ export default async function PrivacyPolicyPage({ params }: Props) {
 
         <section className="space-y-2">
           <h2 className="font-pixel font-semibold text-base text-foreground">
+            {t("feedback.heading")}
+          </h2>
+          <p>{t("feedback.body")}</p>
+        </section>
+
+        <section className="space-y-2">
+          <h2 className="font-pixel font-semibold text-base text-foreground">
             {t("localStorage.heading")}
           </h2>
           <p>{t("localStorage.body1")}</p>

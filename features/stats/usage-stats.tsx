@@ -56,7 +56,10 @@ export function UsageStats() {
     <section className="fade-in-0 mt-8 animate-in duration-200 ease-out-quad">
       <div className="grid gap-4 sm:grid-cols-3">
         <StatCard label={t("totalLabel")} value={format.format(stats.total)} />
-        <StatCard label={t("monthLabel")} value={format.format(stats.month)} />
+        <StatCard
+          label={t("last30Label")}
+          value={format.format(stats.last30Days)}
+        />
         <StatCard label={t("apiLabel")} value={format.format(stats.api)} />
       </div>
       <p className="mt-3 text-muted-foreground text-xs">{t("caption")}</p>

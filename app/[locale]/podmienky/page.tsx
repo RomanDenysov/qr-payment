@@ -66,6 +66,13 @@ export default async function TermsPage({ params }: Props) {
 
         <section className="space-y-2">
           <h2 className="font-pixel font-semibold text-base text-foreground">
+            {t("project.heading")}
+          </h2>
+          <p>{t("project.body")}</p>
+        </section>
+
+        <section className="space-y-2">
+          <h2 className="font-pixel font-semibold text-base text-foreground">
             {t("responsibility.heading")}
           </h2>
           <p>{t("responsibility.body")}</p>

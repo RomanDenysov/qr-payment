@@ -1,41 +1,20 @@
-import { IconBrandGithub, IconBulb, IconCup } from "@tabler/icons-react";
+import { IconBrandGithub } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
-import { Button } from "@/components/ui/button";
-import { DynamicFeatureRequestDialog } from "@/features/feedback/components/feature-request-dialog-dynamic";
 import { Link } from "@/i18n/navigation";
-import { SupportLink } from "./support-link";
+import { CommunityBanner } from "./community-banner";
 
 export function Footer() {
   const t = useTranslations("Footer");
-  const tFeedback = useTranslations("Feedback");
 
   return (
     <footer className="mt-auto pt-16 pb-4">
-      <div className="border border-foreground/10 border-dashed px-4 py-3">
-        <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <div className="min-w-0">
-            <p className="font-medium text-sm">{tFeedback("ctaTitle")}</p>
-            <p className="mt-0.5 text-muted-foreground text-xs">
-              {tFeedback("ctaDescription")}
-            </p>
-          </div>
-          <DynamicFeatureRequestDialog
-            trigger={
-              <Button
-                className="w-full shrink-0 sm:w-auto"
-                size="lg"
-                variant="default"
-              >
-                <IconBulb />
-                {tFeedback("trigger")}
-              </Button>
-            }
-          />
-        </div>
-      </div>
+      <CommunityBanner placement="footer" />
 
       <p className="mt-4 text-center text-muted-foreground text-xs">
         {t("privacy")}
+      </p>
+      <p className="mt-1 text-center text-muted-foreground text-xs">
+        {t("hobbyNotice")}
       </p>
 
       <nav aria-label="Footer">
@@ -54,14 +33,6 @@ export function Footer() {
             {t("apiDocs")}
           </Link>
           <span className="text-foreground/15">·</span>
-          <SupportLink
-            className="inline-flex items-center gap-1 hover:text-foreground"
-            placement="footer"
-          >
-            <IconCup className="size-4" />
-            Buy me a coffee
-          </SupportLink>
-          <span className="text-foreground/15">·</span>
           <a
             className="inline-flex items-center gap-1 hover:text-foreground"
             href="https://github.com/RomanDenysov/qr-payment"
@@ -71,6 +42,18 @@ export function Footer() {
             <IconBrandGithub className="size-4" />
             GitHub
           </a>
+          <span className="text-foreground/15">·</span>
+          <span>
+            {t("createdBy")}{" "}
+            <a
+              className="underline underline-offset-2 hover:text-foreground"
+              href="https://denysov.dev"
+              rel="noopener"
+              target="_blank"
+            >
+              denysov.dev
+            </a>
+          </span>
         </div>
       </nav>
     </footer>

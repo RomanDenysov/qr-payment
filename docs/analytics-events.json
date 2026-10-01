@@ -218,7 +218,7 @@
     },
     "support_link_clicked": {
       "description": "User clicked the Buy me a coffee link",
-      "properties": { "placement": "footer" },
+      "properties": { "placement": "footer | home" },
       "source": "components/support-link.tsx"
     },
     "announcement_dismissed": {

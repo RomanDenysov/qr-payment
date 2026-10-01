@@ -46,7 +46,9 @@
     "copyright": "© 2026 Made with 🖤 in Slovakia",
     "privacyPolicy": "Privacy Policy",
     "terms": "Terms",
-    "apiDocs": "API Docs"
+    "apiDocs": "API Docs",
+    "createdBy": "Built by",
+    "hobbyNotice": "QR Platby is a hobby project, built in spare time, with no obligations to users and no commercial goals for now."
   },
   "Announcement": {
     "message": "What's new: gradients, logo, frame, position picker, image size from 128 to 1024 px - and the REST API now supports custom colors, margin, and error correction level.",
@@ -418,7 +420,7 @@
   "Feedback": {
     "trigger": "Suggest a feature",
     "title": "Suggest a feature",
-    "description": "Have an idea for improvement? Let us know.",
+    "description": "You decide what comes next. What is missing in QR Platby?",
     "placeholder": "Describe your suggestion...",
     "messageMin": "Message must be at least 10 characters",
     "messageMax": "Message can be at most 500 characters",
@@ -437,11 +439,14 @@
     "timeHours": "{count}h ago",
     "timeDays": "{count}d ago",
     "ctaTitle": "Help us improve QR Platby",
-    "ctaDescription": "Got an idea for improvement? Let us know."
+    "ctaDescription": "Got an idea for improvement? Let us know.",
+    "emailLabel": "Email (optional)",
+    "emailHint": "If you like, the developer can contact you with questions about your request.",
+    "emailInvalid": "Invalid email"
   },
   "PrivacyPolicy": {
     "title": "Privacy Policy",
-    "lastUpdated": "Last updated: February 11, 2026",
+    "lastUpdated": "Last updated: October 1, 2026",
     "operator": {
       "heading": "Operator",
       "author": "Independent author",
@@ -467,11 +472,15 @@
     "contact": {
       "heading": "Contact",
       "body": "For questions, contact us at:"
+    },
+    "feedback": {
+      "heading": "Feature requests",
+      "body": "When you send a feature request, the developer receives its text, your browser language and device type. Email is optional. If you add it, it is used only so the developer can get back to you about your request."
     }
   },
   "Terms": {
     "title": "Terms of Use",
-    "lastUpdated": "Last updated: February 11, 2026",
+    "lastUpdated": "Last updated: October 1, 2026",
     "about": {
       "heading": "About the service",
       "body": "QR Platby is a free online tool for generating QR codes for bank payments in BySquare, EPC, and SPAYD (QR Platba) formats. The service is provided \"as-is\", without any warranties."
@@ -495,6 +504,10 @@
     "contact": {
       "heading": "Contact",
       "body": "For questions, contact:"
+    },
+    "project": {
+      "heading": "Nature of the project",
+      "body": "QR Platby is a hobby project by a single developer. It is built in spare time, with no obligations to users, and has no commercial goals at this stage. Availability, new features and replies to suggestions are not guaranteed."
     }
   },
   "HomeContent": {
@@ -669,9 +682,14 @@
       }
     ]
   },
+  "Community": {
+    "title": "You decide where QR Platby goes next",
+    "description": "QR Platby is a hobby project, free and with no signup. Tell us what is missing, or support the project.",
+    "support": "Support the project"
+  },
   "Stats": {
     "totalLabel": "QR codes generated",
-    "monthLabel": "this month",
+    "last30Label": "in the last 30 days",
     "apiLabel": "API requests",
     "caption": "Anonymous counters - we never see your payment data."
   },

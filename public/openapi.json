@@ -227,15 +227,15 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": ["total", "month", "api"],
+                  "required": ["total", "last30Days", "api"],
                   "properties": {
                     "total": {
                       "type": "integer",
                       "description": "QR codes generated in the web app, all time"
                     },
-                    "month": {
+                    "last30Days": {
                       "type": "integer",
-                      "description": "QR codes generated this calendar month"
+                      "description": "QR codes generated in the web app over the last 30 days (UTC days, including today)"
                     },
                     "api": {
                       "type": "integer",
@@ -245,7 +245,7 @@
                 },
                 "example": {
                   "total": 12345,
-                  "month": 987,
+                  "last30Days": 987,
                   "api": 2100
                 }
               }
