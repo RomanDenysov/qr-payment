@@ -313,7 +313,7 @@
       "category": "ui",
       "i18nNamespace": "Community",
       "clientSide": false,
-      "description": "Support link and feature request dialog in one block. Shown in the footer on every page and under the generator once the browser has generated a QR code. Feature requests accept an optional email for follow-up and go to the developer via Telegram."
+      "description": "Homepage call-to-action card under the usage counters with a feature request button and a support link. The footer repeats both as plain links on every page. Feature requests accept an optional email for follow-up and go to the developer via Telegram."
     }
   ]
 }

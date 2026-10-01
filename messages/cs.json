@@ -48,7 +48,11 @@
     "terms": "Podmínky",
     "apiDocs": "API dokumentace",
     "createdBy": "Vytvořil",
-    "hobbyNotice": "QR Platby jsou hobby projekt. Vyvíjejí se ve volném čase, bez závazků vůči uživatelům a zatím bez komerčních cílů."
+    "hobbyNotice": "QR Platby jsou hobby projekt. Vyvíjejí se ve volném čase, bez závazků vůči uživatelům a zatím bez komerčních cílů.",
+    "colTools": "Nástroje",
+    "colResources": "Informace",
+    "colProject": "Projekt",
+    "generator": "Generátor QR platby"
   },
   "Announcement": {
     "message": "Novinky: gradienty, logo, rám, výběr pozice a velikosti obrázku (128-1024 px) - a REST API nyní podporuje vlastní barvy, okraj a úroveň korekce chyb.",
@@ -561,7 +565,6 @@
       "365.bank",
       "UniCredit"
     ],
-    "section4MoreLinksTitle": "Další nástroje",
     "section4GuideLink": "Jak vytvořit QR kód pro platbu",
     "section4SepaLink": "SEPA QR kód generátor",
     "section4StudioLink": "Pokročilý editor QR",

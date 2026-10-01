@@ -48,7 +48,11 @@
     "terms": "Podmienky",
     "apiDocs": "API dokumentácia",
     "createdBy": "Vytvoril",
-    "hobbyNotice": "QR Platby sú hobby projekt. Vyvíjajú sa vo voľnom čase, bez záväzkov voči používateľom a zatiaľ bez komerčných cieľov."
+    "hobbyNotice": "QR Platby sú hobby projekt. Vyvíjajú sa vo voľnom čase, bez záväzkov voči používateľom a zatiaľ bez komerčných cieľov.",
+    "colTools": "Nástroje",
+    "colResources": "Informácie",
+    "colProject": "Projekt",
+    "generator": "Generátor QR platby"
   },
   "Announcement": {
     "message": "Novinky: gradienty, logo, rám, výber polohy a veľkosti obrázka (128-1024 px) - a REST API teraz tiež podporuje vlastné farby, okraj a úroveň korekcie chýb.",
@@ -561,7 +565,6 @@
       "mBank",
       "MONETA"
     ],
-    "section4MoreLinksTitle": "Ďalšie nástroje",
     "section4GuideLink": "Ako vytvoriť QR kód na platbu",
     "section4SepaLink": "SEPA QR kód generátor",
     "section4StudioLink": "Pokročilý QR editor",

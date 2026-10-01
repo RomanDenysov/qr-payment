@@ -1,8 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { linkVariants } from "@/components/ui/link";
-import { Link } from "@/i18n/navigation";
 
 interface FormatTile {
   name: string;
@@ -101,51 +99,5 @@ export async function HomeContentSections() {
         </div>
       </section>
     </>
-  );
-}
-
-/**
- * Secondary "more tools" links (Studio, Bulk), rendered at the very bottom of
- * the homepage after the developer API section. The API docs link is omitted
- * here because the API card directly above already links out to the docs.
- */
-export async function HomeMoreTools() {
-  const t = await getTranslations("HomeContent");
-
-  return (
-    <section className="mt-20 space-y-6 sm:mt-24">
-      <h3 className="font-semibold text-foreground text-sm">
-        {t("section4MoreLinksTitle")}
-      </h3>
-      <div className="flex flex-wrap items-center gap-3">
-        <Link
-          className={linkVariants({ size: "sm", variant: "muted" })}
-          href="/ako-vytvorit-qr-kod-na-platbu"
-        >
-          {t("section4GuideLink")}
-        </Link>
-        <span className="text-muted-foreground text-xs">•</span>
-        <Link
-          className={linkVariants({ size: "sm", variant: "muted" })}
-          href="/sepa-qr-code-generator"
-        >
-          {t("section4SepaLink")}
-        </Link>
-        <span className="text-muted-foreground text-xs">•</span>
-        <Link
-          className={linkVariants({ size: "sm", variant: "muted" })}
-          href="/studio"
-        >
-          {t("section4StudioLink")}
-        </Link>
-        <span className="text-muted-foreground text-xs">•</span>
-        <Link
-          className={linkVariants({ size: "sm", variant: "muted" })}
-          href="/bulk"
-        >
-          {t("section4BulkLink")}
-        </Link>
-      </div>
-    </section>
   );
 }

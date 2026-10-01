@@ -5,55 +5,51 @@ import { DynamicFeatureRequestDialog } from "@/features/feedback/components/feat
 import { cn } from "@/lib/utils";
 import { SupportLink } from "./support-link";
 
-interface CommunityBannerProps {
-  className?: string;
-  /** Where the banner sits; passed to analytics on a support click. */
-  placement: string;
-}
-
 /**
- * "You decide where the project goes" block: a support link and the feature
- * request dialog side by side. Used in the footer and under the generator.
+ * Homepage call to action: "you decide where the project goes", with a
+ * support link and the feature request dialog.
  */
-export function CommunityBanner({
-  className,
-  placement,
-}: CommunityBannerProps) {
+export function CommunityBanner({ className }: { className?: string }) {
   const t = useTranslations("Community");
   const tFeedback = useTranslations("Feedback");
 
   return (
-    <div
+    <section
       className={cn(
-        "border border-foreground/10 border-dashed px-4 py-3",
+        "bg-card px-5 py-8 ring-1 ring-foreground/10 sm:px-8 sm:py-10",
         className
       )}
     >
-      <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <div className="min-w-0">
-          <p className="font-medium text-sm">{t("title")}</p>
-          <p className="mt-0.5 text-muted-foreground text-xs">
+      <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between md:gap-10">
+        <div className="min-w-0 max-w-xl">
+          <h2 className="font-bold font-pixel text-foreground text-xl tracking-wide sm:text-2xl">
+            {t("title")}
+          </h2>
+          <p className="mt-2 text-muted-foreground text-sm/relaxed">
             {t("description")}
           </p>
         </div>
-        <div className="flex w-full shrink-0 flex-col gap-2 sm:w-auto sm:flex-row">
-          <SupportLink
-            className={buttonVariants({ size: "lg", variant: "outline" })}
-            placement={placement}
-          >
-            <IconCup />
-            {t("support")}
-          </SupportLink>
+        <div className="flex shrink-0 flex-col gap-3 sm:flex-row">
           <DynamicFeatureRequestDialog
             trigger={
-              <Button size="lg" variant="default">
+              <Button className="h-12 px-5 text-sm" variant="default">
                 <IconBulb />
                 {tFeedback("trigger")}
               </Button>
             }
           />
+          <SupportLink
+            className={cn(
+              buttonVariants({ variant: "outline" }),
+              "h-12 px-5 text-sm"
+            )}
+            placement="home"
+          >
+            <IconCup />
+            {t("support")}
+          </SupportLink>
         </div>
       </div>
-    </div>
+    </section>
   );
 }

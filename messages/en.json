@@ -48,7 +48,11 @@
     "terms": "Terms",
     "apiDocs": "API Docs",
     "createdBy": "Built by",
-    "hobbyNotice": "QR Platby is a hobby project, built in spare time, with no obligations to users and no commercial goals for now."
+    "hobbyNotice": "QR Platby is a hobby project, built in spare time, with no obligations to users and no commercial goals for now.",
+    "colTools": "Tools",
+    "colResources": "Resources",
+    "colProject": "Project",
+    "generator": "QR payment generator"
   },
   "Announcement": {
     "message": "What's new: gradients, logo, frame, position picker, image size from 128 to 1024 px - and the REST API now supports custom colors, margin, and error correction level.",
@@ -561,7 +565,6 @@
       "mBank",
       "MONETA"
     ],
-    "section4MoreLinksTitle": "More tools",
     "section4GuideLink": "How to create a payment QR code",
     "section4SepaLink": "SEPA QR code generator",
     "section4StudioLink": "Advanced QR editor",
