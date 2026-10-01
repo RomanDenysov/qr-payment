@@ -9,7 +9,7 @@ import {
 } from "@tabler/icons-react";
 import { track } from "@vercel/analytics";
 import { useLocale, useTranslations } from "next-intl";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useEffectEvent, useMemo, useState } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import { CurrencyInput } from "@/components/currency-input";
 import { IBANAutocomplete } from "@/components/iban-autocomplete";
@@ -283,7 +283,7 @@ export function PaymentFormCard() {
     });
   };
 
-  const handleFormatChange = (newFormat: PaymentFormat) => {
+  const applyFormat = (newFormat: PaymentFormat) => {
     setValue("format", newFormat);
     setPreferredFormat(newFormat);
     if (newFormat === "epc") {
@@ -292,8 +292,23 @@ export function PaymentFormCard() {
       setValue("currency", "CZK");
       setPreferredCurrency("CZK");
     }
+  };
+
+  const handleFormatChange = (newFormat: PaymentFormat) => {
+    applyFormat(newFormat);
     track("format_selected", { format: newFormat });
   };
+
+  // Format tiles further down the homepage switch the format from outside.
+  // They track their own click, so this path skips `format_selected`.
+  const onExternalFormat = useEffectEvent((event: Event) => {
+    applyFormat((event as CustomEvent<PaymentFormat>).detail);
+  });
+  useEffect(() => {
+    window.addEventListener(SELECT_FORMAT_EVENT, onExternalFormat);
+    return () =>
+      window.removeEventListener(SELECT_FORMAT_EVENT, onExternalFormat);
+  }, []);
 
   useEffect(() => {
     if (!currentPayment) {
@@ -335,15 +350,6 @@ export function PaymentFormCard() {
       }
     }
   }, [setValue]);
-
-  // Format tiles further down the homepage switch the format from outside.
-  useEffect(() => {
-    const onSelect = (event: Event) => {
-      handleFormatChange((event as CustomEvent<PaymentFormat>).detail);
-    };
-    window.addEventListener(SELECT_FORMAT_EVENT, onSelect);
-    return () => window.removeEventListener(SELECT_FORMAT_EVENT, onSelect);
-  });
 
   const handleClear = () => {
     reset({ ...defaultValues, format });

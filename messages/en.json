@@ -42,8 +42,9 @@
     "skipToContent": "Skip to content"
   },
   "Footer": {
-    "privacy": "We don't need your data. Everything is stored in your browser and never leaves it.",
-    "madeBy": "© 2026 QR Platby · Made by <link>denysov.dev</link> with 🖤 in Slovakia",
+    "privacy": "We don't need your payment data. It is stored in your browser and never leaves it.",
+    "copyright": "© 2026 QR Platby",
+    "madeBy": "Made by <link>denysov.dev</link> with 🖤 in Slovakia",
     "privacyPolicy": "Privacy Policy",
     "terms": "Terms",
     "apiDocs": "API Docs",
@@ -441,8 +442,6 @@
     "timeMinutes": "{count} min ago",
     "timeHours": "{count}h ago",
     "timeDays": "{count}d ago",
-    "ctaTitle": "Help us improve QR Platby",
-    "ctaDescription": "Got an idea for improvement? Let us know.",
     "emailLabel": "Email (optional)",
     "emailHint": "If you like, the developer can contact you with questions about your request.",
     "emailInvalid": "Invalid email"
@@ -457,7 +456,7 @@
     },
     "dataCollection": {
       "heading": "What data we collect",
-      "body": "<strong>None.</strong> QR Platby does not collect, store, or transmit any personal data to a server. All payment details (IBAN, amount, symbols) are processed exclusively in your browser."
+      "body": "<strong>No payment data.</strong> All payment details (IBAN, amount, symbols) are processed only in your browser and are never sent to a server. The one exception outside payments is a feature request you choose to send (see below)."
     },
     "localStorage": {
       "heading": "Local storage (localStorage)",
@@ -478,7 +477,7 @@
     },
     "feedback": {
       "heading": "Feature requests",
-      "body": "When you send a feature request, the developer receives its text, your browser language and device type. Email is optional. If you add it, it is used only so the developer can get back to you about your request."
+      "body": "When you send a feature request, the developer receives its text, your browser language and device type. Email is optional. If you add it, it is used only so the developer can get back to you about your request. The request is delivered to the developer through Telegram."
     }
   },
   "Terms": {
@@ -510,7 +509,7 @@
     },
     "project": {
       "heading": "Nature of the project",
-      "body": "QR Platby is a hobby project by a single developer. It is built in spare time, with no obligations to users, and has no commercial goals at this stage. Availability, new features and replies to suggestions are not guaranteed."
+      "body": "QR Platby is a hobby project by a single developer. It is built in spare time, with no obligations to users, and has no commercial goals at this stage."
     }
   },
   "HomeContent": {
@@ -519,16 +518,19 @@
     "section1Para2": "All data is processed directly in your browser - we don't collect or store any personal data on our servers.",
     "formats": [
       {
+        "format": "bysquare",
         "name": "PAY by square",
         "region": "Slovakia",
         "description": "The Slovak standard for payment QR codes - scannable by every Slovak banking app."
       },
       {
+        "format": "spayd",
         "name": "SPAYD",
         "region": "Czechia",
         "description": "The Czech Short Payment Descriptor format, supported by all Czech banks."
       },
       {
+        "format": "epc",
         "name": "EPC QR",
         "region": "EU / SEPA",
         "description": "The European SEPA standard for euro transfers across the eurozone."

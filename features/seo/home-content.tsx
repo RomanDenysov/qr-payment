@@ -1,18 +1,16 @@
 import { getTranslations } from "next-intl/server";
-import { RevealOnScroll } from "@/components/reveal-on-scroll";
+import { RevealList } from "@/components/reveal-list";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import type { PaymentFormat } from "@/features/payment/format";
 import { FormatTileAction } from "./format-tile-action";
 
 interface FormatTile {
+  format: PaymentFormat;
   name: string;
   region: string;
   description: string;
 }
-
-// Order of the `HomeContent.formats` tiles in the translation files.
-const TILE_FORMATS: PaymentFormat[] = ["bysquare", "spayd", "epc"];
 
 const SECTION_HEADING_CLASS =
   "font-bold font-pixel text-foreground text-lg tracking-wide sm:text-xl";
@@ -60,7 +58,7 @@ export async function HomeContentSections() {
         <p className="text-muted-foreground">{t("section1Para1")}</p>
         <p className="text-muted-foreground">{t("section1Para2")}</p>
         <div className="grid gap-4 sm:grid-cols-3">
-          {formats.map((format, index) => (
+          {formats.map((format) => (
             <Card
               className="relative focus-within:ring-foreground/40"
               interactive
@@ -80,7 +78,7 @@ export async function HomeContentSections() {
               </CardContent>
               <CardContent>
                 <FormatTileAction
-                  format={TILE_FORMATS[index] ?? "bysquare"}
+                  format={format.format}
                   label={t("formatUse")}
                 />
               </CardContent>
@@ -91,7 +89,7 @@ export async function HomeContentSections() {
 
       <section className="mt-20 space-y-6 sm:mt-24">
         <h2 className={SECTION_HEADING_CLASS}>{t("section2Title")}</h2>
-        <RevealOnScroll className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <RevealList className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {steps.map((step, index) => (
             <li
               className="flex gap-3 bg-card p-4 ring-1 ring-foreground/10"
@@ -106,7 +104,7 @@ export async function HomeContentSections() {
               </span>
             </li>
           ))}
-        </RevealOnScroll>
+        </RevealList>
       </section>
 
       <section className="mt-20 space-y-6 sm:mt-24">

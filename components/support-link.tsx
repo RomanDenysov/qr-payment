@@ -7,7 +7,7 @@ interface SupportLinkProps {
   children: ReactNode;
   className?: string;
   /** Where the link sits, so placements can be compared in analytics. */
-  placement: string;
+  placement: "footer" | "home";
 }
 
 /** Outbound "Buy me a coffee" link that records the click before leaving. */

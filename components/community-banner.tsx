@@ -29,17 +29,14 @@ export function CommunityBanner({ className }: { className?: string }) {
       <div className="mt-6 flex flex-col gap-3 sm:flex-row">
         <DynamicFeatureRequestDialog
           trigger={
-            <Button className="h-11 px-5 text-sm" variant="default">
+            <Button size="lg" variant="default">
               <IconBulb />
               {tFeedback("trigger")}
             </Button>
           }
         />
         <SupportLink
-          className={cn(
-            buttonVariants({ variant: "outline" }),
-            "h-11 px-5 text-sm"
-          )}
+          className={buttonVariants({ size: "lg", variant: "outline" })}
           placement="home"
         >
           <IconCup />

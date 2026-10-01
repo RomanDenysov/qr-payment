@@ -7,7 +7,7 @@ import { AppLogo } from "./app-logo";
 import { SupportLink } from "./support-link";
 
 const LINK_CLASS =
-  "text-foreground/80 underline-offset-4 hover:text-foreground hover:underline";
+  "text-foreground underline decoration-foreground/25 underline-offset-4 hover:decoration-foreground";
 
 function FooterColumn({
   title,
@@ -138,20 +138,23 @@ export function Footer() {
         </nav>
       </div>
 
-      <p className="mt-10 border-foreground/10 border-t pt-4 text-xs">
-        {t.rich("madeBy", {
-          link: (chunks) => (
-            <a
-              className={LINK_CLASS}
-              href="https://denysov.dev"
-              rel="noopener"
-              target="_blank"
-            >
-              {chunks}
-            </a>
-          ),
-        })}
-      </p>
+      <div className="mt-10 flex flex-col gap-2 border-foreground/10 border-t pt-4 text-xs sm:flex-row sm:items-center sm:justify-between">
+        <span>{t("copyright")}</span>
+        <span>
+          {t.rich("madeBy", {
+            link: (chunks) => (
+              <a
+                className={LINK_CLASS}
+                href="https://denysov.dev"
+                rel="noopener"
+                target="_blank"
+              >
+                {chunks}
+              </a>
+            ),
+          })}
+        </span>
+      </div>
     </footer>
   );
 }

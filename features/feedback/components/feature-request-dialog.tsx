@@ -34,6 +34,7 @@ export function FeatureRequestDialog({
   const [message, setMessage] = useState("");
   const [email, setEmail] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [emailError, setEmailError] = useState<string | null>(null);
   const [state, setState] = useState<DialogState>("idle");
   const { addRequest } = useFeedbackActions();
   const closeRef = useRef<HTMLButtonElement>(null);
@@ -56,6 +57,7 @@ export function FeatureRequestDialog({
       setMessage("");
       setEmail("");
       setError(null);
+      setEmailError(null);
       setState("idle");
     }
   }, []);
@@ -63,7 +65,13 @@ export function FeatureRequestDialog({
   const handleSubmit = useCallback(async () => {
     const result = schema.safeParse({ message, email: email.trim() });
     if (!result.success) {
-      setError(result.error.issues[0]?.message ?? "Validation error");
+      const issue = result.error.issues[0];
+      const text = issue?.message ?? "Validation error";
+      if (issue?.path[0] === "email") {
+        setEmailError(text);
+      } else {
+        setError(text);
+      }
       return;
     }
 
@@ -167,21 +175,31 @@ export function FeatureRequestDialog({
             <div className="flex flex-col gap-1.5">
               <Label htmlFor="feature-request-email">{t("emailLabel")}</Label>
               <Input
+                aria-describedby="feature-request-email-hint"
+                aria-invalid={emailError ? true : undefined}
                 autoComplete="email"
                 disabled={state === "submitting"}
                 id="feature-request-email"
                 maxLength={254}
                 onChange={(e) => {
                   setEmail(e.target.value);
-                  if (error) {
-                    setError(null);
+                  if (emailError) {
+                    setEmailError(null);
                   }
                 }}
-                placeholder="meno@example.com"
+                placeholder="name@example.com"
                 type="email"
                 value={email}
               />
-              <p className="text-muted-foreground text-xs">{t("emailHint")}</p>
+              <p
+                className={cn(
+                  "text-xs",
+                  emailError ? "text-destructive" : "text-muted-foreground"
+                )}
+                id="feature-request-email-hint"
+              >
+                {emailError ?? t("emailHint")}
+              </p>
             </div>
             <PreviousRequests />
 

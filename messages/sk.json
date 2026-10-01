@@ -42,8 +42,9 @@
     "skipToContent": "Preskočiť na obsah"
   },
   "Footer": {
-    "privacy": "Vaše údaje nepotrebujeme. Všetky sú uložené vo vašom prehliadači a neopustia ho.",
-    "madeBy": "© 2026 QR Platby · Vyrobil <link>denysov.dev</link> s 🖤 na Slovensku",
+    "privacy": "Vaše platobné údaje nepotrebujeme. Sú uložené vo vašom prehliadači a neopustia ho.",
+    "copyright": "© 2026 QR Platby",
+    "madeBy": "Vyrobil <link>denysov.dev</link> s 🖤 na Slovensku",
     "privacyPolicy": "Ochrana údajov",
     "terms": "Podmienky",
     "apiDocs": "API dokumentácia",
@@ -441,8 +442,6 @@
     "timeMinutes": "pred {count} min",
     "timeHours": "pred {count} h",
     "timeDays": "pred {count} d",
-    "ctaTitle": "Pomôžte nám zlepšiť QR Platby",
-    "ctaDescription": "Máte nápad na zlepšenie? Dajte nám vedieť.",
     "emailLabel": "E-mail (nepovinné)",
     "emailHint": "Ak chcete, vývojár sa vám môže ozvať s otázkami k návrhu.",
     "emailInvalid": "Neplatný e-mail"
@@ -457,7 +456,7 @@
     },
     "dataCollection": {
       "heading": "Aké údaje zbierame",
-      "body": "<strong>Žiadne.</strong> Aplikácia QR Platby nezbiera, neukladá ani neprenáša žiadne osobné údaje na server. Všetky platobné údaje (IBAN, suma, symboly) sú spracované výlučne vo vašom prehliadači."
+      "body": "<strong>Platobné údaje žiadne.</strong> Všetky platobné údaje (IBAN, suma, symboly) sú spracované výlučne vo vašom prehliadači a na server sa neprenášajú. Jedinou výnimkou mimo platieb je návrh na vylepšenie, ktorý odošlete sami (pozri nižšie)."
     },
     "localStorage": {
       "heading": "Lokálne úložisko (localStorage)",
@@ -478,7 +477,7 @@
     },
     "feedback": {
       "heading": "Návrhy na vylepšenie",
-      "body": "Ak odošlete návrh na vylepšenie, vývojár dostane text návrhu, jazyk prehliadača a typ zariadenia. E-mail je nepovinný. Ak ho uvediete, použije sa len na to, aby sa vám vývojár mohol ozvať k vášmu návrhu."
+      "body": "Ak odošlete návrh na vylepšenie, vývojár dostane text návrhu, jazyk prehliadača a typ zariadenia. E-mail je nepovinný. Ak ho uvediete, použije sa len na to, aby sa vám vývojár mohol ozvať k vášmu návrhu. Návrh sa doručí vývojárovi cez Telegram."
     }
   },
   "Terms": {
@@ -510,7 +509,7 @@
     },
     "project": {
       "heading": "Povaha projektu",
-      "body": "QR Platby sú hobby projekt jedného vývojára. Vyvíjajú sa vo voľnom čase, bez akýchkoľvek záväzkov voči používateľom a v súčasnosti nesledujú komerčné ciele. Dostupnosť služby, nové funkcie ani odpovede na návrhy nie sú garantované."
+      "body": "QR Platby sú hobby projekt jedného vývojára. Vyvíjajú sa vo voľnom čase, bez akýchkoľvek záväzkov voči používateľom a v súčasnosti nesledujú komerčné ciele."
     }
   },
   "HomeContent": {
@@ -519,16 +518,19 @@
     "section1Para2": "Všetky údaje sa spracúvajú priamo vo vašom prehliadači - nezbierame žiadne osobné údaje ani ich neukladáme na server.",
     "formats": [
       {
+        "format": "bysquare",
         "name": "PAY by square",
         "region": "Slovensko",
         "description": "Slovenský štandard pre platobné QR kódy - naskenuje ho každá slovenská banková aplikácia."
       },
       {
+        "format": "spayd",
         "name": "SPAYD",
         "region": "Česko",
         "description": "Český formát Short Payment Descriptor, ktorý podporujú všetky české banky."
       },
       {
+        "format": "epc",
         "name": "EPC QR",
         "region": "EÚ / SEPA",
         "description": "Európsky štandard SEPA pre eurové prevody v rámci eurozóny."
