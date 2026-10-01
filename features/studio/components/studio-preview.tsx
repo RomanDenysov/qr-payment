@@ -7,7 +7,7 @@ import {
   IconLoader2,
 } from "@tabler/icons-react";
 import { track } from "@vercel/analytics";
-import { CurrencyCode } from "bysquare";
+import { CurrencyCode } from "bysquare/pay";
 import { electronicFormatIBAN, isValidIBAN } from "ibantools";
 import { useTranslations } from "next-intl";
 import { useDeferredValue, useEffect, useState } from "react";

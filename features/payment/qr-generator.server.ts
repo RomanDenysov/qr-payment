@@ -1,4 +1,4 @@
-import type { CurrencyCode } from "bysquare";
+import type { CurrencyCode } from "bysquare/pay";
 import { electronicFormatIBAN, isValidIBAN } from "ibantools";
 import QRCode from "qrcode";
 import { buildColorOption } from "./qr-color";

@@ -1,7 +1,7 @@
 "use client";
 
 import type { JsonSchemaObject } from "@mcp-b/webmcp-types";
-import type { CurrencyCode } from "bysquare";
+import type { CurrencyCode } from "bysquare/pay";
 import { useEffect } from "react";
 import { buildColorOption } from "@/features/payment/qr-color";
 
@@ -165,7 +165,7 @@ export function useWebMcpQr() {
 
       const { electronicFormatIBAN, isValidIBAN } = await import("ibantools");
       const { buildQrPayload } = await import("@/features/payment/qr-payload");
-      const { CurrencyCode } = await import("bysquare");
+      const { CurrencyCode } = await import("bysquare/pay");
       const QRCode = (await import("qrcode")).default;
 
       const deps: ToolDeps = {

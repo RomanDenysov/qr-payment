@@ -3,6 +3,7 @@ import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { DynamicFeatureRequestDialog } from "@/features/feedback/components/feature-request-dialog-dynamic";
 import { Link } from "@/i18n/navigation";
+import { SupportLink } from "./support-link";
 
 export function Footer() {
   const t = useTranslations("Footer");
@@ -53,15 +54,13 @@ export function Footer() {
             {t("apiDocs")}
           </Link>
           <span className="text-foreground/15">·</span>
-          <a
+          <SupportLink
             className="inline-flex items-center gap-1 hover:text-foreground"
-            href="https://buymeacoffee.com/romandenysov"
-            rel="noopener noreferrer"
-            target="_blank"
+            placement="footer"
           >
             <IconCup className="size-4" />
             Buy me a coffee
-          </a>
+          </SupportLink>
           <span className="text-foreground/15">·</span>
           <a
             className="inline-flex items-center gap-1 hover:text-foreground"
