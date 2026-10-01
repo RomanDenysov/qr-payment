@@ -517,8 +517,7 @@
   },
   "HomeContent": {
     "section1Title": "Co je QR Platba a generátor QR kódů pro platby",
-    "section1Para1": "QR Platba (formát SPAYD) je platební QR kód podporovaný českými bankami. Umožňuje rychle a bezpečně odeslat platbu bez ručního zadávání bankovních údajů. Kód může obsahovat IBAN příjemce, částku, variabilní symbol a krátkou zprávu - vše načítatelné jedním skenováním pomocí bankovní aplikace. Částka je nepovinná - když ji necháte prázdnou, vytvoříte statický QR kód z IBANu.",
-    "section1Para2": "Všechny údaje se zpracovávají přímo ve vašem prohlížeči - neshromažďujeme žádné osobní údaje ani je neukládáme na server.",
+    "section1Para1": "QR Platba (formát SPAYD) je platební QR kód, který načte každá česká bankovní aplikace. Kód nese IBAN příjemce, částku, symboly a zprávu, takže plátce nic nepřepisuje.",
     "formats": [
       {
         "format": "bysquare",
@@ -692,8 +691,15 @@
   },
   "Community": {
     "title": "O směřování QR Plateb rozhodujete vy",
-    "description": "QR Platby jsou hobby projekt, zdarma a bez registrace. Napište, co vám chybí, nebo projekt podpořte.",
-    "support": "Podpořit projekt"
+    "description": "QR Platby jsou hobby projekt, zdarma a bez registrace. Plán vývoje není sepsaný předem: další funkce přibývají podle toho, co vám chybí. Napište vlastní návrh nebo klikněte na jeden z příkladů. Pokud vám nástroj šetří čas, můžete ho podpořit.",
+    "support": "Podpořit projekt",
+    "examplesTitle": "Příklady návrhů",
+    "examples": [
+      "Export QR kódu do SVG nebo PDF pro tisk",
+      "QR kód pro trvalý příkaz",
+      "Faktura s QR kódem ke stažení",
+      "Další měny a jazyky"
+    ]
   },
   "Guides": {
     "h1": "Návody",
@@ -703,7 +709,7 @@
     "totalLabel": "vygenerovaných QR kódů",
     "last30Label": "za posledních 30 dní",
     "apiLabel": "API requestů",
-    "caption": "Anonymní počítadla - vaše platební údaje nikdy nevidíme."
+    "caption": "Anonymní statistiky - vaše platební údaje nikdy nevidíme."
   },
   "JsonLd": {
     "howTo": {

@@ -517,8 +517,7 @@
   },
   "HomeContent": {
     "section1Title": "PAY by square QR code generator",
-    "section1Para1": "PAY by square is the Slovak standard for payment QR codes that you can scan with any banking app. A payment QR code is a fast and secure way to send money without manually entering bank details. The code contains the recipient's IBAN and name, amount, variable symbol, and note - all readable in a single scan. The amount is optional - leave it empty and the payer fills it in.",
-    "section1Para2": "All data is processed directly in your browser - we don't collect or store any personal data on our servers.",
+    "section1Para1": "PAY by square is the Slovak standard for payment QR codes, read by every banking app. The code carries the recipient's IBAN and name, the amount, symbols and a note, so the payer retypes nothing.",
     "formats": [
       {
         "format": "bysquare",
@@ -692,8 +691,15 @@
   },
   "Community": {
     "title": "You decide where QR Platby goes next",
-    "description": "QR Platby is a hobby project, free and with no signup. Tell us what is missing, or support the project.",
-    "support": "Support the project"
+    "description": "QR Platby is a hobby project, free and with no signup. There is no roadmap written in advance: features are added based on what you miss. Write your own request or click one of the examples. If the tool saves you time, you can support it.",
+    "support": "Support the project",
+    "examplesTitle": "Example requests",
+    "examples": [
+      "Export the QR code to SVG or PDF for print",
+      "QR code for a standing order",
+      "Downloadable invoice with a QR code",
+      "More currencies and languages"
+    ]
   },
   "Guides": {
     "h1": "Guides",
@@ -703,7 +709,7 @@
     "totalLabel": "QR codes generated",
     "last30Label": "in the last 30 days",
     "apiLabel": "API requests",
-    "caption": "Anonymous counters - we never see your payment data."
+    "caption": "Anonymous statistics - we never see your payment data."
   },
   "JsonLd": {
     "howTo": {

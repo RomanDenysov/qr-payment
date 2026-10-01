@@ -13,8 +13,10 @@ const FeatureRequestDialog = lazy(() =>
  * trigger is rendered, so the button is in the server HTML and does not pop in.
  */
 export function DynamicFeatureRequestDialog({
+  defaultMessage,
   trigger,
 }: {
+  defaultMessage?: string;
   trigger: ReactElement;
 }) {
   const [mounted, setMounted] = useState(false);
@@ -28,7 +30,7 @@ export function DynamicFeatureRequestDialog({
   }
   return (
     <Suspense fallback={trigger}>
-      <FeatureRequestDialog trigger={trigger} />
+      <FeatureRequestDialog defaultMessage={defaultMessage} trigger={trigger} />
     </Suspense>
   );
 }

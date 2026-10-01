@@ -77,7 +77,7 @@ Returned when request parameters fail validation.
   "success": false,
   "error": {
     "code": "VALIDATION_ERROR",
-    "message": "Validation failed",
+    "message": "Validation failed. Check the issues array for details.",
     "issues": [
       { "path": "iban", "message": "Invalid IBAN" },
       { "path": "amount", "message": "Amount must be at least 0.01" }
@@ -102,7 +102,7 @@ Returned when per-IP rate limits are exceeded.
   "success": false,
   "error": {
     "code": "RATE_LIMIT",
-    "message": "Rate limit exceeded. Please try again later."
+    "message": "Rate limit exceeded. Limit is 20 requests/minute and 100 requests/day. Retry after 42 seconds."
   }
 }
 ```
@@ -128,7 +128,7 @@ Returned when per-IP rate limits are exceeded.
   "success": false,
   "error": {
     "code": "INTERNAL_ERROR",
-    "message": "An unexpected error occurred"
+    "message": "QR code generation failed"
   }
 }
 ```

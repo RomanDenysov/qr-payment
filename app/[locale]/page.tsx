@@ -37,7 +37,7 @@ export default async function Page({ params }: Props) {
         <QRPreviewCard />
       </section>
       <UsageStats />
-      <CommunityBanner className="mt-8" />
+      <CommunityBanner className="mt-16 sm:mt-20" />
       <HomeContentSections />
       <FaqSection className="mt-20 sm:mt-24" locale={locale} />
       <h2 className="mt-20 font-bold font-pixel text-foreground text-lg tracking-wide sm:mt-24 sm:text-xl">

@@ -13,10 +13,13 @@ const SPAYD_LENGTH_LIMITS = [
 ] as const;
 
 function addSpaydLengthIssues(
-  data: { recipientName?: string; paymentNote?: string },
+  data: { format: string; recipientName?: string; paymentNote?: string },
   ctx: z.RefinementCtx,
   t: (key: string) => string
 ) {
+  if (data.format !== "spayd") {
+    return;
+  }
   for (const [field, max, key] of SPAYD_LENGTH_LIMITS) {
     if ((data[field]?.length ?? 0) > max) {
       ctx.addIssue({
@@ -94,9 +97,7 @@ export function createPaymentFormSchema(t: (key: string) => string) {
         });
       }
 
-      if (data.format === "spayd") {
-        addSpaydLengthIssues(data, ctx, t);
-      }
+      addSpaydLengthIssues(data, ctx, t);
 
       if (data.bic && !BIC_RE.test(data.bic)) {
         ctx.addIssue({

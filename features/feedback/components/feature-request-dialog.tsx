@@ -27,8 +27,11 @@ type DialogState = "idle" | "submitting" | "success";
 const MOBILE_RE = /Mobi|Android/i;
 
 export function FeatureRequestDialog({
+  defaultMessage = "",
   trigger,
 }: {
+  /** Text the textarea starts with each time the dialog opens. */
+  defaultMessage?: string;
   trigger?: React.ReactElement;
 }) {
   const [message, setMessage] = useState("");
@@ -50,17 +53,22 @@ export function FeatureRequestDialog({
     [t]
   );
 
-  const handleOpenChange = useCallback((open: boolean) => {
-    if (open) {
-      track("feature_request_opened");
-    } else {
+  const handleOpenChange = useCallback(
+    (open: boolean) => {
+      if (open) {
+        setMessage(defaultMessage);
+        track("feature_request_opened");
+        return;
+      }
+
       setMessage("");
       setEmail("");
       setError(null);
       setEmailError(null);
       setState("idle");
-    }
-  }, []);
+    },
+    [defaultMessage]
+  );
 
   const handleSubmit = useCallback(async () => {
     const result = schema.safeParse({ message, email: email.trim() });

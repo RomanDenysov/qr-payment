@@ -517,8 +517,7 @@
   },
   "HomeContent": {
     "section1Title": "Čo je PAY by square a QR platba",
-    "section1Para1": "PAY by square je slovenský štandard pre platobné QR kódy, ktorý si môžete naskenovať ktoroukoľvek bankovou aplikáciou. QR platba je rýchly a bezpečný spôsob, ako poslať peniaze bez nutnosti ručného zadávania údajov. Kód obsahuje IBAN a meno príjemcu, sumu, variabilný symbol a poznámku - všetko čitateľné jedným skenovaním. Suma je voliteľná - ak ju necháte prázdnu, platiteľ ju zadá sám.",
-    "section1Para2": "Všetky údaje sa spracúvajú priamo vo vašom prehliadači - nezbierame žiadne osobné údaje ani ich neukladáme na server.",
+    "section1Para1": "PAY by square je slovenský štandard platobných QR kódov, ktorý naskenuje každá banková aplikácia. Kód nesie IBAN a meno príjemcu, sumu, symboly a poznámku, takže platiteľ nič neprepisuje.",
     "formats": [
       {
         "format": "bysquare",
@@ -692,8 +691,15 @@
   },
   "Community": {
     "title": "O smerovaní QR Platieb rozhodujete vy",
-    "description": "QR Platby sú hobby projekt, zadarmo a bez registrácie. Napíšte, čo vám chýba, alebo projekt podporte.",
-    "support": "Podporiť projekt"
+    "description": "QR Platby sú hobby projekt, zadarmo a bez registrácie. Plán vývoja nie je spísaný vopred: ďalšie funkcie pribúdajú podľa toho, čo vám chýba. Napíšte vlastný návrh alebo kliknite na jeden z príkladov. Ak vám nástroj šetrí čas, môžete ho podporiť.",
+    "support": "Podporiť projekt",
+    "examplesTitle": "Príklady návrhov",
+    "examples": [
+      "Export QR kódu do SVG alebo PDF na tlač",
+      "QR kód pre trvalý príkaz",
+      "Faktúra s QR kódom na stiahnutie",
+      "Ďalšie meny a jazyky"
+    ]
   },
   "Guides": {
     "h1": "Návody",
@@ -703,7 +709,7 @@
     "totalLabel": "vygenerovaných QR kódov",
     "last30Label": "za posledných 30 dní",
     "apiLabel": "API requestov",
-    "caption": "Anonymné počítadlá - vaše platobné údaje nikdy nevidíme."
+    "caption": "Anonymné štatistiky - vaše platobné údaje nikdy nevidíme."
   },
   "JsonLd": {
     "howTo": {
