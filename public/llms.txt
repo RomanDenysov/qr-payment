@@ -27,7 +27,7 @@ Single REST endpoint for programmatic QR code generation. Free, no API key neede
 - [API Documentation (JSON)](https://qr-platby.com/api/v1/qr): `GET` returns machine-readable docs, `POST` generates QR codes
 - [OpenAPI Specification](https://qr-platby.com/openapi.json): OpenAPI 3.1 spec for the QR generation API
 - [Full API Reference](https://qr-platby.com/llms-full.txt): Complete parameters, response schemas, error codes, and examples
-- [Usage Stats](https://qr-platby.com/api/v1/stats): `GET` returns anonymous usage counters `{ total, month, api }` - no auth, no PII
+- [Usage Stats](https://qr-platby.com/api/v1/stats): `GET` returns anonymous usage counters `{ total, last30Days, api }` - no auth, no PII
 
 ### Quick Example
 

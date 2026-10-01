@@ -42,11 +42,17 @@
     "skipToContent": "Přeskočit na obsah"
   },
   "Footer": {
-    "privacy": "Vaše údaje nepotřebujeme. Všechny jsou uloženy ve vašem prohlížeči a neopustí ho.",
-    "copyright": "© 2026 Vyrobeno s 🖤 na Slovensku",
+    "privacy": "Vaše platební údaje nepotřebujeme. Jsou uloženy ve vašem prohlížeči a neopustí ho.",
+    "copyright": "© 2026 QR Platby",
+    "madeBy": "Vyrobil <link>denysov.dev</link> s 🖤 na Slovensku",
     "privacyPolicy": "Ochrana údajů",
     "terms": "Podmínky",
-    "apiDocs": "API dokumentace"
+    "apiDocs": "API dokumentace",
+    "hobbyNotice": "QR Platby jsou hobby projekt. Vyvíjejí se ve volném čase, bez závazků vůči uživatelům a zatím bez komerčních cílů.",
+    "colTools": "Nástroje",
+    "colResources": "Informace",
+    "colProject": "Projekt",
+    "generator": "Generátor QR platby"
   },
   "Announcement": {
     "message": "Novinky: gradienty, logo, rám, výběr pozice a velikosti obrázku (128-1024 px) - a REST API nyní podporuje vlastní barvy, okraj a úroveň korekce chyb.",
@@ -418,7 +424,7 @@
   "Feedback": {
     "trigger": "Navrhnout vylepšení",
     "title": "Navrhnout vylepšení",
-    "description": "Máte nápad na zlepšení? Napište nám.",
+    "description": "O dalším směřování rozhodujete vy. Co vám v QR Platbách chybí?",
     "placeholder": "Popište váš návrh...",
     "messageMin": "Zpráva musí mít alespoň 10 znaků",
     "messageMax": "Zpráva může mít maximálně 500 znaků",
@@ -436,12 +442,13 @@
     "timeMinutes": "před {count} min",
     "timeHours": "před {count} h",
     "timeDays": "před {count} d",
-    "ctaTitle": "Pomozte nám zlepšit QR Platby",
-    "ctaDescription": "Máte nápad na zlepšení? Dejte nám vědět."
+    "emailLabel": "E-mail (nepovinné)",
+    "emailHint": "Pokud chcete, vývojář se vám může ozvat s dotazy k návrhu.",
+    "emailInvalid": "Neplatný e-mail"
   },
   "PrivacyPolicy": {
     "title": "Ochrana osobních údajů",
-    "lastUpdated": "Poslední aktualizace: 11. únor 2026",
+    "lastUpdated": "Poslední aktualizace: 1. říjen 2026",
     "operator": {
       "heading": "Provozovatel",
       "author": "Nezávislý autor",
@@ -449,7 +456,7 @@
     },
     "dataCollection": {
       "heading": "Jaké údaje shromažďujeme",
-      "body": "<strong>Žádné.</strong> Aplikace QR Platby neshromažďuje, neukládá ani nepřenáší žádné osobní údaje na server. Všechny platební údaje (IBAN, částka, symboly) jsou zpracovány výhradně ve vašem prohlížeči."
+      "body": "<strong>Platební údaje žádné.</strong> Všechny platební údaje (IBAN, částka, symboly) jsou zpracovány výhradně ve vašem prohlížeči a na server se nepřenášejí. Jedinou výjimkou mimo platby je návrh na vylepšení, který odešlete sami (viz níže)."
     },
     "localStorage": {
       "heading": "Místní úložiště (localStorage)",
@@ -467,11 +474,15 @@
     "contact": {
       "heading": "Kontakt",
       "body": "V případě dotazů nás kontaktujte:"
+    },
+    "feedback": {
+      "heading": "Návrhy na vylepšení",
+      "body": "Pokud odešlete návrh na vylepšení, vývojář dostane text návrhu, jazyk prohlížeče a typ zařízení. E-mail je nepovinný. Pokud ho uvedete, použije se jen k tomu, aby se vám vývojář mohl ozvat k vašemu návrhu. Návrh se doručí vývojáři přes Telegram."
     }
   },
   "Terms": {
     "title": "Podmínky používání",
-    "lastUpdated": "Poslední aktualizace: 11. únor 2026",
+    "lastUpdated": "Poslední aktualizace: 1. říjen 2026",
     "about": {
       "heading": "O službě",
       "body": "QR Platby je bezplatný online nástroj pro generování QR kódů pro bankovní platby ve formátu BySquare, EPC a SPAYD (QR Platba). Služba je poskytována „tak jak je“ (as-is), bez jakýchkoli záruk."
@@ -495,6 +506,10 @@
     "contact": {
       "heading": "Kontakt",
       "body": "V případě dotazů kontaktujte:"
+    },
+    "project": {
+      "heading": "Povaha projektu",
+      "body": "QR Platby jsou hobby projekt jednoho vývojáře. Vyvíjejí se ve volném čase, bez jakýchkoli závazků vůči uživatelům a v současnosti nesledují komerční cíle."
     }
   },
   "HomeContent": {
@@ -503,16 +518,19 @@
     "section1Para2": "Všechny údaje se zpracovávají přímo ve vašem prohlížeči - neshromažďujeme žádné osobní údaje ani je neukládáme na server.",
     "formats": [
       {
+        "format": "bysquare",
         "name": "PAY by square",
         "region": "Slovensko",
         "description": "Slovenský standard pro platební QR kódy - naskenuje ho každá slovenská bankovní aplikace."
       },
       {
+        "format": "spayd",
         "name": "SPAYD",
         "region": "Česko",
         "description": "Český formát Short Payment Descriptor, který podporují všechny české banky."
       },
       {
+        "format": "epc",
         "name": "EPC QR",
         "region": "EU / SEPA",
         "description": "Evropský standard SEPA pro eurové převody v rámci eurozóny."
@@ -548,7 +566,7 @@
       "365.bank",
       "UniCredit"
     ],
-    "section4MoreLinksTitle": "Další nástroje",
+    "formatUse": "Použít tento formát",
     "section4GuideLink": "Jak vytvořit QR kód pro platbu",
     "section4SepaLink": "SEPA QR kód generátor",
     "section4StudioLink": "Pokročilý editor QR",
@@ -669,10 +687,15 @@
       }
     ]
   },
+  "Community": {
+    "title": "O směřování QR Plateb rozhodujete vy",
+    "description": "QR Platby jsou hobby projekt, zdarma a bez registrace. Napište, co vám chybí, nebo projekt podpořte.",
+    "support": "Podpořit projekt"
+  },
   "Stats": {
     "totalLabel": "vygenerovaných QR kódů",
-    "monthLabel": "tento měsíc",
-    "apiLabel": "API požadavků",
+    "last30Label": "za posledních 30 dní",
+    "apiLabel": "API requestů",
     "caption": "Anonymní počítadla - vaše platební údaje nikdy nevidíme."
   },
   "JsonLd": {

@@ -42,11 +42,17 @@
     "skipToContent": "Skip to content"
   },
   "Footer": {
-    "privacy": "We don't need your data. Everything is stored in your browser and never leaves it.",
-    "copyright": "© 2026 Made with 🖤 in Slovakia",
+    "privacy": "We don't need your payment data. It is stored in your browser and never leaves it.",
+    "copyright": "© 2026 QR Platby",
+    "madeBy": "Made by <link>denysov.dev</link> with 🖤 in Slovakia",
     "privacyPolicy": "Privacy Policy",
     "terms": "Terms",
-    "apiDocs": "API Docs"
+    "apiDocs": "API Docs",
+    "hobbyNotice": "QR Platby is a hobby project, built in spare time, with no obligations to users and no commercial goals for now.",
+    "colTools": "Tools",
+    "colResources": "Resources",
+    "colProject": "Project",
+    "generator": "QR payment generator"
   },
   "Announcement": {
     "message": "What's new: gradients, logo, frame, position picker, image size from 128 to 1024 px - and the REST API now supports custom colors, margin, and error correction level.",
@@ -418,7 +424,7 @@
   "Feedback": {
     "trigger": "Suggest a feature",
     "title": "Suggest a feature",
-    "description": "Have an idea for improvement? Let us know.",
+    "description": "You decide what comes next. What is missing in QR Platby?",
     "placeholder": "Describe your suggestion...",
     "messageMin": "Message must be at least 10 characters",
     "messageMax": "Message can be at most 500 characters",
@@ -436,12 +442,13 @@
     "timeMinutes": "{count} min ago",
     "timeHours": "{count}h ago",
     "timeDays": "{count}d ago",
-    "ctaTitle": "Help us improve QR Platby",
-    "ctaDescription": "Got an idea for improvement? Let us know."
+    "emailLabel": "Email (optional)",
+    "emailHint": "If you like, the developer can contact you with questions about your request.",
+    "emailInvalid": "Invalid email"
   },
   "PrivacyPolicy": {
     "title": "Privacy Policy",
-    "lastUpdated": "Last updated: February 11, 2026",
+    "lastUpdated": "Last updated: October 1, 2026",
     "operator": {
       "heading": "Operator",
       "author": "Independent author",
@@ -449,7 +456,7 @@
     },
     "dataCollection": {
       "heading": "What data we collect",
-      "body": "<strong>None.</strong> QR Platby does not collect, store, or transmit any personal data to a server. All payment details (IBAN, amount, symbols) are processed exclusively in your browser."
+      "body": "<strong>No payment data.</strong> All payment details (IBAN, amount, symbols) are processed only in your browser and are never sent to a server. The one exception outside payments is a feature request you choose to send (see below)."
     },
     "localStorage": {
       "heading": "Local storage (localStorage)",
@@ -467,11 +474,15 @@
     "contact": {
       "heading": "Contact",
       "body": "For questions, contact us at:"
+    },
+    "feedback": {
+      "heading": "Feature requests",
+      "body": "When you send a feature request, the developer receives its text, your browser language and device type. Email is optional. If you add it, it is used only so the developer can get back to you about your request. The request is delivered to the developer through Telegram."
     }
   },
   "Terms": {
     "title": "Terms of Use",
-    "lastUpdated": "Last updated: February 11, 2026",
+    "lastUpdated": "Last updated: October 1, 2026",
     "about": {
       "heading": "About the service",
       "body": "QR Platby is a free online tool for generating QR codes for bank payments in BySquare, EPC, and SPAYD (QR Platba) formats. The service is provided \"as-is\", without any warranties."
@@ -495,6 +506,10 @@
     "contact": {
       "heading": "Contact",
       "body": "For questions, contact:"
+    },
+    "project": {
+      "heading": "Nature of the project",
+      "body": "QR Platby is a hobby project by a single developer. It is built in spare time, with no obligations to users, and has no commercial goals at this stage."
     }
   },
   "HomeContent": {
@@ -503,16 +518,19 @@
     "section1Para2": "All data is processed directly in your browser - we don't collect or store any personal data on our servers.",
     "formats": [
       {
+        "format": "bysquare",
         "name": "PAY by square",
         "region": "Slovakia",
         "description": "The Slovak standard for payment QR codes - scannable by every Slovak banking app."
       },
       {
+        "format": "spayd",
         "name": "SPAYD",
         "region": "Czechia",
         "description": "The Czech Short Payment Descriptor format, supported by all Czech banks."
       },
       {
+        "format": "epc",
         "name": "EPC QR",
         "region": "EU / SEPA",
         "description": "The European SEPA standard for euro transfers across the eurozone."
@@ -548,7 +566,7 @@
       "mBank",
       "MONETA"
     ],
-    "section4MoreLinksTitle": "More tools",
+    "formatUse": "Use this format",
     "section4GuideLink": "How to create a payment QR code",
     "section4SepaLink": "SEPA QR code generator",
     "section4StudioLink": "Advanced QR editor",
@@ -669,9 +687,14 @@
       }
     ]
   },
+  "Community": {
+    "title": "You decide where QR Platby goes next",
+    "description": "QR Platby is a hobby project, free and with no signup. Tell us what is missing, or support the project.",
+    "support": "Support the project"
+  },
   "Stats": {
     "totalLabel": "QR codes generated",
-    "monthLabel": "this month",
+    "last30Label": "in the last 30 days",
     "apiLabel": "API requests",
     "caption": "Anonymous counters - we never see your payment data."
   },

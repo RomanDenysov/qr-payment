@@ -9,6 +9,7 @@ const feedbackSchema = z.object({
   message: z.string().min(1).max(500),
   language: z.string().min(1).max(10),
   deviceType: z.string().min(1).max(50),
+  email: z.email().max(254).optional(),
 });
 
 type SendFeedbackResult =
@@ -18,11 +19,12 @@ type SendFeedbackResult =
       error: "invalid-input" | "api-error" | "network-error" | "timeout";
     };
 
-function formatMessage(
-  message: string,
-  language: string,
-  deviceType: string
-): string {
+function formatMessage({
+  message,
+  language,
+  deviceType,
+  email,
+}: z.infer<typeof feedbackSchema>): string {
   const timestamp = new Date().toLocaleString("sk-SK", {
     timeZone: "Europe/Bratislava",
   });
@@ -36,6 +38,7 @@ function formatMessage(
     `🕐 ${timestamp}`,
     `🌐 ${language}`,
     `📱 ${deviceType}`,
+    ...(email ? [`✉️ ${email}`] : []),
   ].join("\n");
 }
 
@@ -47,8 +50,6 @@ export async function sendFeedback(
     return { success: false, error: "invalid-input" };
   }
 
-  const { message, language, deviceType } = parsed.data;
-
   try {
     const response = await fetch(
       `https://api.telegram.org/bot${env.TELEGRAM_BOT_TOKEN}/sendMessage`,
@@ -57,7 +58,7 @@ export async function sendFeedback(
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           chat_id: env.TELEGRAM_CHAT_ID,
-          text: formatMessage(message, language, deviceType),
+          text: formatMessage(parsed.data),
         }),
         signal: AbortSignal.timeout(5000),
       }

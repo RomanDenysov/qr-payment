@@ -1,10 +1,12 @@
 import { getTranslations } from "next-intl/server";
+import { RevealList } from "@/components/reveal-list";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { linkVariants } from "@/components/ui/link";
-import { Link } from "@/i18n/navigation";
+import type { PaymentFormat } from "@/features/payment/format";
+import { FormatTileAction } from "./format-tile-action";
 
 interface FormatTile {
+  format: PaymentFormat;
   name: string;
   region: string;
   description: string;
@@ -57,7 +59,12 @@ export async function HomeContentSections() {
         <p className="text-muted-foreground">{t("section1Para2")}</p>
         <div className="grid gap-4 sm:grid-cols-3">
           {formats.map((format) => (
-            <Card key={format.name} size="sm">
+            <Card
+              className="relative focus-within:ring-foreground/40"
+              interactive
+              key={format.name}
+              size="sm"
+            >
               <CardHeader>
                 <div className="flex items-center justify-between gap-2">
                   <Badge variant="secondary">{format.name}</Badge>
@@ -66,8 +73,14 @@ export async function HomeContentSections() {
                   </span>
                 </div>
               </CardHeader>
-              <CardContent className="text-muted-foreground text-sm/relaxed">
+              <CardContent className="flex-1 text-muted-foreground text-sm/relaxed">
                 {format.description}
+              </CardContent>
+              <CardContent>
+                <FormatTileAction
+                  format={format.format}
+                  label={t("formatUse")}
+                />
               </CardContent>
             </Card>
           ))}
@@ -76,11 +89,12 @@ export async function HomeContentSections() {
 
       <section className="mt-20 space-y-6 sm:mt-24">
         <h2 className={SECTION_HEADING_CLASS}>{t("section2Title")}</h2>
-        <ol className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <RevealList className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {steps.map((step, index) => (
             <li
               className="flex gap-3 bg-card p-4 ring-1 ring-foreground/10"
               key={step}
+              style={{ transitionDelay: `${index * 60}ms` }}
             >
               <span className="font-bold font-pixel text-base text-muted-foreground/50 tabular-nums">
                 {String(index + 1).padStart(2, "0")}
@@ -90,7 +104,7 @@ export async function HomeContentSections() {
               </span>
             </li>
           ))}
-        </ol>
+        </RevealList>
       </section>
 
       <section className="mt-20 space-y-6 sm:mt-24">
@@ -101,51 +115,5 @@ export async function HomeContentSections() {
         </div>
       </section>
     </>
-  );
-}
-
-/**
- * Secondary "more tools" links (Studio, Bulk), rendered at the very bottom of
- * the homepage after the developer API section. The API docs link is omitted
- * here because the API card directly above already links out to the docs.
- */
-export async function HomeMoreTools() {
-  const t = await getTranslations("HomeContent");
-
-  return (
-    <section className="mt-20 space-y-6 sm:mt-24">
-      <h3 className="font-semibold text-foreground text-sm">
-        {t("section4MoreLinksTitle")}
-      </h3>
-      <div className="flex flex-wrap items-center gap-3">
-        <Link
-          className={linkVariants({ size: "sm", variant: "muted" })}
-          href="/ako-vytvorit-qr-kod-na-platbu"
-        >
-          {t("section4GuideLink")}
-        </Link>
-        <span className="text-muted-foreground text-xs">•</span>
-        <Link
-          className={linkVariants({ size: "sm", variant: "muted" })}
-          href="/sepa-qr-code-generator"
-        >
-          {t("section4SepaLink")}
-        </Link>
-        <span className="text-muted-foreground text-xs">•</span>
-        <Link
-          className={linkVariants({ size: "sm", variant: "muted" })}
-          href="/studio"
-        >
-          {t("section4StudioLink")}
-        </Link>
-        <span className="text-muted-foreground text-xs">•</span>
-        <Link
-          className={linkVariants({ size: "sm", variant: "muted" })}
-          href="/bulk"
-        >
-          {t("section4BulkLink")}
-        </Link>
-      </div>
-    </section>
   );
 }

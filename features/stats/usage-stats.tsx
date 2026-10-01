@@ -2,7 +2,10 @@
 
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 import type { UsageStats as UsageStatsData } from "@/lib/api/stats";
+
+const SKELETON_CARDS = ["total", "last30", "api"];
 
 // Don't show weak social proof while counters warm up after launch.
 const MIN_TOTAL_TO_SHOW = 100;
@@ -21,23 +24,30 @@ function StatCard({ value, label }: { value: string; label: string }) {
 /**
  * Anonymous usage counters (social proof) under the generator. Fetched on the
  * client from the CDN-cached stats API so the page itself stays static. Renders
- * nothing until loaded, and stays hidden when stats are unavailable or low.
+ * a skeleton while loading, and nothing when stats are unavailable or low.
  */
 export function UsageStats() {
   const t = useTranslations("Stats");
   const locale = useLocale();
-  const [stats, setStats] = useState<UsageStatsData | null>(null);
+  // undefined = still loading, null = unavailable
+  const [stats, setStats] = useState<UsageStatsData | null | undefined>(
+    undefined
+  );
 
   useEffect(() => {
     let cancelled = false;
     const load = async () => {
       try {
         const res = await fetch("/api/v1/stats");
-        if (res.ok && !cancelled) {
-          setStats(await res.json());
+        const data = res.ok ? await res.json() : null;
+        if (!cancelled) {
+          setStats(data);
         }
       } catch (error) {
         console.error("[UsageStats] Failed to load stats:", error);
+        if (!cancelled) {
+          setStats(null);
+        }
       }
     };
     load();
@@ -45,6 +55,19 @@ export function UsageStats() {
       cancelled = true;
     };
   }, []);
+
+  if (stats === undefined) {
+    return (
+      <section aria-hidden className="mt-8">
+        <div className="grid gap-4 sm:grid-cols-3">
+          {SKELETON_CARDS.map((key) => (
+            <Skeleton className="h-[5.25rem] sm:h-[5.75rem]" key={key} />
+          ))}
+        </div>
+        <Skeleton className="mt-3 h-4 w-64 max-w-full" />
+      </section>
+    );
+  }
 
   if (!stats || stats.total < MIN_TOTAL_TO_SHOW) {
     return null;
@@ -56,7 +79,10 @@ export function UsageStats() {
     <section className="fade-in-0 mt-8 animate-in duration-200 ease-out-quad">
       <div className="grid gap-4 sm:grid-cols-3">
         <StatCard label={t("totalLabel")} value={format.format(stats.total)} />
-        <StatCard label={t("monthLabel")} value={format.format(stats.month)} />
+        <StatCard
+          label={t("last30Label")}
+          value={format.format(stats.last30Days)}
+        />
         <StatCard label={t("apiLabel")} value={format.format(stats.api)} />
       </div>
       <p className="mt-3 text-muted-foreground text-xs">{t("caption")}</p>

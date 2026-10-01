@@ -1,11 +1,9 @@
 import { getTranslations } from "next-intl/server";
+import { CommunityBanner } from "@/components/community-banner";
 import { DynamicApiCard } from "@/features/api/api-card-dynamic";
 import { PaymentFormCard } from "@/features/payment/components/payment-form-card";
 import { QRPreviewCard } from "@/features/payment/components/qr-preview-card";
-import {
-  HomeContentSections,
-  HomeMoreTools,
-} from "@/features/seo/home-content";
+import { HomeContentSections } from "@/features/seo/home-content";
 import { UsageStats } from "@/features/stats/usage-stats";
 import { getAlternates } from "@/lib/seo";
 import { HomeJsonLd } from "./home-json-ld";
@@ -30,11 +28,15 @@ export default async function Page({ params }: Props) {
         {t("homeH1")}
       </h1>
       <p className="text-muted-foreground">{t("homeDescription")}</p>
-      <section className="mt-8 grid gap-8 *:rounded-none md:grid-cols-2">
+      <section
+        className="mt-8 grid scroll-mt-20 gap-8 *:rounded-none md:grid-cols-2"
+        id="generator"
+      >
         <PaymentFormCard />
         <QRPreviewCard />
       </section>
       <UsageStats />
+      <CommunityBanner className="mt-8" />
       <HomeContentSections />
       <h2 className="mt-20 font-bold font-pixel text-foreground text-lg tracking-wide sm:mt-24 sm:text-xl">
         {t("sectionApi")}
@@ -42,7 +44,6 @@ export default async function Page({ params }: Props) {
       <section className="mt-6">
         <DynamicApiCard />
       </section>
-      <HomeMoreTools />
     </div>
   );
 }

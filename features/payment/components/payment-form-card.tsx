@@ -9,7 +9,7 @@ import {
 } from "@tabler/icons-react";
 import { track } from "@vercel/analytics";
 import { useLocale, useTranslations } from "next-intl";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useEffectEvent, useMemo, useState } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import { CurrencyInput } from "@/components/currency-input";
 import { IBANAutocomplete } from "@/components/iban-autocomplete";
@@ -34,7 +34,7 @@ import { SegmentedControl } from "@/components/ui/segmented-control";
 import { Textarea } from "@/components/ui/textarea";
 import { detectBank } from "@/lib/iban-bank";
 import type { PaymentFormat } from "../format";
-import { FORMAT_LABELS } from "../format";
+import { FORMAT_LABELS, SELECT_FORMAT_EVENT } from "../format";
 import {
   OPTIONAL_FIELDS,
   OPTIONAL_FIELDS_BY_FORMAT,
@@ -283,7 +283,7 @@ export function PaymentFormCard() {
     });
   };
 
-  const handleFormatChange = (newFormat: PaymentFormat) => {
+  const applyFormat = (newFormat: PaymentFormat) => {
     setValue("format", newFormat);
     setPreferredFormat(newFormat);
     if (newFormat === "epc") {
@@ -292,8 +292,23 @@ export function PaymentFormCard() {
       setValue("currency", "CZK");
       setPreferredCurrency("CZK");
     }
+  };
+
+  const handleFormatChange = (newFormat: PaymentFormat) => {
+    applyFormat(newFormat);
     track("format_selected", { format: newFormat });
   };
+
+  // Format tiles further down the homepage switch the format from outside.
+  // They track their own click, so this path skips `format_selected`.
+  const onExternalFormat = useEffectEvent((event: Event) => {
+    applyFormat((event as CustomEvent<PaymentFormat>).detail);
+  });
+  useEffect(() => {
+    window.addEventListener(SELECT_FORMAT_EVENT, onExternalFormat);
+    return () =>
+      window.removeEventListener(SELECT_FORMAT_EVENT, onExternalFormat);
+  }, []);
 
   useEffect(() => {
     if (!currentPayment) {

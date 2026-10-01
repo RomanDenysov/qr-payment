@@ -196,7 +196,7 @@
       "category": "ui",
       "i18nNamespace": "Feedback",
       "clientSide": true,
-      "description": "Dialog for users to submit improvement suggestions with rate limiting and submission history."
+      "description": "Dialog for users to submit improvement suggestions with rate limiting and submission history. An optional email lets the developer follow up; requests are delivered through Telegram."
     },
     {
       "name": "Multi-Language Support",
@@ -286,7 +286,7 @@
       "category": "ui",
       "i18nNamespace": "Stats",
       "clientSide": true,
-      "description": "Anonymous counters of generated QR codes (total, this month, API) shown under the generator once the total reaches 100. Loaded on the client from GET /api/v1/stats so the homepage stays static; incremented by a body-less, rate-limited POST /api/v1/stats/hit."
+      "description": "Anonymous counters of generated QR codes (total, last 30 days, API) shown under the generator once the total reaches 100. Loaded on the client from GET /api/v1/stats so the homepage stays static; incremented by a body-less, rate-limited POST /api/v1/stats/hit."
     },
     {
       "name": "How-to Guide Landing Page",
@@ -305,6 +305,24 @@
       "i18nNamespace": "Sepa",
       "clientSide": false,
       "description": "Explains EPC QR for SEPA transfers and links into the generator with the EPC format preselected (/?format=epc). Localized slugs: /sepa-qr-kod-generator (sk, cs), /en/sepa-qr-code-generator."
+    },
+    {
+      "name": "Community Banner",
+      "source": "components/community-banner.tsx",
+      "route": "/",
+      "category": "ui",
+      "i18nNamespace": "Community",
+      "clientSide": false,
+      "description": "Homepage call-to-action card under the usage counters with a feature request button and a support link. The footer repeats both as plain links on every page. Feature requests accept an optional email for follow-up and go to the developer via Telegram."
+    },
+    {
+      "name": "Homepage Explainer Interactions",
+      "source": "features/seo/home-content.tsx",
+      "route": "/",
+      "category": "ui",
+      "i18nNamespace": "HomeContent",
+      "clientSide": true,
+      "description": "Format tiles in the homepage explainer select that format in the payment form and scroll to it (features/seo/format-tile-action.tsx, via the qr:select-format window event). The how-to steps fade in once with a stagger when scrolled into view (components/reveal-list.tsx)."
     }
   ]
 }

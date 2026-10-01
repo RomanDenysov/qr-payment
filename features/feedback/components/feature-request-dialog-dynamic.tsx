@@ -1,17 +1,34 @@
 "use client";
 
-import dynamic from "next/dynamic";
-import type React from "react";
+import { lazy, type ReactElement, Suspense, useEffect, useState } from "react";
 
-const FeatureRequestDialog = dynamic(
-  () => import("./feature-request-dialog").then((m) => m.FeatureRequestDialog),
-  { ssr: false }
+const FeatureRequestDialog = lazy(() =>
+  import("./feature-request-dialog").then((m) => ({
+    default: m.FeatureRequestDialog,
+  }))
 );
 
+/**
+ * Feature request dialog whose code loads after mount. Until then the bare
+ * trigger is rendered, so the button is in the server HTML and does not pop in.
+ */
 export function DynamicFeatureRequestDialog({
   trigger,
 }: {
-  trigger: React.ReactElement;
+  trigger: ReactElement;
 }) {
-  return <FeatureRequestDialog trigger={trigger} />;
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return trigger;
+  }
+  return (
+    <Suspense fallback={trigger}>
+      <FeatureRequestDialog trigger={trigger} />
+    </Suspense>
+  );
 }
