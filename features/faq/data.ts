@@ -74,17 +74,6 @@ const faqData: Record<string, FaqItem[]> = {
       answer:
         "Kliknite na tlačidlo Zdieľať link a skopírujte odkaz. Odkaz obsahuje všetky platobné údaje vrátane IBAN, sumy, symbolov, poznámky a vzhľadu QR kódu. Príjemca po otvorení odkazu uvidí stránku s QR kódom, ktorý naskenuje bankovou aplikáciou.",
     },
-    {
-      question: "Je dostupné API?",
-      answer:
-        "Áno. QR Platby ponúka bezplatné REST API bez nutnosti API kľúča. Môžete ho integrovať do vlastnej aplikácie, chatbota alebo workflow. API podporuje všetky tri formáty - BySquare, EPC QR aj SPAYD. Limit je 20 požiadaviek za minútu.",
-      links: [{ label: "Zobrazit API dokumentáciu", href: "/docs" }],
-    },
-    {
-      question: "Funguje to offline?",
-      answer:
-        "Čiastočne. Po prvom načítaní stránky môžete generovať QR kódy aj bez internetového pripojenia. História platieb a nastavenia sa ukladajú lokálne vo vašom prehliadači.",
-    },
   ],
   en: [
     {
@@ -150,17 +139,6 @@ const faqData: Record<string, FaqItem[]> = {
       answer:
         "Click the Share link button and copy the link. The link contains all payment details including IBAN, amount, symbols, note, and QR code appearance. The recipient will see a page with the QR code that they can scan using their banking app.",
     },
-    {
-      question: "Is there an API available?",
-      answer:
-        "Yes. QR Platby offers a free REST API with no API key required. You can integrate it into your own app, chatbot, or workflow. The API supports all three formats - BySquare, EPC QR, and SPAYD. The rate limit is 20 requests per minute.",
-      links: [{ label: "View API documentation", href: "/docs" }],
-    },
-    {
-      question: "Does it work offline?",
-      answer:
-        "Partially. After the first page load, you can generate QR codes even without an internet connection. Payment history and settings are stored locally in your browser.",
-    },
   ],
   cs: [
     {
@@ -225,17 +203,6 @@ const faqData: Record<string, FaqItem[]> = {
       question: "Jak můžu sdílet platbu?",
       answer:
         "Klikněte na tlačítko Sdílet link a zkopírujte odkaz. Odkaz obsahuje všechny platební údaje včetně IBAN, částky, symbolů, poznámky a vzhledu QR kódu. Příjemce po otevření odkazu uvidí stránku s QR kódem, který naskenuje bankovní aplikací.",
-    },
-    {
-      question: "Je k dispozici API?",
-      answer:
-        "Ano. QR Platby nabízí bezplatné REST API bez nutnosti API klíče. Můžete ho integrovat do vlastní aplikace, chatbota nebo workflow. API podporuje všechny tři formáty - BySquare, EPC QR i SPAYD. Limit je 20 požadavků za minutu.",
-      links: [{ label: "Zobrazit API dokumentaci", href: "/docs" }],
-    },
-    {
-      question: "Funguje to offline?",
-      answer:
-        "Částečně. Po prvním načtení stránky můžete generovat QR kódy i bez internetového připojení. Historie plateb a nastavení se ukládají lokálně ve vašem prohlížeči.",
     },
   ],
 };
