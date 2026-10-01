@@ -15,6 +15,12 @@ interface ServerQrInput {
   constantSymbol?: string;
   recipientName?: string;
   paymentNote?: string;
+  bic?: string;
+  paymentDueDate?: string;
+  invoiceId?: string;
+  spaydReference?: string;
+  purposeCode?: string;
+  instantPayment?: boolean;
 }
 
 interface ServerQrOptions {

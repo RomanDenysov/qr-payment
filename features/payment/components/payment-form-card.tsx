@@ -9,8 +9,8 @@ import {
 } from "@tabler/icons-react";
 import { track } from "@vercel/analytics";
 import { useLocale, useTranslations } from "next-intl";
-import { useEffect, useMemo } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { useEffect, useMemo, useState } from "react";
+import { Controller, useForm, useWatch } from "react-hook-form";
 import { CurrencyInput } from "@/components/currency-input";
 import { IBANAutocomplete } from "@/components/iban-autocomplete";
 import { Button } from "@/components/ui/button";
@@ -35,6 +35,15 @@ import { detectBank } from "@/lib/iban-bank";
 import type { PaymentFormat } from "../format";
 import { FORMAT_LABELS } from "../format";
 import {
+  OPTIONAL_FIELDS,
+  OPTIONAL_FIELDS_BY_FORMAT,
+  type OptionalFieldKey,
+} from "../optional-fields";
+import {
+  useEnabledOptionalFields,
+  useOptionalFieldsActions,
+} from "../optional-fields-store";
+import {
   createPaymentFormSchema,
   type PaymentFormData,
   type PaymentRecord,
@@ -46,6 +55,8 @@ import {
   usePreferredFormat,
 } from "../store";
 import { usePaymentGenerator } from "../use-payment-generator";
+import { FormatExtrasMenu } from "./format-extras-menu";
+import { OptionalFields } from "./optional-fields";
 
 function BicField({
   register,
@@ -157,6 +168,11 @@ const defaultValues: PaymentFormData = {
   recipientName: "",
   paymentNote: "",
   bic: "",
+  paymentDueDate: "",
+  invoiceId: "",
+  spaydReference: "",
+  purposeCode: "",
+  instantPayment: false,
 };
 
 export function PaymentFormCard() {
@@ -192,6 +208,42 @@ export function PaymentFormCard() {
   const iban = watch("iban");
   const detectedBank = useMemo(() => detectBank(iban), [iban]);
 
+  // Optional fields: visible when opted in (persisted per format) or when they
+  // already hold a value (e.g. filled from history). The persisted choice is
+  // applied after mount so server and first client render match.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+  const activeFormat = format ?? "bysquare";
+  const enabledExtras = useEnabledOptionalFields(activeFormat);
+  const { enable, disable } = useOptionalFieldsActions();
+  const extraKeys = OPTIONAL_FIELDS_BY_FORMAT[activeFormat];
+  const extraValues = useWatch({ control, name: extraKeys });
+  const isExtraVisible = (key: OptionalFieldKey) =>
+    (mounted && enabledExtras.includes(key)) ||
+    Boolean(extraValues[extraKeys.indexOf(key)]);
+  const visibleExtras = extraKeys.filter(isExtraVisible);
+
+  const toggleExtra = (key: OptionalFieldKey) => {
+    const visible = isExtraVisible(key);
+    const isCheckbox = OPTIONAL_FIELDS[key].inputType === "checkbox";
+    if (visible) {
+      disable(activeFormat, key);
+      setValue(key, isCheckbox ? false : "");
+    } else {
+      enable(activeFormat, key);
+      if (isCheckbox) {
+        setValue(key, true);
+      }
+    }
+    track("optional_field_toggled", {
+      format: activeFormat,
+      field: key,
+      enabled: !visible,
+    });
+  };
+
   const handleFormatChange = (newFormat: PaymentFormat) => {
     setValue("format", newFormat);
     setPreferredFormat(newFormat);
@@ -208,18 +260,9 @@ export function PaymentFormCard() {
     if (!currentPayment) {
       return;
     }
-    reset({
-      format: currentPayment.format ?? "bysquare",
-      currency: currentPayment.currency ?? "EUR",
-      iban: currentPayment.iban,
-      amount: currentPayment.amount,
-      recipientName: currentPayment.recipientName || "",
-      variableSymbol: currentPayment.variableSymbol || "",
-      specificSymbol: currentPayment.specificSymbol || "",
-      constantSymbol: currentPayment.constantSymbol || "",
-      paymentNote: currentPayment.paymentNote || "",
-      bic: currentPayment.bic || "",
-    });
+    // Record metadata is dropped; fields an older record lacks keep defaults.
+    const { id, createdAt, qrDataUrl, name, ...formData } = currentPayment;
+    reset({ ...defaultValues, ...formData });
     setPreferredFormat(currentPayment.format ?? "bysquare");
     setPreferredCurrency(currentPayment.currency ?? "EUR");
   }, [currentPayment, reset, setPreferredFormat, setPreferredCurrency]);
@@ -255,6 +298,11 @@ export function PaymentFormCard() {
     setValue("constantSymbol", payment.constantSymbol || "");
     setValue("paymentNote", payment.paymentNote || "");
     setValue("bic", payment.bic || "");
+    setValue("paymentDueDate", payment.paymentDueDate || "");
+    setValue("invoiceId", payment.invoiceId || "");
+    setValue("spaydReference", payment.spaydReference || "");
+    setValue("purposeCode", payment.purposeCode || "");
+    setValue("instantPayment", payment.instantPayment ?? false);
     setPreferredFormat(payment.format ?? "bysquare");
     setPreferredCurrency(payment.currency ?? "EUR");
     // amount is not filled — usually the amount is different
@@ -270,9 +318,12 @@ export function PaymentFormCard() {
       />
       <CardHeader>
         <div className="flex items-center justify-between gap-2">
-          <CardTitle>
-            {t(`formatDescription.${format ?? "bysquare"}`)}
-          </CardTitle>
+          <CardTitle>{t(`formatDescription.${activeFormat}`)}</CardTitle>
+          <FormatExtrasMenu
+            format={activeFormat}
+            isVisible={isExtraVisible}
+            onToggle={toggleExtra}
+          />
         </div>
       </CardHeader>
 
@@ -400,6 +451,8 @@ export function PaymentFormCard() {
                 />
               </FieldContent>
             </Field>
+
+            <OptionalFields control={control} keys={visibleExtras} />
           </FieldGroup>
         </CardContent>
         <CardFooter className="mt-auto shrink-0 p-0">

@@ -79,6 +79,19 @@
     "vs": "VS",
     "ss": "SS",
     "ks": "KS",
+    "dueDate": "Datum splatnosti",
+    "invoiceId": "Číslo faktury",
+    "invoiceIdPlaceholder": "Č. faktury",
+    "spaydReference": "Reference",
+    "spaydReferencePlaceholder": "1234567890",
+    "purposeCode": "Účel platby",
+    "purposeCodePlaceholder": "např. GDDS",
+    "instantPayment": "Okamžitá platba",
+    "optionalFields": {
+      "menu": "Pole",
+      "menuAria": "Přidat volitelná pole",
+      "title": "Přidat pole"
+    },
     "clear": "Vymazat",
     "generate": "Vygenerovat QR",
     "noHistoryResults": "Žádné výsledky z historie",
@@ -99,6 +112,8 @@
     "max70chars": "Max 70 znaků",
     "max140chars": "Max 140 znaků",
     "max11chars": "Max 11 znaků",
+    "max16chars": "Max 16 znaků",
+    "dueDateInvalid": "Neplatné datum",
     "recipientRequired": "Jméno příjemce je povinné pro EPC QR",
     "bicInvalid": "BIC musí mít 8 nebo 11 znaků",
     "epcMaxAmount": "Max částka pro EPC QR je 999 999 999,99 €",
@@ -531,6 +546,12 @@
     "section4MoreLinksTitle": "Další nástroje",
     "section4StudioLink": "Pokročilý editor QR",
     "section4BulkLink": "Hromadné generování"
+  },
+  "Stats": {
+    "totalLabel": "vygenerovaných QR kódů",
+    "monthLabel": "tento měsíc",
+    "apiLabel": "API požadavků",
+    "caption": "Anonymní počítadla - vaše platební údaje nikdy nevidíme."
   },
   "JsonLd": {
     "howTo": {

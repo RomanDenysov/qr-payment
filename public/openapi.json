@@ -81,7 +81,18 @@
                     "iban": "DE89370400440532013000",
                     "amount": 100,
                     "paymentFormat": "epc",
-                    "recipientName": "Max Mustermann"
+                    "recipientName": "Max Mustermann",
+                    "purposeCode": "GDDS"
+                  }
+                },
+                "withDueDate": {
+                  "summary": "Slovak payment with due date and invoice number",
+                  "value": {
+                    "iban": "SK3112000000198742637541",
+                    "amount": 25.5,
+                    "variableSymbol": "2024001",
+                    "paymentDueDate": "2026-12-31",
+                    "invoiceId": "2024001"
                   }
                 },
                 "czechSvg": {
@@ -110,11 +121,15 @@
             },
             "headers": {
               "X-RateLimit-Limit": {
-                "schema": { "type": "integer" },
+                "schema": {
+                  "type": "integer"
+                },
                 "description": "Maximum requests per window"
               },
               "X-RateLimit-Remaining": {
-                "schema": { "type": "integer" },
+                "schema": {
+                  "type": "integer"
+                },
                 "description": "Remaining requests in current window"
               }
             }
@@ -137,7 +152,7 @@
                         "message": "Invalid IBAN"
                       }
                     ],
-                    "hint": "Required: iban (string). Optional: amount (number), currency (EUR|CZK), variableSymbol, specificSymbol, constantSymbol, recipientName, paymentNote, paymentFormat (bysquare|spayd|epc), format (png|svg), size (100-1000).",
+                    "hint": "Required: iban (string). Optional: amount (number), currency (EUR|CZK), variableSymbol, specificSymbol, constantSymbol, recipientName, paymentNote, bic, paymentDueDate (YYYY-MM-DD; bysquare/spayd), invoiceId (bysquare), spaydReference (spayd, digits), purposeCode (epc), instantPayment (boolean; spayd), paymentFormat (bysquare|spayd|epc), format (png|svg), size (100-1000).",
                     "example": {
                       "iban": "SK3112000000198742637541",
                       "amount": 25.5,
@@ -167,15 +182,22 @@
             },
             "headers": {
               "X-RateLimit-Limit": {
-                "schema": { "type": "integer" },
+                "schema": {
+                  "type": "integer"
+                },
                 "description": "Maximum requests per window"
               },
               "X-RateLimit-Remaining": {
-                "schema": { "type": "integer", "example": 0 },
+                "schema": {
+                  "type": "integer",
+                  "example": 0
+                },
                 "description": "Always 0 when rate limited"
               },
               "Retry-After": {
-                "schema": { "type": "integer" },
+                "schema": {
+                  "type": "integer"
+                },
                 "description": "Seconds until rate limit resets"
               }
             }
@@ -188,6 +210,61 @@
         "responses": {
           "204": {
             "description": "CORS headers returned"
+          }
+        }
+      }
+    },
+    "/api/v1/stats": {
+      "get": {
+        "operationId": "getUsageStats",
+        "summary": "Anonymous usage counters",
+        "description": "Public anonymous usage counters: total QR codes generated in the web app, QR codes generated this calendar month, and total API requests. No authentication, no PII, cached for 10 minutes.",
+        "tags": ["Stats"],
+        "responses": {
+          "200": {
+            "description": "Current counter values",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["total", "month", "api"],
+                  "properties": {
+                    "total": {
+                      "type": "integer",
+                      "description": "QR codes generated in the web app, all time"
+                    },
+                    "month": {
+                      "type": "integer",
+                      "description": "QR codes generated this calendar month"
+                    },
+                    "api": {
+                      "type": "integer",
+                      "description": "QR codes generated via the REST API, all time"
+                    }
+                  }
+                },
+                "example": {
+                  "total": 12345,
+                  "month": 987,
+                  "api": 2100
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Counters are temporarily unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -243,11 +320,41 @@
             "maxLength": 140,
             "description": "Payment note / message for recipient"
           },
+          "bic": {
+            "type": "string",
+            "pattern": "^[A-Za-z]{4}[A-Za-z]{2}[A-Za-z0-9]{2}([A-Za-z0-9]{3})?$",
+            "description": "BIC/SWIFT code (8 or 11 characters). Supported by all formats."
+          },
+          "paymentDueDate": {
+            "type": "string",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "description": "Payment due date in YYYY-MM-DD format. Supported by bysquare and spayd only."
+          },
+          "invoiceId": {
+            "type": "string",
+            "maxLength": 10,
+            "description": "Invoice number (up to 10 characters). bysquare only."
+          },
+          "spaydReference": {
+            "type": "string",
+            "maxLength": 16,
+            "pattern": "^\\d*$",
+            "description": "SPAYD recipient reference (RF), up to 16 digits. spayd only."
+          },
+          "purposeCode": {
+            "type": "string",
+            "maxLength": 4,
+            "description": "SEPA purpose code (AT-44), up to 4 characters (e.g. GDDS). epc only."
+          },
+          "instantPayment": {
+            "type": "boolean",
+            "description": "Request an instant payment (SPAYD PT:IP) where the payer's bank supports it. spayd only."
+          },
           "paymentFormat": {
             "type": "string",
             "enum": ["bysquare", "spayd", "epc"],
             "default": "bysquare",
-            "description": "Payment QR standard. Use 'bysquare' for Slovak banks (PAY by square), 'spayd' for Czech banks (QR Platba/SPD), or 'epc' for EU SEPA payments (EPC QR). Note: EPC does not support variableSymbol, specificSymbol, or constantSymbol."
+            "description": "Payment QR standard. Use 'bysquare' for Slovak banks (PAY by square), 'spayd' for Czech banks (QR Platba/SPD), or 'epc' for EU SEPA payments (EPC QR). A field sent for an unsupported format is rejected: EPC does not support variableSymbol, specificSymbol, constantSymbol, paymentDueDate, invoiceId, or spaydReference; invoiceId is bysquare-only; spaydReference is spayd-only; purposeCode is epc-only."
           },
           "format": {
             "type": "string",
@@ -343,8 +450,12 @@
                   "type": "object",
                   "required": ["path", "message"],
                   "properties": {
-                    "path": { "type": "string" },
-                    "message": { "type": "string" }
+                    "path": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
                   }
                 },
                 "description": "Validation issue details (only for VALIDATION_ERROR)"

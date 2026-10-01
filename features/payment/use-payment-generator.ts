@@ -9,6 +9,7 @@ import {
   DEFAULT_CUSTOMIZER_CONFIG,
   fillPrimaryColor,
 } from "@/features/customizer/types";
+import { pingStats } from "@/lib/stats-ping";
 import { EpcPayloadTooLargeError } from "./epc-encoder";
 import { InvalidIBANError } from "./qr-generator";
 import type { PaymentFormData, PaymentRecord } from "./schema";
@@ -35,6 +36,11 @@ function trackQrGenerated(
     formData.recipientName,
     formData.paymentNote,
     formData.bic,
+    formData.paymentDueDate,
+    formData.invoiceId,
+    formData.spaydReference,
+    formData.purposeCode,
+    formData.instantPayment,
   ].filter(Boolean).length;
 
   track("qr_generated", {
@@ -67,6 +73,7 @@ export function usePaymentGenerator() {
 
           setCurrent(record);
           trackQrGenerated(formData, customizer);
+          pingStats();
           toast.success(t("generated"));
         } catch (error) {
           if (

@@ -7,13 +7,22 @@
         "currency": "EUR | CZK",
         "has_branding": "true if colors or center text differ from defaults",
         "has_logo": "true if a logo is set",
-        "fields_filled": "count of optional fields filled (0-6)"
+        "fields_filled": "count of optional fields filled (0-11)"
       },
       "source": "features/payment/use-payment-generator.ts"
     },
     "format_selected": {
       "description": "User switched the QR format (BySquare / EPC / SPAYD)",
       "properties": { "format": "bysquare | epc | spayd" },
+      "source": "features/payment/components/payment-form-card.tsx"
+    },
+    "optional_field_toggled": {
+      "description": "User showed or hid an optional payment field via the Fields menu",
+      "properties": {
+        "format": "bysquare | epc | spayd",
+        "field": "paymentDueDate | invoiceId | bic | spaydReference | purposeCode | instantPayment",
+        "enabled": "true if the field was turned on"
+      },
       "source": "features/payment/components/payment-form-card.tsx"
     }
   },

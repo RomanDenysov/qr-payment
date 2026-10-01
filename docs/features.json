@@ -269,6 +269,24 @@
       "i18nNamespace": "Changelog",
       "clientSide": false,
       "description": "Chronological log of features, API changes, and improvements with locale-aware dates and BreadcrumbList + ItemList JSON-LD. Linked only from the announcement banner; entries are stored in features/changelog/data.ts."
+    },
+    {
+      "name": "Optional Payment Fields",
+      "source": "features/payment/optional-fields.ts",
+      "route": "/",
+      "category": "core",
+      "i18nNamespace": "PaymentForm",
+      "clientSide": true,
+      "description": "Per-format optional fields (due date, invoice number, BIC, SPAYD reference, SEPA purpose code, SPAYD instant payment) that users opt into via the Fields menu in the payment form. The choice is persisted per format in localStorage (qrPayments.optionalFields.v1)."
+    },
+    {
+      "name": "Usage Counters",
+      "source": "features/stats/usage-stats.tsx",
+      "route": "/",
+      "category": "ui",
+      "i18nNamespace": "Stats",
+      "clientSide": true,
+      "description": "Anonymous counters of generated QR codes (total, this month, API) shown under the generator once the total reaches 100. Loaded on the client from GET /api/v1/stats so the homepage stays static; incremented by a body-less, rate-limited POST /api/v1/stats/hit."
     }
   ]
 }
