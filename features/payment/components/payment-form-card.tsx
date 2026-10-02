@@ -1,4 +1,8 @@
 "use client";
+// react-hook-form re-attaches inputs by calling register() on every render.
+// The React Compiler caches those calls, so after reset() the text inputs stay
+// detached and edits never reach the form state.
+"use no memo";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
