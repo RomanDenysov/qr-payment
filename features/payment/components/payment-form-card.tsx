@@ -9,7 +9,7 @@ import {
 } from "@tabler/icons-react";
 import { track } from "@vercel/analytics";
 import { useLocale, useTranslations } from "next-intl";
-import { useEffect, useEffectEvent, useMemo, useState } from "react";
+import { useEffect, useEffectEvent, useMemo, useRef, useState } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import { CurrencyInput } from "@/components/currency-input";
 import { IBANAutocomplete } from "@/components/iban-autocomplete";
@@ -283,7 +283,12 @@ export function PaymentFormCard() {
     });
   };
 
+  // Format requested by /?format=, kept until the user picks one themselves so
+  // restoring the saved payment below does not overwrite it.
+  const urlFormat = useRef<PaymentFormat | null>(null);
+
   const applyFormat = (newFormat: PaymentFormat) => {
+    urlFormat.current = null;
     setValue("format", newFormat);
     setPreferredFormat(newFormat);
     if (newFormat === "epc") {
@@ -310,13 +315,35 @@ export function PaymentFormCard() {
       window.removeEventListener(SELECT_FORMAT_EVENT, onExternalFormat);
   }, []);
 
+  // Landing pages link to /?format=epc. Read on mount from window.location:
+  // useSearchParams() would opt the homepage out of prerendering.
+  useEffect(() => {
+    const requested = new URLSearchParams(window.location.search).get("format");
+    if (requested && requested in FORMAT_LABELS) {
+      urlFormat.current = requested as PaymentFormat;
+      setValue("format", urlFormat.current);
+      if (requested === "epc") {
+        setValue("currency", "EUR");
+      }
+    }
+  }, [setValue]);
+
   useEffect(() => {
     if (!currentPayment) {
       return;
     }
     // Record metadata is dropped; fields an older record lacks keep defaults.
     const { id, createdAt, qrDataUrl, name, ...formData } = currentPayment;
-    reset({ ...defaultValues, ...formData });
+    const requested = urlFormat.current;
+    reset({
+      ...defaultValues,
+      ...formData,
+      ...(requested && { format: requested }),
+      ...(requested === "epc" && { currency: "EUR" as const }),
+    });
+    if (requested) {
+      return;
+    }
     setPreferredFormat(currentPayment.format ?? "bysquare");
     setPreferredCurrency(currentPayment.currency ?? "EUR");
   }, [currentPayment, reset, setPreferredFormat, setPreferredCurrency]);
@@ -339,23 +366,12 @@ export function PaymentFormCard() {
     setPreferredCurrency("CZK");
   }, [locale, setValue, setPreferredFormat, setPreferredCurrency]);
 
-  // Landing pages link to /?format=epc. Read on mount from window.location:
-  // useSearchParams() would opt the homepage out of prerendering.
-  useEffect(() => {
-    const requested = new URLSearchParams(window.location.search).get("format");
-    if (requested && requested in FORMAT_LABELS) {
-      setValue("format", requested as PaymentFormat);
-      if (requested === "epc") {
-        setValue("currency", "EUR");
-      }
-    }
-  }, [setValue]);
-
   const handleClear = () => {
     reset({ ...defaultValues, format });
   };
 
   const handleSelectFromHistory = (payment: PaymentRecord) => {
+    urlFormat.current = null;
     setValue("format", payment.format ?? "bysquare");
     setValue("currency", payment.currency ?? "EUR");
     setValue("recipientName", payment.recipientName || "");
