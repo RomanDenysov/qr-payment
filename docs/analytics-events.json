@@ -16,6 +16,14 @@
       "properties": { "format": "bysquare | epc | spayd" },
       "source": "features/payment/components/payment-form-card.tsx"
     },
+    "qr_validation_failed": {
+      "description": "User pressed Generate but the payment form failed validation. Values are never sent",
+      "properties": {
+        "format": "bysquare | epc | spayd",
+        "fields": "comma-separated sorted names of the invalid fields, e.g. iban,recipientName"
+      },
+      "source": "features/payment/components/payment-form-card.tsx"
+    },
     "format_tile_clicked": {
       "description": "User clicked a format tile in the homepage explainer to select that format in the form",
       "properties": { "format": "bysquare | epc | spayd" },
