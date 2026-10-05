@@ -14,7 +14,12 @@ import {
 import { track } from "@vercel/analytics";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useEffectEvent, useMemo, useRef, useState } from "react";
-import { Controller, useForm, useWatch } from "react-hook-form";
+import {
+  Controller,
+  type FieldErrors,
+  useForm,
+  useWatch,
+} from "react-hook-form";
 import { CurrencyInput } from "@/components/currency-input";
 import { IBANAutocomplete } from "@/components/iban-autocomplete";
 import { Button } from "@/components/ui/button";
@@ -370,6 +375,15 @@ export function PaymentFormCard() {
     setPreferredCurrency("CZK");
   }, [locale, setValue, setPreferredFormat, setPreferredCurrency]);
 
+  // Which fields stop a generation, e.g. "iban,recipientName". Analytics only
+  // gets field names and the format, never the values.
+  const trackValidationFailed = (invalid: FieldErrors<PaymentFormData>) => {
+    track("qr_validation_failed", {
+      format: activeFormat,
+      fields: Object.keys(invalid).sort().join(","),
+    });
+  };
+
   const handleClear = () => {
     reset({ ...defaultValues, format });
   };
@@ -413,7 +427,10 @@ export function PaymentFormCard() {
         </div>
       </CardHeader>
 
-      <form className="flex h-full flex-col" onSubmit={handleSubmit(generate)}>
+      <form
+        className="flex h-full flex-col"
+        onSubmit={handleSubmit(generate, trackValidationFailed)}
+      >
         <CardContent className="flex-1 grow border-t py-4">
           <FieldGroup>
             <div className="flex w-full flex-col items-stretch gap-2 sm:flex-row">
