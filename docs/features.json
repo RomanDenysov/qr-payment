@@ -307,6 +307,15 @@
       "description": "Explains EPC QR for SEPA transfers and links into the generator with the EPC format preselected (/?format=epc). Localized slugs: /sepa-qr-kod-generator (sk, cs), /en/sepa-qr-code-generator."
     },
     {
+      "name": "Payment QR Reader",
+      "source": "features/reader/",
+      "route": "/citacka-qr-platby",
+      "category": "core",
+      "i18nNamespace": "Reader",
+      "clientSide": true,
+      "description": "Decodes a payment QR from an uploaded, dropped or pasted image (jsQR) or from its text, for PAY by square, SPAYD and EPC. Shows the payment with warnings (bad IBAN checksum, several payments, standing order, unsupported currency) and opens it in the generator form. Runs in the browser only. Localized slugs: /cs/ctecka-qr-plateb, /en/payment-qr-code-reader."
+    },
+    {
       "name": "Community Banner",
       "source": "components/community-banner.tsx",
       "route": "/",

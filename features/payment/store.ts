@@ -2,7 +2,7 @@ import { electronicFormatIBAN } from "ibantools";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { PaymentFormat } from "./format";
-import type { PaymentRecord } from "./schema";
+import type { PaymentFormData, PaymentRecord } from "./schema";
 
 type Currency = "EUR" | "CZK";
 
@@ -19,6 +19,8 @@ interface PaymentHistoryActions {
   setPreferredCurrency: (currency: Currency) => void;
   saveToStorage: () => void;
   loadFromStorage: (id: string) => void;
+  /** Fills the form with a payment from outside (the QR reader), without a QR or a history entry. */
+  openInForm: (payment: PaymentFormData) => void;
   removeFromStorage: (id: string) => void;
   clearHistory: () => void;
   clearCurrent: () => void;
@@ -221,6 +223,16 @@ const paymentStore = create<PaymentHistoryStore>()(
             });
           }
         },
+        openInForm: (payment) =>
+          set({
+            current: {
+              ...payment,
+              id: crypto.randomUUID(),
+              createdAt: new Date().toISOString(),
+            },
+            preferredFormat: payment.format,
+            preferredCurrency: payment.currency ?? "EUR",
+          }),
         removeFromStorage: (id) =>
           set((state) => ({
             history: state.history.filter((p) => p.id !== id),

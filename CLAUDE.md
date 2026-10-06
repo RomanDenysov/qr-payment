@@ -74,6 +74,9 @@ features/customizer/      # Unified QR customizer (home sheet + /studio page)
   guardrails.ts           # checkGuardrails (logo cap, low contrast, weak gradient) for live customizer feedback
   scannability.ts         # validateScannability (jsQR round-trip; jsqr is dynamic-imported)
   components/             # Shared customizer UI (color/dot/text/logo/frame controls + sheet + templates)
+features/reader/          # Payment QR reader page (/citacka-qr-platby)
+  decode-payload.ts       # QR text -> PaymentFormData for bysquare, SPAYD, EPC, with warnings (bun test alongside)
+  read-qr-image.ts        # Image file -> QR text via jsQR (dynamic import)
 features/stats/           # Usage counters (client island reading /api/v1/stats)
 features/feedback/        # Feature request / feedback module
 features/faq/             # FAQ data (translated)

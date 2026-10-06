@@ -77,6 +77,22 @@
     }
   },
 
+  "reader": {
+    "qr_decoded": {
+      "description": "User read a QR code on the reader page. Payment values are never sent",
+      "properties": {
+        "source": "image | text",
+        "format": "bysquare | epc | spayd | none (no QR found or not a payment code)"
+      },
+      "source": "features/reader/components/qr-reader.tsx"
+    },
+    "qr_decoded_opened": {
+      "description": "User opened a decoded payment in the generator form",
+      "properties": { "format": "bysquare | epc | spayd" },
+      "source": "features/reader/components/qr-reader.tsx"
+    }
+  },
+
   "share_link": {
     "share_link_copied": {
       "description": "User copied the shareable payment link from the share dialog",

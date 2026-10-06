@@ -30,7 +30,9 @@
     "studioTitle": "QR Studio - Advanced QR Code Editor",
     "studioDescription": "Design a QR code with gradients, custom logo, frame, caption, and overlay positioning. Runs in your browser, no signup.",
     "changelogTitle": "Changelog",
-    "changelogDescription": "Chronological log of new features, improvements, and API changes in QR Platby. Stay up to date with the latest releases."
+    "changelogDescription": "Chronological log of new features, improvements, and API changes in QR Platby. Stay up to date with the latest releases.",
+    "readerTitle": "Payment QR Code Reader - Decode PAY by square, SPAYD and EPC",
+    "readerDescription": "Upload or paste a payment QR code and see the IBAN, amount and symbols inside. Reads PAY by square, SPAYD and EPC QR in your browser. Free, no signup."
   },
   "Nav": {
     "home": "Home",
@@ -56,7 +58,8 @@
     "colResources": "Resources",
     "colProject": "Project",
     "generator": "QR payment generator",
-    "contribute": "QR Platby is open source. Want to move it forward? Contribute code or ideas on <link>GitHub</link>."
+    "contribute": "QR Platby is open source. Want to move it forward? Contribute code or ideas on <link>GitHub</link>.",
+    "reader": "Payment QR reader"
   },
   "Announcement": {
     "message": "New: optional payment fields (due date, invoice number, BIC and more), and the recipient name is now required for PAY by square.",
@@ -610,6 +613,50 @@
       {
         "question": "What is the difference between EPC QR, PAY by square and SPAYD?",
         "answer": "All three encode a bank transfer in a QR code. EPC QR is the European SEPA standard, PAY by square is the Slovak standard and SPAYD is the Czech standard. Pick the format the recipient's bank understands - this generator supports all three."
+      }
+    ]
+  },
+  "Reader": {
+    "h1": "Payment QR code reader",
+    "intro": "Upload a picture of a payment QR code or paste the text inside it. You get the IBAN, amount, symbols and note, and you can open the payment in the generator to change it or switch the format.",
+    "uploadTitle": "Choose or drop an image",
+    "uploadDescription": "Photo, screenshot or scan. Ctrl+V pastes a copied image.",
+    "textLabel": "Or paste the text inside the code",
+    "readText": "Read",
+    "privacy": "Your browser reads the code. The image and the payment never leave your device.",
+    "empty": "The payment details appear here.",
+    "reading": "Reading the image...",
+    "error": {
+      "noQr": "No QR code found in the image. Try a sharper photo or crop closer to the code.",
+      "notPayment": "This is not a PAY by square, SPAYD or EPC payment code.",
+      "readFailed": "The browser could not open this image. Try a PNG or JPG."
+    },
+    "warning": {
+      "invalidIban": "The IBAN fails its checksum. Do not pay until you check it with the recipient.",
+      "multiplePayments": "The code holds several payments. Only the first one is shown.",
+      "notPaymentOrder": "This is a standing order or a direct debit. The generator makes one-off payments only.",
+      "unsupportedCurrency": "The currency is not EUR or CZK. The generator switches it to EUR."
+    },
+    "resultTitle": "Payment",
+    "yes": "Yes",
+    "openInForm": "Open in generator",
+    "openHint": "Change the amount, the format or anything else, then generate a new code.",
+    "useTitle": "What it is for",
+    "useCheck": "Checking an invoice before you pay. The reader shows the full IBAN and amount from a QR code on an invoice or in an email, and flags an IBAN with a wrong checksum.",
+    "useConvert": "Converting between formats. Slovak invoices carry PAY by square, which most banks outside Slovakia do not read. Open the payment in the generator, switch to EPC QR and download a code any SEPA banking app accepts.",
+    "faqTitle": "Questions",
+    "faq": [
+      {
+        "question": "Which QR codes can it read?",
+        "answer": "PAY by square (Slovakia), QR Platba / SPAYD (Czech Republic) and EPC QR (SEPA, eurozone). Links, Wi-Fi and other QR codes are not payments, and the reader says so."
+      },
+      {
+        "question": "Is my payment sent anywhere?",
+        "answer": "No. Your browser reads the code on your device. Neither the image nor the payment details reach our server."
+      },
+      {
+        "question": "Can I read a QR code from a PDF invoice?",
+        "answer": "Take a screenshot of the code and paste it with Ctrl+V, or upload it. On a phone, the upload button can take a photo of the code directly."
       }
     ]
   },

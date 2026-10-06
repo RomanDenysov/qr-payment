@@ -30,7 +30,9 @@
     "studioTitle": "QR Studio - Pokročilý editor QR kódů",
     "studioDescription": "Navrhněte QR kód s gradienty, vlastním logem, rámem, titulkem a polohou prvků. Běží ve vašem prohlížeči, bez registrace.",
     "changelogTitle": "Změny a novinky",
-    "changelogDescription": "Chronologický přehled novinek, vylepšení a změn API v aplikaci QR Platby. Sledujte, co je nového."
+    "changelogDescription": "Chronologický přehled novinek, vylepšení a změn API v aplikaci QR Platby. Sledujte, co je nového.",
+    "readerTitle": "Čtečka QR plateb - přečtěte QR Platbu, PAY by square a EPC QR",
+    "readerDescription": "Nahrajte nebo vložte QR kód pro platbu a uvidíte IBAN, částku a symboly. Čte QR Platbu (SPAYD), PAY by square a EPC QR přímo v prohlížeči. Zdarma, bez registrace."
   },
   "Nav": {
     "home": "Domů",
@@ -56,7 +58,8 @@
     "colResources": "Informace",
     "colProject": "Projekt",
     "generator": "Generátor QR platby",
-    "contribute": "QR Platby jsou open source. Chcete projekt posunout dál? Přispějte kódem nebo nápadem na <link>GitHubu</link>."
+    "contribute": "QR Platby jsou open source. Chcete projekt posunout dál? Přispějte kódem nebo nápadem na <link>GitHubu</link>.",
+    "reader": "Čtečka QR plateb"
   },
   "Announcement": {
     "message": "Novinky: volitelná pole platby (datum splatnosti, číslo faktury, BIC a další) a jméno příjemce je u PAY by square povinné.",
@@ -610,6 +613,50 @@
       {
         "question": "Jaký je rozdíl mezi EPC QR, PAY by square a SPAYD?",
         "answer": "Všechny tři kódují bankovní převod do QR kódu. EPC QR je evropský SEPA standard, PAY by square slovenský a SPAYD český standard. Vyberte formát, kterému rozumí banka příjemce - generátor podporuje všechny tři."
+      }
+    ]
+  },
+  "Reader": {
+    "h1": "Čtečka QR kódu pro platbu",
+    "intro": "Nahrajte obrázek QR kódu pro platbu nebo vložte text, který obsahuje. Uvidíte IBAN, částku, symboly a zprávu. Platbu pak můžete otevřít v generátoru, upravit ji nebo změnit formát.",
+    "uploadTitle": "Vyberte nebo přetáhněte obrázek",
+    "uploadDescription": "Fotka, snímek obrazovky nebo sken. Zkopírovaný obrázek vložíte přes Ctrl+V.",
+    "textLabel": "Nebo vložte text z QR kódu",
+    "readText": "Přečíst",
+    "privacy": "Kód přečte váš prohlížeč. Obrázek ani platba neopustí vaše zařízení.",
+    "empty": "Zde se zobrazí údaje platby.",
+    "reading": "Čtu obrázek...",
+    "error": {
+      "noQr": "Na obrázku jsme nenašli QR kód. Zkuste ostřejší fotku nebo kód ořízněte.",
+      "notPayment": "Toto není platební kód SPAYD, PAY by square ani EPC.",
+      "readFailed": "Prohlížeč tento obrázek neumí otevřít. Zkuste PNG nebo JPG."
+    },
+    "warning": {
+      "invalidIban": "IBAN nesedí kontrolním součtem. Dokud ho neověříte u příjemce, neplaťte.",
+      "multiplePayments": "Kód obsahuje více plateb. Zobrazena je jen první.",
+      "notPaymentOrder": "Jde o trvalý příkaz nebo inkaso. Generátor vytváří jen jednorázové platby.",
+      "unsupportedCurrency": "Měna není EUR ani CZK. Generátor ji změní na EUR."
+    },
+    "resultTitle": "Platba",
+    "yes": "Ano",
+    "openInForm": "Otevřít v generátoru",
+    "openHint": "Změňte částku, formát nebo cokoli jiného a vytvořte nový kód.",
+    "useTitle": "K čemu to je",
+    "useCheck": "Kontrola faktury před zaplacením. Čtečka ukáže celý IBAN a částku z QR kódu na faktuře nebo v e-mailu a upozorní na IBAN s chybným kontrolním součtem.",
+    "useConvert": "Převod mezi formáty. Slovenské faktury nesou PAY by square, který většina bank mimo Slovensko nečte. Otevřete platbu v generátoru, přepněte na EPC QR a stáhněte kód, který přijme každá SEPA bankovní aplikace.",
+    "faqTitle": "Otázky",
+    "faq": [
+      {
+        "question": "Které QR kódy přečte?",
+        "answer": "QR Platba / SPAYD (Česko), PAY by square (Slovensko) a EPC QR (SEPA, eurozóna). Odkazy, Wi-Fi a jiné QR kódy nejsou platby a čtečka to oznámí."
+      },
+      {
+        "question": "Posílá se moje platba někam?",
+        "answer": "Ne. Kód čte váš prohlížeč přímo ve vašem zařízení. Obrázek ani údaje platby se na náš server nedostanou."
+      },
+      {
+        "question": "Dá se přečíst QR kód z faktury v PDF?",
+        "answer": "Udělejte snímek obrazovky s kódem a vložte ho přes Ctrl+V nebo ho nahrajte. Na mobilu umí tlačítko pro nahrání rovnou vyfotit kód."
       }
     ]
   },

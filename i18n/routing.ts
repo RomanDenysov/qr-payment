@@ -24,6 +24,11 @@ export const routing = defineRouting({
       cs: "/jak-vytvorit-qr-kod-pro-platbu",
       en: "/how-to-create-payment-qr-code",
     },
+    "/citacka-qr-platby": {
+      sk: "/citacka-qr-platby",
+      cs: "/ctecka-qr-plateb",
+      en: "/payment-qr-code-reader",
+    },
     "/sepa-qr-code-generator": {
       sk: "/sepa-qr-kod-generator",
       cs: "/sepa-qr-kod-generator",
