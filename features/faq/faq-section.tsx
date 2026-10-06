@@ -1,4 +1,5 @@
 import { getTranslations } from "next-intl/server";
+import { JsonLdScript } from "@/components/json-ld";
 import {
   Accordion,
   AccordionContent,
@@ -7,6 +8,7 @@ import {
 } from "@/components/ui/accordion";
 import { linkVariants } from "@/components/ui/link";
 import { Link } from "@/i18n/navigation";
+import { faqPageJsonLd } from "@/lib/seo";
 import { cn } from "@/lib/utils";
 import { getFaqData } from "./data";
 
@@ -22,16 +24,6 @@ interface FaqSectionProps {
 export async function FaqSection({ className, locale }: FaqSectionProps) {
   const t = await getTranslations({ locale, namespace: "Metadata" });
   const faqItems = getFaqData(locale);
-
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: faqItems.map((item) => ({
-      "@type": "Question",
-      name: item.question,
-      acceptedAnswer: { "@type": "Answer", text: item.answer },
-    })),
-  };
 
   return (
     <section className={cn("scroll-mt-20 space-y-6", className)} id="faq">
@@ -61,11 +53,7 @@ export async function FaqSection({ className, locale }: FaqSectionProps) {
           </AccordionItem>
         ))}
       </Accordion>
-      <script
-        // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD structured data from hardcoded content
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        type="application/ld+json"
-      />
+      <JsonLdScript data={faqPageJsonLd(faqItems)} />
     </section>
   );
 }

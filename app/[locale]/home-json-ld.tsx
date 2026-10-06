@@ -1,4 +1,5 @@
 import { getTranslations } from "next-intl/server";
+import { JsonLdScript } from "@/components/json-ld";
 
 export async function HomeJsonLd() {
   const t = await getTranslations("JsonLd.howTo");
@@ -25,11 +26,5 @@ export async function HomeJsonLd() {
     step: steps,
   };
 
-  return (
-    <script
-      // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD structured data requires script injection
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      type="application/ld+json"
-    />
-  );
+  return <JsonLdScript data={jsonLd} />;
 }

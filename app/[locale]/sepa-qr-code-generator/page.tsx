@@ -1,5 +1,5 @@
 import { getTranslations } from "next-intl/server";
-import { JsonLd } from "@/components/json-ld";
+import { JsonLdScript } from "@/components/json-ld";
 import {
   Accordion,
   AccordionContent,
@@ -59,8 +59,8 @@ export default async function SepaPage({ params }: Props) {
 
   return (
     <div className="flex-1 pt-5 sm:pt-8 md:pt-16">
-      <JsonLd data={faqPageJsonLd(faqItems)} />
-      <JsonLd
+      <JsonLdScript data={faqPageJsonLd(faqItems)} />
+      <JsonLdScript
         data={breadcrumbJsonLd(locale, tNav("home"), {
           name: t("h1"),
           path: SEPA_PATH,

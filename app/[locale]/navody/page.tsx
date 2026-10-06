@@ -1,6 +1,7 @@
 import { IconArrowRight } from "@tabler/icons-react";
 import { getTranslations } from "next-intl/server";
 import type { ComponentProps } from "react";
+import { JsonLdScript } from "@/components/json-ld";
 import {
   Card,
   CardAction,
@@ -9,7 +10,12 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Link } from "@/i18n/navigation";
-import { getAlternates, getOgLocale, localePath } from "@/lib/seo";
+import {
+  breadcrumbJsonLd,
+  getAlternates,
+  getOgLocale,
+  localePath,
+} from "@/lib/seo";
 
 const GUIDES_PATH = "/navody";
 
@@ -65,31 +71,13 @@ export default async function GuidesPage({ params }: Props) {
     },
   ];
 
-  const breadcrumbLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: tNav("home"),
-        item: localePath(locale, "/"),
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: t("h1"),
-        item: localePath(locale, GUIDES_PATH),
-      },
-    ],
-  };
-
   return (
     <div className="flex-1 pt-5 sm:pt-8 md:pt-16">
-      <script
-        // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD structured data requires script injection
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
-        type="application/ld+json"
+      <JsonLdScript
+        data={breadcrumbJsonLd(locale, tNav("home"), {
+          name: t("h1"),
+          path: GUIDES_PATH,
+        })}
       />
       <div className="mx-auto max-w-4xl">
         <h1 className="font-bold font-pixel text-foreground text-lg tracking-wide sm:text-xl">

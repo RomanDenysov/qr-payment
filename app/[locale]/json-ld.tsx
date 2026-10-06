@@ -1,4 +1,5 @@
 import { getLocale, getTranslations } from "next-intl/server";
+import { JsonLdScript } from "@/components/json-ld";
 import { localePath } from "@/lib/seo";
 
 export async function JsonLd() {
@@ -53,11 +54,5 @@ export async function JsonLd() {
     ],
   };
 
-  return (
-    <script
-      // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD structured data requires script injection
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      type="application/ld+json"
-    />
-  );
+  return <JsonLdScript data={jsonLd} />;
 }

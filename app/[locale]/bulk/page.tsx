@@ -1,4 +1,5 @@
 import { getTranslations } from "next-intl/server";
+import { JsonLdScript } from "@/components/json-ld";
 import {
   Card,
   CardContent,
@@ -8,7 +9,12 @@ import {
 import { linkVariants } from "@/components/ui/link";
 import { BulkContent } from "@/features/bulk/components/bulk-content";
 import { Link } from "@/i18n/navigation";
-import { getAlternates, getOgLocale, localePath } from "@/lib/seo";
+import {
+  breadcrumbJsonLd,
+  getAlternates,
+  getOgLocale,
+  localePath,
+} from "@/lib/seo";
 
 export async function generateMetadata({
   params,
@@ -41,25 +47,6 @@ export default async function Page({
   const tMeta = await getTranslations({ locale, namespace: "Metadata" });
   const t_nav = await getTranslations({ locale, namespace: "Nav" });
 
-  const breadcrumbLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: t_nav("home"),
-        item: localePath(locale, "/"),
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: tMeta("bulkTitle"),
-        item: localePath(locale, "/bulk"),
-      },
-    ],
-  };
-
   return (
     <div className="flex-1 pt-5 sm:pt-8 md:pt-16">
       <div className="mx-auto max-w-2xl space-y-6">
@@ -81,11 +68,11 @@ export default async function Page({
         </div>
       </div>
 
-      {/* JSON-LD structured data - hardcoded content, safe to inject */}
-      <script
-        // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD structured data from hardcoded content
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
-        type="application/ld+json"
+      <JsonLdScript
+        data={breadcrumbJsonLd(locale, t_nav("home"), {
+          name: tMeta("bulkTitle"),
+          path: "/bulk",
+        })}
       />
     </div>
   );
