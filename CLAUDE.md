@@ -183,7 +183,7 @@ Then follow "API Changes" below.
 
 `proxy.ts` picks the locale by country before browser language. Visitors from SK get `sk` and visitors from CZ get `cs`, read from the `x-vercel-ip-country` header. Everyone else falls back to next-intl's `Accept-Language` detection. A locale prefix in the URL or a `NEXT_LOCALE` cookie always wins.
 
-Routes are listed in `pathnames` in `i18n/routing.ts`, so `Link` hrefs are typed. A new page needs an entry there, and may give each locale its own slug (the two SEO landing pages do). `localePath` in `lib/seo.ts` resolves the localized slug for canonical and hreflang URLs.
+Routes are listed in `pathnames` in `i18n/routing.ts`, so `Link` hrefs are typed. A new page needs an entry there, and may give each locale its own slug (the SEO landing pages and the QR reader do). `localePath` in `lib/seo.ts` resolves the localized slug for canonical and hreflang URLs.
 
 Pages are prerendered per locale. `app/[locale]/layout.tsx` is the root layout and `i18n/request.ts` reads the locale from `next/root-params`, so there is no `setRequestLocale`. Don't add an `app/layout.tsx` above it and don't call `headers()` or `cookies()` in shared layouts: either one turns every page dynamic. Route handlers and server actions can't read root params, so pass the locale explicitly there (`getTranslations({ locale })`).
 
