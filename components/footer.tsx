@@ -69,6 +69,11 @@ export function Footer() {
               </Link>
             </li>
             <li>
+              <Link className={LINK_CLASS} href="/citacka-qr-platby">
+                {t("reader")}
+              </Link>
+            </li>
+            <li>
               <Link className={LINK_CLASS} href="/studio">
                 {tHome("section4StudioLink")}
               </Link>

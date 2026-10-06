@@ -42,3 +42,47 @@ export function getAlternates(locale: string, path = "") {
     },
   };
 }
+
+export interface FaqItem {
+  question: string;
+  answer: string;
+}
+
+/** schema.org FAQPage for a page's question list. */
+export function faqPageJsonLd(items: FaqItem[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: items.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: { "@type": "Answer", text: item.answer },
+    })),
+  };
+}
+
+/** schema.org BreadcrumbList for a page one level below home. */
+export function breadcrumbJsonLd(
+  locale: string,
+  homeName: string,
+  page: { name: string; path: string }
+) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: homeName,
+        item: localePath(locale, "/"),
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: page.name,
+        item: localePath(locale, page.path),
+      },
+    ],
+  };
+}

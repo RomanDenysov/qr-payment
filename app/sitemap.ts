@@ -31,6 +31,11 @@ const pages: SitemapPage[] = [
     changeFrequency: "monthly",
     priority: 0.8,
   },
+  {
+    path: "/citacka-qr-platby",
+    changeFrequency: "monthly",
+    priority: 0.8,
+  },
   { path: "/docs", changeFrequency: "monthly", priority: 0.7 },
   {
     path: "/changelog",
