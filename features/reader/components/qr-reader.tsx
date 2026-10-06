@@ -1,9 +1,15 @@
 "use client";
 
-import { IconPhotoScan, IconUpload } from "@tabler/icons-react";
+import {
+  IconCheck,
+  IconCopy,
+  IconPhotoScan,
+  IconUpload,
+} from "@tabler/icons-react";
 import { track } from "@vercel/analytics";
 import { useTranslations } from "next-intl";
 import { useEffect, useEffectEvent, useRef, useState } from "react";
+import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -18,6 +24,7 @@ import { FORMAT_LABELS } from "@/features/payment/format";
 import type { PaymentFormData } from "@/features/payment/schema";
 import { usePaymentActions } from "@/features/payment/store";
 import { useRouter } from "@/i18n/navigation";
+import { useCopyState } from "@/lib/hooks/use-copy-state";
 import { cn, formatAmount } from "@/lib/utils";
 import { type DecodeWarning, decodePayload } from "../decode-payload";
 import { readQrFromImage } from "../read-qr-image";
@@ -184,7 +191,6 @@ function ReaderResult({ state }: { state: ReaderState }) {
 
   const { payment, warnings } = state;
   const rows: [string, string | undefined][] = [
-    ["IBAN", payment.iban],
     ["BIC", payment.bic],
     [
       tForm("amount"),
@@ -221,6 +227,13 @@ function ReaderResult({ state }: { state: ReaderState }) {
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
         <dl className="space-y-2">
+          <div className="flex items-center justify-between gap-4">
+            <dt className="shrink-0 text-muted-foreground text-xs">IBAN</dt>
+            <dd className="flex items-center gap-1 break-all text-right font-medium text-sm">
+              {payment.iban}
+              <CopyIbanButton iban={payment.iban} />
+            </dd>
+          </div>
           {rows.map(([label, value]) =>
             value ? (
               <div className="flex justify-between gap-4" key={label}>
@@ -245,5 +258,36 @@ function ReaderResult({ state }: { state: ReaderState }) {
         <p className="text-muted-foreground text-xs">{t("openHint")}</p>
       </CardContent>
     </Card>
+  );
+}
+
+function CopyIbanButton({ iban }: { iban: string }) {
+  const t = useTranslations("SharePage");
+  const { copied, trigger } = useCopyState();
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(iban);
+      trigger();
+      toast.success(t("copied"));
+    } catch (error) {
+      console.error("[QrReader] Failed to copy IBAN", error);
+      toast.error(t("copyFailed"));
+    }
+  };
+
+  return (
+    <button
+      aria-label={t("copyIban")}
+      className="inline-flex size-6 shrink-0 items-center justify-center text-muted-foreground hover:text-foreground"
+      onClick={handleCopy}
+      type="button"
+    >
+      {copied ? (
+        <IconCheck className="size-3.5" />
+      ) : (
+        <IconCopy className="size-3.5" />
+      )}
+    </button>
   );
 }
