@@ -1,4 +1,5 @@
 import { getTranslations } from "next-intl/server";
+import { JsonLd } from "@/components/json-ld";
 import {
   Accordion,
   AccordionContent,
@@ -9,7 +10,14 @@ import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Link } from "@/i18n/navigation";
-import { getAlternates, getOgLocale, localePath } from "@/lib/seo";
+import {
+  breadcrumbJsonLd,
+  type FaqItem,
+  faqPageJsonLd,
+  getAlternates,
+  getOgLocale,
+  localePath,
+} from "@/lib/seo";
 
 const GUIDE_PATH = "/ako-vytvorit-qr-kod-na-platbu";
 
@@ -25,11 +33,6 @@ interface GuideFormat {
   name: string;
   region: string;
   description: string;
-}
-
-interface GuideFaqItem {
-  question: string;
-  answer: string;
 }
 
 interface Props {
@@ -62,7 +65,7 @@ export default async function GuidePage({ params }: Props) {
 
   const steps = t.raw("steps") as GuideStep[];
   const formats = t.raw("formats") as GuideFormat[];
-  const faqItems = t.raw("faq") as GuideFaqItem[];
+  const faqItems = t.raw("faq") as FaqItem[];
 
   const howToLd = {
     "@context": "https://schema.org",
@@ -79,51 +82,15 @@ export default async function GuidePage({ params }: Props) {
     })),
   };
 
-  const faqLd = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: faqItems.map((item) => ({
-      "@type": "Question",
-      name: item.question,
-      acceptedAnswer: { "@type": "Answer", text: item.answer },
-    })),
-  };
-
-  const breadcrumbLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: tNav("home"),
-        item: localePath(locale, "/"),
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: t("h1"),
-        item: localePath(locale, GUIDE_PATH),
-      },
-    ],
-  };
-
   return (
     <div className="flex-1 pt-5 sm:pt-8 md:pt-16">
-      <script
-        // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD structured data requires script injection
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(howToLd) }}
-        type="application/ld+json"
-      />
-      <script
-        // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD structured data requires script injection
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
-        type="application/ld+json"
-      />
-      <script
-        // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD structured data requires script injection
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
-        type="application/ld+json"
+      <JsonLd data={howToLd} />
+      <JsonLd data={faqPageJsonLd(faqItems)} />
+      <JsonLd
+        data={breadcrumbJsonLd(locale, tNav("home"), {
+          name: t("h1"),
+          path: GUIDE_PATH,
+        })}
       />
       <div className="mx-auto max-w-4xl">
         <h1 className={SECTION_HEADING_CLASS}>{t("h1")}</h1>

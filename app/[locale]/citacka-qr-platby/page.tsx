@@ -1,4 +1,5 @@
 import { getTranslations } from "next-intl/server";
+import { JsonLd } from "@/components/json-ld";
 import {
   Accordion,
   AccordionContent,
@@ -6,17 +7,19 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { QrReader } from "@/features/reader/components/qr-reader";
-import { getAlternates, getOgLocale, localePath } from "@/lib/seo";
+import {
+  breadcrumbJsonLd,
+  type FaqItem,
+  faqPageJsonLd,
+  getAlternates,
+  getOgLocale,
+  localePath,
+} from "@/lib/seo";
 
 const READER_PATH = "/citacka-qr-platby";
 
 const SECTION_HEADING_CLASS =
   "font-bold font-pixel text-foreground text-lg tracking-wide sm:text-xl";
-
-interface ReaderFaqItem {
-  question: string;
-  answer: string;
-}
 
 interface Props {
   params: Promise<{ locale: string }>;
@@ -46,48 +49,16 @@ export default async function ReaderPage({ params }: Props) {
   const t = await getTranslations({ locale, namespace: "Reader" });
   const tNav = await getTranslations({ locale, namespace: "Nav" });
 
-  const faqItems = t.raw("faq") as ReaderFaqItem[];
-
-  const faqLd = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: faqItems.map((item) => ({
-      "@type": "Question",
-      name: item.question,
-      acceptedAnswer: { "@type": "Answer", text: item.answer },
-    })),
-  };
-
-  const breadcrumbLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: tNav("home"),
-        item: localePath(locale, "/"),
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: t("h1"),
-        item: localePath(locale, READER_PATH),
-      },
-    ],
-  };
+  const faqItems = t.raw("faq") as FaqItem[];
 
   return (
     <div className="flex-1 pt-5 sm:pt-8 md:pt-16">
-      <script
-        // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD structured data requires script injection
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
-        type="application/ld+json"
-      />
-      <script
-        // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD structured data requires script injection
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
-        type="application/ld+json"
+      <JsonLd data={faqPageJsonLd(faqItems)} />
+      <JsonLd
+        data={breadcrumbJsonLd(locale, tNav("home"), {
+          name: t("h1"),
+          path: READER_PATH,
+        })}
       />
       <div className="mx-auto max-w-4xl">
         <h1 className={SECTION_HEADING_CLASS}>{t("h1")}</h1>

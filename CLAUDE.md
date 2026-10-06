@@ -90,7 +90,7 @@ lib/api/                  # API utilities
   stats.ts                # Usage counters in Upstash Redis (increment + read)
   cors.ts                 # CORS headers
 lib/utils.ts              # Utility functions (cn, maskIban)
-lib/seo.ts                # SEO utilities (canonical, hreflang alternates)
+lib/seo.ts                # SEO utilities (canonical, hreflang alternates, FAQPage + BreadcrumbList JSON-LD; render with components/json-ld.tsx)
 env.ts                    # T3 env validation
 messages/{sk,en,cs}.json  # Translation files (namespaced keys)
 docs/

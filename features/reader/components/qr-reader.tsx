@@ -1,10 +1,11 @@
 "use client";
 
-import { IconPhotoScan, IconUpload } from "@tabler/icons-react";
+import { IconPhotoScan } from "@tabler/icons-react";
 import { track } from "@vercel/analytics";
 import { useTranslations } from "next-intl";
-import { useEffect, useEffectEvent, useRef, useState } from "react";
+import { useEffect, useEffectEvent, useState } from "react";
 import { CopyIbanButton } from "@/components/copy-iban-button";
+import { FileDropzone } from "@/components/file-dropzone";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -20,7 +21,7 @@ import { FORMAT_LABELS } from "@/features/payment/format";
 import type { PaymentFormData } from "@/features/payment/schema";
 import { usePaymentActions } from "@/features/payment/store";
 import { useRouter } from "@/i18n/navigation";
-import { cn, formatAmount } from "@/lib/utils";
+import { formatAmount } from "@/lib/utils";
 import { type DecodeWarning, decodePayload } from "../decode-payload";
 import { readQrFromImage } from "../read-qr-image";
 
@@ -38,8 +39,6 @@ export function QrReader() {
   const t = useTranslations("Reader");
   const [state, setState] = useState<ReaderState>({ status: "idle" });
   const [text, setText] = useState("");
-  const [dragging, setDragging] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
 
   const fail = (error: ReadError, source: Source) => {
     setState({ status: "error", error });
@@ -92,47 +91,13 @@ export function QrReader() {
   return (
     <div className="grid gap-6 md:grid-cols-2">
       <div className="flex flex-col gap-4">
-        <button
-          className={cn(
-            "flex w-full cursor-pointer flex-col items-center justify-center gap-3 border-2 border-dashed p-8 transition-colors",
-            dragging
-              ? "border-primary bg-primary/5"
-              : "border-muted-foreground/25 hover:border-muted-foreground/50"
-          )}
-          onClick={() => inputRef.current?.click()}
-          onDragLeave={() => setDragging(false)}
-          onDragOver={(e) => {
-            e.preventDefault();
-            setDragging(true);
-          }}
-          onDrop={(e) => {
-            e.preventDefault();
-            setDragging(false);
-            handleImage(e.dataTransfer.files[0]);
-          }}
-          type="button"
-        >
-          <div className="flex items-center gap-2 text-muted-foreground">
-            <IconPhotoScan className="size-8" />
-            <IconUpload className="size-5" />
-          </div>
-          <div className="text-center text-sm">
-            <p className="font-medium">{t("uploadTitle")}</p>
-            <p className="text-muted-foreground text-xs">
-              {t("uploadDescription")}
-            </p>
-          </div>
-          <input
-            accept="image/*"
-            className="hidden"
-            onChange={(e) => {
-              handleImage(e.target.files?.[0]);
-              e.target.value = "";
-            }}
-            ref={inputRef}
-            type="file"
-          />
-        </button>
+        <FileDropzone
+          accept="image/*"
+          description={t("uploadDescription")}
+          icon={<IconPhotoScan className="size-8" />}
+          onFile={handleImage}
+          title={t("uploadTitle")}
+        />
 
         <form
           className="flex flex-col gap-2"
