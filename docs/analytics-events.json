@@ -82,7 +82,8 @@
       "description": "User read a QR code on the reader page. Payment values are never sent",
       "properties": {
         "source": "image | text",
-        "format": "bysquare | epc | spayd | none (no QR found or not a payment code)"
+        "format": "bysquare | epc | spayd | none (reading failed)",
+        "error": "noQr | notPayment | readFailed, only when format is none"
       },
       "source": "features/reader/components/qr-reader.tsx"
     },

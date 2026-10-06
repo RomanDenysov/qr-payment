@@ -1,7 +1,7 @@
 /// <reference types="bun" />
 
 import { expect, test } from "bun:test";
-import { CurrencyCode } from "bysquare/pay";
+import { CurrencyCode, encode, PaymentOptions } from "bysquare/pay";
 import { buildQrPayload } from "@/features/payment/qr-payload";
 import { decodePayload } from "./decode-payload";
 
@@ -96,7 +96,7 @@ test("EPC round-trips and keeps a structured reference", () => {
     "BCD\r\n002\r\n1\r\nSCT\r\n\r\nMax\r\nDE89370400440532013000\r\nUSD5\r\n\r\nRF18539007547034";
   expect(decodePayload(structured)).toMatchObject({
     ok: true,
-    warnings: ["unsupportedCurrency"],
+    warnings: ["structuredReference", "unsupportedCurrency"],
     payment: { paymentNote: "RF18539007547034", amount: 5 },
   });
 });
@@ -111,5 +111,57 @@ test("flags an IBAN with a wrong checksum", () => {
   expect(decodePayload(spayd)).toMatchObject({
     ok: true,
     warnings: ["invalidIban"],
+  });
+});
+
+test("shows the first of several payments and flags a standing order", () => {
+  const account = { bankAccounts: [{ iban: IBAN }], currencyCode: "EUR" };
+  const payload = encode({
+    payments: [
+      {
+        ...account,
+        type: PaymentOptions.StandingOrder,
+        amount: 10,
+        day: 1,
+        periodicity: "m",
+        beneficiary: { name: "A" },
+      },
+      {
+        ...account,
+        type: PaymentOptions.PaymentOrder,
+        amount: 20,
+        beneficiary: { name: "B" },
+      },
+    ],
+  });
+  expect(decodePayload(payload)).toMatchObject({
+    ok: true,
+    warnings: ["multiplePayments", "notPaymentOrder"],
+    payment: { amount: 10, recipientName: "A" },
+  });
+});
+
+test("tolerates sloppy SPAYD and EPC writers", () => {
+  expect(
+    decodePayload("spd*1.0*acc:CZ6508000000192000145399*am:1,50*cc:czk")
+  ).toMatchObject({
+    ok: true,
+    payment: { amount: 1.5, currency: "CZK" },
+  });
+  expect(
+    decodePayload(
+      "BCD\n002\n1\nSCT\n\nMax \nDE89370400440532013000 \nEUR10.00 "
+    )
+  ).toMatchObject({
+    ok: true,
+    warnings: [],
+    payment: {
+      amount: 10,
+      recipientName: "Max",
+      iban: "DE89370400440532013000",
+    },
+  });
+  expect(decodePayload("SPD*1.0*ACC:CZ6508000000192000145399*AM:abc")).toEqual({
+    ok: false,
   });
 });

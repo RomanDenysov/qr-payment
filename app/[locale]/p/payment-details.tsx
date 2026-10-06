@@ -1,8 +1,8 @@
 import { useTranslations } from "next-intl";
+import { CopyIbanButton } from "@/components/copy-iban-button";
 import { Badge } from "@/components/ui/badge";
 import type { PaymentFormData } from "@/features/payment/schema";
 import { formatAmount, maskIban } from "@/lib/utils";
-import { CopyIbanButton } from "./copy-iban-button";
 
 function PaymentField({ label, value }: { label: string; value: string }) {
   return (

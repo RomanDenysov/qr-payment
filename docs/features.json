@@ -313,7 +313,7 @@
       "category": "core",
       "i18nNamespace": "Reader",
       "clientSide": true,
-      "description": "Decodes a payment QR from an uploaded, dropped or pasted image (jsQR) or from its text, for PAY by square, SPAYD and EPC. Shows the payment with warnings (bad IBAN checksum, several payments, standing order, unsupported currency) and opens it in the generator form. Runs in the browser only. Localized slugs: /cs/ctecka-qr-plateb, /en/payment-qr-code-reader."
+      "description": "Decodes a payment QR from an uploaded, dropped or pasted image (jsQR) or from its text, for PAY by square, SPAYD and EPC. Shows the payment with warnings (bad IBAN checksum, several payments, standing order, EPC structured reference, unsupported currency) and opens it in the generator form. Runs in the browser only. Localized slugs: /cs/ctecka-qr-plateb, /en/payment-qr-code-reader."
     },
     {
       "name": "Community Banner",

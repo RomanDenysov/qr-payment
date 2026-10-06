@@ -122,6 +122,8 @@ export type PaymentFormData = z.infer<
   ReturnType<typeof createPaymentFormSchema>
 >;
 
+export type Currency = NonNullable<PaymentFormData["currency"]>;
+
 export type PaymentRecord = PaymentFormData & {
   id: string;
   createdAt: string;

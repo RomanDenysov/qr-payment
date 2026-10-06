@@ -1,32 +1,34 @@
 import { decode, PaymentOptions } from "bysquare/pay";
 import { electronicFormatIBAN, isValidIBAN } from "ibantools";
-import type { PaymentFormat } from "@/features/payment/format";
-import type { PaymentFormData } from "@/features/payment/schema";
+import type { Currency, PaymentFormData } from "@/features/payment/schema";
 
 /** Something in the code that the payment form cannot carry over as is. */
 export type DecodeWarning =
   | "invalidIban"
   | "multiplePayments"
   | "notPaymentOrder"
+  | "structuredReference"
   | "unsupportedCurrency";
 
 export type DecodeResult =
   | { ok: true; payment: PaymentFormData; warnings: DecodeWarning[] }
   | { ok: false };
 
+/** What a format decoder reads, before the currency is fitted to the form. */
+interface Decoded {
+  payment: Omit<PaymentFormData, "currency">;
+  currency: string;
+  warnings: DecodeWarning[];
+}
+
 const COMPACT_DATE_RE = /^(\d{4})(\d{2})(\d{2})$/;
 const EPC_AMOUNT_RE = /^([A-Z]{3})(\d+(?:\.\d{1,2})?)$/;
 const LINE_BREAK_RE = /\r?\n/;
+const SPAYD_PREFIX_RE = /^SPD\*/i;
+const FORM_CURRENCIES: readonly string[] = ["EUR", "CZK"] satisfies Currency[];
 
-type Currency = NonNullable<PaymentFormData["currency"]>;
-
-/** The form only knows EUR and CZK; anything else falls back to EUR with a warning. */
-function toCurrency(code: string | undefined, warnings: DecodeWarning[]) {
-  if (code === "EUR" || code === "CZK") {
-    return code satisfies Currency;
-  }
-  warnings.push("unsupportedCurrency");
-  return "EUR" satisfies Currency;
+function isFormCurrency(code: string): code is Currency {
+  return FORM_CURRENCIES.includes(code);
 }
 
 /** `YYYYMMDD` (bysquare, SPAYD) to the form's `YYYY-MM-DD`. */
@@ -35,11 +37,11 @@ function toIsoDate(compact: string | undefined): string | undefined {
   return match ? `${match[1]}-${match[2]}-${match[3]}` : undefined;
 }
 
-function decodeBysquare(text: string): DecodeResult {
+function decodeBysquare(text: string): Decoded | null {
   const model = decode(text);
   const [first] = model.payments;
   if (!first) {
-    return { ok: false };
+    return null;
   }
   const warnings: DecodeWarning[] = [];
   if (model.payments.length > 1) {
@@ -50,11 +52,10 @@ function decodeBysquare(text: string): DecodeResult {
   }
   const account = first.bankAccounts[0];
   return {
-    ok: true,
+    currency: first.currencyCode,
     warnings,
     payment: {
       format: "bysquare",
-      currency: toCurrency(first.currencyCode, warnings),
       iban: account?.iban ?? "",
       bic: account?.bic,
       amount: first.amount ?? 0,
@@ -80,13 +81,17 @@ function unescapeSpayd(value: string): string {
   }
 }
 
-/** Short Payment Descriptor: `SPD*1.0*ACC:CZ...+BIC*AM:100.00*CC:CZK*...`. */
-function decodeSpayd(text: string): DecodeResult {
+/**
+ * Short Payment Descriptor: `SPD*1.0*ACC:CZ...+BIC*AM:100.00*CC:CZK*...`.
+ * Keys are matched in any case and a decimal comma is accepted, as some
+ * generators write them.
+ */
+function decodeSpayd(text: string): Decoded | null {
   const fields = new Map<string, string>();
   for (const part of text.split("*").slice(2)) {
     const colon = part.indexOf(":");
     if (colon > 0) {
-      fields.set(part.slice(0, colon), part.slice(colon + 1));
+      fields.set(part.slice(0, colon).toUpperCase(), part.slice(colon + 1));
     }
   }
   const get = (key: string) => {
@@ -95,20 +100,19 @@ function decodeSpayd(text: string): DecodeResult {
   };
 
   const acc = fields.get("ACC");
-  if (!acc) {
-    return { ok: false };
+  const amount = Number(get("AM")?.replace(",", ".") ?? 0);
+  if (!acc || Number.isNaN(amount)) {
+    return null;
   }
   const [iban, bic] = acc.split("+").map(unescapeSpayd);
-  const warnings: DecodeWarning[] = [];
   return {
-    ok: true,
-    warnings,
+    currency: get("CC")?.toUpperCase() ?? "CZK",
+    warnings: [],
     payment: {
       format: "spayd",
-      currency: toCurrency(get("CC") ?? "CZK", warnings),
       iban,
       bic,
-      amount: Number(get("AM") ?? 0),
+      amount,
       variableSymbol: get("X-VS"),
       specificSymbol: get("X-SS"),
       constantSymbol: get("X-KS"),
@@ -116,47 +120,51 @@ function decodeSpayd(text: string): DecodeResult {
       paymentNote: get("MSG"),
       paymentDueDate: toIsoDate(get("DT")),
       spaydReference: get("RF"),
-      instantPayment: get("PT") === "IP" || undefined,
+      instantPayment: get("PT")?.toUpperCase() === "IP" || undefined,
     },
   };
 }
 
 /** EPC QR: 12 fixed lines starting with `BCD`, trailing empty lines may be cut. */
-function decodeEpc(text: string): DecodeResult {
-  const lines = text.split(LINE_BREAK_RE);
+function decodeEpc(text: string): Decoded | null {
+  const lines = text.split(LINE_BREAK_RE).map((line) => line.trim());
   const [, , , , bic, name, iban, amountLine, purpose, reference, remittance] =
     lines;
-  if (!iban) {
-    return { ok: false };
-  }
   const amountMatch = amountLine?.match(EPC_AMOUNT_RE);
-  const warnings: DecodeWarning[] = [];
+  if (!iban || (amountLine && !amountMatch)) {
+    return null;
+  }
   return {
-    ok: true,
-    warnings,
+    currency: amountMatch?.[1] ?? "EUR",
+    // The form has one free-text reference field and the encoder writes it
+    // unstructured, so a creditor reference (RF...) loses its type.
+    warnings: reference ? ["structuredReference"] : [],
     payment: {
       format: "epc",
-      currency: toCurrency(amountMatch?.[1] ?? "EUR", warnings),
       iban,
       bic: bic || undefined,
       amount: amountMatch ? Number(amountMatch[2]) : 0,
       recipientName: name || undefined,
-      // The form has one reference field; a structured creditor reference
-      // (RF...) takes it when the free-text one is empty.
       paymentNote: remittance || reference || undefined,
       purposeCode: purpose || undefined,
     },
   };
 }
 
-export function detectFormat(text: string): PaymentFormat {
-  if (text.startsWith("SPD*")) {
-    return "spayd";
+function decodeByFormat(text: string): Decoded | null {
+  if (SPAYD_PREFIX_RE.test(text)) {
+    return decodeSpayd(text);
   }
   if (LINE_BREAK_RE.test(text) && text.startsWith("BCD")) {
-    return "epc";
+    return decodeEpc(text);
   }
-  return "bysquare";
+  try {
+    return decodeBysquare(text);
+  } catch {
+    // Untrusted input: not base32hex, a bad checksum or no LZMA body all mean
+    // it is not a PAY by square code. bysquare does not export its error types.
+    return null;
+  }
 }
 
 /**
@@ -165,39 +173,28 @@ export function detectFormat(text: string): PaymentFormat {
  * the server.
  */
 export function decodePayload(raw: string): DecodeResult {
-  const text = raw.trim();
-  if (!text) {
+  const decoded = decodeByFormat(raw.trim());
+  if (!decoded) {
     return { ok: false };
   }
-  const result = decodeByFormat(text);
-  if (!result.ok) {
-    return result;
+  const warnings = [...decoded.warnings];
+  const electronic = electronicFormatIBAN(decoded.payment.iban);
+  if (!(electronic && isValidIBAN(electronic))) {
+    warnings.unshift("invalidIban");
+  }
+  // The form only knows EUR and CZK.
+  let currency: Currency = "EUR";
+  if (isFormCurrency(decoded.currency)) {
+    currency = decoded.currency;
+  } else {
+    warnings.push("unsupportedCurrency");
   }
   // The form resets from this object, and an explicit undefined would replace
   // its "" defaults.
   const payment = Object.fromEntries(
-    Object.entries(result.payment).filter(([, value]) => value !== undefined)
+    Object.entries({ ...decoded.payment, currency }).filter(
+      ([, value]) => value !== undefined
+    )
   ) as PaymentFormData;
-  const electronic = electronicFormatIBAN(payment.iban);
-  const warnings: DecodeWarning[] =
-    electronic && isValidIBAN(electronic)
-      ? result.warnings
-      : ["invalidIban", ...result.warnings];
   return { ok: true, payment, warnings };
-}
-
-function decodeByFormat(text: string): DecodeResult {
-  const format = detectFormat(text);
-  if (format === "spayd") {
-    return decodeSpayd(text);
-  }
-  if (format === "epc") {
-    return decodeEpc(text);
-  }
-  try {
-    return decodeBysquare(text);
-  } catch {
-    // Not base32hex, bad checksum or not LZMA: not a PAY by square code.
-    return { ok: false };
-  }
 }

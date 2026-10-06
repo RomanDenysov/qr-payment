@@ -636,6 +636,7 @@
       "invalidIban": "IBAN nesedí kontrolním součtem. Dokud ho neověříte u příjemce, neplaťte.",
       "multiplePayments": "Kód obsahuje více plateb. Zobrazena je jen první.",
       "notPaymentOrder": "Jde o trvalý příkaz nebo inkaso. Generátor vytváří jen jednorázové platby.",
+      "structuredReference": "Strukturovaná reference (RF...) je přesunuta do poznámky. Nový kód ji ponese jako obyčejný text.",
       "unsupportedCurrency": "Měna není EUR ani CZK. Generátor ji změní na EUR."
     },
     "resultTitle": "Platba",

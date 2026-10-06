@@ -1,15 +1,10 @@
 "use client";
 
-import {
-  IconCheck,
-  IconCopy,
-  IconPhotoScan,
-  IconUpload,
-} from "@tabler/icons-react";
+import { IconPhotoScan, IconUpload } from "@tabler/icons-react";
 import { track } from "@vercel/analytics";
 import { useTranslations } from "next-intl";
 import { useEffect, useEffectEvent, useRef, useState } from "react";
-import { toast } from "sonner";
+import { CopyIbanButton } from "@/components/copy-iban-button";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -19,19 +14,21 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { FORMAT_LABELS } from "@/features/payment/format";
 import type { PaymentFormData } from "@/features/payment/schema";
 import { usePaymentActions } from "@/features/payment/store";
 import { useRouter } from "@/i18n/navigation";
-import { useCopyState } from "@/lib/hooks/use-copy-state";
 import { cn, formatAmount } from "@/lib/utils";
 import { type DecodeWarning, decodePayload } from "../decode-payload";
 import { readQrFromImage } from "../read-qr-image";
 
+type ReadError = "noQr" | "notPayment" | "readFailed";
+
 type ReaderState =
   | { status: "idle" | "reading" }
-  | { status: "error"; error: "noQr" | "notPayment" | "readFailed" }
+  | { status: "error"; error: ReadError }
   | { status: "done"; payment: PaymentFormData; warnings: DecodeWarning[] };
 
 type Source = "image" | "text";
@@ -44,17 +41,19 @@ export function QrReader() {
   const [dragging, setDragging] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const fail = (error: ReadError, source: Source) => {
+    setState({ status: "error", error });
+    track("qr_decoded", { source, format: "none", error });
+  };
+
   const showDecoded = (decoded: string, source: Source) => {
     const result = decodePayload(decoded);
-    setState(
-      result.ok
-        ? { status: "done", ...result }
-        : { status: "error", error: "notPayment" }
-    );
-    track("qr_decoded", {
-      source,
-      format: result.ok ? result.payment.format : "none",
-    });
+    if (!result.ok) {
+      fail("notPayment", source);
+      return;
+    }
+    setState({ status: "done", ...result });
+    track("qr_decoded", { source, format: result.payment.format });
   };
 
   const handleImage = async (file: File | undefined) => {
@@ -67,13 +66,13 @@ export function QrReader() {
       if (decoded) {
         showDecoded(decoded, "image");
       } else {
-        setState({ status: "error", error: "noQr" });
-        track("qr_decoded", { source: "image", format: "none" });
+        fail("noQr", "image");
       }
     } catch (error) {
-      // createImageBitmap rejects formats the browser cannot open (e.g. HEIC).
+      // The browser cannot open the file (HEIC on desktop, a broken image),
+      // or jsQR failed to load.
       console.error("[QrReader] Failed to read image", error);
-      setState({ status: "error", error: "readFailed" });
+      fail("readFailed", "image");
     }
   };
 
@@ -142,9 +141,9 @@ export function QrReader() {
             showDecoded(text, "text");
           }}
         >
-          <label className="text-muted-foreground text-sm" htmlFor="qr-text">
+          <Label className="text-muted-foreground text-sm" htmlFor="qr-text">
             {t("textLabel")}
-          </label>
+          </Label>
           <Textarea
             className="min-h-24 font-mono text-xs"
             id="qr-text"
@@ -258,36 +257,5 @@ function ReaderResult({ state }: { state: ReaderState }) {
         <p className="text-muted-foreground text-xs">{t("openHint")}</p>
       </CardContent>
     </Card>
-  );
-}
-
-function CopyIbanButton({ iban }: { iban: string }) {
-  const t = useTranslations("SharePage");
-  const { copied, trigger } = useCopyState();
-
-  const handleCopy = async () => {
-    try {
-      await navigator.clipboard.writeText(iban);
-      trigger();
-      toast.success(t("copied"));
-    } catch (error) {
-      console.error("[QrReader] Failed to copy IBAN", error);
-      toast.error(t("copyFailed"));
-    }
-  };
-
-  return (
-    <button
-      aria-label={t("copyIban")}
-      className="inline-flex size-6 shrink-0 items-center justify-center text-muted-foreground hover:text-foreground"
-      onClick={handleCopy}
-      type="button"
-    >
-      {copied ? (
-        <IconCheck className="size-3.5" />
-      ) : (
-        <IconCopy className="size-3.5" />
-      )}
-    </button>
   );
 }

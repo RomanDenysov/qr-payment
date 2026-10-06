@@ -636,6 +636,7 @@
       "invalidIban": "The IBAN fails its checksum. Do not pay until you check it with the recipient.",
       "multiplePayments": "The code holds several payments. Only the first one is shown.",
       "notPaymentOrder": "This is a standing order or a direct debit. The generator makes one-off payments only.",
+      "structuredReference": "The structured reference (RF...) is moved into the note. A new code carries it as plain text.",
       "unsupportedCurrency": "The currency is not EUR or CZK. The generator switches it to EUR."
     },
     "resultTitle": "Payment",

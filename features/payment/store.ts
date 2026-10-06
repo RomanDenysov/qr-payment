@@ -2,9 +2,7 @@ import { electronicFormatIBAN } from "ibantools";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { PaymentFormat } from "./format";
-import type { PaymentFormData, PaymentRecord } from "./schema";
-
-type Currency = "EUR" | "CZK";
+import type { Currency, PaymentFormData, PaymentRecord } from "./schema";
 
 interface PaymentHistoryState {
   current: PaymentRecord | null;
