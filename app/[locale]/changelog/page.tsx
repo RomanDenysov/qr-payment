@@ -1,4 +1,5 @@
 import { getTranslations } from "next-intl/server";
+import { JsonLdScript } from "@/components/json-ld";
 import { Badge } from "@/components/ui/badge";
 import { linkVariants } from "@/components/ui/link";
 import { Separator } from "@/components/ui/separator";
@@ -8,7 +9,12 @@ import {
   getChangelogData,
 } from "@/features/changelog/data";
 import { Link } from "@/i18n/navigation";
-import { getAlternates, getOgLocale, localePath } from "@/lib/seo";
+import {
+  breadcrumbJsonLd,
+  getAlternates,
+  getOgLocale,
+  localePath,
+} from "@/lib/seo";
 
 const BADGE_VARIANT: Record<
   ChangelogCategory,
@@ -69,25 +75,6 @@ export default async function ChangelogPage({ params }: Props) {
   const entries = getChangelogData(locale);
   const dateFormatter = new Intl.DateTimeFormat(locale, { dateStyle: "long" });
 
-  const breadcrumbLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: tNav("home"),
-        item: localePath(locale, "/"),
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: tMeta("changelogTitle"),
-        item: localePath(locale, "/changelog"),
-      },
-    ],
-  };
-
   const itemListLd = {
     "@context": "https://schema.org",
     "@type": "ItemList",
@@ -136,16 +123,13 @@ export default async function ChangelogPage({ params }: Props) {
           </Link>
         </div>
 
-        <script
-          // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD structured data from hardcoded content
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
-          type="application/ld+json"
+        <JsonLdScript
+          data={breadcrumbJsonLd(locale, tNav("home"), {
+            name: tMeta("changelogTitle"),
+            path: "/changelog",
+          })}
         />
-        <script
-          // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD structured data from hardcoded content
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListLd) }}
-          type="application/ld+json"
-        />
+        <JsonLdScript data={itemListLd} />
       </div>
     </div>
   );

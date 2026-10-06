@@ -1,7 +1,13 @@
 import { getTranslations } from "next-intl/server";
+import { JsonLdScript } from "@/components/json-ld";
 import { linkVariants } from "@/components/ui/link";
 import { Link } from "@/i18n/navigation";
-import { getAlternates, getOgLocale, localePath } from "@/lib/seo";
+import {
+  breadcrumbJsonLd,
+  getAlternates,
+  getOgLocale,
+  localePath,
+} from "@/lib/seo";
 
 interface Props {
   params: Promise<{ locale: string }>;
@@ -29,25 +35,6 @@ export default async function PrivacyPolicyPage({ params }: Props) {
   const t = await getTranslations({ locale, namespace: "PrivacyPolicy" });
   const tMeta = await getTranslations({ locale, namespace: "Metadata" });
   const t_nav = await getTranslations({ locale, namespace: "Nav" });
-
-  const breadcrumbLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: t_nav("home"),
-        item: localePath(locale, "/"),
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: tMeta("privacyTitle"),
-        item: localePath(locale, "/ochrana-udajov"),
-      },
-    ],
-  };
 
   return (
     <div className="flex-1 pt-5 sm:pt-8 md:pt-16">
@@ -153,11 +140,11 @@ export default async function PrivacyPolicyPage({ params }: Props) {
         </div>
       </article>
 
-      {/* JSON-LD structured data - hardcoded content, safe to inject */}
-      <script
-        // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD structured data from hardcoded content
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
-        type="application/ld+json"
+      <JsonLdScript
+        data={breadcrumbJsonLd(locale, t_nav("home"), {
+          name: tMeta("privacyTitle"),
+          path: "/ochrana-udajov",
+        })}
       />
     </div>
   );

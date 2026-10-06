@@ -1,4 +1,5 @@
 import { getTranslations } from "next-intl/server";
+import { JsonLdScript } from "@/components/json-ld";
 import { Badge } from "@/components/ui/badge";
 import { linkVariants } from "@/components/ui/link";
 import { Separator } from "@/components/ui/separator";
@@ -10,7 +11,12 @@ import { Toc } from "@/features/docs/components/toc";
 import { TryItForm } from "@/features/docs/components/try-it-form";
 import { Link } from "@/i18n/navigation";
 import { DAILY_LIMIT, MINUTE_LIMIT } from "@/lib/api/rate-limiter";
-import { getAlternates, getOgLocale, localePath } from "@/lib/seo";
+import {
+  breadcrumbJsonLd,
+  getAlternates,
+  getOgLocale,
+  localePath,
+} from "@/lib/seo";
 
 interface Props {
   params: Promise<{ locale: string }>;
@@ -56,25 +62,6 @@ export default async function DocsPage({ params }: Props) {
       name: "QR Platby API",
       url: "https://qr-platby.com/api/v1/qr",
     },
-  };
-
-  const breadcrumbLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: t_nav("home"),
-        item: localePath(locale, "/"),
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: t("title"),
-        item: localePath(locale, "/docs"),
-      },
-    ],
   };
 
   return (
@@ -339,16 +326,12 @@ Retry-After: 45  (only on 429)`}
         </div>
       </div>
 
-      {/* JSON-LD structured data - hardcoded content, safe to inject */}
-      <script
-        // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD structured data from hardcoded content
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        type="application/ld+json"
-      />
-      <script
-        // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD structured data from hardcoded content
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
-        type="application/ld+json"
+      <JsonLdScript data={jsonLd} />
+      <JsonLdScript
+        data={breadcrumbJsonLd(locale, t_nav("home"), {
+          name: t("title"),
+          path: "/docs",
+        })}
       />
     </div>
   );
