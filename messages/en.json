@@ -37,6 +37,7 @@
   "Nav": {
     "home": "Home",
     "bulk": "Bulk Generation",
+    "reader": "Reader",
     "apiDocs": "API",
     "faq": "FAQ",
     "changelog": "Changelog",

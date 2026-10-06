@@ -1,4 +1,4 @@
-import { IconApi, IconHelp, IconNotes } from "@tabler/icons-react";
+import { IconApi, IconHelp, IconNotes, IconScan } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
@@ -25,6 +25,13 @@ export function Header() {
           >
             <IconNotes />
             {t("bulk")}
+          </Link>
+          <Link
+            className={cn(buttonVariants({ variant: "ghost", size: "sm" }))}
+            href="/citacka-qr-platby"
+          >
+            <IconScan />
+            {t("reader")}
           </Link>
           <Link
             className={cn(buttonVariants({ variant: "ghost", size: "sm" }))}

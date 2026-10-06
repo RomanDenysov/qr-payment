@@ -6,6 +6,7 @@ import {
   IconHome,
   IconMenu2,
   IconNotes,
+  IconScan,
   IconX,
 } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
@@ -69,6 +70,17 @@ export function MobileNav() {
             >
               <IconNotes />
               {t("bulk")}
+            </Link>
+            <Link
+              className={cn(
+                buttonVariants({ variant: "ghost", size: "default" }),
+                "justify-start text-sm"
+              )}
+              href="/citacka-qr-platby"
+              onClick={close}
+            >
+              <IconScan />
+              {t("reader")}
             </Link>
             <Link
               className={cn(
