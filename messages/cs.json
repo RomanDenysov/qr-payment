@@ -123,7 +123,7 @@
   },
   "Validation": {
     "ibanRequired": "IBAN je povinný",
-    "ibanInvalid": "Neplatný formát IBAN",
+    "ibanInvalid": "Neplatný IBAN nebo číslo účtu",
     "amountRequired": "Částka je povinná",
     "amountMin": "Částka musí být větší než 0",
     "max10chars": "Max 10 znaků",

@@ -7,7 +7,7 @@
       "category": "core",
       "i18nNamespace": "Payment",
       "clientSide": true,
-      "description": "Users enter payment details (IBAN, amount, symbols) and generate a scannable QR code in BySquare, EPC, or SPAYD format."
+      "description": "Users enter payment details (IBAN, amount, symbols) and generate a scannable QR code in BySquare, EPC, or SPAYD format. A Czech or Slovak account number (19-2000145399/0800) typed or pasted into the IBAN field converts to an IBAN (lib/iban-bank.ts)."
     },
     {
       "name": "QR Code Generation API",

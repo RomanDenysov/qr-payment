@@ -7,6 +7,7 @@ import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { SegmentedControl } from "@/components/ui/segmented-control";
 import type { PaymentFormat } from "@/features/payment/format";
+import { domesticAccountToIban } from "@/lib/iban-bank";
 
 export interface StudioPaymentState {
   iban: string;
@@ -62,7 +63,13 @@ export function StudioPaymentInput({ value, onChange }: Props) {
           <FieldLabel>{t("iban")}</FieldLabel>
           <Input
             aria-invalid={ibanError ? true : undefined}
-            onChange={(e) => update("iban", e.target.value.toUpperCase())}
+            onChange={(e) =>
+              update(
+                "iban",
+                domesticAccountToIban(e.target.value) ??
+                  e.target.value.toUpperCase()
+              )
+            }
             placeholder="SK..."
             value={value.iban}
           />

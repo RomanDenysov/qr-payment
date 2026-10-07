@@ -1,4 +1,4 @@
-import { electronicFormatIBAN, isValidIBAN } from "ibantools";
+import { composeIBAN, electronicFormatIBAN, isValidIBAN } from "ibantools";
 
 export interface DetectedBank {
   name: string;
@@ -104,4 +104,58 @@ export function detectBank(iban: string): DetectedBank | null {
     return { name: CZ_BANKS[code], code, country: "CZ" };
   }
   return null;
+}
+
+const DOMESTIC_ACCOUNT_RE = /^(?:(\d{1,6})-)?(\d{2,10})\/(\d{4})$/;
+const WHITESPACE_RE = /\s/g;
+const PREFIX_WEIGHTS = [10, 5, 8, 4, 2, 1];
+const NUMBER_WEIGHTS = [6, 3, 7, 9, 10, 5, 8, 4, 2, 1];
+
+/** Czech and Slovak account numbers carry a weighted mod-11 checksum. */
+function passesMod11(digits: string, weights: number[]): boolean {
+  let sum = 0;
+  for (const [index, weight] of weights.entries()) {
+    sum += Number(digits[index]) * weight;
+  }
+  return sum % 11 === 0;
+}
+
+function countryOfBankCode(code: string): DetectedBank["country"] | null {
+  if (CZ_BANKS[code]) {
+    return "CZ";
+  }
+  if (SK_BANKS[code]) {
+    return "SK";
+  }
+  return null;
+}
+
+/**
+ * Converts a Czech or Slovak domestic account number (`19-2000145399/0800`)
+ * to an IBAN. The bank code picks the country, the two lists do not overlap.
+ * Returns null for anything else, an unknown bank code or a failed checksum,
+ * so a typo never turns into a valid-looking IBAN.
+ */
+export function domesticAccountToIban(input: string): string | null {
+  const match = input.replace(WHITESPACE_RE, "").match(DOMESTIC_ACCOUNT_RE);
+  if (!match) {
+    return null;
+  }
+  const [, prefix = "", number, bankCode] = match;
+  const country = countryOfBankCode(bankCode);
+  const paddedPrefix = prefix.padStart(6, "0");
+  const paddedNumber = number.padStart(10, "0");
+  if (
+    !(
+      country &&
+      passesMod11(paddedPrefix, PREFIX_WEIGHTS) &&
+      passesMod11(paddedNumber, NUMBER_WEIGHTS)
+    )
+  ) {
+    return null;
+  }
+  return composeIBAN({
+    countryCode: country,
+    bban: `${bankCode}${paddedPrefix}${paddedNumber}`,
+  });
 }
