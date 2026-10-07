@@ -123,7 +123,7 @@
   },
   "Validation": {
     "ibanRequired": "IBAN is required",
-    "ibanInvalid": "Invalid IBAN format",
+    "ibanInvalid": "Invalid IBAN or account number",
     "amountRequired": "Amount is required",
     "amountMin": "Amount must be greater than 0",
     "max10chars": "Max 10 characters",

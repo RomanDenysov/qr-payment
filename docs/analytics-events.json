@@ -29,6 +29,11 @@
       "properties": { "format": "bysquare | epc | spayd" },
       "source": "features/seo/format-tile-action.tsx"
     },
+    "domestic_account_converted": {
+      "description": "User typed or pasted a Czech or Slovak account number (19-2000145399/0800) and the IBAN field converted it",
+      "properties": { "country": "CZ | SK" },
+      "source": "components/iban-autocomplete.tsx"
+    },
     "optional_field_toggled": {
       "description": "User showed or hid an optional payment field via the Fields menu",
       "properties": {
