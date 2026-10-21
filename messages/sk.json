@@ -165,6 +165,15 @@
       "document": "Dokument",
       "print": "Tlač",
       "help": "Malé (128px) na obrazovku, Štandard (256px) všeobecné použitie, Dokument (512px) do faktúr, Tlač (1024px) pre fyzické tlačoviny."
+    },
+    "export": {
+      "menuAria": "Ďalšie formáty na stiahnutie",
+      "svg": "SVG",
+      "svgHint": "Vektor, ľubovoľná veľkosť",
+      "pdf": "PDF na tlač",
+      "pdfHint": "Strana A4 s údajmi platby",
+      "done": "QR kód exportovaný",
+      "failed": "Export QR kódu zlyhal"
     }
   },
   "History": {

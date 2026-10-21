@@ -15,6 +15,7 @@ import { toast } from "sonner";
 import { PageSpinner } from "@/components/page-spinner";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
+import { ExportFormatMenu } from "@/features/customizer/components/export-format-menu";
 import { renderCustomizerQR } from "@/features/customizer/renderer";
 import { validateScannability } from "@/features/customizer/scannability";
 import {
@@ -144,6 +145,14 @@ export function StudioPreview({ config, payment }: Props) {
           <IconDownload />
           {t("downloadPng")}
         </Button>
+        <ExportFormatMenu
+          className="h-10 w-10 border-l"
+          config={config}
+          disabled={!dataUrl}
+          filePrefix="qr-studio"
+          payment={payment}
+          source="studio"
+        />
       </div>
 
       <div className="m-4 flex aspect-square w-auto items-center justify-center border border-border bg-muted">

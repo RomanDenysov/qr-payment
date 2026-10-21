@@ -165,6 +165,15 @@
       "document": "Document",
       "print": "Print",
       "help": "Small (128px) for screens, Standard (256px) for general use, Document (512px) for invoices, Print (1024px) for physical printing."
+    },
+    "export": {
+      "menuAria": "More download formats",
+      "svg": "SVG",
+      "svgHint": "Vector, scales to any size",
+      "pdf": "PDF for print",
+      "pdfHint": "A4 page with payment details",
+      "done": "QR code exported",
+      "failed": "Failed to export QR code"
     }
   },
   "History": {

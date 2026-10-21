@@ -66,6 +66,14 @@
       },
       "source": "features/payment/components/qr-preview-card.tsx, features/studio/components/studio-preview.tsx"
     },
+    "qr_exported": {
+      "description": "User exported the QR code as SVG or print PDF from the format menu next to Download",
+      "properties": {
+        "format": "svg | pdf",
+        "source": "home | studio"
+      },
+      "source": "features/customizer/components/export-format-menu.tsx"
+    },
     "qr_copied": {
       "description": "User copied the QR code image to clipboard at the picked size",
       "properties": {

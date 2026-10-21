@@ -11,6 +11,13 @@ export interface ChangelogEntry {
 const changelogData: Record<string, ChangelogEntry[]> = {
   sk: [
     {
+      date: "2026-10-21",
+      category: "feature",
+      title: "Export do SVG a PDF na tlač",
+      summary:
+        "Vedľa tlačidla Stiahnuť je menu s ďalšími formátmi. SVG je vektor pre grafikov a tlačiarne, PDF je strana A4 s QR kódom a údajmi platby.",
+    },
+    {
       date: "2026-10-01",
       category: "feature",
       title: "Voliteľné polia platby",
@@ -167,6 +174,13 @@ const changelogData: Record<string, ChangelogEntry[]> = {
   ],
   en: [
     {
+      date: "2026-10-21",
+      category: "feature",
+      title: "Export to SVG and print PDF",
+      summary:
+        "The menu next to Download offers more formats. SVG is a vector file for designers and print shops, PDF is an A4 page with the QR code and payment details.",
+    },
+    {
       date: "2026-10-01",
       category: "feature",
       title: "Optional payment fields",
@@ -322,6 +336,13 @@ const changelogData: Record<string, ChangelogEntry[]> = {
     },
   ],
   cs: [
+    {
+      date: "2026-10-21",
+      category: "feature",
+      title: "Export do SVG a PDF k tisku",
+      summary:
+        "Vedle tlačítka Stáhnout je menu s dalšími formáty. SVG je vektor pro grafiky a tiskárny, PDF je strana A4 s QR kódem a údaji platby.",
+    },
     {
       date: "2026-10-01",
       category: "feature",

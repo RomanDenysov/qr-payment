@@ -23,11 +23,11 @@ import {
 } from "./types";
 
 export const QR_SIZE = 480;
-const FRAME_SIDE_PADDING = 24;
-const FRAME_TEXT_GAP = 14;
+export const FRAME_SIDE_PADDING = 24;
+export const FRAME_TEXT_GAP = 14;
 const MAX_OUTPUT_WIDTH = 1024;
 
-function toGradient(fill: Fill) {
+export function toGradient(fill: Fill) {
   if (fill.kind === "solid") {
     return;
   }
@@ -104,7 +104,7 @@ function positionAxes(
   }
 }
 
-function placeOverlay(
+export function placeOverlay(
   qrSize: number,
   overlayWidth: number,
   overlayHeight: number,
@@ -201,7 +201,7 @@ async function renderBaseQR(
   return blobToImage(blob as Blob);
 }
 
-async function renderLogo(
+export async function renderLogo(
   data: string,
   sizePct: number
 ): Promise<HTMLImageElement & { drawWidth: number; drawHeight: number }> {
@@ -286,10 +286,10 @@ function clampOutput(canvas: HTMLCanvasElement): HTMLCanvasElement {
   return out;
 }
 
-export async function renderCustomizerQR(
+export function resolveCustomizerPayload(
   data: PaymentFormData,
   cfg: CustomizerConfig
-): Promise<string> {
+): { payload: string; ecc: "H" | "M" } {
   const cleanIban = electronicFormatIBAN(data.iban);
   if (!(cleanIban && isValidIBAN(cleanIban))) {
     throw new InvalidIBANError(data.iban);
@@ -303,7 +303,17 @@ export async function renderCustomizerQR(
     currency
   );
 
-  const ecc = resolveErrorCorrectionLevel(errorCorrectionLevel, cfg);
+  return {
+    payload,
+    ecc: resolveErrorCorrectionLevel(errorCorrectionLevel, cfg),
+  };
+}
+
+export async function renderCustomizerQR(
+  data: PaymentFormData,
+  cfg: CustomizerConfig
+): Promise<string> {
+  const { payload, ecc } = resolveCustomizerPayload(data, cfg);
 
   const baseImg = await renderBaseQR(payload, ecc, cfg);
 
