@@ -784,5 +784,27 @@
       "step4Name": "Scan with your banking app",
       "step4Text": "Open your banking app and scan the QR code to confirm the payment."
     }
+  },
+  "Okfaktura": {
+    "hint": {
+      "title": "Need an invoice with this QR code?",
+      "text": "okfaktura issues PDF invoices with PAY by square. Free for up to 5 clients."
+    },
+    "banner": {
+      "eyebrow": "From the maker of QR Platby",
+      "title": "okfaktura makes invoices with a QR code",
+      "description": "Invoicing for Slovak sole traders, companies and agencies. PDF invoices with PAY by square, the right number and VAT.",
+      "questions": {
+        "contractors": {
+          "question": "Need an invoice with a QR code?",
+          "answer": "okfaktura issues PDF invoices with PAY by square. Free for up to 5 of your own clients."
+        },
+        "agencies": {
+          "question": "Do contractors invoice you every month?",
+          "answer": "okfaktura drafts their invoices from approved work, they just confirm."
+        }
+      },
+      "cta": "Visit okfaktura.sk (in Slovak)"
+    }
   }
 }

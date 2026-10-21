@@ -26,6 +26,7 @@ import { ExportFormatMenu } from "@/features/customizer/components/export-format
 import { renderCustomizerQR } from "@/features/customizer/renderer";
 import { useCustomizerConfig } from "@/features/customizer/store";
 import { DOWNLOAD_SIZE_PX } from "@/features/customizer/types";
+import { OkfakturaQrHint } from "@/features/promo/components/okfaktura-qr-hint";
 import { formatAmount, maskIban } from "@/lib/utils";
 import { InvalidIBANError } from "../qr-generator";
 import { resizePngDataUrl, resizePngToBlob } from "../resize-qr";
@@ -314,6 +315,9 @@ export function QRPreviewCard() {
             {t("copy")}
           </Button>
         </CardFooter>
+      ) : null}
+      {current?.qrDataUrl && (current.format ?? "bysquare") === "bysquare" ? (
+        <OkfakturaQrHint />
       ) : null}
     </Card>
   );
