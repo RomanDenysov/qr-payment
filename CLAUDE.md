@@ -67,6 +67,7 @@ features/customizer/      # Unified QR customizer (home sheet + /studio page)
   store.ts                # Zustand config + templates store (qrCustomizer.v1, max 30 templates)
   types.ts                # CustomizerConfig, Fill, FrameConfig, OverlayPosition
   renderer.ts             # renderCustomizerQR (gradients, position overlays, frame compositor)
+  export-vector.ts        # renderCustomizerSVG (same design as SVG markup) + downloadQrSvg / downloadQrPdf (A4 print page)
   compress-logo.ts        # Logo compression for QR overlay
   branding-bridge.ts      # customizerToBranding helper for bulk/share/api callsites
   contrast.ts             # WCAG luminance + getContrastRatio + isValidHex

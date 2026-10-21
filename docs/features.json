@@ -154,6 +154,15 @@
       "description": "Download QR code as PNG, copy to clipboard, or share via system share menu."
     },
     {
+      "name": "QR SVG & Print PDF Export",
+      "source": "features/customizer/export-vector.ts",
+      "route": null,
+      "category": "export",
+      "i18nNamespace": "QRPreview",
+      "clientSide": true,
+      "description": "Export the customized QR code as vector SVG or as an A4 PDF for print (QR at 90 mm with IBAN, amount and symbols). Menu next to Download on the home preview and in /studio."
+    },
+    {
       "name": "Bulk ZIP Export",
       "source": "features/bulk/export-zip.ts",
       "route": null,
