@@ -784,5 +784,27 @@
       "step4Name": "Naskenujte bankovní aplikací",
       "step4Text": "Otevřete svou bankovní aplikaci a naskenujte QR kód pro potvrzení platby."
     }
+  },
+  "Okfaktura": {
+    "hint": {
+      "title": "Potřebujete fakturu s tímto QR kódem?",
+      "text": "okfaktura vystaví PDF fakturu s PAY by square. Zdarma až pro 5 odběratelů."
+    },
+    "banner": {
+      "eyebrow": "Od autora QR Platby",
+      "title": "Faktury s QR kódem dělá okfaktura",
+      "description": "Fakturace pro slovenské živnostníky, firmy i agentury. Faktura v PDF s PAY by square, správným číslem a DPH.",
+      "questions": {
+        "contractors": {
+          "question": "Potřebujete fakturu s QR kódem?",
+          "answer": "okfaktura vystaví PDF fakturu s PAY by square. Vlastním odběratelům fakturujete zdarma až pro 5 odběratelů."
+        },
+        "agencies": {
+          "question": "Fakturují vám dodavatelé každý měsíc?",
+          "answer": "okfaktura připraví jejich faktury ze schválené práce, oni je jen potvrdí."
+        }
+      },
+      "cta": "Přejít na okfaktura.sk (slovensky)"
+    }
   }
 }

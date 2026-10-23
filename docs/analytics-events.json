@@ -269,6 +269,13 @@
       "properties": { "placement": "footer" },
       "source": "components/outbound-link.tsx"
     },
+    "okfaktura_link_clicked": {
+      "description": "User clicked an okfaktura promo link (carries UTM parameters)",
+      "properties": {
+        "placement": "qr-preview | home-banner | home-banner-contractors | home-banner-agencies"
+      },
+      "source": "features/promo/components/"
+    },
     "github_link_clicked": {
       "description": "User clicked the GitHub contribute link",
       "properties": { "placement": "footer" },

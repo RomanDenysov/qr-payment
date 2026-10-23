@@ -325,6 +325,15 @@
       "description": "Decodes a payment QR from an uploaded, dropped or pasted image (jsQR) or from its text, for PAY by square, SPAYD and EPC. Shows the payment with warnings (bad IBAN checksum, several payments, standing order, EPC structured reference, unsupported currency) and opens it in the generator form. Runs in the browser only. Localized slugs: /cs/ctecka-qr-plateb, /en/payment-qr-code-reader."
     },
     {
+      "name": "okfaktura Promo",
+      "source": "features/promo/",
+      "route": "/",
+      "category": "ui",
+      "i18nNamespace": "Okfaktura",
+      "clientSide": false,
+      "description": "Promotes okfaktura, the author's invoicing app with PAY by square PDF invoices. A one-line link under a generated PAY by square QR code, and a homepage banner in the okfaktura brand color with grain, one question per audience (contractors, agencies). The banner is hidden on the cs locale, since okfaktura issues Slovak invoices. Links carry UTM parameters."
+    },
+    {
       "name": "Community Banner",
       "source": "components/community-banner.tsx",
       "route": "/",

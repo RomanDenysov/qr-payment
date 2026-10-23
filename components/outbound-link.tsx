@@ -10,6 +10,7 @@ interface OutboundLinkProps {
   event:
     | "creator_link_clicked"
     | "github_link_clicked"
+    | "okfaktura_link_clicked"
     | "support_link_clicked";
   href: string;
   /** Where the link sits, so placements can be compared in analytics. */

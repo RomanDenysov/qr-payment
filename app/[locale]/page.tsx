@@ -4,6 +4,7 @@ import { DynamicApiCard } from "@/features/api/api-card-dynamic";
 import { FaqSection } from "@/features/faq/faq-section";
 import { PaymentFormCard } from "@/features/payment/components/payment-form-card";
 import { QRPreviewCard } from "@/features/payment/components/qr-preview-card";
+import { OkfakturaBanner } from "@/features/promo/components/okfaktura-banner";
 import { HomeContentSections } from "@/features/seo/home-content";
 import { UsageStats } from "@/features/stats/usage-stats";
 import { getAlternates } from "@/lib/seo";
@@ -37,7 +38,11 @@ export default async function Page({ params }: Props) {
         <QRPreviewCard />
       </section>
       <UsageStats />
-      <CommunityBanner className="mt-16 sm:mt-20" />
+      {/* okfaktura issues Slovak invoices; Czech visitors use SPAYD and Czech VAT rules. */}
+      {locale === "cs" ? null : <OkfakturaBanner className="mt-16 sm:mt-20" />}
+      <CommunityBanner
+        className={locale === "cs" ? "mt-16 sm:mt-20" : "mt-8"}
+      />
       <HomeContentSections />
       <FaqSection className="mt-20 sm:mt-24" locale={locale} />
       <h2 className="mt-20 font-bold font-pixel text-foreground text-lg tracking-wide sm:mt-24 sm:text-xl">
