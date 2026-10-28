@@ -50,7 +50,7 @@ export function OkfakturaBanner({ className }: { className?: string }) {
               <OutboundLink
                 className="group/okf flex w-full items-start justify-between gap-3 border border-white/20 bg-white/5 px-3 py-2.5 outline-none transition-colors duration-150 ease-out hover:border-white/40 hover:bg-white/10 focus-visible:border-white focus-visible:ring-1 focus-visible:ring-white/50"
                 event="okfaktura_link_clicked"
-                href={okfakturaUrl(page, "home-banner")}
+                href={okfakturaUrl(page, "home-banner", key)}
                 placement={`home-banner-${key}`}
               >
                 <span className="flex flex-col gap-1">
@@ -73,7 +73,7 @@ export function OkfakturaBanner({ className }: { className?: string }) {
       <OutboundLink
         className="flex h-12 w-full items-center justify-center gap-2 border-white/20 border-t font-medium text-sm outline-none transition-colors duration-150 ease-out hover:bg-white/10 focus-visible:bg-white/10"
         event="okfaktura_link_clicked"
-        href={okfakturaUrl("home", "home-banner")}
+        href={okfakturaUrl("home", "home-banner", "cta")}
         placement="home-banner"
       >
         {t("cta")}
