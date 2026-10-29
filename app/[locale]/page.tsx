@@ -38,10 +38,10 @@ export default async function Page({ params }: Props) {
         <QRPreviewCard />
       </section>
       <UsageStats />
-      {/* okfaktura issues Slovak invoices; Czech visitors use SPAYD and Czech VAT rules. */}
-      {locale === "cs" ? null : <OkfakturaBanner className="mt-16 sm:mt-20" />}
+      {/* okfaktura and its site are Slovak only, so the promo shows on sk alone. */}
+      {locale === "sk" ? <OkfakturaBanner className="mt-16 sm:mt-20" /> : null}
       <CommunityBanner
-        className={locale === "cs" ? "mt-16 sm:mt-20" : "mt-8"}
+        className={locale === "sk" ? "mt-8" : "mt-16 sm:mt-20"}
       />
       <HomeContentSections />
       <FaqSection className="mt-20 sm:mt-24" locale={locale} />

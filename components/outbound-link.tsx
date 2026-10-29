@@ -1,6 +1,7 @@
 "use client";
 
 import { track } from "@vercel/analytics";
+import { useLocale } from "next-intl";
 import type { ReactNode } from "react";
 
 interface OutboundLinkProps {
@@ -25,11 +26,13 @@ export function OutboundLink({
   href,
   placement,
 }: OutboundLinkProps) {
+  const locale = useLocale();
+
   return (
     <a
       className={className}
       href={href}
-      onClick={() => track(event, { placement })}
+      onClick={() => track(event, { placement, locale })}
       rel="noopener noreferrer"
       target="_blank"
     >
