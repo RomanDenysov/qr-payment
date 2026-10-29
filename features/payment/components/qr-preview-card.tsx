@@ -9,7 +9,7 @@ import {
 import { track } from "@vercel/analytics";
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useRef, useState, useTransition } from "react";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
@@ -98,6 +98,7 @@ export function QRPreviewCard() {
   const customizer = useCustomizerConfig();
   const t = useTranslations("QRPreview");
   const tBranding = useTranslations("Branding");
+  const locale = useLocale();
   const cardRef = useRef<HTMLDivElement>(null);
   const prevQrRef = useRef<string | undefined>(undefined);
   const [downloadPending, startDownload] = useTransition();
@@ -316,7 +317,9 @@ export function QRPreviewCard() {
           </Button>
         </CardFooter>
       ) : null}
-      {current?.qrDataUrl && (current.format ?? "bysquare") === "bysquare" ? (
+      {current?.qrDataUrl &&
+      locale === "sk" &&
+      (current.format ?? "bysquare") === "bysquare" ? (
         <OkfakturaQrHint />
       ) : null}
     </Card>

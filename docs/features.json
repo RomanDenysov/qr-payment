@@ -331,7 +331,7 @@
       "category": "ui",
       "i18nNamespace": "Okfaktura",
       "clientSide": false,
-      "description": "Promotes okfaktura, the author's invoicing app with PAY by square PDF invoices. A one-line link under a generated PAY by square QR code, and a homepage banner in the okfaktura brand color with grain, one question per audience (contractors, agencies). The banner is hidden on the cs locale, since okfaktura issues Slovak invoices. Links carry UTM parameters."
+      "description": "Promotes okfaktura, the author's invoicing app with PAY by square PDF invoices. A one-line link under a generated PAY by square QR code, and a homepage banner in the okfaktura brand color with grain, one question per audience (contractors, agencies). Both show on the sk locale only, since okfaktura and its site are Slovak only. Links carry UTM parameters."
     },
     {
       "name": "Community Banner",

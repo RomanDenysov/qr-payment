@@ -261,24 +261,25 @@
     },
     "support_link_clicked": {
       "description": "User clicked the Buy me a coffee link",
-      "properties": { "placement": "footer | home" },
+      "properties": { "placement": "footer | home", "locale": "sk | en | cs" },
       "source": "components/outbound-link.tsx"
     },
     "creator_link_clicked": {
       "description": "User clicked the denysov.dev link (carries UTM parameters)",
-      "properties": { "placement": "footer" },
+      "properties": { "placement": "footer", "locale": "sk | en | cs" },
       "source": "components/outbound-link.tsx"
     },
     "okfaktura_link_clicked": {
       "description": "User clicked an okfaktura promo link (carries UTM parameters)",
       "properties": {
-        "placement": "qr-preview | home-banner | home-banner-contractors | home-banner-agencies"
+        "placement": "qr-preview | home-banner | home-banner-contractors | home-banner-agencies",
+        "locale": "sk (the promo shows on the sk locale only)"
       },
       "source": "features/promo/components/"
     },
     "github_link_clicked": {
       "description": "User clicked the GitHub contribute link",
-      "properties": { "placement": "footer" },
+      "properties": { "placement": "footer", "locale": "sk | en | cs" },
       "source": "components/outbound-link.tsx"
     },
     "announcement_dismissed": {
