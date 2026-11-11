@@ -131,16 +131,7 @@ public/openapi.json       # OpenAPI 3.1 spec - keep in sync with qr-schema.ts an
 
 ## Code Standards
 
-This project uses Ultracite (Biome preset) for formatting and linting. Key rules:
-- Prefer `unknown` over `any`
-- Use arrow functions for callbacks
-- Prefer `for...of` over `.forEach()`
-- Use `async/await` over promise chains
-- React 19: Use ref as prop (no forwardRef needed)
-- Always run `bun x ultracite fix` before committing
-- Block statements required for all if/else (no `if (x) return y`)
-- Regex literals must be top-level constants, not inline
-- `bun x ultracite check` (no args) reports pre-existing complexity errors in `features/payment/qr-payload.ts`, `features/payment/store.ts`, `features/webmcp/use-webmcp-qr.ts`, `packages/mcp-server/src/tools.ts`. Don't try to fix them in a feature PR - scope your check to touched files: `bun x ultracite check <file1> <file2>`
+- `bun x ultracite check` (no args) reports pre-existing complexity errors in `features/payment/qr-payload.ts`, `packages/mcp-server/src/tools.ts`. Don't try to fix them in a feature PR - scope your check to touched files: `bun x ultracite check <file1> <file2>`
 
 ## Path Alias
 
@@ -149,12 +140,8 @@ This project uses Ultracite (Biome preset) for formatting and linting. Key rules
 ## Gotchas
 
 - **Dynamic `import()` — don't wrap in try-catch**: Let errors propagate naturally to the caller. Never use `let x; try { x = await import(...) } catch { ... }` — it's ugly, loses the stack trace, and the caller already handles errors. Use bare `const { x } = await import("lib")`.
-- **Zod v4**: Use `.issues` not `.errors` on `ZodError` objects
-- **`bun install` after pull**: Remote PRs may add deps — run `bun install` before building
 - **`bunx shadcn` hangs**: CLI often hangs on "Resolving dependencies". Fetch source from `https://ui.shadcn.com/r/styles/base-lyra/<component>.json` instead
 - **Biome suppression in JSX props**: Use `// biome-ignore` inline comment on the prop line, not `{/* */}` JSX comment
-- **UI components**: Always use shadcn/Base UI primitives (`@base-ui/react/accordion`, etc.) — don't build custom alternatives from lower-level primitives
-- **JSX ternary branches**: Must return a single expression — wrap multiple siblings in `<>...</>` fragment
 - **No `client-zip`**: ZIP export uses a zero-dependency manual implementation (STORE method) because Turbopack can't chunk the ESM-only `client-zip` package. Don't re-add it.
 - **`ultracite fix` touches unrelated files**: Auto-fix may reformat files you didn't change (trailing newlines, commas). This is normal - include them in the commit.
 - **Announcement banner**: Change `ANNOUNCEMENT_ID` in `components/announcement-banner.tsx` and update `Announcement.message` in translation files. Old dismissed banners won't block new ones.
