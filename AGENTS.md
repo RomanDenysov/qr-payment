@@ -110,8 +110,8 @@ public/openapi.json       # OpenAPI 3.1 spec - keep in sync with qr-schema.ts an
   - `getTranslations` from `next-intl/server` for async server components
   - Pure styled wrappers (e.g. table, label) without hooks must not have `"use client"`
   - `next/dynamic` with `ssr: false` requires a `"use client"` wrapper — cannot be used in server components
-- **Dynamic imports with SSR disabled** for Base UI components (prevents hydration mismatches)
-- **localStorage-driven UI** - Components that read `localStorage` on mount must initialize state to a stable SSR value (e.g. `useState(false)`) and update inside `useEffect`. Avoids `dynamic({ ssr: false })` wrappers, which were retired (the previous `*-loader.tsx` pattern caused Next 16 hydration races).
+- **No `dynamic({ ssr: false })` wrappers for hydration** - the old `*-loader.tsx` pattern caused Next 16 hydration races and was retired. `next/dynamic` without `ssr: false` is still used to lazy-load heavy client pieces (`ShareLinkDialog`, `CustomizerSheet` in `qr-preview-card.tsx`). The one remaining `ssr: false` is `features/api/api-card-dynamic.tsx`, a below-the-fold lazy load with a skeleton added for Lighthouse (14539e5), not a hydration workaround.
+- **localStorage-driven UI** - Components that read `localStorage` on mount must initialize state to a stable SSR value (e.g. `useState(false)`) and update inside `useEffect`. Avoids `dynamic({ ssr: false })` wrappers (see the bullet above).
 - **Feature-based organization** - Domain logic grouped in `features/` directory
 - **Zustand store hooks** - Each feature has its own store with granular selectors:
   - Payment: `useCurrentPayment()`, `usePaymentHistory()`, `usePaymentActions()`
@@ -131,6 +131,7 @@ public/openapi.json       # OpenAPI 3.1 spec - keep in sync with qr-schema.ts an
 
 ## Code Standards
 
+- Always run `bun x ultracite fix` before committing
 - `bun x ultracite check` (no args) reports pre-existing complexity errors in `features/payment/qr-payload.ts`, `packages/mcp-server/src/tools.ts`. Don't try to fix them in a feature PR - scope your check to touched files: `bun x ultracite check <file1> <file2>`
 
 ## Path Alias
