@@ -1,0 +1,14 @@
+pre-commit:
+  jobs:
+    - name: ultracite
+      glob: "*.{js,jsx,ts,tsx,json,jsonc,css,md}"
+      run: bun x ultracite fix {staged_files}
+      stage_fixed: true
+
+pre-push:
+  parallel: true
+  jobs:
+    - name: check-types
+      run: bun run check-types
+    - name: test
+      run: bun run test

@@ -131,8 +131,12 @@ public/openapi.json       # OpenAPI 3.1 spec - keep in sync with qr-schema.ts an
 
 ## Code Standards
 
-- Always run `bun x ultracite fix` before committing
-- `bun x ultracite check` (no args) reports pre-existing complexity errors in `features/payment/qr-payload.ts`, `packages/mcp-server/src/tools.ts`. Don't try to fix them in a feature PR - scope your check to touched files: `bun x ultracite check <file1> <file2>`
+Hooks (lefthook, installed by `bun install`):
+
+- pre-commit runs `ultracite fix` on the staged files and restages the fixes.
+- pre-push runs `bun run check-types` and the unit tests in parallel.
+- `bun run verify` runs whole-repo lint, types and tests.
+- A failing hook is fixed at its cause. `--no-verify` and `LEFTHOOK=0` ask Roman first.
 
 ## Path Alias
 
@@ -158,6 +162,7 @@ public/openapi.json       # OpenAPI 3.1 spec - keep in sync with qr-schema.ts an
 ## Optional Payment Fields
 
 Users opt into extra fields per format through the Fields menu in the payment form. Adding one requires keeping these in sync:
+
 - `features/payment/optional-fields.ts` - field config and the list of formats that support it
 - `features/payment/schema.ts` - form validation
 - `features/payment/qr-payload.ts` and the format's encoder - the field must reach the QR payload
@@ -179,6 +184,7 @@ Pages are prerendered per locale. `app/[locale]/layout.tsx` is the root layout a
 ## Customizer Guardrails
 
 Guardrails surface scannability risks live in the customizer (`features/customizer/guardrails.ts`). Adding one requires keeping these in sync:
+
 - `features/customizer/guardrails.ts` - add the key to the `GuardrailKey` union and a check in `checkGuardrails`
 - `messages/{sk,en,cs}.json` - translate `Branding.guardrail.<name>`
 
@@ -187,6 +193,7 @@ Severity `"warning"` disables the home customizer Done button (via `useGuardrail
 ## API Changes
 
 When modifying the `/api/v1/qr` endpoint, keep these files in sync:
+
 - `app/api/v1/qr/route.ts` - route handler (error responses, headers)
 - `lib/api/qr-schema.ts` - TypeScript types and Zod validation
 - `lib/api/qr-docs.ts` - machine-readable docs (returned by GET)
@@ -194,6 +201,7 @@ When modifying the `/api/v1/qr` endpoint, keep these files in sync:
 - `features/api/api-card.tsx` - homepage API card (rate limit display is hardcoded)
 
 When changing formats, rate limits, or parameters, also update:
+
 - `packages/mcp-server/src/tools.ts` - MCP server tool schemas, FORMATS_INFO, getSuggestion
 - `features/webmcp/use-webmcp-qr.ts` - browser WebMCP tool schema + format validation
 - `public/llms.txt` and `public/llms-full.txt` - LLM-optimized documentation

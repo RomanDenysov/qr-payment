@@ -15,4 +15,6 @@ export function GET() {
   });
 }
 
-export { corsOptions as OPTIONS };
+export function OPTIONS() {
+  return corsOptions();
+}

@@ -54,6 +54,38 @@ function encodeBysquare(
   );
 }
 
+function buildEpcPayload(data: QrPayloadInput, cleanIban: string): string {
+  return encodeEpcQr({
+    iban: cleanIban,
+    amount: data.amount ?? undefined,
+    beneficiaryName: data.recipientName ?? "",
+    bic: data.bic ?? undefined,
+    remittanceText: data.paymentNote ?? undefined,
+    purposeCode: data.purposeCode || undefined,
+  });
+}
+
+function buildSpaydPayload(
+  data: QrPayloadInput,
+  cleanIban: string,
+  currencyCode: CurrencyCode
+): string {
+  return encodeSpaydQr({
+    iban: cleanIban,
+    amount: data.amount ?? undefined,
+    currency: currencyCode === CurrencyCode.CZK ? "CZK" : "EUR",
+    variableSymbol: data.variableSymbol || undefined,
+    specificSymbol: data.specificSymbol || undefined,
+    constantSymbol: data.constantSymbol || undefined,
+    recipientName: data.recipientName || undefined,
+    paymentNote: data.paymentNote || undefined,
+    bic: data.bic ?? undefined,
+    dueDate: data.paymentDueDate || undefined,
+    reference: data.spaydReference || undefined,
+    instantPayment: data.instantPayment,
+  });
+}
+
 export function buildQrPayload(
   data: QrPayloadInput,
   cleanIban: string,
@@ -63,35 +95,14 @@ export function buildQrPayload(
 
   if (format === "epc") {
     return {
-      payload: encodeEpcQr({
-        iban: cleanIban,
-        amount: data.amount ?? undefined,
-        beneficiaryName: data.recipientName ?? "",
-        bic: data.bic ?? undefined,
-        remittanceText: data.paymentNote ?? undefined,
-        purposeCode: data.purposeCode || undefined,
-      }),
+      payload: buildEpcPayload(data, cleanIban),
       errorCorrectionLevel: "M",
     };
   }
 
   if (format === "spayd") {
-    const currency = currencyCode === CurrencyCode.CZK ? "CZK" : "EUR";
     return {
-      payload: encodeSpaydQr({
-        iban: cleanIban,
-        amount: data.amount ?? undefined,
-        currency,
-        variableSymbol: data.variableSymbol || undefined,
-        specificSymbol: data.specificSymbol || undefined,
-        constantSymbol: data.constantSymbol || undefined,
-        recipientName: data.recipientName || undefined,
-        paymentNote: data.paymentNote || undefined,
-        bic: data.bic ?? undefined,
-        dueDate: data.paymentDueDate || undefined,
-        reference: data.spaydReference || undefined,
-        instantPayment: data.instantPayment,
-      }),
+      payload: buildSpaydPayload(data, cleanIban, currencyCode),
       errorCorrectionLevel: "M",
     };
   }
