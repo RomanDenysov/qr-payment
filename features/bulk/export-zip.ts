@@ -1,3 +1,4 @@
+// biome-ignore-all lint/suspicious/noBitwiseOperators: CRC32 and the ZIP format are bit arithmetic
 import type { GeneratedQR } from "./bulk-generator";
 
 // Pre-computed CRC32 lookup table

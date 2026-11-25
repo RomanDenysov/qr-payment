@@ -41,6 +41,7 @@ function trackQrGenerated(
     formData.spaydReference,
     formData.purposeCode,
     formData.instantPayment,
+    formData.periodicity,
   ].filter(Boolean).length;
 
   track("qr_generated", {

@@ -11,7 +11,7 @@ Enter the IBAN, recipient name, amount and symbols, and the site produces a QR c
 
 Payment data entered in the web app stays in the browser: history lives in localStorage and share links carry the payment in the URL fragment. The REST API processes requests on the server and stores nothing.
 
-It is a hobby project. Development notes are in [CLAUDE.md](CLAUDE.md).
+It is a hobby project. Development notes are in [AGENTS.md](AGENTS.md).
 
 ```bash
 bun install

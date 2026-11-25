@@ -3,6 +3,11 @@ import { CurrencyCode, encode, PaymentOptions } from "bysquare/pay";
 import { encodeEpcQr } from "./epc-encoder";
 import type { PaymentFormat } from "./format";
 import { encodeSpaydQr } from "./spayd-encoder";
+import {
+  hasPaymentDay,
+  type Periodicity,
+  toBysquarePeriodicity,
+} from "./standing-order";
 
 interface QrPayloadInput {
   format?: PaymentFormat;
@@ -19,6 +24,38 @@ interface QrPayloadInput {
   spaydReference?: string;
   purposeCode?: string;
   instantPayment?: boolean;
+  /** PAY by square only. Empty or missing makes a one-off payment. */
+  periodicity?: Periodicity | "";
+  standingOrderDay?: string;
+  standingOrderLastDate?: string;
+}
+
+/** bysquare expects YYYYMMDD; the form and API use YYYY-MM-DD. */
+function toCompactDate(iso: string): string {
+  return iso.replaceAll("-", "");
+}
+
+type BysquarePayment = Parameters<typeof encode>[0]["payments"][0];
+
+/** Turns a one-off payment into a standing order when a periodicity is set. */
+function withStandingOrder(
+  payment: BysquarePayment,
+  data: QrPayloadInput
+): BysquarePayment {
+  const { periodicity } = data;
+  if (!periodicity) {
+    return payment;
+  }
+  const day = Number(data.standingOrderDay);
+  return {
+    ...payment,
+    type: PaymentOptions.StandingOrder,
+    periodicity: toBysquarePeriodicity(periodicity),
+    ...(hasPaymentDay(periodicity) && day > 0 && { day }),
+    ...(data.standingOrderLastDate && {
+      lastDate: toCompactDate(data.standingOrderLastDate),
+    }),
+  } as BysquarePayment;
 }
 
 function encodeBysquare(
@@ -26,7 +63,7 @@ function encodeBysquare(
   cleanIban: string,
   currencyCode: CurrencyCode
 ): string {
-  const payment: Parameters<typeof encode>[0]["payments"][0] = {
+  const payment: BysquarePayment = {
     type: PaymentOptions.PaymentOrder,
     ...(data.amount && { amount: data.amount }),
     currencyCode,
@@ -34,9 +71,9 @@ function encodeBysquare(
     ...(data.variableSymbol && { variableSymbol: data.variableSymbol }),
     ...(data.specificSymbol && { specificSymbol: data.specificSymbol }),
     ...(data.constantSymbol && { constantSymbol: data.constantSymbol }),
-    // bysquare expects YYYYMMDD; the form and API use YYYY-MM-DD.
+    // For a standing order this is the date of the first payment.
     ...(data.paymentDueDate && {
-      paymentDueDate: data.paymentDueDate.replaceAll("-", ""),
+      paymentDueDate: toCompactDate(data.paymentDueDate),
     }),
     ...(data.paymentNote && { paymentNote: data.paymentNote }),
     // An empty name encodes the same as no beneficiary at all.
@@ -48,10 +85,42 @@ function encodeBysquare(
   return encode(
     {
       ...(data.invoiceId && { invoiceId: data.invoiceId }),
-      payments: [payment],
+      payments: [withStandingOrder(payment, data)],
     },
     { deburr: true, validate: true, version: Version["1.0.0"] }
   );
+}
+
+function buildEpcPayload(data: QrPayloadInput, cleanIban: string): string {
+  return encodeEpcQr({
+    iban: cleanIban,
+    amount: data.amount ?? undefined,
+    beneficiaryName: data.recipientName ?? "",
+    bic: data.bic ?? undefined,
+    remittanceText: data.paymentNote ?? undefined,
+    purposeCode: data.purposeCode || undefined,
+  });
+}
+
+function buildSpaydPayload(
+  data: QrPayloadInput,
+  cleanIban: string,
+  currencyCode: CurrencyCode
+): string {
+  return encodeSpaydQr({
+    iban: cleanIban,
+    amount: data.amount ?? undefined,
+    currency: currencyCode === CurrencyCode.CZK ? "CZK" : "EUR",
+    variableSymbol: data.variableSymbol || undefined,
+    specificSymbol: data.specificSymbol || undefined,
+    constantSymbol: data.constantSymbol || undefined,
+    recipientName: data.recipientName || undefined,
+    paymentNote: data.paymentNote || undefined,
+    bic: data.bic ?? undefined,
+    dueDate: data.paymentDueDate || undefined,
+    reference: data.spaydReference || undefined,
+    instantPayment: data.instantPayment,
+  });
 }
 
 export function buildQrPayload(
@@ -63,35 +132,14 @@ export function buildQrPayload(
 
   if (format === "epc") {
     return {
-      payload: encodeEpcQr({
-        iban: cleanIban,
-        amount: data.amount ?? undefined,
-        beneficiaryName: data.recipientName ?? "",
-        bic: data.bic ?? undefined,
-        remittanceText: data.paymentNote ?? undefined,
-        purposeCode: data.purposeCode || undefined,
-      }),
+      payload: buildEpcPayload(data, cleanIban),
       errorCorrectionLevel: "M",
     };
   }
 
   if (format === "spayd") {
-    const currency = currencyCode === CurrencyCode.CZK ? "CZK" : "EUR";
     return {
-      payload: encodeSpaydQr({
-        iban: cleanIban,
-        amount: data.amount ?? undefined,
-        currency,
-        variableSymbol: data.variableSymbol || undefined,
-        specificSymbol: data.specificSymbol || undefined,
-        constantSymbol: data.constantSymbol || undefined,
-        recipientName: data.recipientName || undefined,
-        paymentNote: data.paymentNote || undefined,
-        bic: data.bic ?? undefined,
-        dueDate: data.paymentDueDate || undefined,
-        reference: data.spaydReference || undefined,
-        instantPayment: data.instantPayment,
-      }),
+      payload: buildSpaydPayload(data, cleanIban, currencyCode),
       errorCorrectionLevel: "M",
     };
   }

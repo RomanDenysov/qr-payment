@@ -11,7 +11,8 @@ export type OptionalFieldKey =
   | "bic"
   | "spaydReference"
   | "purposeCode"
-  | "instantPayment";
+  | "instantPayment"
+  | "periodicity";
 
 export interface OptionalFieldConfig {
   key: OptionalFieldKey;
@@ -19,7 +20,9 @@ export interface OptionalFieldConfig {
   labelKey: string;
   /** Translation key for the input placeholder (text inputs only). */
   placeholderKey?: string;
-  inputType: "text" | "date" | "checkbox";
+  /** "standingOrder" renders the whole standing order group (periodicity,
+   * payment day, end date), keyed by its periodicity. */
+  inputType: "text" | "date" | "checkbox" | "standingOrder";
   maxLength?: number;
   inputMode?: "numeric" | "text";
 }
@@ -64,13 +67,18 @@ export const OPTIONAL_FIELDS: Record<OptionalFieldKey, OptionalFieldConfig> = {
     labelKey: "instantPayment",
     inputType: "checkbox",
   },
+  periodicity: {
+    key: "periodicity",
+    labelKey: "standingOrder",
+    inputType: "standingOrder",
+  },
 };
 
 export const OPTIONAL_FIELDS_BY_FORMAT: Record<
   PaymentFormat,
   OptionalFieldKey[]
 > = {
-  bysquare: ["paymentDueDate", "invoiceId", "bic"],
+  bysquare: ["paymentDueDate", "invoiceId", "bic", "periodicity"],
   spayd: ["paymentDueDate", "bic", "spaydReference", "instantPayment"],
   epc: ["purposeCode"],
 };

@@ -1,5 +1,11 @@
 import { electronicFormatIBAN, isValidIBAN } from "ibantools";
 import z from "zod";
+import {
+  hasPaymentDay,
+  maxPaymentDay,
+  PERIODICITIES,
+  type Periodicity,
+} from "./standing-order";
 
 const BIC_RE = /^[A-Z]{4}[A-Z]{2}[A-Z0-9]{2}([A-Z0-9]{3})?$/i;
 const DIGITS_RE = /^\d*$/;
@@ -11,6 +17,45 @@ const SPAYD_LENGTH_LIMITS = [
   ["recipientName", 35, "max35chars"],
   ["paymentNote", 60, "max60chars"],
 ] as const;
+
+/** Day range and end date of a PAY by square standing order. */
+function addStandingOrderIssues(
+  data: {
+    format: string;
+    periodicity?: Periodicity | "";
+    standingOrderDay?: string;
+    standingOrderLastDate?: string;
+    paymentDueDate?: string;
+  },
+  ctx: z.RefinementCtx,
+  t: (key: string) => string
+) {
+  const { periodicity } = data;
+  if (data.format !== "bysquare" || !periodicity) {
+    return;
+  }
+  if (data.standingOrderDay && hasPaymentDay(periodicity)) {
+    const day = Number(data.standingOrderDay);
+    if (!Number.isInteger(day) || day < 1 || day > maxPaymentDay(periodicity)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: t("standingOrderDayInvalid"),
+        path: ["standingOrderDay"],
+      });
+    }
+  }
+  if (
+    data.standingOrderLastDate &&
+    data.paymentDueDate &&
+    data.standingOrderLastDate < data.paymentDueDate
+  ) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: t("standingOrderLastDateBeforeFirst"),
+      path: ["standingOrderLastDate"],
+    });
+  }
+}
 
 function addSpaydLengthIssues(
   data: { format: string; recipientName?: string; paymentNote?: string },
@@ -77,6 +122,17 @@ export function createPaymentFormSchema(t: (key: string) => string) {
         .optional(),
       purposeCode: z.string().max(4, t("max4chars")).optional(),
       instantPayment: z.boolean().optional(),
+      // PAY by square standing order. An empty periodicity means a one-off
+      // payment.
+      periodicity: z.union([z.enum(PERIODICITIES), z.literal("")]).optional(),
+      standingOrderDay: z
+        .string()
+        .refine((val) => DIGITS_RE.test(val), t("digitsOnly"))
+        .optional(),
+      standingOrderLastDate: z
+        .string()
+        .refine((val) => !val || ISO_DATE_RE.test(val), t("dueDateInvalid"))
+        .optional(),
     })
     .superRefine((data, ctx) => {
       if (data.format === "epc" && data.currency !== "EUR") {
@@ -98,6 +154,7 @@ export function createPaymentFormSchema(t: (key: string) => string) {
       }
 
       addSpaydLengthIssues(data, ctx, t);
+      addStandingOrderIssues(data, ctx, t);
 
       if (data.bic && !BIC_RE.test(data.bic)) {
         ctx.addIssue({

@@ -84,6 +84,39 @@ function formatIssues(
   return issues.map((i) => `  - ${i.path}: ${i.message}`).join("\n");
 }
 
+function errorResult(text: string) {
+  return {
+    content: [{ type: "text" as const, text }],
+    isError: true,
+  };
+}
+
+async function fetchQr(
+  body: ReturnType<typeof buildRequestBody>
+  // biome-ignore lint/suspicious/noExplicitAny: API response shape is validated by the caller
+): Promise<{ error: string } | { result: any }> {
+  let response: Response;
+  try {
+    response = await fetch(`${API_BASE}/api/v1/qr`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+  } catch (error) {
+    return {
+      error: `Network error: ${error instanceof Error ? error.message : "Failed to reach API"}`,
+    };
+  }
+
+  try {
+    return { result: await response.json() };
+  } catch {
+    return {
+      error: `API error (HTTP ${response.status}): Invalid response from server`,
+    };
+  }
+}
+
 function getSuggestion(country: string): string {
   switch (country) {
     case "SK":
@@ -203,54 +236,19 @@ export function registerTools(server: McpServer) {
     async (params) => {
       const body = buildRequestBody(params);
 
-      let response: Response;
-      try {
-        response = await fetch(`${API_BASE}/api/v1/qr`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(body),
-        });
-      } catch (error) {
-        return {
-          content: [
-            {
-              type: "text" as const,
-              text: `Network error: ${error instanceof Error ? error.message : "Failed to reach API"}`,
-            },
-          ],
-          isError: true,
-        };
+      const fetched = await fetchQr(body);
+      if ("error" in fetched) {
+        return errorResult(fetched.error);
       }
-
-      // biome-ignore lint/suspicious/noExplicitAny: API response shape is validated below
-      let result: any;
-      try {
-        result = await response.json();
-      } catch {
-        return {
-          content: [
-            {
-              type: "text" as const,
-              text: `API error (HTTP ${response.status}): Invalid response from server`,
-            },
-          ],
-          isError: true,
-        };
-      }
+      const { result } = fetched;
 
       if (!result.success) {
         const issuesText = result.error?.issues
           ? `\n${formatIssues(result.error.issues)}`
           : "";
-        return {
-          content: [
-            {
-              type: "text" as const,
-              text: `Error: ${result.error?.message ?? "Unknown error"}${issuesText}`,
-            },
-          ],
-          isError: true,
-        };
+        return errorResult(
+          `Error: ${result.error?.message ?? "Unknown error"}${issuesText}`
+        );
       }
 
       const summary = `QR code generated successfully.\nIBAN: ${result.iban}\nAmount: ${result.amount ?? "not specified"}\nCurrency: ${result.currency}\nFormat: ${result.format}`;

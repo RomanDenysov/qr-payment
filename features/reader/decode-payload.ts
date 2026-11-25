@@ -1,12 +1,13 @@
 import { decode, PaymentOptions } from "bysquare/pay";
 import { electronicFormatIBAN, isValidIBAN } from "ibantools";
 import type { Currency, PaymentFormData } from "@/features/payment/schema";
+import { fromBysquarePeriodicity } from "@/features/payment/standing-order";
 
 /** Something in the code that the payment form cannot carry over as is. */
 export type DecodeWarning =
   | "invalidIban"
   | "multiplePayments"
-  | "notPaymentOrder"
+  | "directDebit"
   | "structuredReference"
   | "unsupportedCurrency";
 
@@ -47,9 +48,14 @@ function decodeBysquare(text: string): Decoded | null {
   if (model.payments.length > 1) {
     warnings.push("multiplePayments");
   }
-  if (first.type !== PaymentOptions.PaymentOrder) {
-    warnings.push("notPaymentOrder");
+  if (first.type === PaymentOptions.DirectDebit) {
+    warnings.push("directDebit");
   }
+  const standingOrder =
+    first.type === PaymentOptions.StandingOrder ? first : undefined;
+  const periodicity = standingOrder
+    ? fromBysquarePeriodicity(standingOrder.periodicity)
+    : undefined;
   const account = first.bankAccounts[0];
   return {
     currency: first.currencyCode,
@@ -67,6 +73,11 @@ function decodeBysquare(text: string): Decoded | null {
       paymentNote: first.paymentNote,
       paymentDueDate: toIsoDate(first.paymentDueDate),
       invoiceId: model.invoiceId,
+      ...(periodicity && {
+        periodicity,
+        standingOrderDay: standingOrder?.day?.toString(),
+        standingOrderLastDate: toIsoDate(standingOrder?.lastDate),
+      }),
     },
   };
 }

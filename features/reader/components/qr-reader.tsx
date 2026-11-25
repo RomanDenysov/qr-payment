@@ -19,6 +19,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { FORMAT_LABELS } from "@/features/payment/format";
 import type { PaymentFormData } from "@/features/payment/schema";
+import { isWeekdayPeriodicity } from "@/features/payment/standing-order";
 import { usePaymentActions } from "@/features/payment/store";
 import { useRouter } from "@/i18n/navigation";
 import { formatAmount } from "@/lib/utils";
@@ -33,6 +34,20 @@ type ReaderState =
   | { status: "done"; payment: PaymentFormData; warnings: DecodeWarning[] };
 
 type Source = "image" | "text";
+
+/** A weekday name for weekly standing orders, the day of month otherwise. */
+function formatStandingOrderDay(
+  payment: PaymentFormData,
+  tForm: (key: string) => string
+): string | undefined {
+  const { periodicity, standingOrderDay } = payment;
+  if (!(periodicity && standingOrderDay)) {
+    return;
+  }
+  return isWeekdayPeriodicity(periodicity)
+    ? tForm(`weekday.${standingOrderDay}`)
+    : standingOrderDay;
+}
 
 /** Reads a payment QR from an image or its text and shows what it pays. */
 export function QrReader() {
@@ -168,7 +183,23 @@ function ReaderResult({ state }: { state: ReaderState }) {
       payment.format === "epc" ? tForm("paymentReference") : tForm("note"),
       payment.paymentNote,
     ],
-    [tForm("dueDate"), payment.paymentDueDate],
+    [
+      tForm("periodicity"),
+      payment.periodicity
+        ? tForm(`periodicityOption.${payment.periodicity}`)
+        : undefined,
+    ],
+    [
+      payment.periodicity && isWeekdayPeriodicity(payment.periodicity)
+        ? tForm("standingOrderWeekday")
+        : tForm("standingOrderDay"),
+      formatStandingOrderDay(payment, tForm),
+    ],
+    [
+      payment.periodicity ? tForm("firstPaymentDate") : tForm("dueDate"),
+      payment.paymentDueDate,
+    ],
+    [tForm("standingOrderLastDate"), payment.standingOrderLastDate],
     [tForm("invoiceId"), payment.invoiceId],
     [tForm("spaydReference"), payment.spaydReference],
     [tForm("purposeCode"), payment.purposeCode],

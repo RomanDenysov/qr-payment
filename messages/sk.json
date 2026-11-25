@@ -106,6 +106,33 @@
     "purposeCode": "Účel platby",
     "purposeCodePlaceholder": "napr. GDDS",
     "instantPayment": "Okamžitá platba",
+    "standingOrder": "Trvalý príkaz",
+    "periodicity": "Periodicita",
+    "periodicityOption": {
+      "daily": "Denne",
+      "weekly": "Týždenne",
+      "biweekly": "Každé 2 týždne",
+      "monthly": "Mesačne",
+      "bimonthly": "Každé 2 mesiace",
+      "quarterly": "Štvrťročne",
+      "semiannually": "Polročne",
+      "annually": "Ročne"
+    },
+    "standingOrderDay": "Deň v mesiaci",
+    "standingOrderDayPlaceholder": "1-31",
+    "standingOrderWeekday": "Deň v týždni",
+    "standingOrderDayAny": "Neurčený",
+    "weekday": {
+      "1": "Pondelok",
+      "2": "Utorok",
+      "3": "Streda",
+      "4": "Štvrtok",
+      "5": "Piatok",
+      "6": "Sobota",
+      "7": "Nedeľa"
+    },
+    "firstPaymentDate": "Dátum prvej platby",
+    "standingOrderLastDate": "Dátum poslednej platby",
     "optionalFields": {
       "menu": "Polia",
       "menuAria": "Pridať voliteľné polia",
@@ -135,6 +162,8 @@
     "max11chars": "Max 11 znakov",
     "max16chars": "Max 16 znakov",
     "dueDateInvalid": "Neplatný dátum",
+    "standingOrderDayInvalid": "Neplatný deň platby",
+    "standingOrderLastDateBeforeFirst": "Posledná platba nemôže byť pred prvou",
     "recipientRequired": "Meno príjemcu je povinné",
     "bicInvalid": "BIC musí mať 8 alebo 11 znakov",
     "epcMaxAmount": "Max suma pre EPC QR je 999 999 999,99 €",
@@ -644,7 +673,7 @@
     "warning": {
       "invalidIban": "IBAN nesedí kontrolným súčtom. Kým ho neoveríte u príjemcu, neplaťte.",
       "multiplePayments": "Kód obsahuje viac platieb. Zobrazená je len prvá.",
-      "notPaymentOrder": "Ide o trvalý príkaz alebo inkaso. Generátor vytvára len jednorazové platby.",
+      "directDebit": "Ide o inkaso. Generátor vytvára len prevodné príkazy a trvalé príkazy.",
       "structuredReference": "Štruktúrovaná referencia (RF...) je presunutá do poznámky. Nový kód ju ponesie ako obyčajný text.",
       "unsupportedCurrency": "Mena nie je EUR ani CZK. Generátor ju zmení na EUR."
     },

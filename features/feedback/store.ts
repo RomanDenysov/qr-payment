@@ -22,7 +22,7 @@ type FeedbackStore = FeedbackState & {
 
 const feedbackStore = create<FeedbackStore>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       requests: [],
       actions: {
         addRequest: (message: string) => {
