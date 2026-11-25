@@ -53,6 +53,7 @@ features/payment/         # Payment feature module
   spayd-encoder.ts        # SPAYD payload encoder (Czech standard)
   share-link.ts           # Compact base64url share link encode/decode
   optional-fields.ts      # Per-format optional fields config (due date, invoice ID, BIC, reference, purpose code, instant payment)
+  standing-order.ts       # PAY by square standing order: periodicity list, spec letter codes ("m", not "Monthly"), weekday vs day-of-month
   optional-fields-store.ts # Zustand store of opted-in optional fields per format (qrPayments.optionalFields.v1)
   use-payment-generator.ts # Form submission hook
   resize-qr.ts            # `resizePngDataUrl` (download path) + `resizePngToBlob` (copy/share path) - canvas resize honoring customizer.downloadSize

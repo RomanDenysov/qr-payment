@@ -286,7 +286,7 @@
       "category": "core",
       "i18nNamespace": "PaymentForm",
       "clientSide": true,
-      "description": "Per-format optional fields (due date, invoice number, BIC, SPAYD reference, SEPA purpose code, SPAYD instant payment) that users opt into via the Fields menu in the payment form. The choice is persisted per format in localStorage (qrPayments.optionalFields.v1)."
+      "description": "Per-format optional fields (due date, invoice number, BIC, SPAYD reference, SEPA purpose code, SPAYD instant payment, PAY by square standing order with periodicity, payment day and last payment date in features/payment/standing-order.ts) that users opt into via the Fields menu in the payment form. The choice is persisted per format in localStorage (qrPayments.optionalFields.v1)."
     },
     {
       "name": "Usage Counters",

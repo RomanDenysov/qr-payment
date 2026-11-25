@@ -1,7 +1,7 @@
 /// <reference types="bun" />
 
 import { expect, test } from "bun:test";
-import { CurrencyCode, encode, PaymentOptions } from "bysquare/pay";
+import { CurrencyCode, decode, encode, PaymentOptions } from "bysquare/pay";
 import { buildQrPayload } from "@/features/payment/qr-payload";
 import { decodePayload } from "./decode-payload";
 
@@ -114,7 +114,75 @@ test("flags an IBAN with a wrong checksum", () => {
   });
 });
 
-test("shows the first of several payments and flags a standing order", () => {
+test("PAY by square standing order round-trips with its schedule", () => {
+  const { payload } = buildQrPayload(
+    {
+      format: "bysquare",
+      iban: IBAN,
+      amount: 50,
+      recipientName: "Jan Novak",
+      paymentDueDate: "2026-12-15",
+      periodicity: "monthly",
+      standingOrderDay: "15",
+      standingOrderLastDate: "2027-12-15",
+    },
+    IBAN
+  );
+  // The spec code, not the word: banks read "m".
+  expect(decode(payload).payments[0]).toMatchObject({
+    type: PaymentOptions.StandingOrder,
+    periodicity: "m",
+    day: 15,
+    lastDate: "20271215",
+  });
+  expect(decodePayload(payload)).toEqual({
+    ok: true,
+    warnings: [],
+    payment: expect.objectContaining({
+      amount: 50,
+      paymentDueDate: "2026-12-15",
+      periodicity: "monthly",
+      standingOrderDay: "15",
+      standingOrderLastDate: "2027-12-15",
+    }),
+  });
+});
+
+test("a daily standing order carries no payment day", () => {
+  const { payload } = buildQrPayload(
+    {
+      format: "bysquare",
+      iban: IBAN,
+      recipientName: "A",
+      periodicity: "daily",
+      standingOrderDay: "15",
+    },
+    IBAN
+  );
+  const [payment] = decode(payload).payments;
+  expect(payment).toMatchObject({ periodicity: "d" });
+  expect(payment).not.toHaveProperty("day", 15);
+});
+
+test("flags a direct debit", () => {
+  const payload = encode({
+    payments: [
+      {
+        type: PaymentOptions.DirectDebit,
+        bankAccounts: [{ iban: IBAN }],
+        currencyCode: "EUR",
+        amount: 10,
+        beneficiary: { name: "A" },
+      },
+    ],
+  });
+  expect(decodePayload(payload)).toMatchObject({
+    ok: true,
+    warnings: ["directDebit"],
+  });
+});
+
+test("shows the first of several payments and reads its standing order", () => {
   const account = { bankAccounts: [{ iban: IBAN }], currencyCode: "EUR" };
   const payload = encode({
     payments: [
@@ -136,8 +204,13 @@ test("shows the first of several payments and flags a standing order", () => {
   });
   expect(decodePayload(payload)).toMatchObject({
     ok: true,
-    warnings: ["multiplePayments", "notPaymentOrder"],
-    payment: { amount: 10, recipientName: "A" },
+    warnings: ["multiplePayments"],
+    payment: {
+      amount: 10,
+      recipientName: "A",
+      periodicity: "monthly",
+      standingOrderDay: "1",
+    },
   });
 });
 

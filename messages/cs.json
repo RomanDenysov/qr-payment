@@ -106,6 +106,33 @@
     "purposeCode": "Účel platby",
     "purposeCodePlaceholder": "např. GDDS",
     "instantPayment": "Okamžitá platba",
+    "standingOrder": "Trvalý příkaz",
+    "periodicity": "Periodicita",
+    "periodicityOption": {
+      "daily": "Denně",
+      "weekly": "Týdně",
+      "biweekly": "Každé 2 týdny",
+      "monthly": "Měsíčně",
+      "bimonthly": "Každé 2 měsíce",
+      "quarterly": "Čtvrtletně",
+      "semiannually": "Pololetně",
+      "annually": "Ročně"
+    },
+    "standingOrderDay": "Den v měsíci",
+    "standingOrderDayPlaceholder": "1-31",
+    "standingOrderWeekday": "Den v týdnu",
+    "standingOrderDayAny": "Neurčen",
+    "weekday": {
+      "1": "Pondělí",
+      "2": "Úterý",
+      "3": "Středa",
+      "4": "Čtvrtek",
+      "5": "Pátek",
+      "6": "Sobota",
+      "7": "Neděle"
+    },
+    "firstPaymentDate": "Datum první platby",
+    "standingOrderLastDate": "Datum poslední platby",
     "optionalFields": {
       "menu": "Pole",
       "menuAria": "Přidat volitelná pole",
@@ -135,6 +162,8 @@
     "max11chars": "Max 11 znaků",
     "max16chars": "Max 16 znaků",
     "dueDateInvalid": "Neplatné datum",
+    "standingOrderDayInvalid": "Neplatný den platby",
+    "standingOrderLastDateBeforeFirst": "Poslední platba nemůže být před první",
     "recipientRequired": "Jméno příjemce je povinné",
     "bicInvalid": "BIC musí mít 8 nebo 11 znaků",
     "epcMaxAmount": "Max částka pro EPC QR je 999 999 999,99 €",
@@ -644,7 +673,7 @@
     "warning": {
       "invalidIban": "IBAN nesedí kontrolním součtem. Dokud ho neověříte u příjemce, neplaťte.",
       "multiplePayments": "Kód obsahuje více plateb. Zobrazena je jen první.",
-      "notPaymentOrder": "Jde o trvalý příkaz nebo inkaso. Generátor vytváří jen jednorázové platby.",
+      "directDebit": "Jde o inkaso. Generátor vytváří jen platební příkazy a trvalé příkazy.",
       "structuredReference": "Strukturovaná reference (RF...) je přesunuta do poznámky. Nový kód ji ponese jako obyčejný text.",
       "unsupportedCurrency": "Měna není EUR ani CZK. Generátor ji změní na EUR."
     },
