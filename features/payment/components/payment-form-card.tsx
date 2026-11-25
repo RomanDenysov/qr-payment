@@ -221,7 +221,26 @@ const defaultValues: PaymentFormData = {
   spaydReference: "",
   purposeCode: "",
   instantPayment: false,
+  periodicity: "",
+  standingOrderDay: "",
+  standingOrderLastDate: "",
 };
+
+/** Text fields copied over when a payment is picked from history. */
+const HISTORY_TEXT_FIELDS = [
+  "recipientName",
+  "variableSymbol",
+  "specificSymbol",
+  "constantSymbol",
+  "paymentNote",
+  "bic",
+  "paymentDueDate",
+  "invoiceId",
+  "spaydReference",
+  "purposeCode",
+  "standingOrderDay",
+  "standingOrderLastDate",
+] as const satisfies (keyof PaymentFormData)[];
 
 export function PaymentFormCard() {
   const { generate, isPending } = usePaymentGenerator();
@@ -273,15 +292,30 @@ export function PaymentFormCard() {
     Boolean(extraValues[extraKeys.indexOf(key)]);
   const visibleExtras = extraKeys.filter(isExtraVisible);
 
+  // A shown standing order group always has a periodicity, so the select never
+  // displays one value while the form holds none (after opting in, Clear or a
+  // reload with the group still opted in).
+  const isStandingOrder = visibleExtras.includes("periodicity");
+  const periodicity = watch("periodicity");
+  useEffect(() => {
+    if (isStandingOrder && !periodicity) {
+      setValue("periodicity", "monthly");
+    }
+  }, [isStandingOrder, periodicity, setValue]);
+
   const toggleExtra = (key: OptionalFieldKey) => {
     const visible = isExtraVisible(key);
-    const isCheckbox = OPTIONAL_FIELDS[key].inputType === "checkbox";
+    const { inputType } = OPTIONAL_FIELDS[key];
     if (visible) {
       disable(activeFormat, key);
-      setValue(key, isCheckbox ? false : "");
+      setValue(key, inputType === "checkbox" ? false : "");
+      if (inputType === "standingOrder") {
+        setValue("standingOrderDay", "");
+        setValue("standingOrderLastDate", "");
+      }
     } else {
       enable(activeFormat, key);
-      if (isCheckbox) {
+      if (inputType === "checkbox") {
         setValue(key, true);
       }
     }
@@ -392,17 +426,11 @@ export function PaymentFormCard() {
     urlFormat.current = null;
     setValue("format", payment.format ?? "bysquare");
     setValue("currency", payment.currency ?? "EUR");
-    setValue("recipientName", payment.recipientName || "");
-    setValue("variableSymbol", payment.variableSymbol || "");
-    setValue("specificSymbol", payment.specificSymbol || "");
-    setValue("constantSymbol", payment.constantSymbol || "");
-    setValue("paymentNote", payment.paymentNote || "");
-    setValue("bic", payment.bic || "");
-    setValue("paymentDueDate", payment.paymentDueDate || "");
-    setValue("invoiceId", payment.invoiceId || "");
-    setValue("spaydReference", payment.spaydReference || "");
-    setValue("purposeCode", payment.purposeCode || "");
+    for (const key of HISTORY_TEXT_FIELDS) {
+      setValue(key, payment[key] || "");
+    }
     setValue("instantPayment", payment.instantPayment ?? false);
+    setValue("periodicity", payment.periodicity || "");
     setPreferredFormat(payment.format ?? "bysquare");
     setPreferredCurrency(payment.currency ?? "EUR");
     // amount is not filled — usually the amount is different
@@ -541,7 +569,11 @@ export function PaymentFormCard() {
               </FieldContent>
             </Field>
 
-            <OptionalFields control={control} keys={visibleExtras} />
+            <OptionalFields
+              control={control}
+              isStandingOrder={isStandingOrder}
+              keys={visibleExtras}
+            />
           </FieldGroup>
         </CardContent>
         <CardFooter className="mt-auto shrink-0 p-0">

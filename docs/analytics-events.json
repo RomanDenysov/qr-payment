@@ -38,7 +38,7 @@
       "description": "User showed or hid an optional payment field via the Fields menu",
       "properties": {
         "format": "bysquare | epc | spayd",
-        "field": "paymentDueDate | invoiceId | bic | spaydReference | purposeCode | instantPayment",
+        "field": "paymentDueDate | invoiceId | bic | spaydReference | purposeCode | instantPayment | periodicity (PAY by square standing order)",
         "enabled": "true if the field was turned on"
       },
       "source": "features/payment/components/payment-form-card.tsx"

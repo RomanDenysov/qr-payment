@@ -11,6 +11,13 @@ export interface ChangelogEntry {
 const changelogData: Record<string, ChangelogEntry[]> = {
   sk: [
     {
+      date: "2026-11-25",
+      category: "feature",
+      title: "Trvalý príkaz v PAY by square",
+      summary:
+        "V menu Polia zapnite Trvalý príkaz a nastavte periodicitu, deň platby a dátum poslednej platby. Dátum splatnosti sa stane dátumom prvej platby. SPAYD a EPC QR trvalý príkaz nepodporujú.",
+    },
+    {
       date: "2026-10-21",
       category: "feature",
       title: "Export do SVG a PDF na tlač",
@@ -174,6 +181,13 @@ const changelogData: Record<string, ChangelogEntry[]> = {
   ],
   en: [
     {
+      date: "2026-11-25",
+      category: "feature",
+      title: "Standing orders in PAY by square",
+      summary:
+        "Turn on Standing order in the Fields menu and set the frequency, payment day and last payment date. The due date becomes the first payment date. SPAYD and EPC QR have no standing orders.",
+    },
+    {
       date: "2026-10-21",
       category: "feature",
       title: "Export to SVG and print PDF",
@@ -336,6 +350,13 @@ const changelogData: Record<string, ChangelogEntry[]> = {
     },
   ],
   cs: [
+    {
+      date: "2026-11-25",
+      category: "feature",
+      title: "Trvalý příkaz v PAY by square",
+      summary:
+        "V menu Pole zapněte Trvalý příkaz a nastavte periodicitu, den platby a datum poslední platby. Datum splatnosti se stane datem první platby. SPAYD a EPC QR trvalý příkaz nepodporují.",
+    },
     {
       date: "2026-10-21",
       category: "feature",

@@ -63,6 +63,9 @@ function fingerprintExtras(payment: PaymentRecord): string[] {
     fingerprintOptional(payment.spaydReference),
     fingerprintOptional(payment.purposeCode),
     payment.instantPayment ? "ip" : "",
+    fingerprintOptional(payment.periodicity),
+    fingerprintOptional(payment.standingOrderDay),
+    fingerprintOptional(payment.standingOrderLastDate),
   ];
 }
 

@@ -1,4 +1,5 @@
 import type { PaymentFormData } from "./schema";
+import { isPeriodicity } from "./standing-order";
 
 export interface ShareBranding {
   fgColor: string;
@@ -27,6 +28,9 @@ interface CompactPayload {
   rf?: string;
   pc?: string;
   ip?: 1;
+  po?: string;
+  pd?: string;
+  pl?: string;
   fg?: string;
   bg?: string;
   ct?: string;
@@ -67,6 +71,9 @@ const SHARE_STRING_FIELDS: [keyof PaymentFormData, keyof CompactPayload][] = [
   ["invoiceId", "inv"],
   ["spaydReference", "rf"],
   ["purposeCode", "pc"],
+  ["periodicity", "po"],
+  ["standingOrderDay", "pd"],
+  ["standingOrderLastDate", "pl"],
 ];
 
 export function encodeShareData(
@@ -151,6 +158,11 @@ export function decodeShareData(encoded: string): SharePayload | null {
         spaydReference: compact.rf,
         purposeCode: compact.pc,
         instantPayment: compact.ip === 1,
+        // An unknown periodicity from a newer or tampered link falls back to
+        // a one-off payment rather than failing the whole link.
+        periodicity: isPeriodicity(compact.po) ? compact.po : undefined,
+        standingOrderDay: compact.pd,
+        standingOrderLastDate: compact.pl,
       },
       branding: {
         fgColor: compact.fg ?? DEFAULT_FG,

@@ -106,6 +106,33 @@
     "purposeCode": "Purpose code",
     "purposeCodePlaceholder": "e.g. GDDS",
     "instantPayment": "Instant payment",
+    "standingOrder": "Standing order",
+    "periodicity": "Frequency",
+    "periodicityOption": {
+      "daily": "Daily",
+      "weekly": "Weekly",
+      "biweekly": "Every 2 weeks",
+      "monthly": "Monthly",
+      "bimonthly": "Every 2 months",
+      "quarterly": "Quarterly",
+      "semiannually": "Every 6 months",
+      "annually": "Yearly"
+    },
+    "standingOrderDay": "Day of month",
+    "standingOrderDayPlaceholder": "1-31",
+    "standingOrderWeekday": "Day of week",
+    "standingOrderDayAny": "Not set",
+    "weekday": {
+      "1": "Monday",
+      "2": "Tuesday",
+      "3": "Wednesday",
+      "4": "Thursday",
+      "5": "Friday",
+      "6": "Saturday",
+      "7": "Sunday"
+    },
+    "firstPaymentDate": "First payment date",
+    "standingOrderLastDate": "Last payment date",
     "optionalFields": {
       "menu": "Fields",
       "menuAria": "Add optional fields",
@@ -135,6 +162,8 @@
     "max11chars": "Max 11 characters",
     "max16chars": "Max 16 characters",
     "dueDateInvalid": "Invalid date",
+    "standingOrderDayInvalid": "Invalid payment day",
+    "standingOrderLastDateBeforeFirst": "The last payment can't be before the first",
     "recipientRequired": "Recipient name is required",
     "bicInvalid": "BIC must be 8 or 11 characters",
     "epcMaxAmount": "Max amount for EPC QR is 999,999,999.99 €",
@@ -644,7 +673,7 @@
     "warning": {
       "invalidIban": "The IBAN fails its checksum. Do not pay until you check it with the recipient.",
       "multiplePayments": "The code holds several payments. Only the first one is shown.",
-      "notPaymentOrder": "This is a standing order or a direct debit. The generator makes one-off payments only.",
+      "directDebit": "This is a direct debit. The generator makes payment orders and standing orders only.",
       "structuredReference": "The structured reference (RF...) is moved into the note. A new code carries it as plain text.",
       "unsupportedCurrency": "The currency is not EUR or CZK. The generator switches it to EUR."
     },
